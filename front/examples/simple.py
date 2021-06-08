@@ -1,14 +1,5 @@
+"""Simple 3 page example with no complicated values"""
 
-# front
-Getting from python objects to UIs exposing them
-
-
-To install:	```pip install front```
-
-
-# Example
-
-```python
 import os
 
 
@@ -36,7 +27,3 @@ if __name__ == '__main__':
     app = dispatch_funcs(funcs)
 
     app()
-    
-    # ... and you get a browser based app that exposes foo, bar, and confuser
-
-```
