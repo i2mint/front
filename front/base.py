@@ -13,7 +13,6 @@ from lined import Pipe
 from front.session_state import _get_state, _SessionState
 from front.util import func_name
 
-
 Map = Optional[Mapping]
 PageFunc = Callable[[_SessionState], Any]
 PageName = str
@@ -136,14 +135,16 @@ class SimplePageFunc(BasePageFunc):
         if self.page_title:
             st.markdown(f'''## **{self.page_title}**''')
         args_specs = get_func_args_specs(self.func)
+        func_inputs = {}
         for argname, spec in args_specs.items():
-            spec['element_factory']()
-        # TODO: Make submit button that gathers all inputs, and calls self.func with them
-        # func_inputs = ...
-        # st.write(self.func(**func_inputs))
+            func_inputs[argname] = spec['element_factory']()
+        submit = st.button('Submit')
+        if submit:
+            st.write(self.func(**func_inputs))
 
 
 DFLT_PAGE_FACTORY = SimplePageFunc  # Try BasePageFunc too
+
 
 # TODO: Code this!
 def get_page_callbacks(funcs, page_names, page_factory=DFLT_PAGE_FACTORY, **configs):
