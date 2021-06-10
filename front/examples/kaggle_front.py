@@ -4,7 +4,7 @@ import dill
 from front.session_state import _get_state, _SessionState
 
 
-def kaggle(
+def create_kaggle_dacc(
     zip_path: type(lambda a: a),
     annots_path: str,
     wrangle_func: type(lambda a: a),
@@ -17,7 +17,11 @@ def kaggle(
     )
 
 
-funcs = [kaggle]
+def build_and_run_model(tag: str):
+    return tag
+
+
+funcs = [create_kaggle_dacc, build_and_run_model]
 
 if __name__ == '__main__':
     from front.base import dispatch_funcs

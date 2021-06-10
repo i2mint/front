@@ -2,7 +2,7 @@
 Base for UI generation
 """
 from collections import ChainMap
-from typing import Callable, Protocol, Any, Union, Optional, Mapping, Iterable
+from typing import Callable, Protocol, Any, Union, Optional, Mapping, Iterable, NewType
 from functools import partial, wraps
 from dataclasses import dataclass
 
@@ -95,7 +95,11 @@ def _get_dflt_element_factory_for_annot():
         float: st.number_input,
         str: st.text_input,
         bool: st.checkbox,
-        type(lambda df: df): st.file_uploader,
+        list: st.selectbox,
+        tuple: (st.file_uploader, st.selectbox),
+        type(
+            lambda df: df
+        ): st.file_uploader,  # TODO: Find a better way to identify as file_uploader
     }
 
 
@@ -124,9 +128,12 @@ def get_func_args_specs(
         if name in sig.defaults:
             dflt = sig.defaults[name]
             if dflt is not None:
-                factory_kwargs['value'] = dflt
+                if isinstance(dflt, list):
+                    factory_kwargs['options'] = dflt
+                else:
+                    factory_kwargs['value'] = dflt
 
-        d['element_factory'] = partial(element_factory, **factory_kwargs)
+        d['element_factory'] = (element_factory, factory_kwargs)
 
     return func_args_specs
 
@@ -138,13 +145,30 @@ class SimplePageFunc(BasePageFunc):
         args_specs = get_func_args_specs(self.func)
         func_inputs = {}
         for argname, spec in args_specs.items():
-            func_inputs[argname] = spec['element_factory']()
+            element_factory, kwargs = spec['element_factory']
+            func_inputs[argname] = element_factory(**kwargs)
         submit = st.button('Submit')
         if submit:
             st.write(self.func(**func_inputs))
 
 
-DFLT_PAGE_FACTORY = SimplePageFunc  # Try BasePageFunc too
+class DataAccessPageFunc(BasePageFunc):
+    def __call__(self, state):
+        if self.page_title:
+            st.markdown(f'''## **{self.page_title}**''')
+        args_specs = get_func_args_specs(self.func)
+        func_inputs = {}
+        for argname, spec in args_specs.items():
+            if 'options' in spec['element_factory'][1]:
+                pass  # find some way to access the data from another input we want
+            element_factory, kwargs = spec['element_factory']
+            func_inputs[argname] = element_factory(**kwargs)
+        submit = st.button('Submit')
+        if submit:
+            st.write(self.func(**func_inputs))
+
+
+DFLT_PAGE_FACTORY = DataAccessPageFunc  # Try BasePageFunc too
 
 
 # TODO: Code this!
@@ -175,7 +199,7 @@ def pages_app(funcs, configs):
 
     def func_to_name(func):
         name = func_name(func)
-        name = name.replace("_", " ").title()
+        name = name.replace('_', ' ').title()
         return name
 
     pages = get_pages_specs(funcs, func_to_name, **configs)
