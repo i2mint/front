@@ -220,7 +220,7 @@ class ScrapPageFunc(BasePageFunc):
             )
 
 
-DFLT_PAGE_FACTORY = ScrapPageFunc  # Try BasePageFunc too
+DFLT_PAGE_FACTORY = SimplePageFunc  # Try BasePageFunc too
 
 
 # TODO: Code this!
