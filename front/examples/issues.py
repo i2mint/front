@@ -3,6 +3,7 @@ import os
 from py2store import ZipReader, filt_iter
 import pandas as pd
 import streamlit as st
+from front.session_state import _get_state
 
 # store = state_dict[store_name]
 # option = st.selectbox(message, [extra] + list(store.keys()), index=dflt_index)
@@ -13,6 +14,7 @@ class C:
         self.val = 1
 
     def increment(self):
+        st.write(self.val)
         self.val += 1
         return self.val
 
@@ -33,11 +35,11 @@ def dacc(zip_path: type(lambda a: a), file: str):  # file: list = []):
     return annots_df
 
 
-def foo(word: str):
+def foo(state: type(_get_state()), word: str):
     return word
 
 
-funcs = [dacc]
+funcs = [my_incrementer, foo]
 
 if __name__ == '__main__':
     from front.base import dispatch_funcs

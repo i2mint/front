@@ -36,19 +36,26 @@ def default_hash_func(item):
     return id(item)
 
 
-class DfltDict(dict):
-    def __missing__(self, k):
-        return default_hash_func
+dflt_hash_funcs = {
+    'abc.WfStoreWrapped': default_hash_func,
+    'qcoto.dacc.Dacc': default_hash_func,
+    'abc.DfSimpleStoreWrapped': default_hash_func,
+    'builtins.dict': default_hash_func,
+}
 
-
-dflt_hash_funcs = DfltDict(
-    {
-        'abc.WfStoreWrapped': default_hash_func,
-        'qcoto.dacc.Dacc': default_hash_func,
-        'abc.DfSimpleStoreWrapped': default_hash_func,
-        'builtins.dict': default_hash_func,
-    }
-)
+# class DfltDict(dict):
+#     def __missing__(self, k):
+#         return default_hash_func
+#
+#
+# dflt_hash_funcs = DfltDict(
+#     {
+#         'abc.WfStoreWrapped': default_hash_func,
+#         'qcoto.dacc.Dacc': default_hash_func,
+#         'abc.DfSimpleStoreWrapped': default_hash_func,
+#         'builtins.dict': default_hash_func,
+#     }
+# )
 
 
 def func_to_page_name(func: Callable, page_name_for_func: Map = None, **configs) -> str:
@@ -90,16 +97,17 @@ def infer_type(sig, name):
 
 
 def _get_dflt_element_factory_for_annot():
+    _ = _get_state()
     return {
         int: st.number_input,
         float: st.number_input,
         str: st.text_input,
         bool: st.checkbox,
         list: st.selectbox,
-        tuple: (st.file_uploader, st.selectbox),
         type(
             lambda df: df
         ): st.file_uploader,  # TODO: Find a better way to identify as file_uploader
+        type(_): None,
     }
 
 
@@ -156,16 +164,21 @@ class DataAccessPageFunc(BasePageFunc):
     def __call__(self, state):
         if self.page_title:
             st.markdown(f'''## **{self.page_title}**''')
+        st.write('Current value stored in state for this function is:', state[self.page_title])
         args_specs = get_func_args_specs(self.func)
         func_inputs = {}
         for argname, spec in args_specs.items():
-            if 'options' in spec['element_factory'][1]:
-                pass  # find some way to access the data from another input we want
-            element_factory, kwargs = spec['element_factory']
-            func_inputs[argname] = element_factory(**kwargs)
+            if spec['element_factory'][0] is None:
+                func_inputs[argname] = state
+            else:
+                if 'options' in spec['element_factory'][1]:
+                    pass  # TODO: find some way to access the data from another input we want
+                element_factory, kwargs = spec['element_factory']
+                func_inputs[argname] = element_factory(**kwargs)
         submit = st.button('Submit')
         if submit:
-            st.write(self.func(**func_inputs))
+            state[self.page_title] = self.func(**func_inputs)
+            st.write(state[self.page_title])
 
 
 DFLT_PAGE_FACTORY = DataAccessPageFunc  # Try BasePageFunc too
