@@ -1,6 +1,7 @@
 """
 Base for UI generation
 """
+import zipfile
 from collections import ChainMap
 from typing import Callable, Protocol, Any, Union, Optional, Mapping, Iterable, NewType
 from functools import partial, wraps
@@ -36,26 +37,19 @@ def default_hash_func(item):
     return id(item)
 
 
-dflt_hash_funcs = {
-    'abc.WfStoreWrapped': default_hash_func,
-    'qcoto.dacc.Dacc': default_hash_func,
-    'abc.DfSimpleStoreWrapped': default_hash_func,
-    'builtins.dict': default_hash_func,
-}
+class DfltDict(dict):
+    def __missing__(self, k):
+        return default_hash_func
 
-# class DfltDict(dict):
-#     def __missing__(self, k):
-#         return default_hash_func
-#
-#
-# dflt_hash_funcs = DfltDict(
-#     {
-#         'abc.WfStoreWrapped': default_hash_func,
-#         'qcoto.dacc.Dacc': default_hash_func,
-#         'abc.DfSimpleStoreWrapped': default_hash_func,
-#         'builtins.dict': default_hash_func,
-#     }
-# )
+
+dflt_hash_funcs = DfltDict(
+    {
+        'abc.WfStoreWrapped': default_hash_func,
+        'qcoto.dacc.Dacc': default_hash_func,
+        'abc.DfSimpleStoreWrapped': default_hash_func,
+        'builtins.dict': default_hash_func,
+    }
+)
 
 
 def func_to_page_name(func: Callable, page_name_for_func: Map = None, **configs) -> str:
@@ -164,7 +158,10 @@ class DataAccessPageFunc(BasePageFunc):
     def __call__(self, state):
         if self.page_title:
             st.markdown(f'''## **{self.page_title}**''')
-        st.write('Current value stored in state for this function is:', state[self.page_title])
+        st.write(
+            'Current value stored in state for this function is:',
+            state[self.page_title],
+        )
         args_specs = get_func_args_specs(self.func)
         func_inputs = {}
         for argname, spec in args_specs.items():
@@ -181,7 +178,49 @@ class DataAccessPageFunc(BasePageFunc):
             st.write(state[self.page_title])
 
 
-DFLT_PAGE_FACTORY = DataAccessPageFunc  # Try BasePageFunc too
+class ScrapPageFunc(BasePageFunc):
+    def __call__(self, state):
+        if self.page_title:
+            st.markdown(f'''## **{self.page_title}**''')
+        st.write(
+            'Current value stored in state for this function is:',
+            state[self.page_title],
+        )
+        args_specs = get_func_args_specs(self.func)
+        i = 0
+        temp = {}
+        for key in args_specs.keys():
+            temp[i] = key
+            i += 1
+        func_inputs = {}
+        for num, argname in temp.items():
+            # only works under the assumptions that the first argument for every function will be to pass the state
+            # and the options for the selectbox are the argument directly before it is a string of comma separated
+            # values
+            if num == 0:
+                func_inputs[argname] = state
+            else:
+                if func_inputs[temp[num - 1]]:
+                    if args_specs[argname]['element_factory'][0] is None:
+                        func_inputs[argname] = state
+                    else:
+                        if 'options' in args_specs[argname]['element_factory'][1]:
+                            options = func_inputs[temp[num - 1]].split(', ')
+                            args_specs[argname]['element_factory'][1][
+                                'options'
+                            ] = options
+                        element_factory, kwargs = args_specs[argname]['element_factory']
+                        func_inputs[argname] = element_factory(**kwargs)
+        submit = st.button('Submit')
+        if submit:
+            state[self.page_title] = self.func(**func_inputs)
+            st.write(
+                'New value stored in state for this function is:',
+                state[self.page_title],
+            )
+
+
+DFLT_PAGE_FACTORY = ScrapPageFunc  # Try BasePageFunc too
 
 
 # TODO: Code this!

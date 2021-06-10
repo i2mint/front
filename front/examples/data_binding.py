@@ -1,11 +1,15 @@
 import os
 
 
-def foo(text: str = 'words, are, fun', options: list = []):
+def foo(state, text: str, options: list = []):
     return text, options
 
 
-funcs = [foo]
+def bar(state, a: str = 'boo'):
+    return a
+
+
+funcs = [foo, bar]
 
 if __name__ == '__main__':
     from front.base import dispatch_funcs
