@@ -95,6 +95,7 @@ def _get_dflt_element_factory_for_annot():
         float: st.number_input,
         str: st.text_input,
         bool: st.checkbox,
+        type(lambda df: df): st.file_uploader,
     }
 
 
@@ -172,7 +173,12 @@ def get_pages_specs(
 def pages_app(funcs, configs):
     state = _get_state(hash_funcs=dflt_hash_funcs)  # TODO: get from configs
 
-    pages = get_pages_specs(funcs, **configs)
+    def func_to_name(func):
+        name = func_name(func)
+        name = name.replace("_", " ").title()
+        return name
+
+    pages = get_pages_specs(funcs, func_to_name, **configs)
 
     # pages = {
     #     'Upload Dataset': page_upload,
