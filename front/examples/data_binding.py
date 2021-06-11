@@ -13,9 +13,10 @@ funcs = [foo, bar]
 
 if __name__ == '__main__':
     from front.base import dispatch_funcs
+    from front.page_funcs import DataBindingExploPageFunc
 
     print('file: {}'.format(os.path.realpath(__file__)))
 
-    app = dispatch_funcs(funcs)
+    app = dispatch_funcs(funcs, configs=dict(page_factory=DataBindingExploPageFunc))
 
     app()

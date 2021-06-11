@@ -25,7 +25,7 @@ class DataAccessPageFunc(BasePageFunc):
             st.write(state[self.page_title])
 
 
-class ScrapPageFunc(BasePageFunc):
+class DataBindingExploPageFunc(BasePageFunc):
     def __call__(self, state):
         if self.page_title:
             st.markdown(f'''## **{self.page_title}**''')
