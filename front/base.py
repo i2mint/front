@@ -2,7 +2,7 @@
 Base for UI generation
 """
 from collections import ChainMap
-from typing import Callable, Any, Union, Mapping, Iterable
+from typing import Callable, Any, Union, Mapping, Iterable, TypeVar, Dict
 from functools import partial
 import typing
 
@@ -133,8 +133,15 @@ def _get_dflt_element_factory_for_annot():
         typing.Iterable[float]: (st.number_input, float),
         typing.Iterable[str]: (st.number_input, str),
         typing.Iterable[bool]: (st.number_input, bool),
+        typing.Dict[str, int]: (st.number_input, str, int),
+        typing.Dict[str, float]: (st.number_input, str, float),
+        typing.Dict[str, str]: (st.number_input, str, str),
+        typing.Dict[str, bool]: (st.number_input, str, bool),
     }
 
+
+P = TypeVar('P', Iterable[int], Iterable[float], Iterable[str], Iterable[bool])
+K = TypeVar('K', Dict[str, int], Dict[str, float], Dict[str, str], Dict[str, bool])
 
 # TODO: Too messy -- needs some design thinking
 # TODO: Basic: Add some more smart mapping
@@ -153,16 +160,32 @@ def get_func_args_specs(
         d = func_args_specs[name]
         factory_kwargs = {'label': name}
         inferred_type = infer_type(sig, name)
-        if type(Iterable[Any]) == type(inferred_type):
+        if inferred_type in P.__constraints__:
             element_factory = {
                 'base': element_factory_for_annot.get(inferred_type, missing)[0],
-                'arg_type': element_factory_for_annot.get(inferred_type, missing)[1],
-                'arg_factory': element_factory_for_annot.get(
+                'input_type': element_factory_for_annot.get(inferred_type, missing)[1],
+                'input_factory': element_factory_for_annot.get(
                     element_factory_for_annot.get(inferred_type, missing)[1], missing
                 ),
             }
             factory_kwargs = {
                 'label': 'Enter the number of positional arguments you would like to pass',
+                'value': 0,
+            }
+        elif inferred_type in K.__constraints__:
+            element_factory = {
+                'base': element_factory_for_annot.get(inferred_type, missing)[0],
+                'key_type': element_factory_for_annot.get(inferred_type, missing)[1],
+                'key_factory': element_factory_for_annot.get(
+                    element_factory_for_annot.get(inferred_type, missing)[1], missing
+                ),
+                'value_type': element_factory_for_annot.get(inferred_type, missing)[2],
+                'value_factory': element_factory_for_annot.get(
+                    element_factory_for_annot.get(inferred_type, missing)[2], missing
+                ),
+            }
+            factory_kwargs = {
+                'label': 'Enter the number of keyword arguments you would like to pass',
                 'value': 0,
             }
         elif inferred_type is not missing:

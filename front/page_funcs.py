@@ -1,5 +1,6 @@
 import streamlit as st
 from front.base import BasePageFunc, get_func_args_specs
+from front.util import build_factory
 
 
 class DataAccessPageFunc(BasePageFunc):
@@ -64,7 +65,7 @@ class DataBindingExploPageFunc(BasePageFunc):
             )
 
 
-class PositionalArgsPageFunc(BasePageFunc):
+class ArgsPageFunc(BasePageFunc):
     def __call__(self, state):
         if self.page_title:
             st.markdown(f'''## **{self.page_title}**''')
@@ -77,54 +78,18 @@ class PositionalArgsPageFunc(BasePageFunc):
             if isinstance(element_factory, dict):
                 args = element_factory['base'](**kwargs)
                 if args:
-                    for i in range(args):
-                        factory = element_factory['arg_factory']
-                        kwargs = {'label': f'Enter input {i + 1}', 'key': i}
-                        if element_factory['arg_type'] is int:
-                            kwargs['value'] = 0
-                        positional_inputs.append(factory(**kwargs))
+                    for idx in range(args):
+                        if len(element_factory) == 3:
+                            positional_inputs.append(
+                                build_factory(element_factory, 'input', idx)
+                            )
+                        else:
+                            key = build_factory(element_factory, 'key', idx)
+                            value = build_factory(element_factory, 'value', idx)
+                            keyword_inputs[key] = value
             else:
                 keyword_inputs[argname] = element_factory(**kwargs)
         submit = st.button('Submit')
         if submit:
             st.write(self.func(*positional_inputs, **keyword_inputs))
             # state['page_state'][self.func].clear()
-
-
-class KeywordArgsPageFunc(BasePageFunc):
-    def __call__(self, state):
-        if self.page_title:
-            st.markdown(f'''## **{self.page_title}**''')
-        args_specs = get_func_args_specs(self.func)
-        # func_inputs = dict(self.sig.defaults, **state['page_state'][self.func])
-        positional_inputs = []
-        keyword_inputs = {}
-        for argname, spec in args_specs.items():
-            element_factory, kwargs = spec['element_factory']
-            if isinstance(element_factory, dict):
-                args = element_factory['base'](**kwargs)
-                if args:
-                    for i in range(args):
-                        key_factory = element_factory['key_factory']
-                        key_kwargs = {'label': f'Enter key {i + 1}', 'key': i}
-                        if element_factory['key_type'] is int:
-                            key_kwargs['value'] = 0
-                        value_factory = element_factory['value_factory']
-                        value_kwargs = {
-                            'label': f'Enter value {i + 1}',
-                            'key': i + args,
-                        }
-                        if element_factory['value_type'] is int:
-                            value_kwargs['value'] = 0
-                        key = key_factory(**key_kwargs)
-                        value = value_factory(**value_kwargs)
-                        keyword_inputs[key] = value
-            else:
-                keyword_inputs[argname] = element_factory(**kwargs)
-        submit = st.button('Submit')
-        if submit:
-            st.write(self.func(*positional_inputs, **keyword_inputs))
-            # state['page_state'][self.func].clear()
-
-
-# TODO: Combine PositionalArgsPageFunc and KeywordArgsPageFunc into one PageFunc

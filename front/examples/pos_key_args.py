@@ -1,6 +1,22 @@
 import os
-from typing import Dict
+from typing import Dict, Iterable
 import pandas as pd
+
+
+def add_ints(*nums_to_add: Iterable[int]):
+    return sum(nums_to_add)
+
+
+def add_floats(*nums_to_add: Iterable[float]):
+    return sum(nums_to_add)
+
+
+def add_strs(*strs_to_add: Iterable[str]):
+    return ' '.join(strs_to_add)
+
+
+def add_bools(*bools_to_add: Iterable[bool]):
+    return sum(list(map(int, bools_to_add)))
 
 
 def make_a_table_of_ints(col_name: str = 'integers', **keys_and_values: Dict[str, int]):
@@ -24,6 +40,10 @@ def make_a_table_of_bools(
 
 
 funcs = [
+    add_ints,
+    add_floats,
+    add_strs,
+    add_bools,
     make_a_table_of_ints,
     make_a_table_of_floats,
     make_a_table_of_strs,
@@ -32,10 +52,10 @@ funcs = [
 
 if __name__ == '__main__':
     from front.base import dispatch_funcs
-    from front.page_funcs import KeywordArgsPageFunc
+    from front.page_funcs import ArgsPageFunc
 
     print('file: {}'.format(os.path.realpath(__file__)))
 
-    app = dispatch_funcs(funcs, configs={'page_factory': KeywordArgsPageFunc})
+    app = dispatch_funcs(funcs, configs={'page_factory': ArgsPageFunc})
 
     app()
