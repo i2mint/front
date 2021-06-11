@@ -1,36 +1,59 @@
 """
 Base for UI generation
 """
-import zipfile
 from collections import ChainMap
-from typing import Callable, Protocol, Any, Union, Optional, Mapping, Iterable, NewType
-from functools import partial, wraps
-from dataclasses import dataclass
+from typing import Callable, Any, Union, Mapping, Iterable
+from functools import partial
 
 import streamlit as st
 
 from i2 import Sig
-from lined import Pipe
 from front.session_state import _get_state, _SessionState
 from front.util import func_name
 
-Map = Optional[Mapping]
+# --------------------- types/protocols/interfaces --------------------------------------
+
+Map = Union[None, Mapping, Callable[[], Mapping]]
+Configuration = Mapping
+Convention = Mapping
 PageFunc = Callable[[_SessionState], Any]
 PageName = str
 PageSpec = Mapping[PageName, PageFunc]
 App = Callable
+AppMaker = Callable[[Iterable[Callable], Configuration], App]
 
 
-def dispatch_funcs(
-    funcs: Iterable[Callable], configs: Map = None, convention: Map = None,
-) -> App:
-    """Call this function with target funcs and get an app to run."""
-    configs = ChainMap(configs or {}, convention or {})
-    return partial(pages_app, funcs=funcs, configs=configs)
+# ------- configuration/convention/default management -----------------------------------
 
 
-# full page layout style
-st.set_page_config(layout='wide')
+# TODO: Lots of configs/convention/defaults stuff piling up: Needs it's own module
+
+
+def func_to_page_name(func, **kwargs):
+    return func_name(func).replace('_', ' ').title()
+
+
+# TODO: Need to enforce SOME structure/content. Use a subclass of util.Objdict instead?
+def dflt_convention():
+    return dict(
+        app_maker=pages_app,
+        page_configs=dict(layout='wide'),
+        func_to_page_name=func_to_page_name,
+    )
+
+
+def _get_map(mapping: Map) -> Mapping:
+    """Get a concrete mapping from a flexible specification (e.g. could be a factory)"""
+    if isinstance(mapping, Callable):
+        return mapping()  # it's a factory, get the actual mapping
+    else:
+        return mapping or {}
+
+
+def _get_configs(configs: Map = None, convention: Map = dflt_convention):
+    configs, convention = map(_get_map, (configs, convention))  # get concrete mappings
+    configs = ChainMap(configs, convention)  # merge them
+    return configs
 
 
 def default_hash_func(item):
@@ -52,29 +75,32 @@ dflt_hash_funcs = DfltDict(
 )
 
 
-def func_to_page_name(func: Callable, page_name_for_func: Map = None, **configs) -> str:
-    """Get page name for function.
-    If explicit in  page_name_for_func
-    """
-    page_name_for_func = page_name_for_func or {}
-    func_name_str = page_name_for_func.get(func, None)
-    if func_name_str is not None:
-        return func_name_str
-    else:
-        return func_name(func)
+# def func_to_page_name(func: Callable, page_name_for_func: Map = None, **configs) -> str:
+#     """Get page name for function.
+#     If explicit in  page_name_for_func
+#     """
+#     page_name_for_func = page_name_for_func or {}
+#     func_name_str = page_name_for_func.get(func, None)
+#     if func_name_str is not None:
+#         return func_name_str
+#     else:
+#         return func_name(func)
+
+# ---------------------------------------------------------------------------------------
+# The main function and raison d'etre of front
 
 
-class BasePageFunc:
-    def __init__(self, func: Callable, page_title: str = '', **configs):
-        self.func = func
-        self.page_title = page_title
-        self.configs = configs
+def dispatch_funcs(
+    funcs: Iterable[Callable], configs: Map = None, convention: Map = dflt_convention,
+) -> App:
+    """Call this function with target funcs and get an app to run."""
+    configs = _get_configs(configs, convention)
+    app_maker = configs['app_maker']
+    assert isinstance(app_maker, Callable)
+    return partial(app_maker, funcs=funcs, configs=configs)
 
-    def __call__(self, state):
-        if self.page_title:
-            st.markdown(f'''## **{self.page_title}**''')
-        st.write(Sig(self.func))
 
+# ---------------------------------------------------------------------------------------
 
 missing = type('Missing', (), {})()
 
@@ -130,7 +156,8 @@ def get_func_args_specs(
         if name in sig.defaults:
             dflt = sig.defaults[name]
             if dflt is not None:
-                if isinstance(dflt, list):
+                # TODO: type-to-element conditions must be in configs
+                if isinstance(dflt, (list, tuple, set)):
                     factory_kwargs['options'] = dflt
                 else:
                     factory_kwargs['value'] = dflt
@@ -140,11 +167,25 @@ def get_func_args_specs(
     return func_args_specs
 
 
+class BasePageFunc:
+    def __init__(self, func: Callable, page_title: str = '', **configs):
+        self.func = func
+        self.page_title = page_title
+        self.configs = configs
+        self.sig = Sig(func)
+
+    def __call__(self, state):
+        if self.page_title:
+            st.markdown(f'''## **{self.page_title}**''')
+        st.write(Sig(self.func))
+
+
 class SimplePageFunc(BasePageFunc):
     def __call__(self, state):
         if self.page_title:
             st.markdown(f'''## **{self.page_title}**''')
         args_specs = get_func_args_specs(self.func)
+        # func_inputs = dict(self.sig.defaults, **state['page_state'][self.func])
         func_inputs = {}
         for argname, spec in args_specs.items():
             element_factory, kwargs = spec['element_factory']
@@ -152,72 +193,7 @@ class SimplePageFunc(BasePageFunc):
         submit = st.button('Submit')
         if submit:
             st.write(self.func(**func_inputs))
-
-
-class DataAccessPageFunc(BasePageFunc):
-    def __call__(self, state):
-        if self.page_title:
-            st.markdown(f'''## **{self.page_title}**''')
-        st.write(
-            'Current value stored in state for this function is:',
-            state[self.page_title],
-        )
-        args_specs = get_func_args_specs(self.func)
-        func_inputs = {}
-        for argname, spec in args_specs.items():
-            if spec['element_factory'][0] is None:
-                func_inputs[argname] = state
-            else:
-                if 'options' in spec['element_factory'][1]:
-                    pass  # TODO: find some way to access the data from another input we want
-                element_factory, kwargs = spec['element_factory']
-                func_inputs[argname] = element_factory(**kwargs)
-        submit = st.button('Submit')
-        if submit:
-            state[self.page_title] = self.func(**func_inputs)
-            st.write(state[self.page_title])
-
-
-class ScrapPageFunc(BasePageFunc):
-    def __call__(self, state):
-        if self.page_title:
-            st.markdown(f'''## **{self.page_title}**''')
-        st.write(
-            'Current value stored in state for this function is:',
-            state[self.page_title],
-        )
-        args_specs = get_func_args_specs(self.func)
-        i = 0
-        temp = {}
-        for key in args_specs.keys():
-            temp[i] = key
-            i += 1
-        func_inputs = {}
-        for num, argname in temp.items():
-            # only works under the assumptions that the first argument for every function will be to pass the state
-            # and the options for the selectbox are the argument directly before it is a string of comma separated
-            # values
-            if num == 0:
-                func_inputs[argname] = state
-            else:
-                if func_inputs[temp[num - 1]]:
-                    if args_specs[argname]['element_factory'][0] is None:
-                        func_inputs[argname] = state
-                    else:
-                        if 'options' in args_specs[argname]['element_factory'][1]:
-                            options = func_inputs[temp[num - 1]].split(', ')
-                            args_specs[argname]['element_factory'][1][
-                                'options'
-                            ] = options
-                        element_factory, kwargs = args_specs[argname]['element_factory']
-                        func_inputs[argname] = element_factory(**kwargs)
-        submit = st.button('Submit')
-        if submit:
-            state[self.page_title] = self.func(**func_inputs)
-            st.write(
-                'New value stored in state for this function is:',
-                state[self.page_title],
-            )
+            # state['page_state'][self.func].clear()
 
 
 DFLT_PAGE_FACTORY = SimplePageFunc  # Try BasePageFunc too
@@ -234,34 +210,32 @@ def get_page_callbacks(funcs, page_names, page_factory=DFLT_PAGE_FACTORY, **conf
 # TODO: Get func_page for real
 def get_pages_specs(
     funcs: Iterable[Callable],
-    func_to_page: Callable = func_to_page_name,
+    func_to_page_name: Callable = func_to_page_name,
     page_factory=DFLT_PAGE_FACTORY,
     **configs,
 ) -> PageSpec:
-    page_names = [func_to_page(func, **configs) for func in funcs]
-    page_callbacks = get_page_callbacks(funcs, page_names, **configs)
-    return {
-        page_name: page_callback
-        for page_name, page_callback in zip(page_names, page_callbacks)
-    }
+    """Get pages specification dict"""
+    page_names = [func_to_page_name(func, **configs) for func in funcs]
+    page_callbacks = get_page_callbacks(
+        funcs, page_names, page_factory=page_factory, **configs
+    )
+    return dict(zip(page_names, page_callbacks))
 
 
 def pages_app(funcs, configs):
     state = _get_state(hash_funcs=dflt_hash_funcs)  # TODO: get from configs
 
-    def func_to_name(func):
-        name = func_name(func)
-        name = name.replace('_', ' ').title()
-        return name
+    # # Experimentation -- to be reviewed if kept #############
+    # if 'page_state' not in state:
+    #     state['page_state'] = {}
+    #     for func in funcs:
+    #         state['page_state'][func] = {}
+    # ######################################################
 
-    pages = get_pages_specs(funcs, func_to_name, **configs)
+    # full page layout style
+    st.set_page_config(**configs.get('page_config', {}))
 
-    # pages = {
-    #     'Upload Dataset': page_upload,
-    #     'Select Sessions and Phases': page_session,
-    #     'Train Model': page_model_training,
-    #     'Model Results': page_model_results,
-    # }
+    pages = get_pages_specs(funcs, **configs)
 
     st.sidebar.title('Navigation')
     page = st.sidebar.radio('Select your page', tuple(pages.keys()))

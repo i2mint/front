@@ -1,8 +1,11 @@
 """
 Session state management
 """
+
 import streamlit as st
 from streamlit.hashing import _CodeHasher
+
+from front.util import Objdict
 
 try:
     # Before Streamlit 0.65
@@ -17,6 +20,9 @@ except ModuleNotFoundError:
 def display_state_values(state, key):
     st.write('Current value of ' + str(key) + ':', state[key])
 
+
+class PageState(Objdict):
+    """To hold page states"""
 
 class _SessionState:
     def __init__(self, session, hash_funcs):
