@@ -2,7 +2,7 @@
 Base for UI generation
 """
 from collections import ChainMap
-from typing import Callable, Any, Union, Mapping, Iterable, TypeVar, Dict
+from typing import Callable, Any, Union, Mapping, Iterable
 from functools import partial
 import typing
 
@@ -10,7 +10,7 @@ import streamlit as st
 
 from i2 import Sig
 from front.session_state import _get_state, _SessionState
-from front.util import func_name
+from front.util import func_name, build_element_factory
 
 # --------------------- types/protocols/interfaces --------------------------------------
 
@@ -22,7 +22,6 @@ PageName = str
 PageSpec = Mapping[PageName, PageFunc]
 App = Callable
 AppMaker = Callable[[Iterable[Callable], Configuration], App]
-
 
 # ------- configuration/convention/default management -----------------------------------
 
@@ -140,9 +139,6 @@ def _get_dflt_element_factory_for_annot():
     }
 
 
-P = TypeVar('P', Iterable[int], Iterable[float], Iterable[str], Iterable[bool])
-K = TypeVar('K', Dict[str, int], Dict[str, float], Dict[str, str], Dict[str, bool])
-
 # TODO: Too messy -- needs some design thinking
 # TODO: Basic: Add some more smart mapping
 def get_func_args_specs(
@@ -158,41 +154,14 @@ def get_func_args_specs(
     func_args_specs = {name: {} for name in sig.names}
     for name in sig.names:
         d = func_args_specs[name]
-        factory_kwargs = {'label': name}
         inferred_type = infer_type(sig, name)
-        if inferred_type in P.__constraints__:
-            element_factory = {
-                'base': element_factory_for_annot.get(inferred_type, missing)[0],
-                'input_type': element_factory_for_annot.get(inferred_type, missing)[1],
-                'input_factory': element_factory_for_annot.get(
-                    element_factory_for_annot.get(inferred_type, missing)[1], missing
-                ),
-            }
-            factory_kwargs = {
-                'label': 'Enter the number of positional arguments you would like to pass',
-                'value': 0,
-            }
-        elif inferred_type in K.__constraints__:
-            element_factory = {
-                'base': element_factory_for_annot.get(inferred_type, missing)[0],
-                'key_type': element_factory_for_annot.get(inferred_type, missing)[1],
-                'key_factory': element_factory_for_annot.get(
-                    element_factory_for_annot.get(inferred_type, missing)[1], missing
-                ),
-                'value_type': element_factory_for_annot.get(inferred_type, missing)[2],
-                'value_factory': element_factory_for_annot.get(
-                    element_factory_for_annot.get(inferred_type, missing)[2], missing
-                ),
-            }
-            factory_kwargs = {
-                'label': 'Enter the number of keyword arguments you would like to pass',
-                'value': 0,
-            }
-        elif inferred_type is not missing:
-            element_factory = element_factory_for_annot.get(inferred_type, missing)
-        else:
-            element_factory = dflt_element_factory
-
+        element_factory, factory_kwargs = build_element_factory(
+            name,
+            inferred_type,
+            element_factory_for_annot,
+            missing,
+            dflt_element_factory,
+        )
         if name in sig.defaults:
             dflt = sig.defaults[name]
             if dflt is not None:

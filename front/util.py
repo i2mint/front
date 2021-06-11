@@ -1,6 +1,14 @@
 """Utils"""
 
 from i2.signatures import name_of_obj
+from typing import TypeVar, Iterable, Dict
+
+PositionalTypes = TypeVar(
+    'PositionalTypes', Iterable[int], Iterable[float], Iterable[str], Iterable[bool]
+)
+KeywordTypes = TypeVar(
+    'KeywordTypes', Dict[str, int], Dict[str, float], Dict[str, str], Dict[str, bool]
+)
 
 
 def incremental_str_maker(str_format='{:03.f}'):
@@ -82,3 +90,54 @@ def build_factory(element_factory, kind, idx):
         kwargs['value'] = 0
     val = factory(**kwargs)
     return val
+
+
+def build_element_factory(
+    name, inferred_type, element_factory_for_annot, missing, dflt_element_factory
+):
+    if inferred_type in PositionalTypes.__constraints__:
+        element_factory, factory_kwargs = build_element_factory_helper(
+            element_factory_for_annot, inferred_type, missing, 'positional'
+        )
+    elif inferred_type in KeywordTypes.__constraints__:
+        element_factory, factory_kwargs = build_element_factory_helper(
+            element_factory_for_annot, inferred_type, missing, 'keyword'
+        )
+    elif inferred_type is not missing:
+        element_factory = element_factory_for_annot.get(inferred_type, missing)
+        factory_kwargs = {'label': name}
+    else:
+        element_factory = dflt_element_factory
+        factory_kwargs = {'label': name}
+    return element_factory, factory_kwargs
+
+
+def build_element_factory_helper(
+    element_factory_for_annot, inferred_type, missing, args
+):
+    if args == 'positional':
+        element_factory = {
+            'base': element_factory_for_annot.get(inferred_type, missing)[0],
+            'input_type': element_factory_for_annot.get(inferred_type, missing)[1],
+            'input_factory': element_factory_for_annot.get(
+                element_factory_for_annot.get(inferred_type, missing)[1], missing
+            ),
+        }
+    else:
+        element_factory = {
+            'base': element_factory_for_annot.get(inferred_type, missing)[0],
+            'key_type': element_factory_for_annot.get(inferred_type, missing)[1],
+            'key_factory': element_factory_for_annot.get(
+                element_factory_for_annot.get(inferred_type, missing)[1], missing
+            ),
+            'value_type': element_factory_for_annot.get(inferred_type, missing)[2],
+            'value_factory': element_factory_for_annot.get(
+                element_factory_for_annot.get(inferred_type, missing)[2], missing
+            ),
+        }
+    factory_kwargs = {
+        'label': 'Enter the number of positional arguments you would like to pass',
+        'value': 0,
+    }
+
+    return element_factory, factory_kwargs

@@ -91,5 +91,7 @@ class ArgsPageFunc(BasePageFunc):
                 keyword_inputs[argname] = element_factory(**kwargs)
         submit = st.button('Submit')
         if submit:
-            st.write(self.func(*positional_inputs, **keyword_inputs))
+            st.write(f'positional inputs are {positional_inputs} and keyword inputs are {keyword_inputs}')
+            # state[self.page_title] = self.func(*positional_inputs, **keyword_inputs)
+            # st.write(state[self.page_title])
             # state['page_state'][self.func].clear()
