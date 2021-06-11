@@ -4,6 +4,7 @@ Base for UI generation
 from collections import ChainMap
 from typing import Callable, Any, Union, Mapping, Iterable
 from functools import partial
+import typing
 
 import streamlit as st
 
@@ -128,6 +129,10 @@ def _get_dflt_element_factory_for_annot():
             lambda df: df
         ): st.file_uploader,  # TODO: Find a better way to identify as file_uploader
         type(_): None,
+        typing.Iterable[int]: (st.number_input, int),
+        typing.Iterable[float]: (st.number_input, float),
+        typing.Iterable[str]: (st.number_input, str),
+        typing.Iterable[bool]: (st.number_input, bool),
     }
 
 
@@ -148,7 +153,19 @@ def get_func_args_specs(
         d = func_args_specs[name]
         factory_kwargs = {'label': name}
         inferred_type = infer_type(sig, name)
-        if inferred_type is not missing:
+        if type(Iterable[Any]) == type(inferred_type):
+            element_factory = {
+                'base': element_factory_for_annot.get(inferred_type, missing)[0],
+                'arg_type': element_factory_for_annot.get(inferred_type, missing)[1],
+                'arg_factory': element_factory_for_annot.get(
+                    element_factory_for_annot.get(inferred_type, missing)[1], missing
+                ),
+            }
+            factory_kwargs = {
+                'label': 'Enter the number of positional arguments you would like to pass',
+                'value': 0,
+            }
+        elif inferred_type is not missing:
             element_factory = element_factory_for_annot.get(inferred_type, missing)
         else:
             element_factory = dflt_element_factory
