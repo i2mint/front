@@ -95,3 +95,28 @@ class ArgsPageFunc(BasePageFunc):
             # state[self.page_title] = self.func(*positional_inputs, **keyword_inputs)
             # st.write(state[self.page_title])
             # state['page_state'][self.func].clear()
+
+
+class StatePageFunc(BasePageFunc):
+    def __call__(self, state):
+        if self.page_title:
+            st.markdown(f'''## **{self.page_title}**''')
+        st.write(
+            'Current value stored in state for this function is:',
+            state[self.page_title],
+        )
+        args_specs = get_func_args_specs(self.func)
+        func_inputs = {}
+        for argname, spec in args_specs.items():
+            if spec['element_factory'][0] is None:
+                func_inputs[argname] = state
+            else:
+                element_factory, kwargs = spec['element_factory']
+                func_inputs[argname] = element_factory(**kwargs)
+        submit = st.button('Submit')
+        if submit:
+            state[self.page_title] = self.func(**func_inputs)
+            st.write(
+                'New value stored in state for this function is:',
+                state[self.page_title],
+            )

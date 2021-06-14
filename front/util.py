@@ -84,6 +84,9 @@ class Objdict(dict):
 
 
 def build_factory(element_factory, kind, idx):
+    """
+    Build the factory for user input for VP and VK inputs
+    """
     factory = element_factory[f'{kind}_factory']
     kwargs = {'label': f'Enter {kind} {idx + 1}', 'key': idx}
     if element_factory[f'{kind}_type'] is int:
@@ -95,6 +98,9 @@ def build_factory(element_factory, kind, idx):
 def build_element_factory(
     name, inferred_type, element_factory_for_annot, missing, dflt_element_factory
 ):
+    """
+    Build the element factory for each argument to allow for user input
+    """
     if inferred_type in PositionalTypes.__constraints__:
         element_factory, factory_kwargs = build_element_factory_helper(
             element_factory_for_annot, inferred_type, missing, 'positional'
@@ -115,6 +121,9 @@ def build_element_factory(
 def build_element_factory_helper(
     element_factory_for_annot, inferred_type, missing, args
 ):
+    """
+    Helper to build the element factory for VP and VK arguments
+    """
     if args == 'positional':
         element_factory = {
             'base': element_factory_for_annot.get(inferred_type, missing)[0],

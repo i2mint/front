@@ -71,6 +71,7 @@ dflt_hash_funcs = DfltDict(
         'qcoto.dacc.Dacc': default_hash_func,
         'abc.DfSimpleStoreWrapped': default_hash_func,
         'builtins.dict': default_hash_func,
+        'haggle.dacc.KaggleDatasetInfoReader': default_hash_func,
     }
 )
 
@@ -242,7 +243,9 @@ def pages_app(funcs, configs):
     # ######################################################
 
     # full page layout style
-    st.set_page_config(**configs.get('page_config', {}))
+    # st.set_page_config(**configs.get('page_config', {}))
+    # configs don't work here because the layout call has to be the first call after importing streamlit
+    st.set_page_config(layout='wide')
 
     pages = get_pages_specs(funcs, **configs)
 
