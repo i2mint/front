@@ -1,3 +1,8 @@
+"""
+Functions to generate pages
+"""
+
+
 import streamlit as st
 from i2 import Sig
 from typing import Mapping
