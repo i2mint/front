@@ -33,4 +33,5 @@ with suppress(ModuleNotFoundError, ImportError):
     from streamlitfront import util
     from streamlitfront import *
     from warnings import warn
-    warn("Moved to seperate streamlitfront package", DeprecationWarning)
+
+    warn('Moved to seperate streamlitfront package', DeprecationWarning)
