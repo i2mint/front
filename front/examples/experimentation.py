@@ -20,7 +20,7 @@ def confuser(a: int = 0, x: float = 3.14):
 funcs = [foo, bar, confuser]
 
 if __name__ == '__main__':
-    from front.base import dispatch_funcs
+    from streamlitfront.base import dispatch_funcs
 
     print('file: {}'.format(os.path.realpath(__file__)))
     app = dispatch_funcs(funcs)

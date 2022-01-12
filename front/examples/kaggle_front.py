@@ -4,12 +4,15 @@ from haggle import KaggleDatasets
 import pandas as pd
 import numpy as np
 import streamlit as st
-from front.session_state import _get_state
 from slang.snippers import PcaChkToFv, LdaChkToFv
 from slang.util import mk_callable
+
+from odat.mdat.local_kgl import mk_dacc
+from streamlitfront.session_state import _get_state
+
+# TODO: Replace omodel models with open source ones
 from omodel.outliers.outlier_model import OutlierModel as Stroll
 from omodel.ml.scent import CentroidSmoothing
-from odat.mdat.local_kgl import mk_dacc
 
 # TODO: Resolve the UnhashableTypeError: Cannot hash object of type _thread.Rlock, found in something.
 
@@ -120,8 +123,8 @@ funcs = [
 ]
 
 if __name__ == '__main__':
-    from front.base import dispatch_funcs
-    from front.page_funcs import StatePageFunc
+    from streamlitfront.base import dispatch_funcs
+    from streamlitfront.page_funcs import StatePageFunc
 
     print('file: {}'.format(os.path.realpath(__file__)))
 

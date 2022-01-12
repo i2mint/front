@@ -51,8 +51,8 @@ funcs = [
 ]
 
 if __name__ == '__main__':
-    from front.base import dispatch_funcs
-    from front.page_funcs import ArgsPageFunc
+    from streamlitfront.base import dispatch_funcs
+    from streamlitfront.page_funcs import ArgsPageFunc
 
     print('file: {}'.format(os.path.realpath(__file__)))
 

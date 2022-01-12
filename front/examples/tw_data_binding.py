@@ -13,7 +13,7 @@ def bar(a: str = "boo"):
 
 funcs = [foo, bar]
 
-from front.base import _get_state, _get_view_key, get_pages_specs, dflt_hash_funcs
+from streamlitfront.base import _get_state, _get_view_key, get_pages_specs, dflt_hash_funcs
 
 import streamlit as st
 
@@ -44,8 +44,8 @@ def pages_app(funcs, configs):
 
 
 if __name__ == "__main__":
-    from front.base import dispatch_funcs
-    from front.page_funcs import ExperimentalViewFunc
+    from streamlitfront.base import dispatch_funcs
+    from streamlitfront.page_funcs import ExperimentalViewFunc
 
     print("file: {}".format(os.path.realpath(__file__)))
 

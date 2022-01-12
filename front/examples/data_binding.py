@@ -12,8 +12,8 @@ def bar(state, a: str = 'boo'):
 funcs = [foo, bar]
 
 if __name__ == '__main__':
-    from front.base import dispatch_funcs
-    from front.page_funcs import DataBindingExploPageFunc
+    from streamlitfront.base import dispatch_funcs
+    from streamlitfront.page_funcs import DataBindingExploPageFunc
 
     print('file: {}'.format(os.path.realpath(__file__)))
 
