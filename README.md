@@ -1,45 +1,17 @@
-
 # front
-Getting from python objects to UIs exposing them
 
+Getting from python objects to UIs exposing them.
+Note the absence of the G in front of UI. 
+This is because a UI (User Interface) is not necessarily graphical.
+Though graphical interfaces will be our main focus, we are concerned here 
+will the slightly more general problem of UIs, that could take the form of 
+web-services, command-line interfaces, could be web-based or not, etc.
 
 To install:	```pip install front```
 
+# Note about major changes
 
-# Example
-
-Write a module like this:
-
-```python
-# simple.py
-import os
-
-def foo(a: int = 0, b: int = 0, c=0):
-    """This is foo. It computes something"""
-    return (a * b) + c
-
-def bar(x, greeting='hello'):
-    """bar greets its input"""
-    return f'{greeting} {x}'
-
-def confuser(a: int = 0, x: float = 3.14):
-    return (a ** 2) * x
-
-funcs = [foo, bar, confuser]
-
-if __name__ == '__main__':
-    from front.base import dispatch_funcs
-    app = dispatch_funcs(funcs)
-    app()
-    
-    # ... and you get a browser based app that exposes foo, bar, and confuser
-
-```
-Execute `streamlit run simple.py` in terminal and ...
-
-![image](https://user-images.githubusercontent.com/1906276/121604989-61874d80-ca00-11eb-9e1b-e3ac28e09418.png)
-
-![image](https://user-images.githubusercontent.com/1906276/121605028-7f54b280-ca00-11eb-93f7-f4c936ae9d54.png)
-
-
-
+This package used to be what [py2dash](https://github.com/i2mint/py2dash/), 
+but using `streamlit` instead of `dash` as its backend. 
+This has since been moved to [streamlitfront](https://github.com/i2mint/streamlitfront/), 
+making way for `front` to (yet) become the common set of tools to be used in both.
