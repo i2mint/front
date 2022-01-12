@@ -74,6 +74,13 @@ def func_to_pyd_model_specs(func: Callable, dflt_type=Any):
                 yield p.name, (dflt_type, ...)
 
 
+def pydantic_egress(output):
+    return_type = type(output)
+    mod = create_model("Output", output_val=return_type)
+
+    return mod(output_val=output)
+
+
 # ---------------------------------------------------------------------------------------
 # Tests
 
