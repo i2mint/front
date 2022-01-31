@@ -1,3 +1,4 @@
+from typing import List
 from streamlitfront.base import (
     BasePageFunc,
     dispatch_funcs,
@@ -11,9 +12,11 @@ class SimplePageFuncPydantic(BasePageFunc):
     def __call__(self, state):
         self.prepare_view(state)
         mymodel = func_to_pyd_input_model_cls(self.func)
-        data = sp.pydantic_input(key="my_form", model=mymodel)
+        name = self.func.__name__
+        data = sp.pydantic_input(key=f"my_form_{name}", model=mymodel)
 
         if data:
+
             st.write(self.func(**data))
 
 
@@ -21,7 +24,11 @@ def myfunc(x: int, y: str):
     return x * y
 
 
-funcs = [myfunc]
+def myfunclist(xs: List[int]):
+    return sum(xs)
+
+
+funcs = [myfunc, myfunclist]
 configs = {"page_factory": SimplePageFuncPydantic}
 
 
@@ -30,4 +37,3 @@ if __name__ == "__main__":
 
     app = dispatch_funcs(funcs, configs=configs)
     app()
-
