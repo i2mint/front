@@ -12,3 +12,4 @@
    module_docs/front/examples/tw_data_binding
    module_docs/front/scrap
    module_docs/front/scrap/py2pydantic
+   module_docs/front/scrap/py2pydanticapp
