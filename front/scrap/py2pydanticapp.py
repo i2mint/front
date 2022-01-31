@@ -13,7 +13,7 @@ class SimplePageFuncPydantic(BasePageFunc):
         self.prepare_view(state)
         mymodel = func_to_pyd_input_model_cls(self.func)
         name = self.func.__name__
-        data = sp.pydantic_input(key=f"my_form_{name}", model=mymodel)
+        data = sp.pydantic_input(key=f'my_form_{name}', model=mymodel)
 
         if data:
 
@@ -29,10 +29,10 @@ def myfunclist(xs: List[int]):
 
 
 funcs = [myfunc, myfunclist]
-configs = {"page_factory": SimplePageFuncPydantic}
+configs = {'page_factory': SimplePageFuncPydantic}
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     from streamlitfront import dispatch_funcs
 
     app = dispatch_funcs(funcs, configs=configs)
