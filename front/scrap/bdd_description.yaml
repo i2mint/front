@@ -1,0 +1,19 @@
+---
+Feature 1:
+    description: As a data scientist I want to display a list of python functions as a web app, using pydantic models
+
+    scenario1:
+       Given a list containing only the identity function, having input and output being in [int, str,float, boolean]
+           
+
+       When the user runs the script with streamlit
+
+       Then an app is generated with input boxes and output written directly in the app 
+
+    
+
+
+
+
+
+
