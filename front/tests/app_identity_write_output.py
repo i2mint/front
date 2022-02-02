@@ -1,6 +1,6 @@
 import pytest
 from streamlitfront import dispatch_funcs
-from front.scrap.pydantic_wrap import DFLT_CONFIGS, SimplePageFuncPydantic
+from front.scrap.pydantic_wrap import DFLT_CONFIGS, SimplePageFuncPydanticWrite
 
 
 def identity(x:int)->int:

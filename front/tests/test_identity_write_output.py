@@ -10,7 +10,7 @@ class ComponentsTest(BaseCase):
         # open the app and take a screenshot
         self.open("http://localhost:8501")
 
-        time.sleep(5)  # give leaflet time to load from web
+        time.sleep(5)  
         self.check_window(name="first_test", level=2)
 
         
