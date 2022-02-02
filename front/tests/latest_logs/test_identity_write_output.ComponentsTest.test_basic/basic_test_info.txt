@@ -1,0 +1,32 @@
+test_identity_write_output.py::ComponentsTest::test_basic
+--------------------------------------------------------------------
+Last Page: http://localhost:8501/
+  Browser: chrome (97.0.4692.99)
+   Driver: chromedriver (2.44.609545)
+Timestamp: 1643815547  (Unix Timestamp)
+     Date: Wednesday, 2 February 2022
+     Time: 4:25:47 PM  (CEST, UTC+01:00)
+--------------------------------------------------------------------
+Traceback: File "/Users/sylvain/opt/anaconda3/envs/otopy38/lib/python3.8/unittest/case.py", line 676, in run
+    self._callTestMethod(testMethod)
+  File "/Users/sylvain/opt/anaconda3/envs/otopy38/lib/python3.8/unittest/case.py", line 633, in _callTestMethod
+    method()
+  File "/Users/sylvain/Desktop/dev/otosense/front/front/tests/test_identity_write_output.py", line 14, in test_basic
+    self.check_window(name="first_test", level=2)
+  File "/Users/sylvain/opt/anaconda3/envs/otopy38/lib/python3.8/site-packages/seleniumbase/fixtures/base_case.py", line 10105, in check_window
+    self.__assert_eq(level_2_data, level_2, level_2_failure)
+  File "/Users/sylvain/opt/anaconda3/envs/otopy38/lib/python3.8/site-packages/seleniumbase/fixtures/base_case.py", line 9790, in __assert_eq
+    raise Exception(minified_exception)
+Exception: 
+AssertionError:
+First differing element 62:
+['div', ['class', 'data-baseweb']]
+['div', ['class']]
+
+First extra element 76:
+['div', ['class', 'style']]
+
+Diff is 3345 characters long. Set self.maxDiff to None to see it. : 
+*
+*** Exception: <Level 2> Visual Diff Failure:
+* HTML tag attribute names don't match the baseline!
