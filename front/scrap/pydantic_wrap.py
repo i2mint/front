@@ -11,8 +11,6 @@ from opyrator import Opyrator
 from pydantic import BaseModel
 
 
-
-
 class SimplePageFuncPydantic(BasePageFunc):
     def __call__(self, state):
         self.prepare_view(state)
@@ -21,13 +19,11 @@ class SimplePageFuncPydantic(BasePageFunc):
             self.func.__name__
         )  # check in sig, dag, lined a better way, i2, may be displayed name: name_of_obj
 
-        data = sp.pydantic_input(key=f"my_form_{name}", model=mymodel)
-        
+        data = sp.pydantic_input(key=f'my_form_{name}', model=mymodel)
+
         if data:
 
             st.write(self.func(**data))
 
-DFLT_CONFIGS = {"page_factory": SimplePageFuncPydantic}
 
-
-
+DFLT_CONFIGS = {'page_factory': SimplePageFuncPydantic}

@@ -13,3 +13,4 @@
    module_docs/front/scrap
    module_docs/front/scrap/py2pydantic
    module_docs/front/scrap/py2pydanticapp
+   module_docs/front/scrap/pydantic_wrap
