@@ -8,7 +8,7 @@ def identity(x:int)->int:
 
 funcs = [identity]
 
-configs = {'page_factory': SimplePageFuncPydantic}
+configs = {'page_factory': SimplePageFuncPydanticWithOutput}
 
 
 app = dispatch_funcs(funcs, configs=configs)
