@@ -48,8 +48,6 @@ mall = dict(
 # ---------------------------------------------------------------------------------------
 # dispatchable function:
 
-from streamlitfront.examples.crude.crude_util import auto_key
-
 from i2 import Sig
 from i2.wrapper import Ingress, wrap
 from inspect import Parameter
