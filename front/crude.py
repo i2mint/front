@@ -106,7 +106,9 @@ def store_on_output(
         @sig
         @wraps(func)
         def _func(*args, **kwargs):
+            kwargs = sig.kwargs_from_args_and_kwargs(args, kwargs, apply_defaults=True)
             save_name = kwargs.pop(save_name_param)
+            args, kwargs = sig.args_and_kwargs_from_kwargs(kwargs)
             output = func(*args, **kwargs)
             if save_name:
                 store[save_name] = output
