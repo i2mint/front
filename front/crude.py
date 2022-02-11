@@ -37,9 +37,9 @@ def auto_key(*args, **kwargs) -> KT:
     >>> auto_key()
     ''
     """
-    args_str = ','.join(map(str, args))
-    kwargs_str = ','.join(map(lambda kv: f'{kv[0]}={kv[1]}', kwargs.items()))
-    return ','.join(filter(None, [args_str, kwargs_str]))
+    args_str = ",".join(map(str, args))
+    kwargs_str = ",".join(map(lambda kv: f"{kv[0]}={kv[1]}", kwargs.items()))
+    return ",".join(filter(None, [args_str, kwargs_str]))
 
 
 @wrap_kvs(data_of_obj=dill.dumps, obj_of_data=dill.loads)
@@ -51,7 +51,7 @@ class DillFiles(Files):
 
 def mk_mall_of_dill_stores(store_names=Iterable[StoreName], rootdir=None):
     """Make a mall of DillFiles stores"""
-    rootdir = rootdir or mk_tmp_dol_dir('crude')
+    rootdir = rootdir or mk_tmp_dol_dir("crude")
     if isinstance(store_names, str):
         store_names = store_names.split()
 
@@ -72,8 +72,8 @@ def store_on_output(
     func=None,
     *,
     store=None,
-    save_name_param='save_name',
-    add_store_to_func_attr='output_store',
+    save_name_param="save_name",
+    add_store_to_func_attr="output_store",
 ):
     """Wrap func so it will have an extra save_name_param that can be used to
     indicate whether to save the output of the function call to that key, in
@@ -95,7 +95,7 @@ def store_on_output(
         save_name_param_obj = Parameter(
             name=save_name_param,
             kind=Parameter.KEYWORD_ONLY,
-            default='',
+            default="",
             annotation=str,
         )
         sig = Sig(func) + [save_name_param_obj]
@@ -117,13 +117,15 @@ def store_on_output(
         if isinstance(add_store_to_func_attr, str):
             setattr(_func, add_store_to_func_attr, store)
 
-        _func.output_store = store
+        # _func.output_store = store  # redundant with above. Remove
+
         return _func
 
 
 def prepare_for_crude_dispatch(
     func: Callable,
-    store_for_param: Optional[Mall] = None,
+    mall_key_for_argname: dict = None,
+    mall: Optional[Mall] = None,
     output_store: Optional[Union[Mapping, str]] = None,
     save_name_param: str = "save_name",
     include_store_for_param: bool = False,
@@ -145,9 +147,12 @@ def prepare_for_crude_dispatch(
     """
 
     ingress = None
-    if store_for_param is not None:
+
+    if mall_key_for_argname is not None:
+
         sig = Sig(func)
-        crude_params = [x for x in sig.names if x in store_for_param]
+
+        store_for_param = _store_for_param(sig, mall_key_for_argname, mall)
 
         def kwargs_trans(outer_kw):
             """
@@ -172,7 +177,7 @@ def prepare_for_crude_dispatch(
             # to that argument).
             def get_values_from_stores():
                 # Note: only need to specify arguments that change
-                for store_name in crude_params:
+                for store_name in mall_key_for_argname.values():
                     # Note: The store name is the param name.
                     # Get the argument value from outer_kw. This value is the key to
                     # the actual value we want (found in the store)
@@ -187,7 +192,7 @@ def prepare_for_crude_dispatch(
             inner_sig=sig,
             kwargs_trans=kwargs_trans,
             outer_sig=(
-                sig.ch_annotations(**{name: str for name in crude_params})
+                sig.ch_annotations(**{name: str for name in mall_key_for_argname})
                 # + [save_name_param]
             ),
         )
@@ -220,3 +225,32 @@ def prepare_for_crude_dispatch(
         wrapped_f.store_for_param = store_for_param
 
     return wrapped_f
+
+
+def _store_for_param(sig, mall_key_for_argname, mall):
+    if isinstance(mall_key_for_argname, str):
+        mall_key_for_argname = mall_key_for_argname.split()
+    if not set(mall_key_for_argname).issubset(sig.names):
+        offenders = set(mall_key_for_argname) - set(sig.names)
+        raise ValueError(
+            f"Some of your mall_key_for_argname keys were not argument names of "
+            f"your function. These keys: {offenders}"
+        )
+    if not set(mall_key_for_argname.values()).issubset(sig.names):
+        offenders = set(mall_key_for_argname.values()) - set(sig.names)
+        keys = "keys" if len(offenders) > 1 else "key"
+        offenders = ", ".join(map(lambda x: f"'{x}'", offenders))
+
+        raise ValueError(
+            f"The {offenders} {keys} of your mall_key_for_argname values were not in "
+            f"the mall. "
+        )
+    # Note: store_for_param used to be the argument of prepare_for_crude_dispatch,
+    #   instead of the (mall_key_for_argname, mall) pair which is overkill.
+    #   The reason for obliging the user to give this pair was because asking for
+    #   the user to be more explicit about the argname to store mapping would avoid
+    #   some bugs and make it possible to validate the request earlier on.
+    store_for_param = {
+        argname: mall[mall_key] for argname, mall_key in mall_key_for_argname
+    }
+    return store_for_param
