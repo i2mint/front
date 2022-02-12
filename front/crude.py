@@ -130,19 +130,23 @@ def prepare_for_crude_dispatch(
     save_name_param: str = "save_name",
     include_store_for_param: bool = False,
 ):
-    """Wrap func into something that is ready for CRUDE dispatch.
+    """
+    Wrap func into something that is ready for CRUDE dispatch.
     It will be a function for whom specific arguments will be specified by strings,
     via underlying stores containing the values.
     We say that those arguments were crude-dispatched.
 
-    :param func: The function to wrap
-    :param store_for_param: A dict whose keys specify which params should be
+    :param func: callable, the function to wrap
+    :param mall_key_for_argname: dict, whose keys specify which params should be
         crude-dispatched and whose values are the stores to be used for said param.
-        Note that ``store_for_param`` can contain keys that are NOT params of ``func``.
+        Note that ``mall_key_for_argname`` can contain keys that are NOT params of ``func``.
         These will then just be ignored.
-    :param output_store_name: If given, specifies that the output of every function
-        call should be saved in that store
-    # :param save_name_param:
+    :param output_store: a store used to record the output of the function
+    :param save_name_param: str, the name used on the ui to let the user enter the name for the
+    key of output_store under which the output will be saved
+    :param include_store_for_param: bool, whether to add an attribute to the function containing
+    the output_store
+
     :return:
     """
 
@@ -203,7 +207,7 @@ def prepare_for_crude_dispatch(
         if isinstance(output_store, str):
             # if output_store is a string, it should be the a key to store_for_param
             store_for_param_key_for_output_store = output_store
-            output_store = store_for_param[store_for_param_key_for_output_store]
+            output_store = mall[store_for_param_key_for_output_store]
         else:
             # TODO: Assert MutableMapping, or just existence of __setitem__?
             pass
@@ -236,8 +240,8 @@ def _store_for_param(sig, mall_key_for_argname, mall):
             f"Some of your mall_key_for_argname keys were not argument names of "
             f"your function. These keys: {offenders}"
         )
-    if not set(mall_key_for_argname.values()).issubset(sig.names):
-        offenders = set(mall_key_for_argname.values()) - set(sig.names)
+    if not set(mall_key_for_argname.values()).issubset(mall.keys()):
+        offenders = set(mall_key_for_argname.values()) - set(mall.keys())
         keys = "keys" if len(offenders) > 1 else "key"
         offenders = ", ".join(map(lambda x: f"'{x}'", offenders))
 
@@ -251,6 +255,6 @@ def _store_for_param(sig, mall_key_for_argname, mall):
     #   the user to be more explicit about the argname to store mapping would avoid
     #   some bugs and make it possible to validate the request earlier on.
     store_for_param = {
-        argname: mall[mall_key] for argname, mall_key in mall_key_for_argname
+        argname: mall[mall_key] for argname, mall_key in mall_key_for_argname.items()
     }
     return store_for_param
