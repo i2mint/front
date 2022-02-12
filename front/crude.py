@@ -124,7 +124,7 @@ def store_on_output(
 
 def prepare_for_crude_dispatch(
     func: Callable,
-    mall_key_for_argname: dict = None,
+    param_to_mall_key_dict: dict = None,
     mall: Optional[Mall] = None,
     output_store: Optional[Union[Mapping, str]] = None,
     save_name_param: str = "save_name",
@@ -137,26 +137,75 @@ def prepare_for_crude_dispatch(
     We say that those arguments were crude-dispatched.
 
     :param func: callable, the function to wrap
-    :param mall_key_for_argname: dict, whose keys specify which params should be
-        crude-dispatched and whose values are the stores to be used for said param.
-        Note that ``mall_key_for_argname`` can contain keys that are NOT params of ``func``.
-        These will then just be ignored.
+    :param param_to_mall_key_dict: dict, whose keys specify which params should be
+        crude-dispatched and whose values are the mall keys to the Mapping instances 
+        (e.g. dict) that should be used for said param.
     :param output_store: a store used to record the output of the function
-    :param save_name_param: str, the name used on the ui to let the user enter the name for the
-    key of output_store under which the output will be saved
-    :param include_store_for_param: bool, whether to add an attribute to the function containing
-    the output_store
+    :param save_name_param: str, the argument name that should be used in the returned 
+        functions to get the the key of ``output_store`` under which the output will be 
+        saved.
+    :param include_store_for_param: bool, whether to add an attribute to the function 
+        containing the ``output_store``
 
-    :return:
+    :return: A function that outputs the same thing as ``func``, but (1) with some 
+        parameters being changed so that on can specify some arguments 
+        (those listed by ``param_to_mall_key_dict``)
+
+
+    >>> def func(a, b: float, c: int):
+    ...     return a + b * c
+    ...
+    >>> param_to_mall_key_dict = dict(a='a', b='b_store')
+    >>>
+    >>> mall = dict(
+    ...     a = {'one': 1, 'two': 2},
+    ...     b_store = {'three': 3, 'four': 4},
+    ...     ununsed_store = {'to': 'illustrate'}
+    ... )
+    >>> crude_func = prepare_for_crude_dispatch(
+    ...     func,
+    ...     param_to_mall_key_dict=param_to_mall_key_dict,
+    ...     mall=mall
+    ... )
+
+    ``crude_func`` is like ``func``, but you enter your ``a`` and ``b`` inputs
+    via string keys that will look up the values you're pointing to in ``mall``
+
+    >>> assert crude_func('one', 'three', 10) == func(1, 3, 10) == 31
+    >>> crude_func('one', 'three', 10)
+    31
+    >>> func(1, 3, 10)
+    31
+
+    What's happening behind the scenes of ``crude_func`` is this.
+    Let's follow what happens for the ``b`` argument. Say the user says ``b='three'``...
+
+    - ``b`` is a key of ``param_to_mall_key_dict``, indicating that it should be "cruded"
+
+    - ``param_to_mall_key_dict['b']`` is ``'b_store'``, so we know which mall key to use
+
+    - We retrieve ``mall['b_store']['three']``, which is ``3``, and call ``func`` with it
+
+    So this is equivalent to this:
+
+    >>> func(mall['a']['one'], mall['b_store']['three'], 10)
+    31
+
+    The signature of ``a`` and ``b`` also changed to be `str`:
+
+    >>> from inspect import signature
+    >>> str(signature(crude_func))
+    '(a: str, b: str, c: int)'
+
     """
 
     ingress = None
 
-    if mall_key_for_argname is not None:
+    if param_to_mall_key_dict is not None:
 
         sig = Sig(func)
 
-        store_for_param = _store_for_param(sig, mall_key_for_argname, mall)
+        store_for_param = _store_for_param(sig, param_to_mall_key_dict, mall)
 
         def kwargs_trans(outer_kw):
             """
@@ -181,14 +230,12 @@ def prepare_for_crude_dispatch(
             # to that argument).
             def get_values_from_stores():
                 # Note: only need to specify arguments that change
-                for store_name in mall_key_for_argname.values():
-                    # Note: The store name is the param name.
-                    # Get the argument value from outer_kw. This value is the key to
-                    # the actual value we want (found in the store)
-                    store_key = outer_kw[store_name]
-                    # store_key points to the value the outer user wants the value for
-                    # store_for_param[store_name] is the store where to find it
-                    yield store_name, store_for_param[store_name][store_key]
+                for param, store in store_for_param.items():
+                    # param's argument value is assumed to be a store_key
+                    store_key = outer_kw[param]
+                    # store_key points to the value the outer user wants the value for:
+                    # store is the store where to find it
+                    yield param, store[store_key]
 
             return dict(get_values_from_stores())
 
@@ -196,7 +243,7 @@ def prepare_for_crude_dispatch(
             inner_sig=sig,
             kwargs_trans=kwargs_trans,
             outer_sig=(
-                sig.ch_annotations(**{name: str for name in mall_key_for_argname})
+                sig.ch_annotations(**{name: str for name in param_to_mall_key_dict})
                 # + [save_name_param]
             ),
         )
@@ -231,30 +278,30 @@ def prepare_for_crude_dispatch(
     return wrapped_f
 
 
-def _store_for_param(sig, mall_key_for_argname, mall):
-    if isinstance(mall_key_for_argname, str):
-        mall_key_for_argname = mall_key_for_argname.split()
-    if not set(mall_key_for_argname).issubset(sig.names):
-        offenders = set(mall_key_for_argname) - set(sig.names)
+def _store_for_param(sig, param_to_mall_key_dict, mall):
+    if isinstance(param_to_mall_key_dict, str):
+        param_to_mall_key_dict = param_to_mall_key_dict.split()
+    if not set(param_to_mall_key_dict).issubset(sig.names):
+        offenders = set(param_to_mall_key_dict) - set(sig.names)
         raise ValueError(
-            f"Some of your mall_key_for_argname keys were not argument names of "
+            f"Some of your param_to_mall_key_dict keys were not argument names of "
             f"your function. These keys: {offenders}"
         )
-    if not set(mall_key_for_argname.values()).issubset(mall.keys()):
-        offenders = set(mall_key_for_argname.values()) - set(mall.keys())
+    if not set(param_to_mall_key_dict.values()).issubset(mall.keys()):
+        offenders = set(param_to_mall_key_dict.values()) - set(mall.keys())
         keys = "keys" if len(offenders) > 1 else "key"
         offenders = ", ".join(map(lambda x: f"'{x}'", offenders))
 
         raise ValueError(
-            f"The {offenders} {keys} of your mall_key_for_argname values were not in "
+            f"The {offenders} {keys} of your param_to_mall_key_dict values were not in "
             f"the mall. "
         )
     # Note: store_for_param used to be the argument of prepare_for_crude_dispatch,
-    #   instead of the (mall_key_for_argname, mall) pair which is overkill.
+    #   instead of the (param_to_mall_key_dict, mall) pair which is overkill.
     #   The reason for obliging the user to give this pair was because asking for
     #   the user to be more explicit about the argname to store mapping would avoid
     #   some bugs and make it possible to validate the request earlier on.
     store_for_param = {
-        argname: mall[mall_key] for argname, mall_key in mall_key_for_argname.items()
+        argname: mall[mall_key] for argname, mall_key in param_to_mall_key_dict.items()
     }
     return store_for_param
