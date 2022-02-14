@@ -2,7 +2,6 @@
 and making them pydantic?
 
 >>> from i2.tests.objects_for_testing import formula1
->>> test_func_to_pyd_model_of_inputs(formula1)
 >>> pyd_input_model = func_to_pyd_input_model_cls(formula1)
 >>> pyd_input_model
 <class 'pydantic.main.formula1'>
