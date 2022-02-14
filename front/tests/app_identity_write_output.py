@@ -12,4 +12,3 @@
 #
 # app = dispatch_funcs(funcs, configs=DFLT_CONFIGS)
 # app()
-

@@ -16,7 +16,7 @@ def named_partial(func, __name__=None, *args, **kwargs):
     return f
 
 
-def iterable_to_enum(iterable, name="CustomEnum"):
+def iterable_to_enum(iterable, name='CustomEnum'):
     return Enum(name, {str(kv): kv for kv in iterable})
 
 
@@ -54,7 +54,7 @@ def inject_enum_annotations(func=None, **enum_list_for_arg):
     sig = Sig(func)
     sig = sig.ch_annotations(
         **{
-            param: iterable_to_enum(enum_list, name=f"{param}_enum")
+            param: iterable_to_enum(enum_list, name=f'{param}_enum')
             for param, enum_list in enum_list_for_arg.items()
         }
     )

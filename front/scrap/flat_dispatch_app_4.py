@@ -17,7 +17,7 @@ FittedModel = Any
 
 # ---------------------------------------------------------------------------------------
 # The function(ality) we want to dispatch:
-def apply_model(fvs: FVs, fitted_model: FittedModel, method="transform"):
+def apply_model(fvs: FVs, fitted_model: FittedModel, method='transform'):
     method_func = getattr(fitted_model, method)
     return method_func(list(fvs))
 
@@ -59,36 +59,36 @@ def auto_key(*args, **kwargs):
     >>> auto_key()
     ''
     """
-    args_str = ",".join(map(str, args))
-    kwargs_str = ",".join(map(lambda kv: f"{kv[0]}={kv[1]}", kwargs.items()))
-    return ",".join(filter(None, [args_str, kwargs_str]))
+    args_str = ','.join(map(str, args))
+    kwargs_str = ','.join(map(lambda kv: f'{kv[0]}={kv[1]}', kwargs.items()))
+    return ','.join(filter(None, [args_str, kwargs_str]))
 
 
 def apply_model_using_stores(
     fvs: FVsKey,
     fitted_model: FittedModelKey,
-    method: str = "transform",
-    save_name: str = "",  # TODO: Have streamlit populate automatically with auto_key
+    method: str = 'transform',
+    save_name: str = '',  # TODO: Have streamlit populate automatically with auto_key
 ):
     # get the inputs
-    fvs_value = mall["fvs"][fvs]
-    fitted_model_value = mall["fitted_model"][fitted_model]
+    fvs_value = mall['fvs'][fvs]
+    fitted_model_value = mall['fitted_model'][fitted_model]
     # compute the function
     result = apply_model(fvs_value, fitted_model_value, method=method)
     # store the outputs
     save_name = save_name or auto_key(fvs=fvs, fitted_model=fitted_model)
-    mall["model_results"][save_name] = result
+    mall['model_results'][save_name] = result
     return result  # or not
 
 
-assert list(mall["model_results"]) == []
-t = apply_model_using_stores(fvs="test_fvs", fitted_model="fitted_model_1")
-assert list(mall["model_results"]) == ["fvs=test_fvs,fitted_model=fitted_model_1"]
+assert list(mall['model_results']) == []
+t = apply_model_using_stores(fvs='test_fvs', fitted_model='fitted_model_1')
+assert list(mall['model_results']) == ['fvs=test_fvs,fitted_model=fitted_model_1']
 assert all(t == np.array([[0.0], [1.0], [0.5], [2.25], [-1.5]]))
-mall["model_results"].clear()
+mall['model_results'].clear()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     from streamlitfront.base import dispatch_funcs
 
     app = dispatch_funcs([apply_model_using_stores])

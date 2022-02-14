@@ -1,4 +1,3 @@
-
 # TODO: needs to be headless and minimum dependency
 
 # from seleniumbase import BaseCase
@@ -17,4 +16,3 @@
 #
 #
 #         self.assert_text("Identity")
-
