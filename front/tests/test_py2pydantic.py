@@ -3,8 +3,13 @@ from front.py2pydantic import *
 # ---------------------------------------------------------------------------------------
 # Tests
 
+# This one has every of the 4 combinations of (default y/n, annotated y/n)
+# def formula1(w, /, x: float, y=1, *, z: int = 1):
+def formula1(w, x: float, y=1, z: int = 1):
+    return ((w + x) * y) ** z
 
-def test_func_to_pyd_model_of_inputs(func: Callable, dflt_type=Any):
+
+def test_func_to_pyd_model_of_inputs(func: Callable = formula1, dflt_type=Any):
     pyd_model = func_to_pyd_input_model_cls(func, dflt_type)
     sig = Sig(func)
     # # TODO: Don't want to use hidden __fields__. Other "official" access to this info?
