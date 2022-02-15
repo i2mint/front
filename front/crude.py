@@ -328,3 +328,85 @@ def _store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=True):
             for argname, mall_key in param_to_mall_key_dict.items()
         }
         return store_for_param
+
+
+# Note: This is not meant to actually be used in real apps, but be a drop in helper to
+#   talk to the mall (or rather "listen" since it's read-only) from a UI.
+def simple_mall_dispatch_core_func(
+    key: KT, action: str, store_name: StoreName, mall: Mall
+):
+    """Helper function to dispatch a mall
+
+    This function is only meant to be a helper to give a UI (GUI,
+    CLI...) mall-exploration capabilities. Namely:
+
+    - ``list(mall)``: list the keys of a mall. This is achieved with args:
+        ``(key=None, action=None, store_name=None, mall=mall)``
+    - ``mall[store_name]``: get a store. Acheived by:
+        ``(key=None, action=None, store_name=store_name, mall=mall)``
+    - ``list(mall[store_name])``: list keys of a store (of the mall). Acheived by:
+        ``(key=None, action='list', store_name=store_name, mall=mall)``
+    - ``list(filter(key, mall[store_name]))``: list keys of a store (of the mall)
+        according to a substring filter. (only keys that have ``key`` as substring)
+        ``(key=key, action='list', store_name=store_name, mall=mall)``
+    - ``mall[store_name][key]``:  get the value/data of a store for ``key``
+        ``(key=key, action='get', store_name=store_name, mall=mall)``
+
+    :param key: The key
+    :param action: 'list' (to list keys of a store) or 'get' (to get the value of
+        ``key`` in the store (named ``store_name``)
+    :param store_name: Store name to look up in mall. If not given, the function will
+        output the mall keys (which are valid store names)
+    :param mall: dict of stores (Mapping interface to data)
+    :return:
+
+    >>> mall = {
+    ...     'english': {'one': 1, 'two': 2, 'three': 3},
+    ...     'french': {'un': 1, 'deux': 2},
+    ... }
+
+    List the keys of a mall:
+
+    >>> simple_mall_dispatch_core_func(None, None, None, mall=mall)
+    ['english', 'french']
+
+    Get a store
+
+    >>> simple_mall_dispatch_core_func(None, None, store_name='english', mall=mall)
+    {'one': 1, 'two': 2, 'three': 3}
+
+    List keys of a store (of the mall):
+
+    >>> simple_mall_dispatch_core_func(
+    ...     None, action='list', store_name='english', mall=mall
+    ... )
+    ['one', 'two', 'three']
+
+    List keys of a store (of the mall) according to a substring filter:
+
+    >>> simple_mall_dispatch_core_func(
+    ...     'e', action='list', store_name='english', mall=mall
+    ... )
+    ['one', 'three']
+
+    >>> simple_mall_dispatch_core_func(
+    ...     'two', action='get', store_name='english', mall=mall
+    ... )
+    2
+
+
+    """
+    if not store_name:
+        # if store_name empty, list the store names (i.e. the mall keys)
+        return list(mall)
+    else:  # if not, get the store
+        store = mall[store_name]
+        if not action:
+            return store
+
+    key = key or ""
+    if action == "list":
+        key = key.strip()  # to handle some invisible whitespace that would screw things
+        return list(filter(lambda k: key in k, store))
+    elif action == "get":
+        return store[key]
