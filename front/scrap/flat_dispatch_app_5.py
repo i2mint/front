@@ -15,7 +15,7 @@ FittedModel = Any
 
 # ---------------------------------------------------------------------------------------
 # The function(ality) we want to dispatch:
-def apply_model(fitted_model: FittedModel, fvs: FVs, method="transform"):
+def apply_model(fitted_model: FittedModel, fvs: FVs, method='transform'):
     method_func = getattr(fitted_model, method)
     return method_func(list(fvs))
 
@@ -48,8 +48,6 @@ mall = dict(
 # ---------------------------------------------------------------------------------------
 # dispatchable function:
 
-from streamlitfront.examples.crude.crude_util import auto_key
-
 from i2 import Sig
 from i2.wrapper import Ingress, wrap
 from inspect import Parameter
@@ -72,10 +70,7 @@ def prepare_for_crude_dispatch(func, store_for_param=None, output_store_name=Non
             return dict(gen())
 
         save_name_param = Parameter(
-            name="save_name",
-            kind=Parameter.KEYWORD_ONLY,
-            default="",
-            annotation=str,
+            name='save_name', kind=Parameter.KEYWORD_ONLY, default='', annotation=str,
         )
 
         ingress = Ingress(
@@ -91,9 +86,9 @@ def prepare_for_crude_dispatch(func, store_for_param=None, output_store_name=Non
         if output_store_name:
 
             def egress(func_output):
-                print(f"{list(store_for_param[output_store_name])=}")
+                print(f'{list(store_for_param[output_store_name])=}')
                 store_for_param[output_store_name] = func_output
-                print(f"{list(store_for_param[output_store_name])=}")
+                print(f'{list(store_for_param[output_store_name])=}')
                 return func_output
 
     wrapped_f = wrap(func, ingress, egress)
@@ -103,7 +98,7 @@ def prepare_for_crude_dispatch(func, store_for_param=None, output_store_name=Non
 
 f = prepare_for_crude_dispatch(apply_model, mall)
 assert all(
-    f("fitted_model_1", "test_fvs") == np.array([[0.0], [1.0], [0.5], [2.25], [-1.5]])
+    f('fitted_model_1', 'test_fvs') == np.array([[0.0], [1.0], [0.5], [2.25], [-1.5]])
 )
 
 # Some type information (just for the reader!)
@@ -123,10 +118,10 @@ def simple_mall_dispatch_core_func(
     else:  # if not, get the store
         store = mall[store_name]
 
-    if action == "list":
+    if action == 'list':
         key = key.strip()  # to handle some invisible whitespace that would screw things
         return list(filter(lambda k: key in k, store))
-    elif action == "get":
+    elif action == 'get':
         return store[key]
 
 
@@ -148,18 +143,16 @@ def explore_mall(key: KT, action: str, store_name: StoreName):
 # )
 # mall_exploration_func.__name__ = "explore_mall"
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     from streamlitfront.base import dispatch_funcs
     from functools import partial
 
     dispatchable_apply_model = prepare_for_crude_dispatch(
-        apply_model, store_for_param=mall, output_store_name="model_results"
+        apply_model, store_for_param=mall, output_store_name='model_results'
     )
     # extra, to get some defaults in:
     dispatchable_apply_model = partial(
-        dispatchable_apply_model,
-        fitted_model="fitted_model_1",
-        fvs="test_fvs",
+        dispatchable_apply_model, fitted_model='fitted_model_1', fvs='test_fvs',
     )
     app = dispatch_funcs([dispatchable_apply_model, explore_mall])
     app()
