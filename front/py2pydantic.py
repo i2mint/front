@@ -45,7 +45,7 @@ def func_to_pyd_func(func: Callable, dflt_type=Any):
 
     input_model = func_to_pyd_input_model_cls(func, dflt_type)
     output_model = create_model(
-        'output_model', output_val=(Any, ...)
+        "output_model", output_val=(Any, ...)
     )  # TODO: Work on this
     # TODO: Inject annotations in pyd_func_ingress
 
@@ -75,6 +75,16 @@ def func_to_pyd_model_specs(func: Callable, dflt_type=Any):
 
 def pydantic_egress(output):
     return_type = type(output)
-    mod = create_model('Output', output_val=return_type)
+    mod = create_model("Output", output_val=return_type)
 
     return mod(output_val=output)
+
+
+from front.py2pydantic import func_to_pyd_input_model_cls
+from pydantic import create_model
+
+
+def pydantic_model_from_type(mytype, name="Output", field_name="result"):
+    model = create_model(name, **{field_name: (mytype, ...)})
+
+    return model
