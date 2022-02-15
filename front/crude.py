@@ -412,9 +412,9 @@ def simple_mall_dispatch_core_func(
         if not action:
             return store
 
-    key = key or ""
-    if action == "list":
+    key = key or ''
+    if action == 'list':
         key = key.strip()  # to handle some invisible whitespace that would screw things
         return list(filter(lambda k: key in k, store))
-    elif action == "get":
+    elif action == 'get':
         return store[key]
