@@ -9,14 +9,21 @@ from i2 import Sig
 ignore_import_problems = suppress(ImportError, ModuleNotFoundError)
 
 
-def named_partial(func, __name__=None, *args, **kwargs):
+def partialx(func, *args, __name__=None, rm_partialize=False, **kwargs):
     """Same as functools.partial, but with a __name__"""
     f = partial(func, *args, **kwargs)
+    if rm_partialize:
+        sig = Sig(func)
+        partialized = list(
+            sig.kwargs_from_args_and_kwargs(args, kwargs, allow_partial=True)
+        )
+        sig = sig - partialized
+        f = sig(partial(f, *args, **kwargs))
     f.__name__ = __name__ or func.__name__
     return f
 
 
-def iterable_to_enum(iterable, name='CustomEnum'):
+def iterable_to_enum(iterable, name="CustomEnum"):
     return Enum(name, {str(kv): kv for kv in iterable})
 
 
@@ -54,7 +61,7 @@ def inject_enum_annotations(func=None, **enum_list_for_arg):
     sig = Sig(func)
     sig = sig.ch_annotations(
         **{
-            param: iterable_to_enum(enum_list, name=f'{param}_enum')
+            param: iterable_to_enum(enum_list, name=f"{param}_enum")
             for param, enum_list in enum_list_for_arg.items()
         }
     )
