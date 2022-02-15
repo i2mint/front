@@ -37,9 +37,9 @@ def auto_key(*args, **kwargs) -> KT:
     >>> auto_key()
     ''
     """
-    args_str = ",".join(map(str, args))
-    kwargs_str = ",".join(map(lambda kv: f"{kv[0]}={kv[1]}", kwargs.items()))
-    return ",".join(filter(None, [args_str, kwargs_str]))
+    args_str = ','.join(map(str, args))
+    kwargs_str = ','.join(map(lambda kv: f'{kv[0]}={kv[1]}', kwargs.items()))
+    return ','.join(filter(None, [args_str, kwargs_str]))
 
 
 @wrap_kvs(data_of_obj=dill.dumps, obj_of_data=dill.loads)
@@ -51,7 +51,7 @@ class DillFiles(Files):
 
 def mk_mall_of_dill_stores(store_names=Iterable[StoreName], rootdir=None):
     """Make a mall of DillFiles stores"""
-    rootdir = rootdir or mk_tmp_dol_dir("crude")
+    rootdir = rootdir or mk_tmp_dol_dir('crude')
     if isinstance(store_names, str):
         store_names = store_names.split()
 
@@ -72,8 +72,8 @@ def store_on_output(
     func=None,
     *,
     store=None,
-    save_name_param="save_name",
-    add_store_to_func_attr="output_store",
+    save_name_param='save_name',
+    add_store_to_func_attr='output_store',
 ):
     """Wrap func so it will have an extra save_name_param that can be used to
     indicate whether to save the output of the function call to that key, in
@@ -95,7 +95,7 @@ def store_on_output(
         save_name_param_obj = Parameter(
             name=save_name_param,
             kind=Parameter.KEYWORD_ONLY,
-            default="",
+            default='',
             annotation=str,
         )
         sig = Sig(func) + [save_name_param_obj]
@@ -128,7 +128,7 @@ def prepare_for_crude_dispatch(
     *,
     mall: Optional[Mall] = None,
     output_store: Optional[Union[Mapping, str]] = None,
-    save_name_param: str = "save_name",
+    save_name_param: str = 'save_name',
     include_store_for_param: bool = False,
 ):
     """
@@ -261,9 +261,7 @@ def prepare_for_crude_dispatch(
             pass
 
         return store_on_output(
-            wrapped_f,
-            store=output_store,
-            save_name_param=save_name_param,
+            wrapped_f, store=output_store, save_name_param=save_name_param,
         )
 
         # def egress(func_output):
@@ -293,30 +291,30 @@ def _store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=True):
 
         warn(
             f"Some of your mall keys were also func arg names, but you didn't mention "
-            f"them in param_to_mall_key_dict, namely, these: {unmentioned_mall_keys}"
+            f'them in param_to_mall_key_dict, namely, these: {unmentioned_mall_keys}'
         )
     if param_to_mall_key_dict:
-        func_name_stub = ""
+        func_name_stub = ''
         if sig.name:
-            func_name_stub = f"({sig.name})"
+            func_name_stub = f'({sig.name})'
         if isinstance(param_to_mall_key_dict, str):
             param_to_mall_key_dict = param_to_mall_key_dict.split()
         if not set(param_to_mall_key_dict).issubset(sig.names):
             offenders = set(param_to_mall_key_dict) - set(sig.names)
             raise ValueError(
-                "The param_to_mall_key_dict should only contain keys that are "
+                'The param_to_mall_key_dict should only contain keys that are '
                 f"parameters (i.e. 'argument names') of your function {func_name_stub}. "
-                f"Yet these param_to_mall_key_dict keys were not argument names: "
-                f"{offenders}"
+                f'Yet these param_to_mall_key_dict keys were not argument names: '
+                f'{offenders}'
             )
         if not set(param_to_mall_key_dict.values()).issubset(mall.keys()):
             offenders = set(param_to_mall_key_dict.values()) - set(mall.keys())
-            keys = "keys" if len(offenders) > 1 else "key"
-            offenders = ", ".join(map(lambda x: f"'{x}'", offenders))
+            keys = 'keys' if len(offenders) > 1 else 'key'
+            offenders = ', '.join(map(lambda x: f"'{x}'", offenders))
 
             raise ValueError(
-                f"The {offenders} {keys} of your param_to_mall_key_dict values were not "
-                f"in the mall. "
+                f'The {offenders} {keys} of your param_to_mall_key_dict values were not '
+                f'in the mall. '
             )
         # Note: store_for_param used to be the argument of prepare_for_crude_dispatch,
         #   instead of the (param_to_mall_key_dict, mall) pair which is overkill.

@@ -11,7 +11,7 @@ from opyrator import Opyrator
 from pydantic import BaseModel, create_model
 
 
-def pydantic_model_from_type(mytype, name="Output", field_name="result"):
+def pydantic_model_from_type(mytype, name='Output', field_name='result'):
     model = create_model(name, result=(mytype, ...))
 
     return model
@@ -25,7 +25,7 @@ class SimplePageFuncPydanticWrite(BasePageFunc):
             self.func.__name__
         )  # check in sig, dag, lined a better way, i2, may be displayed name: name_of_obj
 
-        data = sp.pydantic_input(key=f"my_form_{name}", model=mymodel)
+        data = sp.pydantic_input(key=f'my_form_{name}', model=mymodel)
 
         if data:
 
@@ -36,14 +36,14 @@ class SimplePageFuncPydanticWithOutput(BasePageFunc):
     def __call__(self, state):
         self.prepare_view(state)
         mymodel = func_to_pyd_input_model_cls(self.func)
-        mytype = self.func.__annotations__["return"]
+        mytype = self.func.__annotations__['return']
         output_model = pydantic_model_from_type(mytype)
 
         name = (
             self.func.__name__
         )  # check in sig, dag, lined a better way, i2, may be displayed name: name_of_obj
 
-        data = sp.pydantic_input(key=f"my_form_{name}", model=mymodel)
+        data = sp.pydantic_input(key=f'my_form_{name}', model=mymodel)
 
         if data:
             func_result = self.func(**data)
@@ -54,4 +54,4 @@ class SimplePageFuncPydanticWithOutput(BasePageFunc):
             sp.pydantic_output(instance)
 
 
-DFLT_CONFIGS = {"page_factory": SimplePageFuncPydanticWrite}
+DFLT_CONFIGS = {'page_factory': SimplePageFuncPydanticWrite}

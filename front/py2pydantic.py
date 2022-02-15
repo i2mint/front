@@ -2,7 +2,6 @@
 and making them pydantic?
 
 >>> from i2.tests.objects_for_testing import formula1
->>> test_func_to_pyd_model_of_inputs(formula1)
 >>> pyd_input_model = func_to_pyd_input_model_cls(formula1)
 >>> pyd_input_model
 <class 'pydantic.main.formula1'>
@@ -46,7 +45,7 @@ def func_to_pyd_func(func: Callable, dflt_type=Any):
 
     input_model = func_to_pyd_input_model_cls(func, dflt_type)
     output_model = create_model(
-        "output_model", output_val=(Any, ...)
+        'output_model', output_val=(Any, ...)
     )  # TODO: Work on this
     # TODO: Inject annotations in pyd_func_ingress
 
@@ -76,32 +75,6 @@ def func_to_pyd_model_specs(func: Callable, dflt_type=Any):
 
 def pydantic_egress(output):
     return_type = type(output)
-    mod = create_model("Output", output_val=return_type)
+    mod = create_model('Output', output_val=return_type)
 
     return mod(output_val=output)
-
-
-# ---------------------------------------------------------------------------------------
-# Tests
-
-
-def test_func_to_pyd_model_of_inputs(func: Callable, dflt_type=Any):
-    pyd_model = func_to_pyd_input_model_cls(func, dflt_type)
-    sig = Sig(func)
-    # # TODO: Don't want to use hidden __fields__. Other "official" access to this info?
-    # the names of the arguments should correspond to names of the model's fields:
-    assert sorted(sig.names) == sorted(pyd_model.__fields__)
-    # and for each field, name, default, and sometimes annotations/types should match...
-    for name, model_field in pyd_model.__fields__.items():
-        param = sig.parameters[name]
-        expected_default = (
-            param.default if param.default is not empty_param_attr else None
-        )
-        assert model_field.default == expected_default
-        if param.annotation is not empty_param_attr:
-            # if arg is annotated, expect that as the field type
-            assert model_field.type_ == param.annotation
-        elif param.default is empty_param_attr:
-            # if arg is not annotated and doesn't have a default, expect dflt_type
-            assert model_field.type_ == dflt_type
-        # but don't test pydantic's resolution of types from default values
