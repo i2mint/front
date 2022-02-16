@@ -7,10 +7,7 @@ from dol import Files
 
 rootdir = "/Users/sylvain/Desktop/stuff"
 
-<<<<<<< HEAD
-=======
-mall = {'x': {'xs_1': 3, 'xs_2': 5}, 'fvs': {'fv_1': [1, 2, 3], 'fv_2': [4, 5, 6]}}
->>>>>>> 5453239b595c0f0700cc2b224e3cde1ca75c52fa
+# mall = {'x': {'xs_1': 3, 'xs_2': 5}, 'fvs': {'fv_1': [1, 2, 3], 'fv_2': [4, 5, 6]}}
 
 mall = {
     "x": {"xs_1": 3, "xs_2": 5},
@@ -36,7 +33,7 @@ def mk_Input_for_store_keys(store, keys):
     return Input
 
 
-<<<<<<< HEAD
+# <<<<<<< HEAD
 # class Input(BaseModel):
 #     x:dict
 #     fvs: dict
@@ -45,11 +42,11 @@ my_keys = list(mall)
 my_input = mk_Input_for_store_keys(store=mall, keys=my_keys)
 
 data = sp.pydantic_form(key="my_form", model=my_input)
-=======
-my_input = mk_Input_for_store_keys(store=mall, keys=['x', 'fvs'])
-
-data = sp.pydantic_input(key='my_form', model=my_input)
->>>>>>> 5453239b595c0f0700cc2b224e3cde1ca75c52fa
+# =======
+# my_input = mk_Input_for_store_keys(store=mall, keys=['x', 'fvs'])
+#
+# data = sp.pydantic_input(key='my_form', model=my_input)
+# >>>>>>> 5453239b595c0f0700cc2b224e3cde1ca75c52fa
 if data:
     st.write(data)
 

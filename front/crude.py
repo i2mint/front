@@ -12,7 +12,7 @@ import os
 
 import dill  # pip install dill
 
-from i2 import Sig
+from i2 import Sig, double_up_as_factory
 from i2.wrapper import Ingress, wrap
 from dol import Files, wrap_kvs
 from dol.filesys import mk_tmp_dol_dir, ensure_dir
@@ -68,6 +68,7 @@ def mk_mall_of_dill_stores(store_names=Iterable[StoreName], rootdir=None):
 from functools import wraps
 
 
+@double_up_as_factory
 def store_on_output(
     func=None,
     *,
@@ -84,52 +85,45 @@ def store_on_output(
     :param save_name_param: Name of the extra param
     :return:
     """
-    if func is None:
-        return partial(
-            store_on_output,
-            store=store,
-            save_name_param=save_name_param,
-            add_store_to_func_attr=add_store_to_func_attr,
-        )
-    else:
-        save_name_param_obj = Parameter(
-            name=save_name_param,
-            kind=Parameter.KEYWORD_ONLY,
-            default="",
-            annotation=str,
-        )
-        sig = Sig(func) + [save_name_param_obj]
+    save_name_param_obj = Parameter(
+        name=save_name_param,
+        kind=Parameter.KEYWORD_ONLY,
+        default="",
+        annotation=str,
+    )
+    sig = Sig(func) + [save_name_param_obj]
 
-        if store is None:
-            store = dict()
+    if store is None:
+        store = dict()
 
-        @sig
-        @wraps(func)
-        def _func(*args, **kwargs):
-            kwargs = sig.kwargs_from_args_and_kwargs(args, kwargs, apply_defaults=True)
-            save_name = kwargs.pop(save_name_param)
-            args, kwargs = sig.args_and_kwargs_from_kwargs(kwargs)
-            output = func(*args, **kwargs)
-            if save_name:
-                store[save_name] = output
-            return output
+    @sig
+    @wraps(func)
+    def _func(*args, **kwargs):
+        kwargs = sig.kwargs_from_args_and_kwargs(args, kwargs, apply_defaults=True)
+        save_name = kwargs.pop(save_name_param)
+        args, kwargs = sig.args_and_kwargs_from_kwargs(kwargs)
+        output = func(*args, **kwargs)
+        if save_name:
+            store[save_name] = output
+        return output
 
-        if isinstance(add_store_to_func_attr, str):
-            setattr(_func, add_store_to_func_attr, store)
+    if isinstance(add_store_to_func_attr, str):
+        setattr(_func, add_store_to_func_attr, store)
 
-        # _func.output_store = store  # redundant with above. Remove
+    # _func.output_store = store  # redundant with above. Remove
 
-        return _func
+    return _func
 
 
+@double_up_as_factory
 def prepare_for_crude_dispatch(
-    func: Callable,
-    param_to_mall_key_dict: Optional[Iterable] = None,
+    func: Callable = None,
     *,
+    param_to_mall_map: Optional[Iterable] = None,
     mall: Optional[Mall] = None,
     output_store: Optional[Union[Mapping, str]] = None,
     save_name_param: str = "save_name",
-    include_store_for_param: bool = False,
+    include_stores_attribute: bool = False,
 ):
     """
     Wrap func into something that is ready for CRUDE dispatch.
@@ -138,14 +132,16 @@ def prepare_for_crude_dispatch(
     We say that those arguments were crude-dispatched.
 
     :param func: callable, the function to wrap
-    :param param_to_mall_key_dict: dict, whose keys specify which params should be
+    :param param_to_mall_map: dict, whose keys specify which params should be
         crude-dispatched and whose values are the mall keys to the Mapping instances
         (e.g. dict) that should be used for said param.
+        If a non-Mapping iterable is given, will take {name: name...} identity mapping
+        for names in that iterable.
     :param output_store: a store used to record the output of the function
     :param save_name_param: str, the argument name that should be used in the returned
         functions to get the the key of ``output_store`` under which the output will be
         saved.
-    :param include_store_for_param: bool, whether to add an attribute to the function
+    :param include_stores_attribute: bool, whether to add an attribute to the function
         containing the ``output_store``
 
     :return: A function that outputs the same thing as ``func``, but (1) with some
@@ -156,7 +152,7 @@ def prepare_for_crude_dispatch(
     >>> def func(a, b: float, c: int):
     ...     return a + b * c
     ...
-    >>> param_to_mall_key_dict = dict(a='a', b='b_store')
+    >>> param_to_mall_map = dict(a='a', b='b_store')
     >>>
     >>> mall = dict(
     ...     a = {'one': 1, 'two': 2},
@@ -164,9 +160,7 @@ def prepare_for_crude_dispatch(
     ...     ununsed_store = {'to': 'illustrate'}
     ... )
     >>> crude_func = prepare_for_crude_dispatch(
-    ...     func,
-    ...     param_to_mall_key_dict=param_to_mall_key_dict,
-    ...     mall=mall
+    ...     func, param_to_mall_map=param_to_mall_map, mall=mall
     ... )
 
     ``crude_func`` is like ``func``, but you enter your ``a`` and ``b`` inputs
@@ -204,11 +198,11 @@ def prepare_for_crude_dispatch(
 
     store_for_param = {}
 
-    if param_to_mall_key_dict is not None:
+    if param_to_mall_map is not None:
 
         sig = Sig(func)
 
-        store_for_param = _store_for_param(sig, param_to_mall_key_dict, mall)
+        store_for_param = _store_for_param(sig, param_to_mall_map, mall)
 
         def kwargs_trans(outer_kw):
             """
@@ -246,12 +240,15 @@ def prepare_for_crude_dispatch(
             inner_sig=sig,
             kwargs_trans=kwargs_trans,
             outer_sig=(
-                sig.ch_annotations(**{name: str for name in param_to_mall_key_dict})
+                sig.ch_annotations(**{name: str for name in param_to_mall_map})
                 # + [save_name_param]
             ),
         )
 
     wrapped_f = wrap(func, ingress)
+
+    if include_stores_attribute:
+        wrapped_f.store_for_param = store_for_param
 
     if output_store:
         output_store_name = "output_store"
@@ -267,12 +264,15 @@ def prepare_for_crude_dispatch(
             raise ValueError(
                 f"Name conflicts with existing param name: {output_store_name}"
             )
-        store_for_param[output_store_name] = output_store
+
         wrapped_f = store_on_output(
             wrapped_f,
             store=output_store,
             save_name_param=save_name_param,
         )
+
+        if include_stores_attribute:
+            wrapped_f.output_store = output_store
 
         # def egress(func_output):
         #     print(f"{list(store_for_param)=}")
@@ -281,8 +281,6 @@ def prepare_for_crude_dispatch(
         #     store_for_param[output_store_name] = func_output
         #     print(f"{list(store_for_param[output_store_name])=}")
         #     return func_output
-    if include_store_for_param:
-        wrapped_f.store_for_param = store_for_param
 
     return wrapped_f
 
@@ -301,7 +299,7 @@ def _store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=True):
 
         warn(
             f"Some of your mall keys were also func arg names, but you didn't mention "
-            f"them in param_to_mall_key_dict, namely, these: {unmentioned_mall_keys}"
+            f"them in param_to_mall_map, namely, these: {unmentioned_mall_keys}"
         )
     if param_to_mall_key_dict:
         func_name_stub = ""
@@ -312,9 +310,9 @@ def _store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=True):
         if not set(param_to_mall_key_dict).issubset(sig.names):
             offenders = set(param_to_mall_key_dict) - set(sig.names)
             raise ValueError(
-                "The param_to_mall_key_dict should only contain keys that are "
+                "The param_to_mall_map should only contain keys that are "
                 f"parameters (i.e. 'argument names') of your function {func_name_stub}. "
-                f"Yet these param_to_mall_key_dict keys were not argument names: "
+                f"Yet these param_to_mall_map keys were not argument names: "
                 f"{offenders}"
             )
         if not set(param_to_mall_key_dict.values()).issubset(mall.keys()):
@@ -323,11 +321,11 @@ def _store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=True):
             offenders = ", ".join(map(lambda x: f"'{x}'", offenders))
 
             raise ValueError(
-                f"The {offenders} {keys} of your param_to_mall_key_dict values were not "
+                f"The {offenders} {keys} of your param_to_mall_map values were not "
                 f"in the mall. "
             )
         # Note: store_for_param used to be the argument of prepare_for_crude_dispatch,
-        #   instead of the (param_to_mall_key_dict, mall) pair which is overkill.
+        #   instead of the (param_to_mall_map, mall) pair which is overkill.
         #   The reason for obliging the user to give this pair was because asking for
         #   the user to be more explicit about the argname to store mapping would avoid
         #   some bugs and make it possible to validate the request earlier on.
@@ -412,9 +410,9 @@ def simple_mall_dispatch_core_func(
         if not action:
             return store
 
-    key = key or ''
-    if action == 'list':
+    key = key or ""
+    if action == "list":
         key = key.strip()  # to handle some invisible whitespace that would screw things
         return list(filter(lambda k: key in k, store))
-    elif action == 'get':
+    elif action == "get":
         return store[key]
