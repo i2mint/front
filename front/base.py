@@ -33,8 +33,10 @@ def prepare_for_dispatch(
     #     # ),
     # )
     # wrapped_func = wrapper(func)
+    from i2 import Sig
 
     wrapped_func = func
+    print(f"base: {func=}, {Sig(func)}")
 
     wrapped_func = prepare_for_crude_dispatch(
             wrapped_func,
@@ -43,12 +45,17 @@ def prepare_for_dispatch(
             output_store=output_store,
         )
 
+    print(f"base: {wrapped_func=}, {Sig(wrapped_func)}")
     # TODO: When I add this, it breaks:
     wrapped_func = inject_enum_annotations(
         wrapped_func,
         extract_enum_value=True,
         **{param: mall[mall_key] for param, mall_key in param_to_mall_map.items()}
     )
+
+    # print(wrapped_func)
+    # print(wrapped_func.func)
+
 
     # extra, to get some defaults in:
     if defaults:

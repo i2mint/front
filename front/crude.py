@@ -298,6 +298,8 @@ def prepare_for_crude_dispatch(
         wrapped_f = store_on_output(
             wrapped_f, store=output_store, save_name_param=save_name_param,
         )
+        print('----------')
+        wrapped_f.__name__ = wrapped_f.__name__ + '_w_output_storing'
 
         if include_stores_attribute:
             wrapped_f.output_store = output_store
