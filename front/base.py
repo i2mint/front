@@ -45,7 +45,6 @@ def prepare_for_dispatch(
         **{param: mall[mall_key] for param, mall_key in param_to_mall_map.items()}
     )
 
-
     # extra, to get some defaults in:
     if defaults:
         wrapped_func = partial(wrapped_func, **dict(defaults))

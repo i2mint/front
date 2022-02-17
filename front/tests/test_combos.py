@@ -39,12 +39,11 @@ def test_prepare_for_crude_dispatch_and_variations():
         param_to_mall_map={'a': 'a_store'},
         mall=mall,
         output_store=mall['saves'],
-    #     include_stores_attribute=True,
+        #     include_stores_attribute=True,
     )
 
     class FakeEnum:
         value = 'two'
-
 
     assert str(Sig(bar)) == "(a: front.util.a_enum, b, save_name: str = '')"
 
