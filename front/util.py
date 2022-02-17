@@ -26,7 +26,7 @@ def partialx(func, *args, __name__=None, rm_partialize=False, **kwargs):
     return f
 
 
-def iterable_to_enum(iterable, name="CustomEnum"):
+def iterable_to_enum(iterable, name='CustomEnum'):
     return Enum(name, {str(kv): kv for kv in iterable})
 
 
@@ -95,14 +95,14 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
     sig = Sig(func)
     with_enumed_sig = sig.ch_annotations(
         **{
-            param: iterable_to_enum(enum_list, name=f"{param}_enum")
+            param: iterable_to_enum(enum_list, name=f'{param}_enum')
             for param, enum_list in enum_list_for_arg.items()
         }
     )
 
     if extract_enum_value:
         get_values_of_enums = partial(
-            _get_value_attr, keys=list(enum_list_for_arg), val_trans=attrgetter("value")
+            _get_value_attr, keys=list(enum_list_for_arg), val_trans=attrgetter('value')
         )
         dispatched_enums_func = wrap(
             func, Ingress(func, kwargs_trans=get_values_of_enums)
