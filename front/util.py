@@ -36,7 +36,7 @@ def _get_value_attr(d: dict, keys: Iterable, val_trans: Callable):
     Meant to be used with ``functools.partial`` to fix ``val_trans``, and possibly
     ``transform_keys``.
 
-    >>> _get_value_attr({'a': 1, 'b': 2, 'c': 3}, ['a', 'b'], lambda x: x * 10)
+    >>> _get_value_attr({'a': 1, 'b': 2, 'c': 3}, ['a', 'c'], lambda x: x * 10)
     {'a': 10, 'b': 2, 'c': 30}
     """
     return dict(d, **{k: val_trans(d[k]) for k in keys})
