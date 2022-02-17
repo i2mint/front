@@ -94,7 +94,6 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
     """
 
     sig = Sig(func)
-    print(f"inject_enum_annotations: {func=}, {Sig(func)}")
     with_enumed_sig = sig.ch_annotations(
         **{
             param: iterable_to_enum(enum_list, name=f'{param}_enum')
@@ -106,10 +105,13 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
         get_values_of_enums = partial(
             _get_value_attr, keys=list(enum_list_for_arg), val_trans=attrgetter('value')
         )
+
         dispatched_enums_func = wrap(
             func, Ingress(func, kwargs_trans=get_values_of_enums)
         )
-        print(f"inject_enum_annotations: {dispatched_enums_func=}, {Sig(dispatched_enums_func)}")
+
+        dispatched_enums_func.__signature__ = with_enumed_sig
+
         return with_enumed_sig(dispatched_enums_func)
     else:
         return with_enumed_sig(func)
