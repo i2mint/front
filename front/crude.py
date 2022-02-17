@@ -281,7 +281,7 @@ def prepare_for_crude_dispatch(
         wrapped_f.store_for_param = store_for_param
 
     if output_store is not None:
-        output_store_name = "output_store"
+        output_store_name = 'output_store'
         if isinstance(output_store, str):
             # if output_store is a string, it should be the a key to store_for_param
             output_store_name = output_store
