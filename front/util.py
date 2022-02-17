@@ -46,9 +46,10 @@ def _get_value_attr(d: dict, keys: Iterable, val_trans: Callable):
 def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_for_arg):
     """
 
-    :param func:
-    :param enum_list_for_arg:
-    :return:
+    :param func: function to wrap
+    :param enum_list_for_arg: For every argument you want to enumify (i.e. annotate with
+        an Enum), the list of enum values you want.
+    :return: A wrapped func.
 
     >>> from inspect import signature
     >>> def foo(a, b: int, c='tat'):
@@ -70,10 +71,16 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
     >>> bar(a=2, b=b_enum['2'], c=c_enum.tit)
     'tittittittit'
 
-    You can also use @ to decorate a function at definition time.
+    Again, note that the way we need to specify our ``b`` and ``c`` arguments are as
+    `enum` types, not as the number `2` and string `'tit'`.
+
     In the following example, we ask for `extract_enum_value=False` so that we
     can still use normal inputs (no Enum objects, though ``b`` and ``c`` will
-    still be annotated by the Enums:
+    still be annotated by the Enums.
+
+    Also note in this example that you can use @ to decorate a function at
+    definition time.
+
 
     >>> @inject_enum_annotations(
     ...     b=[1, 2], c='tit for tat'.split(), extract_enum_value=False
@@ -86,7 +93,7 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
 
     """
     sig = Sig(func)
-    sig = sig.ch_annotations(
+    with_enumed_sig = sig.ch_annotations(
         **{
             param: iterable_to_enum(enum_list, name=f"{param}_enum")
             for param, enum_list in enum_list_for_arg.items()
@@ -101,6 +108,6 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
             func, Ingress(func, kwargs_trans=get_values_of_enums)
         )
 
-        return sig(dispatched_enums_func)
+        return with_enumed_sig(dispatched_enums_func)
     else:
-        return sig(func)
+        return with_enumed_sig(func)

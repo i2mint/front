@@ -195,8 +195,38 @@ def prepare_for_crude_dispatch(
     >>> str(signature(crude_func))
     '(a: str, b: str, c: int)'
 
-    """
+    By default, the ``output_store`` argument is None, but if you specify a mapping
+    there (or a string key that appears in the ``mall`` you specified, pointing to
+    a mapping), then the function you'll get will have an extra argument.
 
+    >>> output_store = dict()
+    >>> crude_func = prepare_for_crude_dispatch(
+    ...     func,
+    ...     param_to_mall_map=param_to_mall_map,
+    ...     mall=mall,
+    ...     output_store=output_store
+    ... )
+    >>> str(signature(crude_func))
+    "(a: str, b: str, c: int, save_name: str = '')"
+
+    You now have this extra ``save_name`` param in your function.
+    (Note that you can change its name through the ``prepare_for_crude_dispatch``'s
+    ``save_name_param`` argument.)
+    The default for ``save_name`` is '', and if you don't specify a non-empty
+    string, nothing different will happen, but if you do specify a non-empty string,
+    the output of your function will be saved, in the ``output_store`` you specified,
+    using that ``save_name`` key you specified.
+
+    >>> crude_func('one', 'three', 10)
+    31
+    >>> output_store
+    {}
+    >>> crude_func('one', 'three', 10, save_name='save_here')
+    31
+    >>> output_store
+    {'save_here': 31}
+
+    """
     ingress = None
 
     store_for_param = {}
@@ -253,7 +283,7 @@ def prepare_for_crude_dispatch(
     if include_stores_attribute:
         wrapped_f.store_for_param = store_for_param
 
-    if output_store:
+    if output_store is not None:
         output_store_name = "output_store"
         if isinstance(output_store, str):
             # if output_store is a string, it should be the a key to store_for_param
@@ -291,12 +321,10 @@ def prepare_for_crude_dispatch(
 def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=True):
     """Make a {param: store,...} dict from a {param: mall_key,...} dict, a sig and a
     mall, validating stuff on the way."""
-    param_to_mall_key_dict = param_to_mall_key_dict or dict()
     mall = mall or dict()
-    if not isinstance(param_to_mall_key_dict, Mapping) and isinstance(
-        param_to_mall_key_dict, Iterable
-    ):
-        param_to_mall_key_dict = {k: k for k in param_to_mall_key_dict}
+    param_to_mall_key_dict = keys_to_values_if_non_mapping_iterable(
+        param_to_mall_key_dict
+    )
     # mall_keys_that_are_also_params_but_not_param_to_mall_key_dict_keys
     unmentioned_mall_keys = set(mall) & set(sig.names) - set(param_to_mall_key_dict)
     if unmentioned_mall_keys and verbose:
@@ -339,6 +367,14 @@ def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=Tru
             for argname, mall_key in param_to_mall_key_dict.items()
         }
         return store_for_param
+
+
+def keys_to_values_if_non_mapping_iterable(d: Iterable) -> Mapping:
+    if d is None:
+        return dict()
+    elif not isinstance(d, Mapping) and isinstance(d, Iterable):
+        d = {k: k for k in d}
+    return d
 
 
 # Note: This is not meant to actually be used in real apps, but be a drop in helper to
