@@ -3,6 +3,7 @@
    :caption: Contents:
 
    module_docs/front
+   module_docs/front/base
    module_docs/front/crude
    module_docs/front/examples/data_binding
    module_docs/front/examples/experimentation
