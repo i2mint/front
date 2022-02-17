@@ -137,6 +137,9 @@ def prepare_for_crude_dispatch(
         (e.g. dict) that should be used for said param.
         If a non-Mapping iterable is given, will take {name: name...} identity mapping
         for names in that iterable.
+    :mall mall: A store of stores. A Mapping whose keys are what the values of
+        ``param_to_mall_map`` point to and whose values are mapping interfaces (called
+         "stores" of a storage backend (local or remote, persisted or in-memory).
     :param output_store: a store used to record the output of the function
     :param save_name_param: str, the argument name that should be used in the returned
         functions to get the the key of ``output_store`` under which the output will be
@@ -202,7 +205,7 @@ def prepare_for_crude_dispatch(
 
         sig = Sig(func)
 
-        store_for_param = _store_for_param(sig, param_to_mall_map, mall)
+        store_for_param = _mk_store_for_param(sig, param_to_mall_map, mall)
 
         def kwargs_trans(outer_kw):
             """
@@ -285,7 +288,9 @@ def prepare_for_crude_dispatch(
     return wrapped_f
 
 
-def _store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=True):
+def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=True):
+    """Make a {param: store,...} dict from a {param: mall_key,...} dict, a sig and a
+    mall, validating stuff on the way."""
     param_to_mall_key_dict = param_to_mall_key_dict or dict()
     mall = mall or dict()
     if not isinstance(param_to_mall_key_dict, Mapping) and isinstance(
