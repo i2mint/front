@@ -21,7 +21,7 @@ def prepare_for_dispatch(
     param_to_mall_map=(),
     mall=None,
     output_store=None,
-    save_name_param: str = "save_name",
+    save_name_param: str = 'save_name',
     include_stores_attribute: bool = False,
     # for setting defaults
     defaults: Optional[Mapping] = None
