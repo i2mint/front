@@ -54,5 +54,7 @@ def test_prepare_for_crude_dispatch_and_variations():
 
     assert bar(FakeEnum, "mice", save_name="save_here") == "micemice"
 
+    assert str(Sig(bar)) == "(a: front.util.a_enum, b, save_name: str = '')"
+
     # The output_store now contains the output under the specified ``save_name``
     assert mall["saves"] == {"save_here": "micemice"}
