@@ -2,7 +2,7 @@
 
 from operator import attrgetter
 from functools import partial
-from typing import Iterable, Callable
+from typing import Iterable, Callable, Mapping
 from contextlib import suppress
 from enum import Enum
 
@@ -26,8 +26,20 @@ def partialx(func, *args, __name__=None, rm_partialize=False, **kwargs):
     return f
 
 
-def iterable_to_enum(iterable, name='CustomEnum'):
+def iterable_to_enum(iterable, name="CustomEnum"):
     return Enum(name, {str(kv): kv for kv in iterable})
+
+
+def subdict(d: Mapping, keys=None):
+    """Gets a sub-dict from a Mapping ``d``, extracting only those keys that are both in
+    ``keys`` and ``d``.
+    Note that the dict will be ordered as ``keys`` are, so can be used for reordering
+    a Mapping.
+
+    >>> subdict({'a': 1, 'b': 2, 'c': 3, 'd': 4}, keys=['b', 'a', 'd'])
+    {'b': 2, 'a': 1, 'd': 4}
+    """
+    return {k: d[k] for k in (keys or ()) if k in d}
 
 
 def _get_value_attr(d: dict, keys: Iterable, val_trans: Callable):
@@ -96,14 +108,14 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
     sig = Sig(func)
     with_enumed_sig = sig.ch_annotations(
         **{
-            param: iterable_to_enum(enum_list, name=f'{param}_enum')
+            param: iterable_to_enum(enum_list, name=f"{param}_enum")
             for param, enum_list in enum_list_for_arg.items()
         }
     )
 
     if extract_enum_value:
         get_values_of_enums = partial(
-            _get_value_attr, keys=list(enum_list_for_arg), val_trans=attrgetter('value')
+            _get_value_attr, keys=list(enum_list_for_arg), val_trans=attrgetter("value")
         )
 
         dispatched_enums_func = wrap(
