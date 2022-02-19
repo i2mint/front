@@ -235,7 +235,7 @@ def prepare_for_crude_dispatch(
 
         sig = Sig(func)
 
-        store_for_param = _mk_store_for_param(sig, param_to_mall_map, mall)
+        store_for_param = _mk_store_for_param(sig, param_to_mall_map, mall) or dict()
 
         def kwargs_trans(outer_kw):
             """
@@ -366,7 +366,7 @@ def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=Tru
         return store_for_param
 
 
-def keys_to_values_if_non_mapping_iterable(d: Iterable) -> Mapping:
+def keys_to_values_if_non_mapping_iterable(d: Optional[Iterable]) -> dict:
     if d is None:
         return dict()
     elif not isinstance(d, Mapping) and isinstance(d, Iterable):
