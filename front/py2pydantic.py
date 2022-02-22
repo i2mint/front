@@ -62,7 +62,9 @@ class Config:
         alias_generator = remove_final_underscore
 
 def func_to_pyd_input_model_cls(func: Callable, dflt_type=Any, name=None):
-    """Get a pydantic model of the arguments of a python function"""
+    """Get a pydantic model of the arguments of a python function
+    with safe naming for the fields
+    """
     name = name or name_of_obj(func)
     d = dict(func_to_pyd_model_specs(func, dflt_type))
     d =  {append_underscore(k): v for k, v in d.items()}
