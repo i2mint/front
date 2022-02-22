@@ -51,11 +51,23 @@ def func_to_pyd_func(func: Callable, dflt_type=Any):
 
     return wrap(func, ingress=pyd_func_ingress)
 
+def append_underscore(string: str) -> str:
+    return string+'_'
+
+def remove_final_underscore(string: str) -> str:
+    assert string.endswith('_')
+    return string[0:-1]
+
+class Config:
+        alias_generator = remove_final_underscore
 
 def func_to_pyd_input_model_cls(func: Callable, dflt_type=Any, name=None):
     """Get a pydantic model of the arguments of a python function"""
     name = name or name_of_obj(func)
-    return create_model(name, **dict(func_to_pyd_model_specs(func, dflt_type)))
+    d = dict(func_to_pyd_model_specs(func, dflt_type))
+    d =  {append_underscore(k): v for k, v in d.items()}
+
+    return create_model(name, **d, __config__=Config)
 
 
 def func_to_pyd_model_specs(func: Callable, dflt_type=Any):
