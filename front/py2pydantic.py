@@ -54,11 +54,7 @@ def func_to_pyd_func(func: Callable, dflt_type=Any):
 
 
 def func_to_pyd_input_model_cls(
-        func: Callable,
-        dflt_type=Any,
-        *,
-        name=None,
-        warn_when_changing_names=True
+    func: Callable, dflt_type=Any, *, name=None, warn_when_changing_names=True
 ):
     """Get a pydantic model of the arguments of a python function
 
@@ -104,14 +100,18 @@ def func_to_pyd_input_model_cls(
         old_to_new_names = {k: k.upper() for k in conflicting_names}
         if warn_when_changing_names:
             from warnings import warn
-            warn(f"""{len(conflicting_names)} argument name(s) conflicted with BaseModel.
+
+            warn(
+                f'''{len(conflicting_names)} argument name(s) conflicted with BaseModel.
             They're being replaced with upper-case names to resolve conflict. old:new ->
             {old_to_new_names}
-            """)
+            '''
+            )
         wrapped_func = Ingress.name_map(func, **old_to_new_names).wrap(func)
         return create_model(
             name, **dict(func_to_pyd_model_specs(wrapped_func, dflt_type))
         )
+
 
 def func_to_pyd_model_specs(func: Callable, dflt_type=Any):
     """Helper function to get field info from python signature parameters"""
