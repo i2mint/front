@@ -87,9 +87,9 @@ def store_on_output(
     store=None,
     save_name_param="save_name",
     add_store_to_func_attr="output_store",
-    empty_name_callback=None,
-    auto_namer=None,
-    output_trans=None,
+    empty_name_callback: Callable[[], Any] = None,
+    auto_namer: Callable[..., str] = None,
+    output_trans: Callable[..., Any] = None,
 ):
     """Wrap func so it will have an extra save_name_param that can be used to
     indicate whether to save the output of the function call to that key, in
@@ -201,6 +201,9 @@ def store_on_output(
         arguments = sig.kwargs_from_args_and_kwargs(args, kwargs, apply_defaults=True)
         save_name = arguments.pop(save_name_param)
         if not save_name and empty_name_callback:
+            assert callable(
+                empty_name_callback
+            ), f"empty_name_callback must be callable: {empty_name_callback}"
             empty_name_callback()
         args, kwargs = sig.args_and_kwargs_from_kwargs(arguments)
         output = func(*args, **kwargs)
@@ -227,9 +230,13 @@ def prepare_for_crude_dispatch(
     *,
     param_to_mall_map: Optional[Iterable] = None,
     mall: Optional[Mall] = None,
-    output_store: Optional[Union[Mapping, str]] = None,
-    save_name_param: str = "save_name",
     include_stores_attribute: bool = False,
+    output_store: Optional[Union[Mapping, str]] = None,
+    # the arguments below only apply if output_store is given
+    save_name_param: str = "save_name",
+    empty_name_callback: Callable[[], Any] = None,
+    auto_namer: Callable[..., str] = None,
+    output_trans: Callable[..., Any] = None,
 ):
     """
     Wrap func into something that is ready for CRUDE dispatch.
@@ -246,12 +253,27 @@ def prepare_for_crude_dispatch(
     :mall mall: A store of stores. A Mapping whose keys are what the values of
         ``param_to_mall_map`` point to and whose values are mapping interfaces (called
          "stores" of a storage backend (local or remote, persisted or in-memory).
+    :param include_stores_attribute: bool, whether to add an attribute to the function
+        containing the ``output_store``
     :param output_store: a store used to record the output of the function
+
+    If (and only if) ``output_store`` is given, we also use the following arguments:
+
     :param save_name_param: str, the argument name that should be used in the returned
         functions to get the the key of ``output_store`` under which the output will be
         saved.
-    :param include_stores_attribute: bool, whether to add an attribute to the function
-        containing the ``output_store``
+    :param empty_name_callback: If not None, will be called when the user (of the
+        wrapped function ``prepare_for_crude_dispatch`` will output) doesn't
+        specify a save name. Intended use; raising errors (or other kinds of behavior)
+        when we want to force the user to enter name.
+    :param auto_namer: If not None, should be a keyword-only ``(*, arguments, output)``
+        callback that will be called (forgivingly). This callback will
+        be called when the user doesn't specify a name (or an empty name). It's output
+        will be used as the ``save_name``. Intended use is to produce a function where
+        that has auto-naming capabilities.
+    :param output_trans: If not None, should be a keyword-only
+        ``(*, save_name, output, arguments)`` function that will be called, returning
+        it's result instead of the ``output``.
 
     :return: A function that outputs the same thing as ``func``, but (1) with some
         parameters being changed so that on can specify some arguments
@@ -332,6 +354,35 @@ def prepare_for_crude_dispatch(
     >>> output_store
     {'save_here': 31}
 
+    The example below shows how one can
+
+    - change the default ``save_name_param``
+
+    - use an ``auto_namer``
+
+    - use ``output_trans`` to return both save name and output
+
+    >>> def bar(a, b: int = 2):
+    ...     return a + b
+    >>> my_store = {'all': 'mine'}
+    >>> def return_key_and_val(*, save_name, output):
+    ...     return save_name, output
+    >>> wbar = prepare_for_crude_dispatch(
+    ...     bar,
+    ...     output_store=my_store,
+    ...     save_name_param='save_as',
+    ...     auto_namer=lambda *, arguments: '_'.join(map(str, arguments.values())),
+    ...     output_trans=return_key_and_val
+    ... )
+
+    >>> wbar(2, 3, save_as='test')  # output will be the (save_as, output) pair
+    ('test', 5)
+    >>> my_store  # but only the output is saved (under save_as key)
+    {'all': 'mine', 'test': 5}
+    >>> wbar(7)  # and if you don't specify a save_as key, one is made for you!
+    ('7_2', 9)
+    >>> my_store
+    {'all': 'mine', 'test': 5, '7_2': 9}
     """
     ingress = None
 
@@ -408,15 +459,12 @@ def prepare_for_crude_dispatch(
             wrapped_f,
             store=output_store,
             save_name_param=save_name_param,
+            add_store_to_func_attr="output_store" if include_stores_attribute else None,
+            empty_name_callback=empty_name_callback,
+            auto_namer=auto_namer,
+            output_trans=output_trans,
         )
-        wrapped_f.__name__ = wrapped_f.__name__ + "_w_output_storing"
-
-        if include_stores_attribute:
-            wrapped_f.output_store = output_store
-
-        # def egress(func_output):
-        #     store_for_param[output_store_name] = func_output
-        #     return func_output
+        # wrapped_f.__name__ = wrapped_f.__name__ + "_w_output_storing"  # to remove
 
     return wrapped_f
 
