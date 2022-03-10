@@ -46,7 +46,7 @@ def prepare_for_dispatch(
     wrapped_func = inject_enum_annotations(
         wrapped_func,
         extract_enum_value=True,
-        **{param: mall[mall_key] for param, mall_key in param_to_mall_map.items()}
+        **{param: mall[mall_key] for param, mall_key in param_to_mall_map.items()},
     )
 
     # insert defaults
