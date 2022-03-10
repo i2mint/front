@@ -37,9 +37,9 @@ def auto_key(*args, **kwargs) -> KT:
     >>> auto_key()
     ''
     """
-    args_str = ','.join(map(str, args))
-    kwargs_str = ','.join(map(lambda kv: f'{kv[0]}={kv[1]}', kwargs.items()))
-    return ','.join(filter(None, [args_str, kwargs_str]))
+    args_str = ",".join(map(str, args))
+    kwargs_str = ",".join(map(lambda kv: f"{kv[0]}={kv[1]}", kwargs.items()))
+    return ",".join(filter(None, [args_str, kwargs_str]))
 
 
 @wrap_kvs(data_of_obj=dill.dumps, obj_of_data=dill.loads)
@@ -51,7 +51,7 @@ class DillFiles(Files):
 
 def mk_mall_of_dill_stores(store_names=Iterable[StoreName], rootdir=None):
     """Make a mall of DillFiles stores"""
-    rootdir = rootdir or mk_tmp_dol_dir('crude')
+    rootdir = rootdir or mk_tmp_dol_dir("crude")
     if isinstance(store_names, str):
         store_names = store_names.split()
 
@@ -64,30 +64,132 @@ def mk_mall_of_dill_stores(store_names=Iterable[StoreName], rootdir=None):
     return {name: DillFiles(root) for name, root in name_and_rootdir()}
 
 
-# TODO: store_on_output: use i2.wrapper and possibly extend i2.wrapper to facilitate
 from functools import wraps
+from i2 import call_forgivingly
 
 
+def _validate_function_keyword_only_params(func, allowed_params: Iterable, obj_name):
+    if func is not None:
+        if not callable(func):
+            raise TypeError(f"{obj_name} should be callable: {func}")
+        sig = Sig(func)
+        if not all(kind == Parameter.KEYWORD_ONLY for kind in sig.kinds.values()):
+            raise TypeError(f"All params of {obj_name} must be keyword-only. {sig}")
+        if not set(sig.names).issubset(allowed_params):
+            raise TypeError(f"All params of {obj_name} must be in {allowed_params}")
+
+
+# TODO: store_on_output not pickalable: extend i2.wrapper to be able to solve with it
 @double_up_as_factory
 def store_on_output(
     func=None,
     *,
     store=None,
-    save_name_param='save_name',
-    add_store_to_func_attr='output_store',
+    save_name_param="save_name",
+    add_store_to_func_attr="output_store",
+    empty_name_callback=None,
+    auto_namer=None,
+    output_trans=None,
 ):
     """Wrap func so it will have an extra save_name_param that can be used to
     indicate whether to save the output of the function call to that key, in
-    that store
+    that store.
 
-    :param func:
-    :param store:
-    :param save_name_param: Name of the extra param
-    :return:
+    The store can be specified, but an empty dict will be made for it by default.
+
+    By default, a pointer to this store is added to the wrapped function so it can be
+    used for inspection etc.
+
+    :param func: Function that we're wrapping
+    :param store: Mapping (e.g. dict) where we'd like the output to be stored in
+    :param save_name_param: Name of the extra param that will be added to the
+        function's interface, where the user will be able to specify the key where
+        they want to save the output.
+    :param add_store_to_func_attr: If not None, the wrapped function will have an
+        attribute of that name where the store will be stored
+    :param empty_name_callback: If not None, will be called if the user doesn't specify
+        a save name. Intended use; raising errors to force the user to enter name.
+    :param auto_namer: If not None, should be a keyword-only ``(*, arguments, output)``
+        callback that will be called (forgivingly). This callback will
+        be called when the user doesn't specify a name (or an empty name). It's output
+        will be used as the ``save_name``.
+    :param output_trans: If not None, should be a keyword-only
+        ``(*, save_name, output, arguments)`` function that will be called, returning
+        it's result instead of the ``output``.
+    :return: A wrapped function that has an extra param (default is ``save_name``) that
+        allowing the user to specify a key under which to save the output.
+
+    A simple example:
+
+    >>> def foo(a, b: int = 2):
+    ...     return a + b
+    >>> f = store_on_output(foo)
+    >>> f(2, 3, save_name='take')
+    5
+    >>> f.output_store
+    {'take': 5}
+
+    An example with auto_namer. Note that an auto_namer can have no parameters (e.g.
+    return a stringified timestamp for the auto-name), but if it does have any
+    parameters, these parameters must be keyword-only and the only names allowed are:
+
+    - ``save_name``, which will contain the value of the name the user entered
+
+    - ``output``, which will contain the return value of the function call
+
+    - ``arguments``, which will contain a dict of all the arguments of the function call
+
+    In the following, we will make an ``output_trans`` that just returns the
+    ``save_name``. This is useful when you want to make a pipeline and tell the next
+    function where to find the output of a previous function.
+
+    >>> def return_key(*, save_name):
+    ...     return save_name
+    >>> g = store_on_output(foo, output_trans=return_key)
+    >>> g(100, 23, save_name='test')
+    'test'
+    >>> g.output_store
+    {'test': 123}
+    >>> g.output_store[g(40, 2, save_name='here')]
+    42
+
+    An example involving more params:
+
+    >>> my_store = {'all': 'mine'}
+    >>> @store_on_output(
+    ...     store=my_store,
+    ...     save_name_param='save_as',
+    ...     add_store_to_func_attr=None,
+    ...     auto_namer=lambda *, arguments: '_'.join(map(str, arguments.values()))
+    ... )
+    ... def bar(a, b: int = 2):
+    ...     return a + b
+    >>> bar(2, 3, save_as='test')
+    5
+    >>> my_store
+    {'all': 'mine', 'test': 5}
+    >>> bar(7)
+    9
+    >>> my_store
+    {'all': 'mine', 'test': 5, '7_2': 9}
+
     """
     save_name_param_obj = Parameter(
-        name=save_name_param, kind=Parameter.KEYWORD_ONLY, default='', annotation=str,
+        name=save_name_param,
+        kind=Parameter.KEYWORD_ONLY,
+        default="",
+        annotation=str,
     )
+    _validate_function_keyword_only_params(
+        auto_namer, ["output", "arguments"], obj_name="auto_namer"
+    )
+    _validate_function_keyword_only_params(
+        output_trans, ["save_name", "output", "arguments"], obj_name="output_trans"
+    )
+    if output_trans:
+        assert callable(output_trans) and set(Sig(output_trans).names).issubset(
+            ["save_name", "output", "arguments"]
+        )
     sig = Sig(func) + [save_name_param_obj]
 
     if store is None:
@@ -96,18 +198,25 @@ def store_on_output(
     @sig
     @wraps(func)
     def _func(*args, **kwargs):
-        kwargs = sig.kwargs_from_args_and_kwargs(args, kwargs, apply_defaults=True)
-        save_name = kwargs.pop(save_name_param)
-        args, kwargs = sig.args_and_kwargs_from_kwargs(kwargs)
+        arguments = sig.kwargs_from_args_and_kwargs(args, kwargs, apply_defaults=True)
+        save_name = arguments.pop(save_name_param)
+        if not save_name and empty_name_callback:
+            empty_name_callback()
+        args, kwargs = sig.args_and_kwargs_from_kwargs(arguments)
         output = func(*args, **kwargs)
+        if not save_name and auto_namer:
+            save_name = call_forgivingly(auto_namer, arguments=arguments, output=output)
         if save_name:
             store[save_name] = output
-        return output
+        if not output_trans:
+            return output
+        else:
+            return call_forgivingly(
+                output_trans, save_name=save_name, output=output, arguments=arguments
+            )
 
     if isinstance(add_store_to_func_attr, str):
         setattr(_func, add_store_to_func_attr, store)
-
-    # _func.output_store = store  # redundant with above. Remove
 
     return _func
 
@@ -119,7 +228,7 @@ def prepare_for_crude_dispatch(
     param_to_mall_map: Optional[Iterable] = None,
     mall: Optional[Mall] = None,
     output_store: Optional[Union[Mapping, str]] = None,
-    save_name_param: str = 'save_name',
+    save_name_param: str = "save_name",
     include_stores_attribute: bool = False,
 ):
     """
@@ -281,24 +390,26 @@ def prepare_for_crude_dispatch(
         wrapped_f.store_for_param = store_for_param
 
     if output_store is not None:
-        output_store_name = 'output_store'
+        output_store_name = "output_store"
         if isinstance(output_store, str):
             # if output_store is a string, it should be the a key to store_for_param
             output_store_name = output_store
             output_store = mall[output_store_name]
         else:
             # TODO: Assert MutableMapping, or just existence of __setitem__?
-            if not hasattr(output_store, '__setitem__'):
-                raise ValueError(f'Needs to have a __setitem__: {output_store}')
+            if not hasattr(output_store, "__setitem__"):
+                raise ValueError(f"Needs to have a __setitem__: {output_store}")
         if output_store_name in store_for_param:
             raise ValueError(
-                f'Name conflicts with existing param name: {output_store_name}'
+                f"Name conflicts with existing param name: {output_store_name}"
             )
 
         wrapped_f = store_on_output(
-            wrapped_f, store=output_store, save_name_param=save_name_param,
+            wrapped_f,
+            store=output_store,
+            save_name_param=save_name_param,
         )
-        wrapped_f.__name__ = wrapped_f.__name__ + '_w_output_storing'
+        wrapped_f.__name__ = wrapped_f.__name__ + "_w_output_storing"
 
         if include_stores_attribute:
             wrapped_f.output_store = output_store
@@ -324,30 +435,30 @@ def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=Tru
 
         warn(
             f"Some of your mall keys were also func arg names, but you didn't mention "
-            f'them in param_to_mall_map, namely, these: {unmentioned_mall_keys}'
+            f"them in param_to_mall_map, namely, these: {unmentioned_mall_keys}"
         )
     if param_to_mall_key_dict:
-        func_name_stub = ''
+        func_name_stub = ""
         if sig.name:
-            func_name_stub = f'({sig.name})'
+            func_name_stub = f"({sig.name})"
         if isinstance(param_to_mall_key_dict, str):
             param_to_mall_key_dict = param_to_mall_key_dict.split()
         if not set(param_to_mall_key_dict).issubset(sig.names):
             offenders = set(param_to_mall_key_dict) - set(sig.names)
             raise ValueError(
-                'The param_to_mall_map should only contain keys that are '
+                "The param_to_mall_map should only contain keys that are "
                 f"parameters (i.e. 'argument names') of your function {func_name_stub}. "
-                f'Yet these param_to_mall_map keys were not argument names: '
-                f'{offenders}'
+                f"Yet these param_to_mall_map keys were not argument names: "
+                f"{offenders}"
             )
         if not set(param_to_mall_key_dict.values()).issubset(mall.keys()):
             offenders = set(param_to_mall_key_dict.values()) - set(mall.keys())
-            keys = 'keys' if len(offenders) > 1 else 'key'
-            offenders = ', '.join(map(lambda x: f"'{x}'", offenders))
+            keys = "keys" if len(offenders) > 1 else "key"
+            offenders = ", ".join(map(lambda x: f"'{x}'", offenders))
 
             raise ValueError(
-                f'The {offenders} {keys} of your param_to_mall_map values were not '
-                f'in the mall. '
+                f"The {offenders} {keys} of your param_to_mall_map values were not "
+                f"in the mall. "
             )
         # Note: store_for_param used to be the argument of prepare_for_crude_dispatch,
         #   instead of the (param_to_mall_map, mall) pair which is overkill.
@@ -443,9 +554,9 @@ def simple_mall_dispatch_core_func(
         if not action:
             return store
 
-    key = key or ''
-    if action == 'list':
+    key = key or ""
+    if action == "list":
         key = key.strip()  # to handle some invisible whitespace that would screw things
         return list(filter(lambda k: key in k, store))
-    elif action == 'get':
+    elif action == "get":
         return store[key]

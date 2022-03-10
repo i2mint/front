@@ -24,7 +24,7 @@ def prepare_for_dispatch(
     save_name_param: str = 'save_name',
     include_stores_attribute: bool = False,
     # for setting defaults
-    defaults: Optional[Mapping] = None
+    defaults: Optional[Mapping] = None,
 ):
     param_to_mall_map = keys_to_values_if_non_mapping_iterable(param_to_mall_map)
 
