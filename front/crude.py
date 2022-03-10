@@ -85,8 +85,8 @@ def store_on_output(
     func=None,
     *,
     store=None,
-    save_name_param="save_name",
-    add_store_to_func_attr="output_store",
+    save_name_param='save_name',
+    add_store_to_func_attr='output_store',
     empty_name_callback: Callable[[], Any] = None,
     auto_namer: Callable[..., str] = None,
     output_trans: Callable[..., Any] = None,
@@ -175,20 +175,17 @@ def store_on_output(
 
     """
     save_name_param_obj = Parameter(
-        name=save_name_param,
-        kind=Parameter.KEYWORD_ONLY,
-        default="",
-        annotation=str,
+        name=save_name_param, kind=Parameter.KEYWORD_ONLY, default='', annotation=str,
     )
     _validate_function_keyword_only_params(
-        auto_namer, ["output", "arguments"], obj_name="auto_namer"
+        auto_namer, ['output', 'arguments'], obj_name='auto_namer'
     )
     _validate_function_keyword_only_params(
-        output_trans, ["save_name", "output", "arguments"], obj_name="output_trans"
+        output_trans, ['save_name', 'output', 'arguments'], obj_name='output_trans'
     )
     if output_trans:
         assert callable(output_trans) and set(Sig(output_trans).names).issubset(
-            ["save_name", "output", "arguments"]
+            ['save_name', 'output', 'arguments']
         )
     sig = Sig(func) + [save_name_param_obj]
 
@@ -203,7 +200,7 @@ def store_on_output(
         if not save_name and empty_name_callback:
             assert callable(
                 empty_name_callback
-            ), f"empty_name_callback must be callable: {empty_name_callback}"
+            ), f'empty_name_callback must be callable: {empty_name_callback}'
             empty_name_callback()
         args, kwargs = sig.args_and_kwargs_from_kwargs(arguments)
         output = func(*args, **kwargs)
@@ -233,7 +230,7 @@ def prepare_for_crude_dispatch(
     include_stores_attribute: bool = False,
     output_store: Optional[Union[Mapping, str]] = None,
     # the arguments below only apply if output_store is given
-    save_name_param: str = "save_name",
+    save_name_param: str = 'save_name',
     empty_name_callback: Callable[[], Any] = None,
     auto_namer: Callable[..., str] = None,
     output_trans: Callable[..., Any] = None,
@@ -459,7 +456,7 @@ def prepare_for_crude_dispatch(
             wrapped_f,
             store=output_store,
             save_name_param=save_name_param,
-            add_store_to_func_attr="output_store" if include_stores_attribute else None,
+            add_store_to_func_attr='output_store' if include_stores_attribute else None,
             empty_name_callback=empty_name_callback,
             auto_namer=auto_namer,
             output_trans=output_trans,
@@ -483,12 +480,12 @@ def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=Tru
 
         warn(
             f"Some of your mall keys were also func arg names, but you didn't mention "
-            f"them in param_to_mall_map, namely, these: {unmentioned_mall_keys}"
+            f'them in param_to_mall_map, namely, these: {unmentioned_mall_keys}'
         )
     if param_to_mall_key_dict:
-        func_name_stub = ""
+        func_name_stub = ''
         if sig.name:
-            func_name_stub = f"({sig.name})"
+            func_name_stub = f'({sig.name})'
         if isinstance(param_to_mall_key_dict, str):
             param_to_mall_key_dict = param_to_mall_key_dict.split()
         if not set(param_to_mall_key_dict).issubset(sig.names):
