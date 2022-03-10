@@ -37,9 +37,9 @@ def auto_key(*args, **kwargs) -> KT:
     >>> auto_key()
     ''
     """
-    args_str = ",".join(map(str, args))
-    kwargs_str = ",".join(map(lambda kv: f"{kv[0]}={kv[1]}", kwargs.items()))
-    return ",".join(filter(None, [args_str, kwargs_str]))
+    args_str = ','.join(map(str, args))
+    kwargs_str = ','.join(map(lambda kv: f'{kv[0]}={kv[1]}', kwargs.items()))
+    return ','.join(filter(None, [args_str, kwargs_str]))
 
 
 @wrap_kvs(data_of_obj=dill.dumps, obj_of_data=dill.loads)
@@ -51,7 +51,7 @@ class DillFiles(Files):
 
 def mk_mall_of_dill_stores(store_names=Iterable[StoreName], rootdir=None):
     """Make a mall of DillFiles stores"""
-    rootdir = rootdir or mk_tmp_dol_dir("crude")
+    rootdir = rootdir or mk_tmp_dol_dir('crude')
     if isinstance(store_names, str):
         store_names = store_names.split()
 
@@ -71,12 +71,12 @@ from i2 import call_forgivingly
 def _validate_function_keyword_only_params(func, allowed_params: Iterable, obj_name):
     if func is not None:
         if not callable(func):
-            raise TypeError(f"{obj_name} should be callable: {func}")
+            raise TypeError(f'{obj_name} should be callable: {func}')
         sig = Sig(func)
         if not all(kind == Parameter.KEYWORD_ONLY for kind in sig.kinds.values()):
-            raise TypeError(f"All params of {obj_name} must be keyword-only. {sig}")
+            raise TypeError(f'All params of {obj_name} must be keyword-only. {sig}')
         if not set(sig.names).issubset(allowed_params):
-            raise TypeError(f"All params of {obj_name} must be in {allowed_params}")
+            raise TypeError(f'All params of {obj_name} must be in {allowed_params}')
 
 
 # TODO: store_on_output not pickalable: extend i2.wrapper to be able to solve with it
@@ -85,8 +85,8 @@ def store_on_output(
     func=None,
     *,
     store=None,
-    save_name_param="save_name",
-    add_store_to_func_attr="output_store",
+    save_name_param='save_name',
+    add_store_to_func_attr='output_store',
     empty_name_callback=None,
     auto_namer=None,
     output_trans=None,
@@ -175,20 +175,17 @@ def store_on_output(
 
     """
     save_name_param_obj = Parameter(
-        name=save_name_param,
-        kind=Parameter.KEYWORD_ONLY,
-        default="",
-        annotation=str,
+        name=save_name_param, kind=Parameter.KEYWORD_ONLY, default='', annotation=str,
     )
     _validate_function_keyword_only_params(
-        auto_namer, ["output", "arguments"], obj_name="auto_namer"
+        auto_namer, ['output', 'arguments'], obj_name='auto_namer'
     )
     _validate_function_keyword_only_params(
-        output_trans, ["save_name", "output", "arguments"], obj_name="output_trans"
+        output_trans, ['save_name', 'output', 'arguments'], obj_name='output_trans'
     )
     if output_trans:
         assert callable(output_trans) and set(Sig(output_trans).names).issubset(
-            ["save_name", "output", "arguments"]
+            ['save_name', 'output', 'arguments']
         )
     sig = Sig(func) + [save_name_param_obj]
 
@@ -228,7 +225,7 @@ def prepare_for_crude_dispatch(
     param_to_mall_map: Optional[Iterable] = None,
     mall: Optional[Mall] = None,
     output_store: Optional[Union[Mapping, str]] = None,
-    save_name_param: str = "save_name",
+    save_name_param: str = 'save_name',
     include_stores_attribute: bool = False,
 ):
     """
@@ -390,26 +387,24 @@ def prepare_for_crude_dispatch(
         wrapped_f.store_for_param = store_for_param
 
     if output_store is not None:
-        output_store_name = "output_store"
+        output_store_name = 'output_store'
         if isinstance(output_store, str):
             # if output_store is a string, it should be the a key to store_for_param
             output_store_name = output_store
             output_store = mall[output_store_name]
         else:
             # TODO: Assert MutableMapping, or just existence of __setitem__?
-            if not hasattr(output_store, "__setitem__"):
-                raise ValueError(f"Needs to have a __setitem__: {output_store}")
+            if not hasattr(output_store, '__setitem__'):
+                raise ValueError(f'Needs to have a __setitem__: {output_store}')
         if output_store_name in store_for_param:
             raise ValueError(
-                f"Name conflicts with existing param name: {output_store_name}"
+                f'Name conflicts with existing param name: {output_store_name}'
             )
 
         wrapped_f = store_on_output(
-            wrapped_f,
-            store=output_store,
-            save_name_param=save_name_param,
+            wrapped_f, store=output_store, save_name_param=save_name_param,
         )
-        wrapped_f.__name__ = wrapped_f.__name__ + "_w_output_storing"
+        wrapped_f.__name__ = wrapped_f.__name__ + '_w_output_storing'
 
         if include_stores_attribute:
             wrapped_f.output_store = output_store
@@ -435,30 +430,30 @@ def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=Tru
 
         warn(
             f"Some of your mall keys were also func arg names, but you didn't mention "
-            f"them in param_to_mall_map, namely, these: {unmentioned_mall_keys}"
+            f'them in param_to_mall_map, namely, these: {unmentioned_mall_keys}'
         )
     if param_to_mall_key_dict:
-        func_name_stub = ""
+        func_name_stub = ''
         if sig.name:
-            func_name_stub = f"({sig.name})"
+            func_name_stub = f'({sig.name})'
         if isinstance(param_to_mall_key_dict, str):
             param_to_mall_key_dict = param_to_mall_key_dict.split()
         if not set(param_to_mall_key_dict).issubset(sig.names):
             offenders = set(param_to_mall_key_dict) - set(sig.names)
             raise ValueError(
-                "The param_to_mall_map should only contain keys that are "
+                'The param_to_mall_map should only contain keys that are '
                 f"parameters (i.e. 'argument names') of your function {func_name_stub}. "
-                f"Yet these param_to_mall_map keys were not argument names: "
-                f"{offenders}"
+                f'Yet these param_to_mall_map keys were not argument names: '
+                f'{offenders}'
             )
         if not set(param_to_mall_key_dict.values()).issubset(mall.keys()):
             offenders = set(param_to_mall_key_dict.values()) - set(mall.keys())
-            keys = "keys" if len(offenders) > 1 else "key"
-            offenders = ", ".join(map(lambda x: f"'{x}'", offenders))
+            keys = 'keys' if len(offenders) > 1 else 'key'
+            offenders = ', '.join(map(lambda x: f"'{x}'", offenders))
 
             raise ValueError(
-                f"The {offenders} {keys} of your param_to_mall_map values were not "
-                f"in the mall. "
+                f'The {offenders} {keys} of your param_to_mall_map values were not '
+                f'in the mall. '
             )
         # Note: store_for_param used to be the argument of prepare_for_crude_dispatch,
         #   instead of the (param_to_mall_map, mall) pair which is overkill.
@@ -554,9 +549,9 @@ def simple_mall_dispatch_core_func(
         if not action:
             return store
 
-    key = key or ""
-    if action == "list":
+    key = key or ''
+    if action == 'list':
         key = key.strip()  # to handle some invisible whitespace that would screw things
         return list(filter(lambda k: key in k, store))
-    elif action == "get":
+    elif action == 'get':
         return store[key]
