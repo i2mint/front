@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.15 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.16 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -88,8 +88,377 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="front-crude">
-<h1>front.crude<a class="headerlink" href="#front-crude" title="Permalink to this headline">¶</a></h1>
+  <section id="module-front.crude">
+<span id="front-crude"></span><h1>front.crude<a class="headerlink" href="#module-front.crude" title="Permalink to this headline">¶</a></h1>
+<p>Control complex python object through strings.
+Wrap functions so that the complex arguments can be specified through a string key
+that points to the actual python object (which is stored in a session’s memory or
+persisted in some fashion).</p>
+<dl class="py class">
+<dt id="front.crude.DillFiles">
+<em class="property">class </em><code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">DillFiles</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/crude.html#DillFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.DillFiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes and deserializes with dill</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="front.crude.auto_key">
+<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">auto_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/front/crude.html#auto_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.auto_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a str key from arguments.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">&#39;1,2,c=3,d=4&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">&#39;1,2&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">&#39;c=3,d=4&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key</span><span class="p">()</span>
+<span class="go">&#39;&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="front.crude.mk_mall_of_dill_stores">
+<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">mk_mall_of_dill_stores</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">store_names</span><span class="o">=</span><span class="default_value">typing.Iterable[str]</span></em>, <em class="sig-param"><span class="n">rootdir</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/crude.html#mk_mall_of_dill_stores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.mk_mall_of_dill_stores" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a mall of DillFiles stores</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="front.crude.prepare_for_crude_dispatch">
+<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">prepare_for_crude_dispatch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">param_to_mall_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Iterable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mall</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_stores_attribute</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">output_store</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>Mapping<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_name_param</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'save_name'</span></em>, <em class="sig-param"><span class="n">empty_name_callback</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">]</span><span class="p">, </span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auto_namer</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span><span class="p">…</span><span class="p">]</span><span class="p">, </span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">output_trans</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span><span class="p">…</span><span class="p">]</span><span class="p">, </span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/crude.html#prepare_for_crude_dispatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.prepare_for_crude_dispatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap func into something that is ready for CRUDE dispatch.
+It will be a function for whom specific arguments will be specified by strings,
+via underlying stores containing the values.
+We say that those arguments were crude-dispatched.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> – callable, the function to wrap</p></li>
+<li><p><strong>param_to_mall_map</strong> – dict, whose keys specify which params should be
+crude-dispatched and whose values are the mall keys to the Mapping instances
+(e.g. dict) that should be used for said param.
+If a non-Mapping iterable is given, will take {name: name…} identity mapping
+for names in that iterable.</p></li>
+<li><p><strong>include_stores_attribute</strong> – bool, whether to add an attribute to the function
+containing the <code class="docutils literal notranslate"><span class="pre">output_store</span></code></p></li>
+<li><p><strong>output_store</strong> – a store used to record the output of the function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Mall mall</dt>
+<dd class="field-even"><p>A store of stores. A Mapping whose keys are what the values of
+<code class="docutils literal notranslate"><span class="pre">param_to_mall_map</span></code> point to and whose values are mapping interfaces (called</p>
+<blockquote>
+<div><p>“stores” of a storage backend (local or remote, persisted or in-memory).</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>If (and only if) <code class="docutils literal notranslate"><span class="pre">output_store</span></code> is given, we also use the following arguments:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_name_param</strong> – str, the argument name that should be used in the returned
+functions to get the the key of <code class="docutils literal notranslate"><span class="pre">output_store</span></code> under which the output will be
+saved.</p></li>
+<li><p><strong>empty_name_callback</strong> – If not None, will be called when the user (of the
+wrapped function <code class="docutils literal notranslate"><span class="pre">prepare_for_crude_dispatch</span></code> will output) doesn’t
+specify a save name. Intended use; raising errors (or other kinds of behavior)
+when we want to force the user to enter name.</p></li>
+<li><p><strong>auto_namer</strong> – If not None, should be a keyword-only <code class="docutils literal notranslate"><span class="pre">(*,</span> <span class="pre">arguments,</span> <span class="pre">output)</span></code>
+callback that will be called (forgivingly). This callback will
+be called when the user doesn’t specify a name (or an empty name). It’s output
+will be used as the <code class="docutils literal notranslate"><span class="pre">save_name</span></code>. Intended use is to produce a function where
+that has auto-naming capabilities.</p></li>
+<li><p><strong>output_trans</strong> – If not None, should be a keyword-only
+<code class="docutils literal notranslate"><span class="pre">(*,</span> <span class="pre">save_name,</span> <span class="pre">output,</span> <span class="pre">arguments)</span></code> function that will be called, returning
+it’s result instead of the <code class="docutils literal notranslate"><span class="pre">output</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A function that outputs the same thing as <code class="docutils literal notranslate"><span class="pre">func</span></code>, but (1) with some
+parameters being changed so that on can specify some arguments
+(those listed by <code class="docutils literal notranslate"><span class="pre">param_to_mall_key_dict</span></code>)</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">param_to_mall_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s1">&#39;b_store&#39;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mall</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">a</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;one&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="n">b_store</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;three&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;four&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="n">ununsed_store</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="s1">&#39;illustrate&#39;</span><span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crude_func</span> <span class="o">=</span> <span class="n">prepare_for_crude_dispatch</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">func</span><span class="p">,</span> <span class="n">param_to_mall_map</span><span class="o">=</span><span class="n">param_to_mall_map</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="n">mall</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">crude_func</span></code> is like <code class="docutils literal notranslate"><span class="pre">func</span></code>, but you enter your <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> inputs
+via string keys that will look up the values you’re pointing to in <code class="docutils literal notranslate"><span class="pre">mall</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">crude_func</span><span class="p">(</span><span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="n">func</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="mi">31</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crude_func</span><span class="p">(</span><span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">31</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">31</span>
+</pre></div>
+</div>
+<p>What’s happening behind the scenes of <code class="docutils literal notranslate"><span class="pre">crude_func</span></code> is this.
+Let’s follow what happens for the <code class="docutils literal notranslate"><span class="pre">b</span></code> argument. Say the user says <code class="docutils literal notranslate"><span class="pre">b='three'</span></code>…</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">b</span></code> is a key of <code class="docutils literal notranslate"><span class="pre">param_to_mall_key_dict</span></code>, indicating that it should be “cruded”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">param_to_mall_key_dict['b']</span></code> is <code class="docutils literal notranslate"><span class="pre">'b_store'</span></code>, so we know which mall key to use</p></li>
+<li><p>We retrieve <code class="docutils literal notranslate"><span class="pre">mall['b_store']['three']</span></code>, which is <code class="docutils literal notranslate"><span class="pre">3</span></code>, and call <code class="docutils literal notranslate"><span class="pre">func</span></code> with it</p></li>
+</ul>
+<p>So this is equivalent to this:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">func</span><span class="p">(</span><span class="n">mall</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">][</span><span class="s1">&#39;one&#39;</span><span class="p">],</span> <span class="n">mall</span><span class="p">[</span><span class="s1">&#39;b_store&#39;</span><span class="p">][</span><span class="s1">&#39;three&#39;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">31</span>
+</pre></div>
+</div>
+<p>The signature of <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> also changed to be <cite>str</cite>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">signature</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">crude_func</span><span class="p">))</span>
+<span class="go">&#39;(a: str, b: str, c: int)&#39;</span>
+</pre></div>
+</div>
+<p>By default, the <code class="docutils literal notranslate"><span class="pre">output_store</span></code> argument is None, but if you specify a mapping
+there (or a string key that appears in the <code class="docutils literal notranslate"><span class="pre">mall</span></code> you specified, pointing to
+a mapping), then the function you’ll get will have an extra argument.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output_store</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crude_func</span> <span class="o">=</span> <span class="n">prepare_for_crude_dispatch</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">func</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">param_to_mall_map</span><span class="o">=</span><span class="n">param_to_mall_map</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">mall</span><span class="o">=</span><span class="n">mall</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">output_store</span><span class="o">=</span><span class="n">output_store</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">crude_func</span><span class="p">))</span>
+<span class="go">&quot;(a: str, b: str, c: int, save_name: str = &#39;&#39;)&quot;</span>
+</pre></div>
+</div>
+<p>You now have this extra <code class="docutils literal notranslate"><span class="pre">save_name</span></code> param in your function.
+(Note that you can change its name through the <code class="docutils literal notranslate"><span class="pre">prepare_for_crude_dispatch</span></code>’s
+<code class="docutils literal notranslate"><span class="pre">save_name_param</span></code> argument.)
+The default for <code class="docutils literal notranslate"><span class="pre">save_name</span></code> is ‘’, and if you don’t specify a non-empty
+string, nothing different will happen, but if you do specify a non-empty string,
+the output of your function will be saved, in the <code class="docutils literal notranslate"><span class="pre">output_store</span></code> you specified,
+using that <code class="docutils literal notranslate"><span class="pre">save_name</span></code> key you specified.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crude_func</span><span class="p">(</span><span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">31</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output_store</span>
+<span class="go">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crude_func</span><span class="p">(</span><span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="s1">&#39;save_here&#39;</span><span class="p">)</span>
+<span class="go">31</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output_store</span>
+<span class="go">{&#39;save_here&#39;: 31}</span>
+</pre></div>
+</div>
+<p>The example below shows how one can</p>
+<ul class="simple">
+<li><p>change the default <code class="docutils literal notranslate"><span class="pre">save_name_param</span></code></p></li>
+<li><p>use an <code class="docutils literal notranslate"><span class="pre">auto_namer</span></code></p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">output_trans</span></code> to return both save name and output</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_store</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;all&#39;</span><span class="p">:</span> <span class="s1">&#39;mine&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">return_key_and_val</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">save_name</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">save_name</span><span class="p">,</span> <span class="n">output</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wbar</span> <span class="o">=</span> <span class="n">prepare_for_crude_dispatch</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">bar</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">output_store</span><span class="o">=</span><span class="n">my_store</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">save_name_param</span><span class="o">=</span><span class="s1">&#39;save_as&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">auto_namer</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="o">.</span><span class="n">values</span><span class="p">())),</span>
+<span class="gp">... </span>    <span class="n">output_trans</span><span class="o">=</span><span class="n">return_key_and_val</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wbar</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">save_as</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>  <span class="c1"># output will be the (save_as, output) pair</span>
+<span class="go">(&#39;test&#39;, 5)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_store</span>  <span class="c1"># but only the output is saved (under save_as key)</span>
+<span class="go">{&#39;all&#39;: &#39;mine&#39;, &#39;test&#39;: 5}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wbar</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>  <span class="c1"># and if you don&#39;t specify a save_as key, one is made for you!</span>
+<span class="go">(&#39;7_2&#39;, 9)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_store</span>
+<span class="go">{&#39;all&#39;: &#39;mine&#39;, &#39;test&#39;: 5, &#39;7_2&#39;: 9}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="front.crude.simple_mall_dispatch_core_func">
+<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">simple_mall_dispatch_core_func</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">action</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">store_name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">mall</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/crude.html#simple_mall_dispatch_core_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.simple_mall_dispatch_core_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to dispatch a mall</p>
+<p>This function is only meant to be a helper to give a UI (GUI,
+CLI…) mall-exploration capabilities. Namely:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">list(mall)</span></code>: list the keys of a mall. This is achieved with args:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">(key=None,</span> <span class="pre">action=None,</span> <span class="pre">store_name=None,</span> <span class="pre">mall=mall)</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">mall[store_name]</span></code>: get a store. Acheived by:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">(key=None,</span> <span class="pre">action=None,</span> <span class="pre">store_name=store_name,</span> <span class="pre">mall=mall)</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">list(mall[store_name])</span></code>: list keys of a store (of the mall). Acheived by:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">(key=None,</span> <span class="pre">action='list',</span> <span class="pre">store_name=store_name,</span> <span class="pre">mall=mall)</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">list(filter(key,</span> <span class="pre">mall[store_name]))</span></code>: list keys of a store (of the mall)</dt><dd><p>according to a substring filter. (only keys that have <code class="docutils literal notranslate"><span class="pre">key</span></code> as substring)
+<code class="docutils literal notranslate"><span class="pre">(key=key,</span> <span class="pre">action='list',</span> <span class="pre">store_name=store_name,</span> <span class="pre">mall=mall)</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">mall[store_name][key]</span></code>:  get the value/data of a store for <code class="docutils literal notranslate"><span class="pre">key</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">(key=key,</span> <span class="pre">action='get',</span> <span class="pre">store_name=store_name,</span> <span class="pre">mall=mall)</span></code></p>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – The key</p></li>
+<li><p><strong>action</strong> – ‘list’ (to list keys of a store) or ‘get’ (to get the value of
+<code class="docutils literal notranslate"><span class="pre">key</span></code> in the store (named <code class="docutils literal notranslate"><span class="pre">store_name</span></code>)</p></li>
+<li><p><strong>store_name</strong> – Store name to look up in mall. If not given, the function will
+output the mall keys (which are valid store names)</p></li>
+<li><p><strong>mall</strong> – dict of stores (Mapping interface to data)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mall</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;english&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;one&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="s1">&#39;french&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;un&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;deux&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+<span class="gp">... </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>List the keys of a mall:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">simple_mall_dispatch_core_func</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="n">mall</span><span class="p">)</span>
+<span class="go">[&#39;english&#39;, &#39;french&#39;]</span>
+</pre></div>
+</div>
+<p>Get a store</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">simple_mall_dispatch_core_func</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">store_name</span><span class="o">=</span><span class="s1">&#39;english&#39;</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="n">mall</span><span class="p">)</span>
+<span class="go">{&#39;one&#39;: 1, &#39;two&#39;: 2, &#39;three&#39;: 3}</span>
+</pre></div>
+</div>
+<p>List keys of a store (of the mall):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">simple_mall_dispatch_core_func</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="kc">None</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;list&#39;</span><span class="p">,</span> <span class="n">store_name</span><span class="o">=</span><span class="s1">&#39;english&#39;</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="n">mall</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">[&#39;one&#39;, &#39;two&#39;, &#39;three&#39;]</span>
+</pre></div>
+</div>
+<p>List keys of a store (of the mall) according to a substring filter:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">simple_mall_dispatch_core_func</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;list&#39;</span><span class="p">,</span> <span class="n">store_name</span><span class="o">=</span><span class="s1">&#39;english&#39;</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="n">mall</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">[&#39;one&#39;, &#39;three&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">simple_mall_dispatch_core_func</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;two&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">store_name</span><span class="o">=</span><span class="s1">&#39;english&#39;</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="n">mall</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="front.crude.store_on_output">
+<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">store_on_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">store</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_name_param</span><span class="o">=</span><span class="default_value">'save_name'</span></em>, <em class="sig-param"><span class="n">add_store_to_func_attr</span><span class="o">=</span><span class="default_value">'output_store'</span></em>, <em class="sig-param"><span class="n">empty_name_callback</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">]</span><span class="p">, </span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auto_namer</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span><span class="p">…</span><span class="p">]</span><span class="p">, </span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">output_trans</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span><span class="p">…</span><span class="p">]</span><span class="p">, </span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/crude.html#store_on_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.store_on_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap func so it will have an extra save_name_param that can be used to
+indicate whether to save the output of the function call to that key, in
+that store.</p>
+<p>The store can be specified, but an empty dict will be made for it by default.</p>
+<p>By default, a pointer to this store is added to the wrapped function so it can be
+used for inspection etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> – Function that we’re wrapping</p></li>
+<li><p><strong>store</strong> – Mapping (e.g. dict) where we’d like the output to be stored in</p></li>
+<li><p><strong>save_name_param</strong> – Name of the extra param that will be added to the
+function’s interface, where the user will be able to specify the key where
+they want to save the output.</p></li>
+<li><p><strong>add_store_to_func_attr</strong> – If not None, the wrapped function will have an
+attribute of that name where the store will be stored</p></li>
+<li><p><strong>empty_name_callback</strong> – If not None, will be called if the user doesn’t specify
+a save name. Intended use; raising errors to force the user to enter name.</p></li>
+<li><p><strong>auto_namer</strong> – If not None, should be a keyword-only <code class="docutils literal notranslate"><span class="pre">(*,</span> <span class="pre">arguments,</span> <span class="pre">output)</span></code>
+callback that will be called (forgivingly). This callback will
+be called when the user doesn’t specify a name (or an empty name). It’s output
+will be used as the <code class="docutils literal notranslate"><span class="pre">save_name</span></code>.</p></li>
+<li><p><strong>output_trans</strong> – If not None, should be a keyword-only
+<code class="docutils literal notranslate"><span class="pre">(*,</span> <span class="pre">save_name,</span> <span class="pre">output,</span> <span class="pre">arguments)</span></code> function that will be called, returning
+it’s result instead of the <code class="docutils literal notranslate"><span class="pre">output</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A wrapped function that has an extra param (default is <code class="docutils literal notranslate"><span class="pre">save_name</span></code>) that
+allowing the user to specify a key under which to save the output.</p>
+</dd>
+</dl>
+<p>A simple example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">store_on_output</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="s1">&#39;take&#39;</span><span class="p">)</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">output_store</span>
+<span class="go">{&#39;take&#39;: 5}</span>
+</pre></div>
+</div>
+<p>An example with auto_namer. Note that an auto_namer can have no parameters (e.g.
+return a stringified timestamp for the auto-name), but if it does have any
+parameters, these parameters must be keyword-only and the only names allowed are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">save_name</span></code>, which will contain the value of the name the user entered</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output</span></code>, which will contain the return value of the function call</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">arguments</span></code>, which will contain a dict of all the arguments of the function call</p></li>
+</ul>
+<p>In the following, we will make an <code class="docutils literal notranslate"><span class="pre">output_trans</span></code> that just returns the
+<code class="docutils literal notranslate"><span class="pre">save_name</span></code>. This is useful when you want to make a pipeline and tell the next
+function where to find the output of a previous function.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">return_key</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">save_name</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">save_name</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">store_on_output</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="n">output_trans</span><span class="o">=</span><span class="n">return_key</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="go">&#39;test&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">output_store</span>
+<span class="go">{&#39;test&#39;: 123}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">output_store</span><span class="p">[</span><span class="n">g</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="s1">&#39;here&#39;</span><span class="p">)]</span>
+<span class="go">42</span>
+</pre></div>
+</div>
+<p>An example involving more params:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_store</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;all&#39;</span><span class="p">:</span> <span class="s1">&#39;mine&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@store_on_output</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">store</span><span class="o">=</span><span class="n">my_store</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">save_name_param</span><span class="o">=</span><span class="s1">&#39;save_as&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">add_store_to_func_attr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">auto_namer</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bar</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">save_as</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_store</span>
+<span class="go">{&#39;all&#39;: &#39;mine&#39;, &#39;test&#39;: 5}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bar</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="go">9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_store</span>
+<span class="go">{&#39;all&#39;: &#39;mine&#39;, &#39;test&#39;: 5, &#39;7_2&#39;: 9}</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </section>
 
 

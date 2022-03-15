@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>front.crude &mdash; front 0.1.16 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/toggleprompt.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> front
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front.html">front</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/base.html">front.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/crude.html">front.crude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/data_binding.html">front.examples.data_binding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/experimentation.html">front.examples.experimentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/issues.html">front.examples.issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/kaggle_front.html">front.examples.kaggle_front</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/pos_key_args.html">front.examples.pos_key_args</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/simple.html">front.examples.simple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/tw_data_binding.html">front.examples.tw_data_binding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap.html">front.scrap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_crude.html">front.tests.test_crude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/util.html">front.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">front</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>front.crude</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for front.crude</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Control complex python object through strings.</span>
+<span class="sd">Wrap functions so that the complex arguments can be specified through a string key</span>
+<span class="sd">that points to the actual python object (which is stored in a session&#39;s memory or</span>
+<span class="sd">persisted in some fashion).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">dill</span>  <span class="c1"># pip install dill</span>
+
+<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span><span class="p">,</span> <span class="n">double_up_as_factory</span>
+<span class="kn">from</span> <span class="nn">i2.wrapper</span> <span class="kn">import</span> <span class="n">Ingress</span><span class="p">,</span> <span class="n">wrap</span>
+<span class="kn">from</span> <span class="nn">dol</span> <span class="kn">import</span> <span class="n">Files</span><span class="p">,</span> <span class="n">wrap_kvs</span>
+<span class="kn">from</span> <span class="nn">dol.filesys</span> <span class="kn">import</span> <span class="n">mk_tmp_dol_dir</span><span class="p">,</span> <span class="n">ensure_dir</span>
+
+
+<span class="n">KT</span> <span class="o">=</span> <span class="nb">str</span>
+<span class="n">VT</span> <span class="o">=</span> <span class="n">Any</span>
+<span class="n">StoreType</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">KT</span><span class="p">,</span> <span class="n">VT</span><span class="p">]</span>
+<span class="n">StoreName</span> <span class="o">=</span> <span class="n">KT</span>
+<span class="n">Mall</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">StoreName</span><span class="p">,</span> <span class="n">StoreType</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="auto_key"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.auto_key">[docs]</a><span class="k">def</span> <span class="nf">auto_key</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KT</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Make a str key from arguments.</span>
+
+<span class="sd">    &gt;&gt;&gt; auto_key(1,2,c=3,d=4)</span>
+<span class="sd">    &#39;1,2,c=3,d=4&#39;</span>
+<span class="sd">    &gt;&gt;&gt; auto_key(1,2)</span>
+<span class="sd">    &#39;1,2&#39;</span>
+<span class="sd">    &gt;&gt;&gt; auto_key(c=3,d=4)</span>
+<span class="sd">    &#39;c=3,d=4&#39;</span>
+<span class="sd">    &gt;&gt;&gt; auto_key()</span>
+<span class="sd">    &#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args_str</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>
+    <span class="n">kwargs_str</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">kv</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="n">args_str</span><span class="p">,</span> <span class="n">kwargs_str</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="DillFiles"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.DillFiles">[docs]</a><span class="nd">@wrap_kvs</span><span class="p">(</span><span class="n">data_of_obj</span><span class="o">=</span><span class="n">dill</span><span class="o">.</span><span class="n">dumps</span><span class="p">,</span> <span class="n">obj_of_data</span><span class="o">=</span><span class="n">dill</span><span class="o">.</span><span class="n">loads</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">DillFiles</span><span class="p">(</span><span class="n">Files</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Serializes and deserializes with dill&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="mk_mall_of_dill_stores"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.mk_mall_of_dill_stores">[docs]</a><span class="k">def</span> <span class="nf">mk_mall_of_dill_stores</span><span class="p">(</span><span class="n">store_names</span><span class="o">=</span><span class="n">Iterable</span><span class="p">[</span><span class="n">StoreName</span><span class="p">],</span> <span class="n">rootdir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make a mall of DillFiles stores&quot;&quot;&quot;</span>
+    <span class="n">rootdir</span> <span class="o">=</span> <span class="n">rootdir</span> <span class="ow">or</span> <span class="n">mk_tmp_dol_dir</span><span class="p">(</span><span class="s1">&#39;crude&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store_names</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">store_names</span> <span class="o">=</span> <span class="n">store_names</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">name_and_rootdir</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">store_names</span><span class="p">:</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rootdir</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">ensure_dir</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="n">root</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">DillFiles</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">name_and_rootdir</span><span class="p">()}</span></div>
+
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">call_forgivingly</span>
+
+
+<span class="k">def</span> <span class="nf">_validate_function_keyword_only_params</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">allowed_params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">obj_name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s1"> should be callable: </span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">kind</span> <span class="o">==</span> <span class="n">Parameter</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span> <span class="k">for</span> <span class="n">kind</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">kinds</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;All params of </span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s1"> must be keyword-only. </span><span class="si">{</span><span class="n">sig</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">names</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">allowed_params</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;All params of </span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s1"> must be in </span><span class="si">{</span><span class="n">allowed_params</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># TODO: store_on_output not pickalable: extend i2.wrapper to be able to solve with it</span>
+<div class="viewcode-block" id="store_on_output"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.store_on_output">[docs]</a><span class="nd">@double_up_as_factory</span>
+<span class="k">def</span> <span class="nf">store_on_output</span><span class="p">(</span>
+    <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">store</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">save_name_param</span><span class="o">=</span><span class="s1">&#39;save_name&#39;</span><span class="p">,</span>
+    <span class="n">add_store_to_func_attr</span><span class="o">=</span><span class="s1">&#39;output_store&#39;</span><span class="p">,</span>
+    <span class="n">empty_name_callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">auto_namer</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">output_trans</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Wrap func so it will have an extra save_name_param that can be used to</span>
+<span class="sd">    indicate whether to save the output of the function call to that key, in</span>
+<span class="sd">    that store.</span>
+
+<span class="sd">    The store can be specified, but an empty dict will be made for it by default.</span>
+
+<span class="sd">    By default, a pointer to this store is added to the wrapped function so it can be</span>
+<span class="sd">    used for inspection etc.</span>
+
+<span class="sd">    :param func: Function that we&#39;re wrapping</span>
+<span class="sd">    :param store: Mapping (e.g. dict) where we&#39;d like the output to be stored in</span>
+<span class="sd">    :param save_name_param: Name of the extra param that will be added to the</span>
+<span class="sd">        function&#39;s interface, where the user will be able to specify the key where</span>
+<span class="sd">        they want to save the output.</span>
+<span class="sd">    :param add_store_to_func_attr: If not None, the wrapped function will have an</span>
+<span class="sd">        attribute of that name where the store will be stored</span>
+<span class="sd">    :param empty_name_callback: If not None, will be called if the user doesn&#39;t specify</span>
+<span class="sd">        a save name. Intended use; raising errors to force the user to enter name.</span>
+<span class="sd">    :param auto_namer: If not None, should be a keyword-only ``(*, arguments, output)``</span>
+<span class="sd">        callback that will be called (forgivingly). This callback will</span>
+<span class="sd">        be called when the user doesn&#39;t specify a name (or an empty name). It&#39;s output</span>
+<span class="sd">        will be used as the ``save_name``.</span>
+<span class="sd">    :param output_trans: If not None, should be a keyword-only</span>
+<span class="sd">        ``(*, save_name, output, arguments)`` function that will be called, returning</span>
+<span class="sd">        it&#39;s result instead of the ``output``.</span>
+<span class="sd">    :return: A wrapped function that has an extra param (default is ``save_name``) that</span>
+<span class="sd">        allowing the user to specify a key under which to save the output.</span>
+
+<span class="sd">    A simple example:</span>
+
+<span class="sd">    &gt;&gt;&gt; def foo(a, b: int = 2):</span>
+<span class="sd">    ...     return a + b</span>
+<span class="sd">    &gt;&gt;&gt; f = store_on_output(foo)</span>
+<span class="sd">    &gt;&gt;&gt; f(2, 3, save_name=&#39;take&#39;)</span>
+<span class="sd">    5</span>
+<span class="sd">    &gt;&gt;&gt; f.output_store</span>
+<span class="sd">    {&#39;take&#39;: 5}</span>
+
+<span class="sd">    An example with auto_namer. Note that an auto_namer can have no parameters (e.g.</span>
+<span class="sd">    return a stringified timestamp for the auto-name), but if it does have any</span>
+<span class="sd">    parameters, these parameters must be keyword-only and the only names allowed are:</span>
+
+<span class="sd">    - ``save_name``, which will contain the value of the name the user entered</span>
+
+<span class="sd">    - ``output``, which will contain the return value of the function call</span>
+
+<span class="sd">    - ``arguments``, which will contain a dict of all the arguments of the function call</span>
+
+<span class="sd">    In the following, we will make an ``output_trans`` that just returns the</span>
+<span class="sd">    ``save_name``. This is useful when you want to make a pipeline and tell the next</span>
+<span class="sd">    function where to find the output of a previous function.</span>
+
+<span class="sd">    &gt;&gt;&gt; def return_key(*, save_name):</span>
+<span class="sd">    ...     return save_name</span>
+<span class="sd">    &gt;&gt;&gt; g = store_on_output(foo, output_trans=return_key)</span>
+<span class="sd">    &gt;&gt;&gt; g(100, 23, save_name=&#39;test&#39;)</span>
+<span class="sd">    &#39;test&#39;</span>
+<span class="sd">    &gt;&gt;&gt; g.output_store</span>
+<span class="sd">    {&#39;test&#39;: 123}</span>
+<span class="sd">    &gt;&gt;&gt; g.output_store[g(40, 2, save_name=&#39;here&#39;)]</span>
+<span class="sd">    42</span>
+
+<span class="sd">    An example involving more params:</span>
+
+<span class="sd">    &gt;&gt;&gt; my_store = {&#39;all&#39;: &#39;mine&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; @store_on_output(</span>
+<span class="sd">    ...     store=my_store,</span>
+<span class="sd">    ...     save_name_param=&#39;save_as&#39;,</span>
+<span class="sd">    ...     add_store_to_func_attr=None,</span>
+<span class="sd">    ...     auto_namer=lambda *, arguments: &#39;_&#39;.join(map(str, arguments.values()))</span>
+<span class="sd">    ... )</span>
+<span class="sd">    ... def bar(a, b: int = 2):</span>
+<span class="sd">    ...     return a + b</span>
+<span class="sd">    &gt;&gt;&gt; bar(2, 3, save_as=&#39;test&#39;)</span>
+<span class="sd">    5</span>
+<span class="sd">    &gt;&gt;&gt; my_store</span>
+<span class="sd">    {&#39;all&#39;: &#39;mine&#39;, &#39;test&#39;: 5}</span>
+<span class="sd">    &gt;&gt;&gt; bar(7)</span>
+<span class="sd">    9</span>
+<span class="sd">    &gt;&gt;&gt; my_store</span>
+<span class="sd">    {&#39;all&#39;: &#39;mine&#39;, &#39;test&#39;: 5, &#39;7_2&#39;: 9}</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">save_name_param_obj</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">save_name_param</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Parameter</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">annotation</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">_validate_function_keyword_only_params</span><span class="p">(</span>
+        <span class="n">auto_namer</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;arguments&#39;</span><span class="p">],</span> <span class="n">obj_name</span><span class="o">=</span><span class="s1">&#39;auto_namer&#39;</span>
+    <span class="p">)</span>
+    <span class="n">_validate_function_keyword_only_params</span><span class="p">(</span>
+        <span class="n">output_trans</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;save_name&#39;</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;arguments&#39;</span><span class="p">],</span> <span class="n">obj_name</span><span class="o">=</span><span class="s1">&#39;output_trans&#39;</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">output_trans</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">callable</span><span class="p">(</span><span class="n">output_trans</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">set</span><span class="p">(</span><span class="n">Sig</span><span class="p">(</span><span class="n">output_trans</span><span class="p">)</span><span class="o">.</span><span class="n">names</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span>
+            <span class="p">[</span><span class="s1">&#39;save_name&#39;</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;arguments&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">save_name_param_obj</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">store</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">store</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="nd">@sig</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">kwargs_from_args_and_kwargs</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">apply_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">save_name</span> <span class="o">=</span> <span class="n">arguments</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">save_name_param</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">save_name</span> <span class="ow">and</span> <span class="n">empty_name_callback</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">callable</span><span class="p">(</span>
+                <span class="n">empty_name_callback</span>
+            <span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;empty_name_callback must be callable: </span><span class="si">{</span><span class="n">empty_name_callback</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="n">empty_name_callback</span><span class="p">()</span>
+        <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">args_and_kwargs_from_kwargs</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">save_name</span> <span class="ow">and</span> <span class="n">auto_namer</span><span class="p">:</span>
+            <span class="n">save_name</span> <span class="o">=</span> <span class="n">call_forgivingly</span><span class="p">(</span><span class="n">auto_namer</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">save_name</span><span class="p">:</span>
+            <span class="n">store</span><span class="p">[</span><span class="n">save_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">output_trans</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">output</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">call_forgivingly</span><span class="p">(</span>
+                <span class="n">output_trans</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="n">save_name</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span>
+            <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">add_store_to_func_attr</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">_func</span><span class="p">,</span> <span class="n">add_store_to_func_attr</span><span class="p">,</span> <span class="n">store</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_func</span></div>
+
+
+<div class="viewcode-block" id="prepare_for_crude_dispatch"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.prepare_for_crude_dispatch">[docs]</a><span class="nd">@double_up_as_factory</span>
+<span class="k">def</span> <span class="nf">prepare_for_crude_dispatch</span><span class="p">(</span>
+    <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">param_to_mall_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">mall</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mall</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_stores_attribute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">output_store</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Mapping</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1"># the arguments below only apply if output_store is given</span>
+    <span class="n">save_name_param</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;save_name&#39;</span><span class="p">,</span>
+    <span class="n">empty_name_callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">auto_namer</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">output_trans</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrap func into something that is ready for CRUDE dispatch.</span>
+<span class="sd">    It will be a function for whom specific arguments will be specified by strings,</span>
+<span class="sd">    via underlying stores containing the values.</span>
+<span class="sd">    We say that those arguments were crude-dispatched.</span>
+
+<span class="sd">    :param func: callable, the function to wrap</span>
+<span class="sd">    :param param_to_mall_map: dict, whose keys specify which params should be</span>
+<span class="sd">        crude-dispatched and whose values are the mall keys to the Mapping instances</span>
+<span class="sd">        (e.g. dict) that should be used for said param.</span>
+<span class="sd">        If a non-Mapping iterable is given, will take {name: name...} identity mapping</span>
+<span class="sd">        for names in that iterable.</span>
+<span class="sd">    :mall mall: A store of stores. A Mapping whose keys are what the values of</span>
+<span class="sd">        ``param_to_mall_map`` point to and whose values are mapping interfaces (called</span>
+<span class="sd">         &quot;stores&quot; of a storage backend (local or remote, persisted or in-memory).</span>
+<span class="sd">    :param include_stores_attribute: bool, whether to add an attribute to the function</span>
+<span class="sd">        containing the ``output_store``</span>
+<span class="sd">    :param output_store: a store used to record the output of the function</span>
+
+<span class="sd">    If (and only if) ``output_store`` is given, we also use the following arguments:</span>
+
+<span class="sd">    :param save_name_param: str, the argument name that should be used in the returned</span>
+<span class="sd">        functions to get the the key of ``output_store`` under which the output will be</span>
+<span class="sd">        saved.</span>
+<span class="sd">    :param empty_name_callback: If not None, will be called when the user (of the</span>
+<span class="sd">        wrapped function ``prepare_for_crude_dispatch`` will output) doesn&#39;t</span>
+<span class="sd">        specify a save name. Intended use; raising errors (or other kinds of behavior)</span>
+<span class="sd">        when we want to force the user to enter name.</span>
+<span class="sd">    :param auto_namer: If not None, should be a keyword-only ``(*, arguments, output)``</span>
+<span class="sd">        callback that will be called (forgivingly). This callback will</span>
+<span class="sd">        be called when the user doesn&#39;t specify a name (or an empty name). It&#39;s output</span>
+<span class="sd">        will be used as the ``save_name``. Intended use is to produce a function where</span>
+<span class="sd">        that has auto-naming capabilities.</span>
+<span class="sd">    :param output_trans: If not None, should be a keyword-only</span>
+<span class="sd">        ``(*, save_name, output, arguments)`` function that will be called, returning</span>
+<span class="sd">        it&#39;s result instead of the ``output``.</span>
+
+<span class="sd">    :return: A function that outputs the same thing as ``func``, but (1) with some</span>
+<span class="sd">        parameters being changed so that on can specify some arguments</span>
+<span class="sd">        (those listed by ``param_to_mall_key_dict``)</span>
+
+
+<span class="sd">    &gt;&gt;&gt; def func(a, b: float, c: int):</span>
+<span class="sd">    ...     return a + b * c</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; param_to_mall_map = dict(a=&#39;a&#39;, b=&#39;b_store&#39;)</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; mall = dict(</span>
+<span class="sd">    ...     a = {&#39;one&#39;: 1, &#39;two&#39;: 2},</span>
+<span class="sd">    ...     b_store = {&#39;three&#39;: 3, &#39;four&#39;: 4},</span>
+<span class="sd">    ...     ununsed_store = {&#39;to&#39;: &#39;illustrate&#39;}</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; crude_func = prepare_for_crude_dispatch(</span>
+<span class="sd">    ...     func, param_to_mall_map=param_to_mall_map, mall=mall</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    ``crude_func`` is like ``func``, but you enter your ``a`` and ``b`` inputs</span>
+<span class="sd">    via string keys that will look up the values you&#39;re pointing to in ``mall``</span>
+
+<span class="sd">    &gt;&gt;&gt; assert crude_func(&#39;one&#39;, &#39;three&#39;, 10) == func(1, 3, 10) == 31</span>
+<span class="sd">    &gt;&gt;&gt; crude_func(&#39;one&#39;, &#39;three&#39;, 10)</span>
+<span class="sd">    31</span>
+<span class="sd">    &gt;&gt;&gt; func(1, 3, 10)</span>
+<span class="sd">    31</span>
+
+<span class="sd">    What&#39;s happening behind the scenes of ``crude_func`` is this.</span>
+<span class="sd">    Let&#39;s follow what happens for the ``b`` argument. Say the user says ``b=&#39;three&#39;``...</span>
+
+<span class="sd">    - ``b`` is a key of ``param_to_mall_key_dict``, indicating that it should be &quot;cruded&quot;</span>
+
+<span class="sd">    - ``param_to_mall_key_dict[&#39;b&#39;]`` is ``&#39;b_store&#39;``, so we know which mall key to use</span>
+
+<span class="sd">    - We retrieve ``mall[&#39;b_store&#39;][&#39;three&#39;]``, which is ``3``, and call ``func`` with it</span>
+
+<span class="sd">    So this is equivalent to this:</span>
+
+<span class="sd">    &gt;&gt;&gt; func(mall[&#39;a&#39;][&#39;one&#39;], mall[&#39;b_store&#39;][&#39;three&#39;], 10)</span>
+<span class="sd">    31</span>
+
+<span class="sd">    The signature of ``a`` and ``b`` also changed to be `str`:</span>
+
+<span class="sd">    &gt;&gt;&gt; from inspect import signature</span>
+<span class="sd">    &gt;&gt;&gt; str(signature(crude_func))</span>
+<span class="sd">    &#39;(a: str, b: str, c: int)&#39;</span>
+
+<span class="sd">    By default, the ``output_store`` argument is None, but if you specify a mapping</span>
+<span class="sd">    there (or a string key that appears in the ``mall`` you specified, pointing to</span>
+<span class="sd">    a mapping), then the function you&#39;ll get will have an extra argument.</span>
+
+<span class="sd">    &gt;&gt;&gt; output_store = dict()</span>
+<span class="sd">    &gt;&gt;&gt; crude_func = prepare_for_crude_dispatch(</span>
+<span class="sd">    ...     func,</span>
+<span class="sd">    ...     param_to_mall_map=param_to_mall_map,</span>
+<span class="sd">    ...     mall=mall,</span>
+<span class="sd">    ...     output_store=output_store</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; str(signature(crude_func))</span>
+<span class="sd">    &quot;(a: str, b: str, c: int, save_name: str = &#39;&#39;)&quot;</span>
+
+<span class="sd">    You now have this extra ``save_name`` param in your function.</span>
+<span class="sd">    (Note that you can change its name through the ``prepare_for_crude_dispatch``&#39;s</span>
+<span class="sd">    ``save_name_param`` argument.)</span>
+<span class="sd">    The default for ``save_name`` is &#39;&#39;, and if you don&#39;t specify a non-empty</span>
+<span class="sd">    string, nothing different will happen, but if you do specify a non-empty string,</span>
+<span class="sd">    the output of your function will be saved, in the ``output_store`` you specified,</span>
+<span class="sd">    using that ``save_name`` key you specified.</span>
+
+<span class="sd">    &gt;&gt;&gt; crude_func(&#39;one&#39;, &#39;three&#39;, 10)</span>
+<span class="sd">    31</span>
+<span class="sd">    &gt;&gt;&gt; output_store</span>
+<span class="sd">    {}</span>
+<span class="sd">    &gt;&gt;&gt; crude_func(&#39;one&#39;, &#39;three&#39;, 10, save_name=&#39;save_here&#39;)</span>
+<span class="sd">    31</span>
+<span class="sd">    &gt;&gt;&gt; output_store</span>
+<span class="sd">    {&#39;save_here&#39;: 31}</span>
+
+<span class="sd">    The example below shows how one can</span>
+
+<span class="sd">    - change the default ``save_name_param``</span>
+
+<span class="sd">    - use an ``auto_namer``</span>
+
+<span class="sd">    - use ``output_trans`` to return both save name and output</span>
+
+<span class="sd">    &gt;&gt;&gt; def bar(a, b: int = 2):</span>
+<span class="sd">    ...     return a + b</span>
+<span class="sd">    &gt;&gt;&gt; my_store = {&#39;all&#39;: &#39;mine&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; def return_key_and_val(*, save_name, output):</span>
+<span class="sd">    ...     return save_name, output</span>
+<span class="sd">    &gt;&gt;&gt; wbar = prepare_for_crude_dispatch(</span>
+<span class="sd">    ...     bar,</span>
+<span class="sd">    ...     output_store=my_store,</span>
+<span class="sd">    ...     save_name_param=&#39;save_as&#39;,</span>
+<span class="sd">    ...     auto_namer=lambda *, arguments: &#39;_&#39;.join(map(str, arguments.values())),</span>
+<span class="sd">    ...     output_trans=return_key_and_val</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    &gt;&gt;&gt; wbar(2, 3, save_as=&#39;test&#39;)  # output will be the (save_as, output) pair</span>
+<span class="sd">    (&#39;test&#39;, 5)</span>
+<span class="sd">    &gt;&gt;&gt; my_store  # but only the output is saved (under save_as key)</span>
+<span class="sd">    {&#39;all&#39;: &#39;mine&#39;, &#39;test&#39;: 5}</span>
+<span class="sd">    &gt;&gt;&gt; wbar(7)  # and if you don&#39;t specify a save_as key, one is made for you!</span>
+<span class="sd">    (&#39;7_2&#39;, 9)</span>
+<span class="sd">    &gt;&gt;&gt; my_store</span>
+<span class="sd">    {&#39;all&#39;: &#39;mine&#39;, &#39;test&#39;: 5, &#39;7_2&#39;: 9}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ingress</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">store_for_param</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">if</span> <span class="n">param_to_mall_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+        <span class="n">store_for_param</span> <span class="o">=</span> <span class="n">_mk_store_for_param</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">param_to_mall_map</span><span class="p">,</span> <span class="n">mall</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">kwargs_trans</span><span class="p">(</span><span class="n">outer_kw</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Let&#39;s say you have a function with three params: a, b, and c, whose arguments</span>
+<span class="sd">            should be ints. Let&#39;s say you want a and c to be cruded.</span>
+<span class="sd">            Then you need to specify a store for each one of these:</span>
+
+<span class="sd">            &gt;&gt;&gt; store_for_param = {</span>
+<span class="sd">            ...     &#39;a&#39;: {&#39;one&#39;: 1, &#39;two&#39;: 2},</span>
+<span class="sd">            ...     &#39;c&#39;: {&#39;three&#39;: 3}</span>
+<span class="sd">            ... }</span>
+
+<span class="sd">            What kwargs_trans will with this store_for_param, is this:</span>
+
+<span class="sd">            &gt;&gt;&gt; kwargs_trans({&#39;a&#39;: &#39;one&#39;, &#39;b&#39;: 2, &#39;c&#39;: &#39;three&#39;})</span>
+<span class="sd">            {&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3}</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c1"># outer_kw is going to be the new/wrapped/cruded interface of the function</span>
+            <span class="c1"># That is, the one that takes strings to specify arguments</span>
+            <span class="c1"># What we need to do now is transform the cruded argument values from strings</span>
+            <span class="c1"># to the values these strings are pointing to (via the store corresponding</span>
+            <span class="c1"># to that argument).</span>
+            <span class="k">def</span> <span class="nf">get_values_from_stores</span><span class="p">():</span>
+                <span class="c1"># Note: only need to specify arguments that change</span>
+                <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">store</span> <span class="ow">in</span> <span class="n">store_for_param</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="c1"># param&#39;s argument value is assumed to be a store_key</span>
+                    <span class="n">store_key</span> <span class="o">=</span> <span class="n">outer_kw</span><span class="p">[</span><span class="n">param</span><span class="p">]</span>
+                    <span class="c1"># store_key points to the value the outer user wants the value for:</span>
+                    <span class="c1"># store is the store where to find it</span>
+                    <span class="k">yield</span> <span class="n">param</span><span class="p">,</span> <span class="n">store</span><span class="p">[</span><span class="n">store_key</span><span class="p">]</span>
+
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">get_values_from_stores</span><span class="p">())</span>
+
+        <span class="n">ingress</span> <span class="o">=</span> <span class="n">Ingress</span><span class="p">(</span>
+            <span class="n">inner_sig</span><span class="o">=</span><span class="n">sig</span><span class="p">,</span>
+            <span class="n">kwargs_trans</span><span class="o">=</span><span class="n">kwargs_trans</span><span class="p">,</span>
+            <span class="n">outer_sig</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">sig</span><span class="o">.</span><span class="n">ch_annotations</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">param_to_mall_map</span><span class="p">})</span>
+                <span class="c1"># + [save_name_param]</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="n">wrapped_f</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">ingress</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">include_stores_attribute</span><span class="p">:</span>
+        <span class="n">wrapped_f</span><span class="o">.</span><span class="n">store_for_param</span> <span class="o">=</span> <span class="n">store_for_param</span>
+
+    <span class="k">if</span> <span class="n">output_store</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output_store_name</span> <span class="o">=</span> <span class="s1">&#39;output_store&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_store</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># if output_store is a string, it should be the a key to store_for_param</span>
+            <span class="n">output_store_name</span> <span class="o">=</span> <span class="n">output_store</span>
+            <span class="n">output_store</span> <span class="o">=</span> <span class="n">mall</span><span class="p">[</span><span class="n">output_store_name</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># TODO: Assert MutableMapping, or just existence of __setitem__?</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">output_store</span><span class="p">,</span> <span class="s1">&#39;__setitem__&#39;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Needs to have a __setitem__: </span><span class="si">{</span><span class="n">output_store</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">output_store_name</span> <span class="ow">in</span> <span class="n">store_for_param</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Name conflicts with existing param name: </span><span class="si">{</span><span class="n">output_store_name</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="p">)</span>
+
+        <span class="n">wrapped_f</span> <span class="o">=</span> <span class="n">store_on_output</span><span class="p">(</span>
+            <span class="n">wrapped_f</span><span class="p">,</span>
+            <span class="n">store</span><span class="o">=</span><span class="n">output_store</span><span class="p">,</span>
+            <span class="n">save_name_param</span><span class="o">=</span><span class="n">save_name_param</span><span class="p">,</span>
+            <span class="n">add_store_to_func_attr</span><span class="o">=</span><span class="s1">&#39;output_store&#39;</span> <span class="k">if</span> <span class="n">include_stores_attribute</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">empty_name_callback</span><span class="o">=</span><span class="n">empty_name_callback</span><span class="p">,</span>
+            <span class="n">auto_namer</span><span class="o">=</span><span class="n">auto_namer</span><span class="p">,</span>
+            <span class="n">output_trans</span><span class="o">=</span><span class="n">output_trans</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># wrapped_f.__name__ = wrapped_f.__name__ + &quot;_w_output_storing&quot;  # to remove</span>
+
+    <span class="k">return</span> <span class="n">wrapped_f</span></div>
+
+
+<span class="k">def</span> <span class="nf">_mk_store_for_param</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">param_to_mall_key_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make a {param: store,...} dict from a {param: mall_key,...} dict, a sig and a</span>
+<span class="sd">    mall, validating stuff on the way.&quot;&quot;&quot;</span>
+    <span class="n">mall</span> <span class="o">=</span> <span class="n">mall</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">param_to_mall_key_dict</span> <span class="o">=</span> <span class="n">keys_to_values_if_non_mapping_iterable</span><span class="p">(</span>
+        <span class="n">param_to_mall_key_dict</span>
+    <span class="p">)</span>
+    <span class="c1"># mall_keys_that_are_also_params_but_not_param_to_mall_key_dict_keys</span>
+    <span class="n">unmentioned_mall_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">mall</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">param_to_mall_key_dict</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">unmentioned_mall_keys</span> <span class="ow">and</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+
+        <span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Some of your mall keys were also func arg names, but you didn&#39;t mention &quot;</span>
+            <span class="sa">f</span><span class="s1">&#39;them in param_to_mall_map, namely, these: </span><span class="si">{</span><span class="n">unmentioned_mall_keys</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">param_to_mall_key_dict</span><span class="p">:</span>
+        <span class="n">func_name_stub</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">sig</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="n">func_name_stub</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">sig</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">)&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param_to_mall_key_dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">param_to_mall_key_dict</span> <span class="o">=</span> <span class="n">param_to_mall_key_dict</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">param_to_mall_key_dict</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">names</span><span class="p">):</span>
+            <span class="n">offenders</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">param_to_mall_key_dict</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;The param_to_mall_map should only contain keys that are &#39;</span>
+                <span class="sa">f</span><span class="s2">&quot;parameters (i.e. &#39;argument names&#39;) of your function </span><span class="si">{</span><span class="n">func_name_stub</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s1">&#39;Yet these param_to_mall_map keys were not argument names: &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">offenders</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">param_to_mall_key_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">mall</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">offenders</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">param_to_mall_key_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">mall</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="s1">&#39;keys&#39;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">offenders</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39;key&#39;</span>
+            <span class="n">offenders</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">offenders</span><span class="p">))</span>
+
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;The </span><span class="si">{</span><span class="n">offenders</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">keys</span><span class="si">}</span><span class="s1"> of your param_to_mall_map values were not &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;in the mall. &#39;</span>
+            <span class="p">)</span>
+        <span class="c1"># Note: store_for_param used to be the argument of prepare_for_crude_dispatch,</span>
+        <span class="c1">#   instead of the (param_to_mall_map, mall) pair which is overkill.</span>
+        <span class="c1">#   The reason for obliging the user to give this pair was because asking for</span>
+        <span class="c1">#   the user to be more explicit about the argname to store mapping would avoid</span>
+        <span class="c1">#   some bugs and make it possible to validate the request earlier on.</span>
+        <span class="n">store_for_param</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">argname</span><span class="p">:</span> <span class="n">mall</span><span class="p">[</span><span class="n">mall_key</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">argname</span><span class="p">,</span> <span class="n">mall_key</span> <span class="ow">in</span> <span class="n">param_to_mall_key_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">store_for_param</span>
+
+
+<span class="k">def</span> <span class="nf">keys_to_values_if_non_mapping_iterable</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">d</span>
+
+
+<span class="c1"># Note: This is not meant to actually be used in real apps, but be a drop in helper to</span>
+<span class="c1">#   talk to the mall (or rather &quot;listen&quot; since it&#39;s read-only) from a UI.</span>
+<div class="viewcode-block" id="simple_mall_dispatch_core_func"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.simple_mall_dispatch_core_func">[docs]</a><span class="k">def</span> <span class="nf">simple_mall_dispatch_core_func</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">:</span> <span class="n">KT</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_name</span><span class="p">:</span> <span class="n">StoreName</span><span class="p">,</span> <span class="n">mall</span><span class="p">:</span> <span class="n">Mall</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper function to dispatch a mall</span>
+
+<span class="sd">    This function is only meant to be a helper to give a UI (GUI,</span>
+<span class="sd">    CLI...) mall-exploration capabilities. Namely:</span>
+
+<span class="sd">    - ``list(mall)``: list the keys of a mall. This is achieved with args:</span>
+<span class="sd">        ``(key=None, action=None, store_name=None, mall=mall)``</span>
+<span class="sd">    - ``mall[store_name]``: get a store. Acheived by:</span>
+<span class="sd">        ``(key=None, action=None, store_name=store_name, mall=mall)``</span>
+<span class="sd">    - ``list(mall[store_name])``: list keys of a store (of the mall). Acheived by:</span>
+<span class="sd">        ``(key=None, action=&#39;list&#39;, store_name=store_name, mall=mall)``</span>
+<span class="sd">    - ``list(filter(key, mall[store_name]))``: list keys of a store (of the mall)</span>
+<span class="sd">        according to a substring filter. (only keys that have ``key`` as substring)</span>
+<span class="sd">        ``(key=key, action=&#39;list&#39;, store_name=store_name, mall=mall)``</span>
+<span class="sd">    - ``mall[store_name][key]``:  get the value/data of a store for ``key``</span>
+<span class="sd">        ``(key=key, action=&#39;get&#39;, store_name=store_name, mall=mall)``</span>
+
+<span class="sd">    :param key: The key</span>
+<span class="sd">    :param action: &#39;list&#39; (to list keys of a store) or &#39;get&#39; (to get the value of</span>
+<span class="sd">        ``key`` in the store (named ``store_name``)</span>
+<span class="sd">    :param store_name: Store name to look up in mall. If not given, the function will</span>
+<span class="sd">        output the mall keys (which are valid store names)</span>
+<span class="sd">    :param mall: dict of stores (Mapping interface to data)</span>
+<span class="sd">    :return:</span>
+
+<span class="sd">    &gt;&gt;&gt; mall = {</span>
+<span class="sd">    ...     &#39;english&#39;: {&#39;one&#39;: 1, &#39;two&#39;: 2, &#39;three&#39;: 3},</span>
+<span class="sd">    ...     &#39;french&#39;: {&#39;un&#39;: 1, &#39;deux&#39;: 2},</span>
+<span class="sd">    ... }</span>
+
+<span class="sd">    List the keys of a mall:</span>
+
+<span class="sd">    &gt;&gt;&gt; simple_mall_dispatch_core_func(None, None, None, mall=mall)</span>
+<span class="sd">    [&#39;english&#39;, &#39;french&#39;]</span>
+
+<span class="sd">    Get a store</span>
+
+<span class="sd">    &gt;&gt;&gt; simple_mall_dispatch_core_func(None, None, store_name=&#39;english&#39;, mall=mall)</span>
+<span class="sd">    {&#39;one&#39;: 1, &#39;two&#39;: 2, &#39;three&#39;: 3}</span>
+
+<span class="sd">    List keys of a store (of the mall):</span>
+
+<span class="sd">    &gt;&gt;&gt; simple_mall_dispatch_core_func(</span>
+<span class="sd">    ...     None, action=&#39;list&#39;, store_name=&#39;english&#39;, mall=mall</span>
+<span class="sd">    ... )</span>
+<span class="sd">    [&#39;one&#39;, &#39;two&#39;, &#39;three&#39;]</span>
+
+<span class="sd">    List keys of a store (of the mall) according to a substring filter:</span>
+
+<span class="sd">    &gt;&gt;&gt; simple_mall_dispatch_core_func(</span>
+<span class="sd">    ...     &#39;e&#39;, action=&#39;list&#39;, store_name=&#39;english&#39;, mall=mall</span>
+<span class="sd">    ... )</span>
+<span class="sd">    [&#39;one&#39;, &#39;three&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; simple_mall_dispatch_core_func(</span>
+<span class="sd">    ...     &#39;two&#39;, action=&#39;get&#39;, store_name=&#39;english&#39;, mall=mall</span>
+<span class="sd">    ... )</span>
+<span class="sd">    2</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">store_name</span><span class="p">:</span>
+        <span class="c1"># if store_name empty, list the store names (i.e. the mall keys)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">mall</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># if not, get the store</span>
+        <span class="n">store</span> <span class="o">=</span> <span class="n">mall</span><span class="p">[</span><span class="n">store_name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">action</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">store</span>
+
+    <span class="n">key</span> <span class="o">=</span> <span class="n">key</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;list&#39;</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>  <span class="c1"># to handle some invisible whitespace that would screw things</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">k</span><span class="p">,</span> <span class="n">store</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;get&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
