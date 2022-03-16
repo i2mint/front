@@ -10,6 +10,7 @@ See below one of the dags that will often be used in this module's doctests:
 ...     y = bar(x, greeting)
 ...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding
 >>> print(dag.dot_digraph_ascii())  # doctest: +SKIP
+
 ..
                              b
 
