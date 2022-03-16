@@ -56,6 +56,109 @@ from meshed.base import ch_func_node_attrs
 from meshed.itools import parents, children
 
 
+def simple_namer(name, *, prefix='', suffix=''):
+    return f'{prefix}{name}{suffix}'
+
+
+def crudify_func_nodes(
+    var_nodes: Union[str, Iterable[str]],
+    dag: DAG,
+    var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
+    *,
+    mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
+    include_stores_attribute: bool = False,
+    save_name_param: str = 'save_name',
+):
+    """Crudifies the given ``var_nodes`` in the ``dag``.
+
+    Crudifying a var node means crudifying it's ``FuncNode`` neighbors,
+    i.e. telling the function that outputs to the ``VarNode`` (if any) to save it's
+    output in a store and (additionally) return the key it saved it too instead of the
+    value itself, and telling any consumers of the var node to use that key as it's
+    argument instead, retrieving the value from said store.
+
+    >>> from meshed import DAG, FuncNode
+    >>> from inspect import signature
+    >>> def foo(a, b):  return a + b
+    >>> def bar(x, y):  return  x * y
+    >>> dag = DAG([
+    ...     FuncNode(foo, name='foo', out='foo_output'),
+    ...     FuncNode(bar, bind={'y': 'foo_output'})
+    ... ])
+
+    Let's crudify ``'foo_output'``. We don't need to specify a mall, since
+    ``crudify_func_nodes`` will make one for us.
+    But in order to get access to it, to see what the function is doing, let's define
+    a mall with a single store (a dictionary), named ``'foo_output_store'``
+    (note that the map between ``var_node`` string name and
+    store name is controlled by the ``var_node_name_to_store_name`` argument)
+
+    >>> store = dict()
+    >>> mall = {'foo_output_store': store}
+    >>> new_dag = crudify_func_nodes(['foo_output'], dag, mall=mall)
+
+    The ``new_dag`` is the same in structure, signature, and global behavior (you
+    get the same outputs for the same inputs):
+
+    >>> print(dag.synopsis_string())
+    a,b -> foo -> foo_output
+    foo_output,x -> bar_ -> bar
+    >>> assert dag.synopsis_string() == new_dag.synopsis_string()
+    >>> assert str(signature(dag)) == str(signature(new_dag)) == '(a, b, x)'
+    >>> assert dag(2, 3, 4) == new_dag(2, 3, 4) == 20
+
+    But let's have a closer look at the functions that ``dag`` and ``new_dag`` are
+    using. The functions of the ``dag`` are the original functions we specified,
+    behaving normally:
+
+    >>> dag.func_nodes[0].func(2, 3)
+    5
+    >>> dag.func_nodes[1].func(4, 5)
+    20
+
+    But the first function of ``new_dag`` outputs ``'bar_last_output'`` instead of ``5``.
+
+    >>> new_dag.func_nodes[0].func(2, 3)
+    'bar_last_output'
+
+    Where did the ``5`` go? In the mall!
+    >>> mall
+    {'foo_output_store': {'bar_last_output': 5}}
+
+    So that ``5`` has been stored under the ``'bar_last_output'`` key.
+    Further, the second function's second argument will no longer work with numbers,
+    but with string keys, and use that same store to retrieve the value it needs for
+    the underlying function:
+
+    >>> new_dag.func_nodes[1].func(4, 'bar_last_output')
+    20
+
+
+    :param var_nodes: The ``VarNodes`` we want to crudify
+    :param dag: The dag that contains these var_nodes
+    :param var_node_name_to_store_name: The function to use to make a store for a given
+        var_node name. If you have an explicit mapping ``m`` for this, just use ``m.get``
+    :param mall: A ``mall`` (store of stores, i.e. mapping of mappings) whose keys are
+        store names, and values are the actual stores.
+    :param include_stores_attribute: Whether the crudified functions should have an
+        attribute containing a pointer to the stores involved
+    :param save_name_param: The name that the "save as" parameter should appear as.
+    :return:
+    """
+    return DAG(
+        list(
+            _crudified_func_nodes(
+                var_nodes,
+                dag,
+                var_node_name_to_store_name,
+                mall=mall,
+                include_stores_attribute=include_stores_attribute,
+                save_name_param=save_name_param,
+            )
+        )
+    )
+
+
 class VarNodeRole(Enum):
     """(Var)Node roles.
 
@@ -162,11 +265,11 @@ def _func_nodes_arg_and_return_names_to_crude(
 ):
     """Return a copy of a dag where ``var_nodes`` were crudified.
 
+    >>> from meshed import DAG
     >>> from meshed.makers import code_to_dag
     >>> @code_to_dag
     ... def dag():
-    ...     a = get_a()
-    ...     x = foo(a, b, c)
+    ...     x = foo(a, b)
     ...     y = bar(x, greeting)
     ...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding
     >>>
@@ -176,9 +279,8 @@ def _func_nodes_arg_and_return_names_to_crude(
     ... )  # doctest: +SKIP
     [
         (FuncNode(a,x -> confuser -> z), ('x', 'a'), None),
-        (FuncNode( -> get_a -> a), (), 'a'),
         (FuncNode(x,greeting -> bar -> y), ('x',), None),
-        (FuncNode(a,b,c -> foo -> x), ('a',), 'x')
+        (FuncNode(a,b -> foo -> x), ('a',), 'x')
     ]
 
     """
@@ -234,10 +336,6 @@ def _empty_name_callback():
     raise RuntimeError(f'No save name was given')
 
 
-def simple_namer(name, *, prefix='', suffix=''):
-    return f'{prefix}{name}{suffix}'
-
-
 from i2.wrapper import rm_params
 
 
@@ -291,29 +389,6 @@ def _crudified_func_nodes(
             )
 
             yield ch_func_node_attrs(func_node, func=rm_save_name(crudified_func))
-
-
-def crudify_func_nodes(
-    var_nodes: Union[str, Iterable[str]],
-    dag: DAG,
-    var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
-    *,
-    mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
-    include_stores_attribute: bool = False,
-    save_name_param: str = 'save_name',
-):
-    return DAG(
-        list(
-            _crudified_func_nodes(
-                var_nodes,
-                dag,
-                var_node_name_to_store_name,
-                mall=mall,
-                include_stores_attribute=include_stores_attribute,
-                save_name_param=save_name_param,
-            )
-        )
-    )
 
 
 # empty_name_callback: Callable[[], Any] = None,
