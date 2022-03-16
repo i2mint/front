@@ -11,7 +11,7 @@ See below one of the dags that will often be used in this module's doctests:
 ...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding
 >>> print(dag.dot_digraph_ascii())  # doctest: +SKIP
 
-..
+.. code-block::
                              b
 
                           │
@@ -77,6 +77,17 @@ from meshed.itools import parents, children
 
 
 class VarNodeRole(Enum):
+    """(Var)Node roles.
+
+    When a ``VarNode`` is used to source the arguments of a ``FuncNode``, it's playing
+    a ``VarNodeRole.argument`` role.
+
+    When a ``VarNode`` is used to store the return value of a ``FuncNode``, it's playing
+    a ``VarNodeRole.return_value`` role.
+
+    Most ``VarNode``s play both roles during a ``DAG`` computation.
+
+    """
     argument = 'argument'
     return_value = 'return_value'
 
