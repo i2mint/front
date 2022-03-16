@@ -250,10 +250,11 @@ def _crudified_func_nodes(
     dag: DAG,
     var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
     *,
-    mall: Union[Mapping[str, Mapping[str, Any]], None] = defaultdict(dict),
+    mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
     include_stores_attribute: bool = False,
     save_name_param: str = 'save_name',
 ):
+    mall = mall or defaultdict(dict)
     for (
         func_node,
         argument_names,
