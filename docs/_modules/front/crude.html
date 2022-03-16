@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.16 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.17 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -43,6 +43,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front.html">front</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/base.html">front.base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/crude.html">front.crude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/dag.html">front.dag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/data_binding.html">front.examples.data_binding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/experimentation.html">front.examples.experimentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/issues.html">front.examples.issues</a></li>
@@ -87,14 +88,44 @@
              
   <h1>Source code for front.crude</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Control complex python object through strings.</span>
-<span class="sd">Wrap functions so that the complex arguments can be specified through a string key</span>
+<span class="sd">CRUDE stands for CRUD-Execution.</span>
+<span class="sd">It is a method to solve the problem of dealing with complex python objects in an</span>
+<span class="sd">environment that doesn&#39;t natively support these.</span>
+
+<span class="sd">The method&#39;s trick is to allow the complex object&#39;s that we &quot;crudified&quot; to be controlled</span>
+<span class="sd">via a string key that references the complex object, via a &quot;store&quot; which maps</span>
+<span class="sd">these string keys to the actual physical object.</span>
+<span class="sd">This store could be a python dictionary (so in RAM) or any persisting storage system</span>
+<span class="sd">(files, DB) that is given a `typing.Mapping` interface</span>
+<span class="sd">(see https://i2mint.github.io/dol/ or https://i2mint.github.io/py2store for</span>
+<span class="sd">tools to do so).</span>
+
+<span class="sd">Take, for instance, a GUI that allows a user to compute some descriptive statistics</span>
+<span class="sd">of the columns of a table.</span>
+<span class="sd">The inputs are a table, and one of the following statistics function:</span>
+<span class="sd">``statistics.mean``, ``statistics.median``, or ``statistics.stdev``.</span>
+
+<span class="sd">Python functions are not a type natively handled by GUI, so what can we do?</span>
+<span class="sd">We can stick a layer between our ``compute_stats(stats_func, table)`` function</span>
+<span class="sd">and our GUI, endowed with a</span>
+<span class="sd">``{&quot;mean&quot;: statistics.mean``, &quot;median&quot;: statistics.median, &quot;std&quot;: statistics.stdev}``</span>
+<span class="sd">mapping. We expose the string keys to the GUI, and map them to the functions before</span>
+<span class="sd">calling ``compute_stats``.</span>
+
+<span class="sd">In the case of the ``table``, we&#39;d probably add a means for the GUI user to upload</span>
+<span class="sd">tables (say from ``.csv`` or ``.xlsx`` files), storing them under a name of their</span>
+<span class="sd">choice, then pointing to said table via the name, when they want to execute a</span>
+<span class="sd">``compute_stats(stats_func, table)``.</span>
+
+<span class="sd">These are examples of what we call &quot;crudifying&quot; variables or functions.</span>
+
+<span class="sd">Here we therefore offer tools to do this sort of thing;</span>
+<span class="sd">wrap functions so that the complex arguments can be specified through a string key</span>
 <span class="sd">that points to the actual python object (which is stored in a session&#39;s memory or</span>
 <span class="sd">persisted in some fashion).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">Parameter</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
@@ -313,7 +344,7 @@
 <span class="k">def</span> <span class="nf">prepare_for_crude_dispatch</span><span class="p">(</span>
     <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">param_to_mall_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">param_to_mall_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">mall</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mall</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">include_stores_attribute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">output_store</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Mapping</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -335,14 +366,15 @@
 <span class="sd">        (e.g. dict) that should be used for said param.</span>
 <span class="sd">        If a non-Mapping iterable is given, will take {name: name...} identity mapping</span>
 <span class="sd">        for names in that iterable.</span>
-<span class="sd">    :mall mall: A store of stores. A Mapping whose keys are what the values of</span>
+<span class="sd">    :param mall: A store of stores. A Mapping whose keys are what the values of</span>
 <span class="sd">        ``param_to_mall_map`` point to and whose values are mapping interfaces (called</span>
 <span class="sd">         &quot;stores&quot; of a storage backend (local or remote, persisted or in-memory).</span>
 <span class="sd">    :param include_stores_attribute: bool, whether to add an attribute to the function</span>
 <span class="sd">        containing the ``output_store``</span>
 <span class="sd">    :param output_store: a store used to record the output of the function</span>
 
-<span class="sd">    If (and only if) ``output_store`` is given, we also use the following arguments:</span>
+<span class="sd">    If (and only if) ``output_store`` is given, we can also use the following</span>
+<span class="sd">    arguments to control the output &quot;crudification&quot; further.</span>
 
 <span class="sd">    :param save_name_param: str, the argument name that should be used in the returned</span>
 <span class="sd">        functions to get the the key of ``output_store`` under which the output will be</span>
@@ -477,6 +509,7 @@
 
         <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
 
+        <span class="c1"># get an {argname: store, ...} dict from param_to_mall_map:</span>
         <span class="n">store_for_param</span> <span class="o">=</span> <span class="n">_mk_store_for_param</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">param_to_mall_map</span><span class="p">,</span> <span class="n">mall</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
 
         <span class="k">def</span> <span class="nf">kwargs_trans</span><span class="p">(</span><span class="n">outer_kw</span><span class="p">):</span>
@@ -515,7 +548,7 @@
             <span class="n">inner_sig</span><span class="o">=</span><span class="n">sig</span><span class="p">,</span>
             <span class="n">kwargs_trans</span><span class="o">=</span><span class="n">kwargs_trans</span><span class="p">,</span>
             <span class="n">outer_sig</span><span class="o">=</span><span class="p">(</span>
-                <span class="n">sig</span><span class="o">.</span><span class="n">ch_annotations</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">param_to_mall_map</span><span class="p">})</span>
+                <span class="n">sig</span><span class="o">.</span><span class="n">ch_annotations</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">store_for_param</span><span class="p">})</span>
                 <span class="c1"># + [save_name_param]</span>
             <span class="p">),</span>
         <span class="p">)</span>
