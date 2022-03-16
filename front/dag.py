@@ -5,59 +5,39 @@ See below one of the dags that will often be used in this module's doctests:
 >>> from meshed.makers import code_to_dag
 >>> @code_to_dag
 ... def dag():
-...     a = get_a()
-...     x = foo(a, b, c)
+...     x = foo(a, b)
 ...     y = bar(x, greeting)
 ...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding
 >>> print(dag.dot_digraph_ascii())  # doctest: +SKIP
 
 .. code-block::
-                             b
+     ┌──────────┐
+  ┌▶ │ confuser │ ◀──    a
+  │  └──────────┘
+  │    │                │
+  │    │                │
+  │    ▼                ▼
+  │                   ┌─────┐
+  │       z           │ foo │ ◀──  b
+  │                   └─────┘
+  │                     │
+  │                     │
+  │                     ▼
+  │
+  └──────────────────    x
 
-                          │
-                          │
-                          ▼
-                        ┌──────────┐
-             c      ──▶ │   foo    │ ◀┐
-                        └──────────┘  │
-                          │           │
-                          │           │
-                          ▼           │
-                                      │
-      ┌────────────────      x        │
-      │                               │
-      │                   │           │
-      │                   │           │
-      │                   ▼           │
-      │                 ┌──────────┐  │
-      │   greeting  ──▶ │   bar    │  │
-      │                 └──────────┘  │
-      │                   │           │
-      │                   │           │
-      │                   ▼           │
-      │                               │
-      │                      y        │
-      │                               │
-      │                 ┌──────────┐  │
-      │                 │  get_a   │  │
-      │                 └──────────┘  │
-      │                   │           │
-      │                   │           │
-      │                   ▼           │
-      │                               │
-      │                      a       ─┘
-      │
-      │                   │
-      │                   │
-      │                   ▼
-      │                 ┌──────────┐
-      └───────────────▶ │ confuser │
-                        └──────────┘
-                          │
-                          │
-                          ▼
+                        │
+                        │
+                        ▼
+                      ┌─────┐
+       greeting   ──▶ │ bar │
+                      └─────┘
+                        │
+                        │
+                        ▼
 
-                             z
+                         y
+
 
 
 """
@@ -122,12 +102,10 @@ def _node_replacements_for_var_node_crudification(var_node: str, dag: DAG):
     We'll need to have ``foo`` crudify it's output and both ``bar`` and ``confuser``
     crudify one of their params.
 
-
     >>> from meshed.makers import code_to_dag
     >>> @code_to_dag
     ... def dag():
-    ...     a = get_a()
-    ...     x = foo(a, b, c)
+    ...     x = foo(a, b)
     ...     y = bar(x, greeting)
     ...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding
     >>> assert sorted(
@@ -138,7 +116,6 @@ def _node_replacements_for_var_node_crudification(var_node: str, dag: DAG):
     ...     ('confuser', (VarNodeRole.argument, 'x')),
     ...     ('foo', (VarNodeRole.return_value, 'x')),
     ... ])
-
 
     """
     if not var_node in dag.var_nodes:
