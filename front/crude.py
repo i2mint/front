@@ -1,12 +1,42 @@
 """
-Control complex python object through strings.
-Wrap functions so that the complex arguments can be specified through a string key
+CRUDE stands for CRUD-Execution.
+It is a method to solve the problem of dealing with complex python objects in an
+environment that doesn't natively support these.
+
+The method's trick is to allow the complex object's that we "crudified" to be controlled
+via a string key that references the complex object, via a "store" which maps
+these string keys to the actual physical object.
+This store could be a python dictionary (so in RAM) or any persisting storage system
+(files, DB) that is given a `typing.Mapping` interface
+(see https://i2mint.github.io/dol/ or https://i2mint.github.io/py2store for
+tools to do so).
+
+Take, for instance, a GUI that allows a user to compute some descriptive statistics
+of the columns of a table.
+The inputs are a table, and one of the following statistics function:
+``statistics.mean``, ``statistics.median``, or ``statistics.stdev``.
+
+Python functions are not a type natively handled by GUI, so what can we do?
+We can stick a layer between our ``compute_stats(stats_func, table)`` function
+and our GUI, endowed with a
+``{"mean": statistics.mean``, "median": statistics.median, "std": statistics.stdev}``
+mapping. We expose the string keys to the GUI, and map them to the functions before
+calling ``compute_stats``.
+
+In the case of the ``table``, we'd probably add a means for the GUI user to upload
+tables (say from ``.csv`` or ``.xlsx`` files), storing them under a name of their
+choice, then pointing to said table via the name, when they want to execute a
+``compute_stats(stats_func, table)``.
+
+These are examples of what we call "crudifying" variables or functions.
+
+Here we therefore offer tools to do this sort of thing;
+wrap functions so that the complex arguments can be specified through a string key
 that points to the actual python object (which is stored in a session's memory or
 persisted in some fashion).
 """
 
-from typing import Any, Mapping, Optional, Callable, Union, Iterable
-from functools import partial
+from typing import Any, Mapping, Optional, Callable, Union, Iterable, Iterator
 from inspect import Parameter
 import os
 
@@ -85,8 +115,8 @@ def store_on_output(
     func=None,
     *,
     store=None,
-    save_name_param="save_name",
-    add_store_to_func_attr="output_store",
+    save_name_param='save_name',
+    add_store_to_func_attr='output_store',
     empty_name_callback: Callable[[], Any] = None,
     auto_namer: Callable[..., str] = None,
     output_trans: Callable[..., Any] = None,
@@ -175,20 +205,17 @@ def store_on_output(
 
     """
     save_name_param_obj = Parameter(
-        name=save_name_param,
-        kind=Parameter.KEYWORD_ONLY,
-        default="",
-        annotation=str,
+        name=save_name_param, kind=Parameter.KEYWORD_ONLY, default='', annotation=str,
     )
     _validate_function_keyword_only_params(
-        auto_namer, ["output", "arguments"], obj_name="auto_namer"
+        auto_namer, ['output', 'arguments'], obj_name='auto_namer'
     )
     _validate_function_keyword_only_params(
-        output_trans, ["save_name", "output", "arguments"], obj_name="output_trans"
+        output_trans, ['save_name', 'output', 'arguments'], obj_name='output_trans'
     )
     if output_trans:
         assert callable(output_trans) and set(Sig(output_trans).names).issubset(
-            ["save_name", "output", "arguments"]
+            ['save_name', 'output', 'arguments']
         )
     sig = Sig(func) + [save_name_param_obj]
 
@@ -203,7 +230,7 @@ def store_on_output(
         if not save_name and empty_name_callback:
             assert callable(
                 empty_name_callback
-            ), f"empty_name_callback must be callable: {empty_name_callback}"
+            ), f'empty_name_callback must be callable: {empty_name_callback}'
             empty_name_callback()
         args, kwargs = sig.args_and_kwargs_from_kwargs(arguments)
         output = func(*args, **kwargs)
@@ -228,12 +255,12 @@ def store_on_output(
 def prepare_for_crude_dispatch(
     func: Callable = None,
     *,
-    param_to_mall_map: Optional[Iterable] = None,
+    param_to_mall_map: Optional[Union[dict, Iterable]] = None,
     mall: Optional[Mall] = None,
     include_stores_attribute: bool = False,
     output_store: Optional[Union[Mapping, str]] = None,
     # the arguments below only apply if output_store is given
-    save_name_param: str = "save_name",
+    save_name_param: str = 'save_name',
     empty_name_callback: Callable[[], Any] = None,
     auto_namer: Callable[..., str] = None,
     output_trans: Callable[..., Any] = None,
@@ -250,14 +277,15 @@ def prepare_for_crude_dispatch(
         (e.g. dict) that should be used for said param.
         If a non-Mapping iterable is given, will take {name: name...} identity mapping
         for names in that iterable.
-    :mall mall: A store of stores. A Mapping whose keys are what the values of
+    :param mall: A store of stores. A Mapping whose keys are what the values of
         ``param_to_mall_map`` point to and whose values are mapping interfaces (called
          "stores" of a storage backend (local or remote, persisted or in-memory).
     :param include_stores_attribute: bool, whether to add an attribute to the function
         containing the ``output_store``
     :param output_store: a store used to record the output of the function
 
-    If (and only if) ``output_store`` is given, we also use the following arguments:
+    If (and only if) ``output_store`` is given, we can also use the following
+    arguments to control the output "crudification" further.
 
     :param save_name_param: str, the argument name that should be used in the returned
         functions to get the the key of ``output_store`` under which the output will be
@@ -392,6 +420,7 @@ def prepare_for_crude_dispatch(
 
         sig = Sig(func)
 
+        # get an {argname: store, ...} dict from param_to_mall_map:
         store_for_param = _mk_store_for_param(sig, param_to_mall_map, mall) or dict()
 
         def kwargs_trans(outer_kw):
@@ -430,7 +459,7 @@ def prepare_for_crude_dispatch(
             inner_sig=sig,
             kwargs_trans=kwargs_trans,
             outer_sig=(
-                sig.ch_annotations(**{name: str for name in param_to_mall_map})
+                sig.ch_annotations(**{name: str for name in store_for_param})
                 # + [save_name_param]
             ),
         )
@@ -459,7 +488,7 @@ def prepare_for_crude_dispatch(
             wrapped_f,
             store=output_store,
             save_name_param=save_name_param,
-            add_store_to_func_attr="output_store" if include_stores_attribute else None,
+            add_store_to_func_attr='output_store' if include_stores_attribute else None,
             empty_name_callback=empty_name_callback,
             auto_namer=auto_namer,
             output_trans=output_trans,
@@ -483,12 +512,12 @@ def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=Tru
 
         warn(
             f"Some of your mall keys were also func arg names, but you didn't mention "
-            f"them in param_to_mall_map, namely, these: {unmentioned_mall_keys}"
+            f'them in param_to_mall_map, namely, these: {unmentioned_mall_keys}'
         )
     if param_to_mall_key_dict:
-        func_name_stub = ""
+        func_name_stub = ''
         if sig.name:
-            func_name_stub = f"({sig.name})"
+            func_name_stub = f'({sig.name})'
         if isinstance(param_to_mall_key_dict, str):
             param_to_mall_key_dict = param_to_mall_key_dict.split()
         if not set(param_to_mall_key_dict).issubset(sig.names):
