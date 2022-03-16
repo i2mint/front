@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.dag &mdash; front 0.1.22 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.dag &mdash; front 0.1.23 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -190,10 +190,7 @@
             <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">var_node</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="p">)</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">returned_by_func_node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;For time being, you can only crudify intermediate var nodes, not root &#39;</span>
-            <span class="sa">f</span><span class="s1">&#39;ones like: </span><span class="si">{</span><span class="n">var_node</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># meaning is NOT produced by a FuncNode, so is a root (input) node.</span>
     <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">returned_by_func_node</span><span class="p">))</span>
 
 
@@ -237,8 +234,13 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The </span><span class="si">{</span><span class="n">dag</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> dag doesn&#39;t have this var_node: </span><span class="si">{</span><span class="n">var_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">returned_by_func_node</span> <span class="o">=</span> <span class="n">_get_returned_by_func_node</span><span class="p">(</span><span class="n">var_node</span><span class="p">,</span> <span class="n">dag</span><span class="p">)</span>
-    <span class="n">_validate_is_func_node</span><span class="p">(</span><span class="n">returned_by_func_node</span><span class="p">,</span> <span class="n">var_node</span><span class="p">,</span> <span class="s1">&#39;Parent&#39;</span><span class="p">)</span>
-    <span class="k">yield</span> <span class="n">returned_by_func_node</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">VarNodeRole</span><span class="o">.</span><span class="n">return_value</span><span class="p">,</span> <span class="n">var_node</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">returned_by_func_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># If var_node is the output of a FuncNode</span>
+        <span class="c1"># ... make sure it is.</span>
+        <span class="n">_validate_is_func_node</span><span class="p">(</span><span class="n">returned_by_func_node</span><span class="p">,</span> <span class="n">var_node</span><span class="p">,</span> <span class="s1">&#39;Parent&#39;</span><span class="p">)</span>
+        <span class="c1"># yield a (func_node_name, &#39;return_value&#39;, var_node) triple</span>
+        <span class="k">yield</span> <span class="n">returned_by_func_node</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">VarNodeRole</span><span class="o">.</span><span class="n">return_value</span><span class="p">,</span> <span class="n">var_node</span><span class="p">)</span>
+    <span class="c1"># if returned_by_func_node is None, skip the above: var_node is a &quot;root&quot; node</span>
 
     <span class="c1"># arg_of_func_nodes</span>
     <span class="k">for</span> <span class="n">arg_of_func_node</span> <span class="ow">in</span> <span class="n">children</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">var_node</span><span class="p">):</span>
@@ -360,7 +362,11 @@
     <span class="n">include_stores_attribute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">save_name_param</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;save_name&#39;</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="n">mall</span> <span class="o">=</span> <span class="n">mall</span> <span class="ow">or</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var_nodes</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">var_nodes</span> <span class="o">=</span> <span class="n">var_nodes</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">mall</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># make a mall for all the var_names, giving them all empty dicts as stores</span>
+        <span class="n">mall</span> <span class="o">=</span> <span class="p">{</span><span class="n">var_node_name_to_store_name</span><span class="p">(</span><span class="n">var_name</span><span class="p">):</span> <span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="n">var_nodes</span><span class="p">}</span>
     <span class="n">rm_save_name</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">rm_params</span><span class="p">,</span> <span class="n">params_to_remove</span><span class="o">=</span><span class="p">[</span><span class="n">save_name_param</span><span class="p">])</span>
 
     <span class="k">for</span> <span class="p">(</span>
