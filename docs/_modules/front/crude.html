@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.22 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.23 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -624,7 +624,12 @@
 
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;The </span><span class="si">{</span><span class="n">offenders</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">keys</span><span class="si">}</span><span class="s1"> of your param_to_mall_map values were not &#39;</span>
-                <span class="sa">f</span><span class="s1">&#39;in the mall. &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;in the mall. Your param_to_mall_key_dict is:</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">param_to_mall_key_dict</span><span class="si">}</span><span class="s1"> and your mall has keys: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">mall</span><span class="p">)</span><span class="si">}</span><span class="s1">. &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;You can either add </span><span class="si">{</span><span class="n">offenders</span><span class="si">}</span><span class="s1"> stores to the mall, &#39;</span>
+                <span class="c1"># f&#39;make an auto-store-making mall (e.g. collections.defaultdict(dict), &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;or change your param_to_mall_map to point (values) to a store that &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;you actually have in the mall&#39;</span>
             <span class="p">)</span>
         <span class="c1"># Note: store_for_param used to be the argument of prepare_for_crude_dispatch,</span>
         <span class="c1">#   instead of the (param_to_mall_map, mall) pair which is overkill.</span>
