@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.16 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.17 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -22,7 +22,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="front.examples.data_binding" href="examples/data_binding.html" />
+    <link rel="next" title="front.dag" href="dag.html" />
     <link rel="prev" title="front.base" href="base.html" /> 
 </head>
 
@@ -46,6 +46,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../front.html">front</a></li>
 <li class="toctree-l1"><a class="reference internal" href="base.html">front.base</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">front.crude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dag.html">front.dag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/data_binding.html">front.examples.data_binding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/experimentation.html">front.examples.experimentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/issues.html">front.examples.issues</a></li>
@@ -90,8 +91,33 @@
              
   <section id="module-front.crude">
 <span id="front-crude"></span><h1>front.crude<a class="headerlink" href="#module-front.crude" title="Permalink to this headline">¶</a></h1>
-<p>Control complex python object through strings.
-Wrap functions so that the complex arguments can be specified through a string key
+<p>CRUDE stands for CRUD-Execution.
+It is a method to solve the problem of dealing with complex python objects in an
+environment that doesn’t natively support these.</p>
+<p>The method’s trick is to allow the complex object’s that we “crudified” to be controlled
+via a string key that references the complex object, via a “store” which maps
+these string keys to the actual physical object.
+This store could be a python dictionary (so in RAM) or any persisting storage system
+(files, DB) that is given a <cite>typing.Mapping</cite> interface
+(see <a class="reference external" href="https://i2mint.github.io/dol/">https://i2mint.github.io/dol/</a> or <a class="reference external" href="https://i2mint.github.io/py2store">https://i2mint.github.io/py2store</a> for
+tools to do so).</p>
+<p>Take, for instance, a GUI that allows a user to compute some descriptive statistics
+of the columns of a table.
+The inputs are a table, and one of the following statistics function:
+<code class="docutils literal notranslate"><span class="pre">statistics.mean</span></code>, <code class="docutils literal notranslate"><span class="pre">statistics.median</span></code>, or <code class="docutils literal notranslate"><span class="pre">statistics.stdev</span></code>.</p>
+<p>Python functions are not a type natively handled by GUI, so what can we do?
+We can stick a layer between our <code class="docutils literal notranslate"><span class="pre">compute_stats(stats_func,</span> <span class="pre">table)</span></code> function
+and our GUI, endowed with a
+<code class="docutils literal notranslate"><span class="pre">{&quot;mean&quot;:</span> <span class="pre">statistics.mean</span></code>, “median”: statistics.median, “std”: statistics.stdev}``
+mapping. We expose the string keys to the GUI, and map them to the functions before
+calling <code class="docutils literal notranslate"><span class="pre">compute_stats</span></code>.</p>
+<p>In the case of the <code class="docutils literal notranslate"><span class="pre">table</span></code>, we’d probably add a means for the GUI user to upload
+tables (say from <code class="docutils literal notranslate"><span class="pre">.csv</span></code> or <code class="docutils literal notranslate"><span class="pre">.xlsx</span></code> files), storing them under a name of their
+choice, then pointing to said table via the name, when they want to execute a
+<code class="docutils literal notranslate"><span class="pre">compute_stats(stats_func,</span> <span class="pre">table)</span></code>.</p>
+<p>These are examples of what we call “crudifying” variables or functions.</p>
+<p>Here we therefore offer tools to do this sort of thing;
+wrap functions so that the complex arguments can be specified through a string key
 that points to the actual python object (which is stored in a session’s memory or
 persisted in some fashion).</p>
 <dl class="py class">
@@ -124,12 +150,12 @@ persisted in some fashion).</p>
 
 <dl class="py function">
 <dt id="front.crude.prepare_for_crude_dispatch">
-<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">prepare_for_crude_dispatch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">param_to_mall_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Iterable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mall</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_stores_attribute</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">output_store</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>Mapping<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_name_param</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'save_name'</span></em>, <em class="sig-param"><span class="n">empty_name_callback</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">]</span><span class="p">, </span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auto_namer</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span><span class="p">…</span><span class="p">]</span><span class="p">, </span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">output_trans</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span><span class="p">…</span><span class="p">]</span><span class="p">, </span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/crude.html#prepare_for_crude_dispatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.prepare_for_crude_dispatch" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">prepare_for_crude_dispatch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">param_to_mall_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span>Iterable<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mall</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_stores_attribute</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">output_store</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>Mapping<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_name_param</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'save_name'</span></em>, <em class="sig-param"><span class="n">empty_name_callback</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">]</span><span class="p">, </span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auto_namer</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span><span class="p">…</span><span class="p">]</span><span class="p">, </span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">output_trans</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span><span class="p">…</span><span class="p">]</span><span class="p">, </span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/crude.html#prepare_for_crude_dispatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.prepare_for_crude_dispatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrap func into something that is ready for CRUDE dispatch.
 It will be a function for whom specific arguments will be specified by strings,
 via underlying stores containing the values.
 We say that those arguments were crude-dispatched.</p>
-<dl class="field-list">
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>func</strong> – callable, the function to wrap</p></li>
@@ -138,20 +164,20 @@ crude-dispatched and whose values are the mall keys to the Mapping instances
 (e.g. dict) that should be used for said param.
 If a non-Mapping iterable is given, will take {name: name…} identity mapping
 for names in that iterable.</p></li>
+<li><p><strong>mall</strong> – <p>A store of stores. A Mapping whose keys are what the values of
+<code class="docutils literal notranslate"><span class="pre">param_to_mall_map</span></code> point to and whose values are mapping interfaces (called</p>
+<blockquote>
+<div><p>”stores” of a storage backend (local or remote, persisted or in-memory).</p>
+</div></blockquote>
+</p></li>
 <li><p><strong>include_stores_attribute</strong> – bool, whether to add an attribute to the function
 containing the <code class="docutils literal notranslate"><span class="pre">output_store</span></code></p></li>
 <li><p><strong>output_store</strong> – a store used to record the output of the function</p></li>
 </ul>
 </dd>
-<dt class="field-even">Mall mall</dt>
-<dd class="field-even"><p>A store of stores. A Mapping whose keys are what the values of
-<code class="docutils literal notranslate"><span class="pre">param_to_mall_map</span></code> point to and whose values are mapping interfaces (called</p>
-<blockquote>
-<div><p>“stores” of a storage backend (local or remote, persisted or in-memory).</p>
-</div></blockquote>
-</dd>
 </dl>
-<p>If (and only if) <code class="docutils literal notranslate"><span class="pre">output_store</span></code> is given, we also use the following arguments:</p>
+<p>If (and only if) <code class="docutils literal notranslate"><span class="pre">output_store</span></code> is given, we can also use the following
+arguments to control the output “crudification” further.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -466,7 +492,7 @@ function where to find the output of a previous function.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="base.html" class="btn btn-neutral float-left" title="front.base" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="examples/data_binding.html" class="btn btn-neutral float-right" title="front.examples.data_binding" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="dag.html" class="btn btn-neutral float-right" title="front.dag" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

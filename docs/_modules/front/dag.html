@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>front.dag &mdash; front 0.1.17 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/toggleprompt.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> front
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front.html">front</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/base.html">front.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/crude.html">front.crude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/dag.html">front.dag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/data_binding.html">front.examples.data_binding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/experimentation.html">front.examples.experimentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/issues.html">front.examples.issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/kaggle_front.html">front.examples.kaggle_front</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/pos_key_args.html">front.examples.pos_key_args</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/simple.html">front.examples.simple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/tw_data_binding.html">front.examples.tw_data_binding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap.html">front.scrap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_crude.html">front.tests.test_crude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/util.html">front.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">front</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>front.dag</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for front.dag</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Tools to dispatch dags</span>
+
+<span class="sd">See below one of the dags that will often be used in this module&#39;s doctests:</span>
+
+<span class="sd">&gt;&gt;&gt; from meshed.makers import code_to_dag</span>
+<span class="sd">&gt;&gt;&gt; @code_to_dag</span>
+<span class="sd">... def dag():</span>
+<span class="sd">...     a = get_a()</span>
+<span class="sd">...     x = foo(a, b, c)</span>
+<span class="sd">...     y = bar(x, greeting)</span>
+<span class="sd">...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding</span>
+<span class="sd">&gt;&gt;&gt; print(dag.dot_digraph_ascii())  # doctest: +SKIP</span>
+<span class="sd">                         b</span>
+
+<span class="sd">                      │</span>
+<span class="sd">                      │</span>
+<span class="sd">                      ▼</span>
+<span class="sd">                    ┌──────────┐</span>
+<span class="sd">         c      ──▶ │   foo    │ ◀┐</span>
+<span class="sd">                    └──────────┘  │</span>
+<span class="sd">                      │           │</span>
+<span class="sd">                      │           │</span>
+<span class="sd">                      ▼           │</span>
+<span class="sd">                                  │</span>
+<span class="sd">  ┌────────────────      x        │</span>
+<span class="sd">  │                               │</span>
+<span class="sd">  │                   │           │</span>
+<span class="sd">  │                   │           │</span>
+<span class="sd">  │                   ▼           │</span>
+<span class="sd">  │                 ┌──────────┐  │</span>
+<span class="sd">  │   greeting  ──▶ │   bar    │  │</span>
+<span class="sd">  │                 └──────────┘  │</span>
+<span class="sd">  │                   │           │</span>
+<span class="sd">  │                   │           │</span>
+<span class="sd">  │                   ▼           │</span>
+<span class="sd">  │                               │</span>
+<span class="sd">  │                      y        │</span>
+<span class="sd">  │                               │</span>
+<span class="sd">  │                 ┌──────────┐  │</span>
+<span class="sd">  │                 │  get_a   │  │</span>
+<span class="sd">  │                 └──────────┘  │</span>
+<span class="sd">  │                   │           │</span>
+<span class="sd">  │                   │           │</span>
+<span class="sd">  │                   ▼           │</span>
+<span class="sd">  │                               │</span>
+<span class="sd">  │                      a       ─┘</span>
+<span class="sd">  │</span>
+<span class="sd">  │                   │</span>
+<span class="sd">  │                   │</span>
+<span class="sd">  │                   ▼</span>
+<span class="sd">  │                 ┌──────────┐</span>
+<span class="sd">  └───────────────▶ │ confuser │</span>
+<span class="sd">                    └──────────┘</span>
+<span class="sd">                      │</span>
+<span class="sd">                      │</span>
+<span class="sd">                      ▼</span>
+
+<span class="sd">                         z</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">dol</span> <span class="kn">import</span> <span class="n">groupby</span>
+<span class="kn">from</span> <span class="nn">front.crude</span> <span class="kn">import</span> <span class="n">prepare_for_crude_dispatch</span>
+
+<span class="kn">from</span> <span class="nn">meshed</span> <span class="kn">import</span> <span class="n">DAG</span><span class="p">,</span> <span class="n">FuncNode</span>
+<span class="kn">from</span> <span class="nn">meshed.base</span> <span class="kn">import</span> <span class="n">ch_func_node_attrs</span>
+<span class="kn">from</span> <span class="nn">meshed.itools</span> <span class="kn">import</span> <span class="n">parents</span><span class="p">,</span> <span class="n">children</span>
+
+
+<div class="viewcode-block" id="VarNodeRole"><a class="viewcode-back" href="../../module_docs/front/dag.html#front.dag.VarNodeRole">[docs]</a><span class="k">class</span> <span class="nc">VarNodeRole</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">argument</span> <span class="o">=</span> <span class="s1">&#39;argument&#39;</span>
+    <span class="n">return_value</span> <span class="o">=</span> <span class="s1">&#39;return_value&#39;</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_returned_by_func_node</span><span class="p">(</span><span class="n">var_node</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">DAG</span><span class="p">):</span>
+    <span class="n">returned_by_func_node</span> <span class="o">=</span> <span class="n">parents</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">var_node</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">returned_by_func_node</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;This var_node had more than one parent. That is shouldn&#39;t be possible: &quot;</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">var_node</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">returned_by_func_node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;For time being, you can only crudify intermediate var nodes, not root &#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;ones like: </span><span class="si">{</span><span class="n">var_node</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">returned_by_func_node</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_validate_is_func_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">var_node</span><span class="p">,</span> <span class="n">relationship</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">FuncNode</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">relationship</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">) of </span><span class="si">{</span><span class="n">var_node</span><span class="si">=}</span><span class="s1"> must be a FuncNode&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_node_replacements_for_var_node_crudification</span><span class="p">(</span><span class="n">var_node</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">DAG</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper function that generates the (node_id, (VarNodeRole, var_node)) instructions</span>
+<span class="sd">    needed to crudify the input ``var_node`` in ``dag``.</span>
+
+<span class="sd">    In the ``dag`` below, the ``var_node`` named ``x`` is the output of ``foo``</span>
+<span class="sd">    and is used for the input of both ``bar`` (bound to the parameter of the same name)</span>
+<span class="sd">    and ``confuser`` (bound to the ``w`` parameter).</span>
+
+<span class="sd">    Therefore, as we &quot;crudify&quot; ``x`` we&#39;ll need to take care of all three cases:</span>
+<span class="sd">    We&#39;ll need to have ``foo`` crudify it&#39;s output and both ``bar`` and ``confuser``</span>
+<span class="sd">    crudify one of their params.</span>
+
+
+<span class="sd">    &gt;&gt;&gt; from meshed.makers import code_to_dag</span>
+<span class="sd">    &gt;&gt;&gt; @code_to_dag</span>
+<span class="sd">    ... def dag():</span>
+<span class="sd">    ...     a = get_a()</span>
+<span class="sd">    ...     x = foo(a, b, c)</span>
+<span class="sd">    ...     y = bar(x, greeting)</span>
+<span class="sd">    ...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding</span>
+<span class="sd">    &gt;&gt;&gt; assert sorted(</span>
+<span class="sd">    ...     _node_replacements_for_var_node_crudification(&#39;x&#39;, dag)</span>
+<span class="sd">    ... ) == (</span>
+<span class="sd">    ... [</span>
+<span class="sd">    ...     (&#39;bar&#39;, (VarNodeRole.argument, &#39;x&#39;)),</span>
+<span class="sd">    ...     (&#39;confuser&#39;, (VarNodeRole.argument, &#39;x&#39;)),</span>
+<span class="sd">    ...     (&#39;foo&#39;, (VarNodeRole.return_value, &#39;x&#39;)),</span>
+<span class="sd">    ... ])</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">var_node</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">var_nodes</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The </span><span class="si">{</span><span class="n">dag</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> dag doesn&#39;t have this var_node: </span><span class="si">{</span><span class="n">var_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">returned_by_func_node</span> <span class="o">=</span> <span class="n">_get_returned_by_func_node</span><span class="p">(</span><span class="n">var_node</span><span class="p">,</span> <span class="n">dag</span><span class="p">)</span>
+    <span class="n">_validate_is_func_node</span><span class="p">(</span><span class="n">returned_by_func_node</span><span class="p">,</span> <span class="n">var_node</span><span class="p">,</span> <span class="s1">&#39;Parent&#39;</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">returned_by_func_node</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">VarNodeRole</span><span class="o">.</span><span class="n">return_value</span><span class="p">,</span> <span class="n">var_node</span><span class="p">)</span>
+
+    <span class="c1"># arg_of_func_nodes</span>
+    <span class="k">for</span> <span class="n">arg_of_func_node</span> <span class="ow">in</span> <span class="n">children</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">var_node</span><span class="p">):</span>
+        <span class="n">_validate_is_func_node</span><span class="p">(</span><span class="n">arg_of_func_node</span><span class="p">,</span> <span class="n">var_node</span><span class="p">,</span> <span class="s1">&#39;Child&#39;</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">arg_of_func_node</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">VarNodeRole</span><span class="o">.</span><span class="n">argument</span><span class="p">,</span> <span class="n">var_node</span><span class="p">)</span>
+
+
+<span class="n">_no_more_elements</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s1">&#39;NoMoreElements&#39;</span><span class="p">,</span> <span class="p">(),</span> <span class="p">{})()</span>
+
+
+<span class="k">def</span> <span class="nf">_get_first_if_any_and_asserting_unique</span><span class="p">(</span>
+    <span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">default</span><span class="o">=</span><span class="n">_no_more_elements</span><span class="p">,</span>
+    <span class="n">msg</span><span class="o">=</span><span class="s1">&#39;Your iterator should have no more than one element&#39;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="n">first_element</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span> <span class="n">_no_more_elements</span><span class="p">)</span> <span class="o">==</span> <span class="n">_no_more_elements</span><span class="p">,</span> <span class="n">msg</span>
+    <span class="k">return</span> <span class="n">first_element</span>
+
+
+<span class="k">def</span> <span class="nf">group_kvs_into_dict</span><span class="p">(</span><span class="n">kvs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">groupby</span><span class="p">(</span><span class="n">kvs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">val</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+
+<span class="c1"># TODO: Skipping doctest because order not stable. Make it so</span>
+<span class="c1"># TODO: Perhaps we should use FuncNode.name (id) instead of FuncNode itself as key of</span>
+<span class="c1">#   dag.graph. We&#39;d have less such problems then.</span>
+<span class="k">def</span> <span class="nf">_func_nodes_arg_and_return_names_to_crude</span><span class="p">(</span>
+    <span class="n">var_nodes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">dag</span><span class="p">:</span> <span class="n">DAG</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a copy of a dag where ``var_nodes`` were crudified.</span>
+
+<span class="sd">    &gt;&gt;&gt; from meshed.makers import code_to_dag</span>
+<span class="sd">    &gt;&gt;&gt; @code_to_dag</span>
+<span class="sd">    ... def dag():</span>
+<span class="sd">    ...     a = get_a()</span>
+<span class="sd">    ...     x = foo(a, b, c)</span>
+<span class="sd">    ...     y = bar(x, greeting)</span>
+<span class="sd">    ...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Showing but skipping (because I can&#39;t get order to be stable (TODO: Make it so)</span>
+<span class="sd">    &gt;&gt;&gt; sorted(</span>
+<span class="sd">    ... _func_nodes_arg_and_return_names_to_crude([&#39;x&#39;, &#39;a&#39;], dag)</span>
+<span class="sd">    ... )  # doctest: +SKIP</span>
+<span class="sd">    [</span>
+<span class="sd">        (FuncNode(a,x -&gt; confuser -&gt; z), (&#39;x&#39;, &#39;a&#39;), None),</span>
+<span class="sd">        (FuncNode( -&gt; get_a -&gt; a), (), &#39;a&#39;),</span>
+<span class="sd">        (FuncNode(x,greeting -&gt; bar -&gt; y), (&#39;x&#39;,), None),</span>
+<span class="sd">        (FuncNode(a,b,c -&gt; foo -&gt; x), (&#39;a&#39;,), &#39;x&#39;)</span>
+<span class="sd">    ]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var_nodes</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">var_nodes</span> <span class="o">=</span> <span class="n">var_nodes</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+    <span class="n">get_node_replacements</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+        <span class="n">_node_replacements_for_var_node_crudification</span><span class="p">,</span> <span class="n">dag</span><span class="o">=</span><span class="n">dag</span>
+    <span class="p">)</span>
+
+    <span class="n">crude_modifications</span> <span class="o">=</span> <span class="n">group_kvs_into_dict</span><span class="p">(</span>
+        <span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">get_node_replacements</span><span class="p">,</span> <span class="n">var_nodes</span><span class="p">))</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">func_node</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">func_nodes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">modifications</span> <span class="o">:=</span> <span class="n">crude_modifications</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">func_node</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">grouped_modifications</span> <span class="o">=</span> <span class="n">group_kvs_into_dict</span><span class="p">(</span><span class="n">modifications</span><span class="p">)</span>
+            <span class="n">argument_names</span> <span class="o">=</span> <span class="n">grouped_modifications</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">VarNodeRole</span><span class="o">.</span><span class="n">argument</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">return_name</span> <span class="o">=</span> <span class="n">_get_first_if_any_and_asserting_unique</span><span class="p">(</span>
+                <span class="n">iterable</span><span class="o">=</span><span class="n">grouped_modifications</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">VarNodeRole</span><span class="o">.</span><span class="n">return_value</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;You shouldn&#39;t have more than one return_value in </span><span class="si">{</span><span class="n">func_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">yield</span> <span class="n">func_node</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">argument_names</span><span class="p">),</span> <span class="n">return_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">func_node</span><span class="p">,</span> <span class="p">(),</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">_mk_param_to_mall_map_from_for_var_nodes</span><span class="p">(</span>
+    <span class="n">var_nodes</span><span class="p">,</span> <span class="n">bind</span><span class="p">,</span> <span class="n">var_node_name_to_store_name</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate (param, store_name) pairs.</span>
+
+<span class="sd">    &gt;&gt;&gt; dict(</span>
+<span class="sd">    ...     _mk_param_to_mall_map_from_for_var_nodes(</span>
+<span class="sd">    ...         var_nodes=[&#39;a&#39;, &#39;c&#39;],</span>
+<span class="sd">    ...         bind={&#39;w&#39;: &#39;a&#39;, &#39;x&#39;: &#39;c&#39;, &#39;y&#39;: &#39;c&#39;, &#39;z&#39;: &#39;b&#39;},</span>
+<span class="sd">    ...         var_node_name_to_store_name=lambda name: f&quot;{name}_store&quot;</span>
+<span class="sd">    ...     )</span>
+<span class="sd">    ... )</span>
+<span class="sd">    {&#39;w&#39;: &#39;a_store&#39;, &#39;x&#39;: &#39;c_store&#39;, &#39;y&#39;: &#39;c_store&#39;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">var_node</span> <span class="ow">in</span> <span class="n">bind</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">var_node</span> <span class="ow">in</span> <span class="n">var_nodes</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">param</span><span class="p">,</span> <span class="n">var_node_name_to_store_name</span><span class="p">(</span><span class="n">var_node</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_return_save_name</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">save_name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">save_name</span>
+
+
+<span class="k">def</span> <span class="nf">_empty_name_callback</span><span class="p">():</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;No save name was given&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">simple_namer</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">name</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s1">&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">_crudified_func_nodes</span><span class="p">(</span>
+    <span class="n">var_nodes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+    <span class="n">dag</span><span class="p">:</span> <span class="n">DAG</span><span class="p">,</span>
+    <span class="n">var_node_name_to_store_name</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">simple_namer</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;_store&#39;</span><span class="p">),</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">mall</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">),</span>
+    <span class="n">include_stores_attribute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">save_name_param</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;save_name&#39;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">for</span> <span class="p">(</span>
+        <span class="n">func_node</span><span class="p">,</span>
+        <span class="n">argument_names</span><span class="p">,</span>
+        <span class="n">return_name</span><span class="p">,</span>
+    <span class="p">)</span> <span class="ow">in</span> <span class="n">_func_nodes_arg_and_return_names_to_crude</span><span class="p">(</span><span class="n">var_nodes</span><span class="p">,</span> <span class="n">dag</span><span class="p">):</span>
+        <span class="n">mk_param_mall_map</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+            <span class="n">_mk_param_to_mall_map_from_for_var_nodes</span><span class="p">,</span>
+            <span class="n">var_node_name_to_store_name</span><span class="o">=</span><span class="n">var_node_name_to_store_name</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">argument_names</span><span class="p">,</span> <span class="n">return_name</span><span class="p">)</span> <span class="o">==</span> <span class="p">((),</span> <span class="p">()):</span>
+            <span class="k">yield</span> <span class="n">func_node</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">param_to_mall_map</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nb">dict</span><span class="p">(</span><span class="n">mk_param_mall_map</span><span class="p">(</span><span class="n">argument_names</span><span class="p">,</span> <span class="n">func_node</span><span class="o">.</span><span class="n">bind</span><span class="p">))</span> <span class="ow">or</span> <span class="kc">None</span>
+            <span class="p">)</span>
+            <span class="n">output_store</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">var_node_name_to_store_name</span><span class="p">(</span><span class="n">return_name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">return_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">else</span> <span class="kc">None</span>
+            <span class="p">)</span>
+
+            <span class="n">crudified_func</span> <span class="o">=</span> <span class="n">prepare_for_crude_dispatch</span><span class="p">(</span>
+                <span class="n">func_node</span><span class="o">.</span><span class="n">func</span><span class="p">,</span>
+                <span class="n">param_to_mall_map</span><span class="o">=</span><span class="n">param_to_mall_map</span><span class="p">,</span>
+                <span class="n">output_store</span><span class="o">=</span><span class="n">output_store</span><span class="p">,</span>
+                <span class="n">empty_name_callback</span><span class="o">=</span><span class="n">_empty_name_callback</span><span class="p">,</span>
+                <span class="n">auto_namer</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">func_node</span><span class="o">.</span><span class="n">out</span><span class="si">}</span><span class="s1">_last_output&#39;</span><span class="p">,</span>
+                <span class="n">output_trans</span><span class="o">=</span><span class="n">_return_save_name</span><span class="p">,</span>
+                <span class="n">mall</span><span class="o">=</span><span class="n">mall</span><span class="p">,</span>
+                <span class="n">include_stores_attribute</span><span class="o">=</span><span class="n">include_stores_attribute</span><span class="p">,</span>
+                <span class="n">save_name_param</span><span class="o">=</span><span class="n">save_name_param</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">yield</span> <span class="n">ch_func_node_attrs</span><span class="p">(</span><span class="n">func_node</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">crudified_func</span><span class="p">)</span>
+
+
+<span class="c1"># empty_name_callback: Callable[[], Any] = None,</span>
+<span class="c1"># auto_namer: Callable[..., str] = None,</span>
+<span class="c1"># output_trans: Callable[..., Any] = None,</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

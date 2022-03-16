@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.base &mdash; front 0.1.17 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.dag &mdash; front 0.1.17 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -22,8 +22,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="front.crude" href="crude.html" />
-    <link rel="prev" title="front" href="../front.html" /> 
+    <link rel="next" title="front.examples.data_binding" href="examples/data_binding.html" />
+    <link rel="prev" title="front.crude" href="crude.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,9 +44,9 @@
               <p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../front.html">front</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">front.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">front.base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="crude.html">front.crude</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dag.html">front.dag</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">front.dag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/data_binding.html">front.examples.data_binding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/experimentation.html">front.examples.experimentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/issues.html">front.examples.issues</a></li>
@@ -79,9 +79,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>front.base</li>
+      <li>front.dag</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/module_docs/front/base.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/module_docs/front/dag.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -89,17 +89,98 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-front.base">
-<span id="front-base"></span><h1>front.base<a class="headerlink" href="#module-front.base" title="Permalink to this headline">¶</a></h1>
-<p>Base functions for front dispatching</p>
+  <section id="module-front.dag">
+<span id="front-dag"></span><h1>front.dag<a class="headerlink" href="#module-front.dag" title="Permalink to this headline">¶</a></h1>
+<p>Tools to dispatch dags</p>
+<p>See below one of the dags that will often be used in this module’s doctests:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">meshed.makers</span> <span class="kn">import</span> <span class="n">code_to_dag</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@code_to_dag</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">dag</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">a</span> <span class="o">=</span> <span class="n">get_a</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">x</span> <span class="o">=</span> <span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">y</span> <span class="o">=</span> <span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">greeting</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">z</span> <span class="o">=</span> <span class="n">confuser</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># note the w=x to test non-trivial binding</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">dot_digraph_ascii</span><span class="p">())</span>  
+<span class="go">                         b</span>
+</pre></div>
+</div>
+<blockquote>
+<div><blockquote>
+<div><blockquote>
+<div><blockquote>
+<div><p>│
+│
+▼</p>
+</div></blockquote>
+<p>┌──────────┐</p>
+</div></blockquote>
+<dl>
+<dt>c      ──▶ │   foo    │ ◀┐</dt><dd><dl>
+<dt>└──────────┘  │</dt><dd><p>│           │
+│           │
+▼           │</p>
+<blockquote>
+<div><p>│</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<p>┌────────────────      x        │
+│                               │
+│                   │           │
+│                   │           │
+│                   ▼           │
+│                 ┌──────────┐  │
+│   greeting  ──▶ │   bar    │  │
+│                 └──────────┘  │
+│                   │           │
+│                   │           │
+│                   ▼           │
+│                               │
+│                      y        │
+│                               │
+│                 ┌──────────┐  │
+│                 │  get_a   │  │
+│                 └──────────┘  │
+│                   │           │
+│                   │           │
+│                   ▼           │
+│                               │
+│                      a       ─┘
+│
+│                   │
+│                   │
+│                   ▼
+│                 ┌──────────┐
+└───────────────▶ │ confuser │</p>
+<blockquote>
+<div><dl>
+<dt>└──────────┘</dt><dd><p>│
+│
+▼</p>
+<blockquote>
+<div><p>z</p>
+</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+<dl class="py class">
+<dt id="front.dag.VarNodeRole">
+<em class="property">class </em><code class="sig-prename descclassname">front.dag.</code><code class="sig-name descname">VarNodeRole</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/dag.html#VarNodeRole"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.dag.VarNodeRole" title="Permalink to this definition">¶</a></dt>
+<dd><p>An enumeration.</p>
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../front.html" class="btn btn-neutral float-left" title="front" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="crude.html" class="btn btn-neutral float-right" title="front.crude" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="crude.html" class="btn btn-neutral float-left" title="front.crude" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples/data_binding.html" class="btn btn-neutral float-right" title="front.examples.data_binding" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
