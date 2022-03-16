@@ -88,6 +88,7 @@ class VarNodeRole(Enum):
     Most ``VarNode``s play both roles during a ``DAG`` computation.
 
     """
+
     argument = 'argument'
     return_value = 'return_value'
 

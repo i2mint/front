@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.dag &mdash; front 0.1.21 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.dag &mdash; front 0.1.22 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -100,7 +100,7 @@
 <span class="sd">...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding</span>
 <span class="sd">&gt;&gt;&gt; print(dag.dot_digraph_ascii())  # doctest: +SKIP</span>
 
-<span class="sd">..</span>
+<span class="sd">.. code-block::</span>
 <span class="sd">                             b</span>
 
 <span class="sd">                          │</span>
@@ -166,6 +166,18 @@
 
 
 <div class="viewcode-block" id="VarNodeRole"><a class="viewcode-back" href="../../module_docs/front/dag.html#front.dag.VarNodeRole">[docs]</a><span class="k">class</span> <span class="nc">VarNodeRole</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;(Var)Node roles.</span>
+
+<span class="sd">    When a ``VarNode`` is used to source the arguments of a ``FuncNode``, it&#39;s playing</span>
+<span class="sd">    a ``VarNodeRole.argument`` role.</span>
+
+<span class="sd">    When a ``VarNode`` is used to store the return value of a ``FuncNode``, it&#39;s playing</span>
+<span class="sd">    a ``VarNodeRole.return_value`` role.</span>
+
+<span class="sd">    Most ``VarNode``s play both roles during a ``DAG`` computation.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">argument</span> <span class="o">=</span> <span class="s1">&#39;argument&#39;</span>
     <span class="n">return_value</span> <span class="o">=</span> <span class="s1">&#39;return_value&#39;</span></div>
 

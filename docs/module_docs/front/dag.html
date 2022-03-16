@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.dag &mdash; front 0.1.21 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.dag &mdash; front 0.1.22 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -103,10 +103,61 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">dot_digraph_ascii</span><span class="p">())</span>  
 </pre></div>
 </div>
+<div class="highlight-b notranslate"><div class="highlight"><pre><span></span>                    │
+                    │
+                    ▼
+                  ┌──────────┐
+       c      ──▶ │   foo    │ ◀┐
+                  └──────────┘  │
+                    │           │
+                    │           │
+                    ▼           │
+                                │
+┌────────────────      x        │
+│                               │
+│                   │           │
+│                   │           │
+│                   ▼           │
+│                 ┌──────────┐  │
+│   greeting  ──▶ │   bar    │  │
+│                 └──────────┘  │
+│                   │           │
+│                   │           │
+│                   ▼           │
+│                               │
+│                      y        │
+│                               │
+│                 ┌──────────┐  │
+│                 │  get_a   │  │
+│                 └──────────┘  │
+│                   │           │
+│                   │           │
+│                   ▼           │
+│                               │
+│                      a       ─┘
+│
+│                   │
+│                   │
+│                   ▼
+│                 ┌──────────┐
+└───────────────▶ │ confuser │
+                  └──────────┘
+                    │
+                    │
+                    ▼
+
+                       z
+</pre></div>
+</div>
 <dl class="py class">
 <dt id="front.dag.VarNodeRole">
 <em class="property">class </em><code class="sig-prename descclassname">front.dag.</code><code class="sig-name descname">VarNodeRole</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/dag.html#VarNodeRole"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.dag.VarNodeRole" title="Permalink to this definition">¶</a></dt>
-<dd><p>An enumeration.</p>
+<dd><p>(Var)Node roles.</p>
+<p>When a <code class="docutils literal notranslate"><span class="pre">VarNode</span></code> is used to source the arguments of a <code class="docutils literal notranslate"><span class="pre">FuncNode</span></code>, it’s playing
+a <code class="docutils literal notranslate"><span class="pre">VarNodeRole.argument</span></code> role.</p>
+<p>When a <code class="docutils literal notranslate"><span class="pre">VarNode</span></code> is used to store the return value of a <code class="docutils literal notranslate"><span class="pre">FuncNode</span></code>, it’s playing
+a <code class="docutils literal notranslate"><span class="pre">VarNodeRole.return_value</span></code> role.</p>
+<p>Most <code class="docutils literal notranslate"><span class="pre">VarNode``s</span> <span class="pre">play</span> <span class="pre">both</span> <span class="pre">roles</span> <span class="pre">during</span> <span class="pre">a</span> <span class="pre">``DAG</span></code> computation.</p>
 </dd></dl>
 
 </section>
