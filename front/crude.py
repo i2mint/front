@@ -535,7 +535,12 @@ def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=Tru
 
             raise ValueError(
                 f'The {offenders} {keys} of your param_to_mall_map values were not '
-                f'in the mall. '
+                f'in the mall. Your param_to_mall_key_dict is:\n'
+                f'{param_to_mall_key_dict} and your mall has keys: {list(mall)}. '
+                f'You can either add {offenders} stores to the mall, '
+                # f'make an auto-store-making mall (e.g. collections.defaultdict(dict), '
+                f'or change your param_to_mall_map to point (values) to a store that '
+                f'you actually have in the mall'
             )
         # Note: store_for_param used to be the argument of prepare_for_crude_dispatch,
         #   instead of the (param_to_mall_map, mall) pair which is overkill.

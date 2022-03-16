@@ -100,10 +100,7 @@ def _get_returned_by_func_node(var_node: str, dag: DAG):
             f'{var_node}'
         )
     elif len(returned_by_func_node) == 0:
-        raise NotImplementedError(
-            f'For time being, you can only crudify intermediate var nodes, not root '
-            f'ones like: {var_node}'
-        )
+        return None  # meaning is NOT produced by a FuncNode, so is a root (input) node.
     return next(iter(returned_by_func_node))
 
 
@@ -147,8 +144,13 @@ def _node_replacements_for_var_node_crudification(var_node: str, dag: DAG):
         raise ValueError(f"The {dag.name} dag doesn't have this var_node: {var_node}")
 
     returned_by_func_node = _get_returned_by_func_node(var_node, dag)
-    _validate_is_func_node(returned_by_func_node, var_node, 'Parent')
-    yield returned_by_func_node.name, (VarNodeRole.return_value, var_node)
+    if returned_by_func_node is not None:
+        # If var_node is the output of a FuncNode
+        # ... make sure it is.
+        _validate_is_func_node(returned_by_func_node, var_node, 'Parent')
+        # yield a (func_node_name, 'return_value', var_node) triple
+        yield returned_by_func_node.name, (VarNodeRole.return_value, var_node)
+    # if returned_by_func_node is None, skip the above: var_node is a "root" node
 
     # arg_of_func_nodes
     for arg_of_func_node in children(dag.graph, var_node):
@@ -270,7 +272,11 @@ def _crudified_func_nodes(
     include_stores_attribute: bool = False,
     save_name_param: str = 'save_name',
 ):
-    mall = mall or defaultdict(dict)
+    if isinstance(var_nodes, str):
+        var_nodes = var_nodes.split()
+    if mall is None:
+        # make a mall for all the var_names, giving them all empty dicts as stores
+        mall = {var_node_name_to_store_name(var_name): dict() for var_name in var_nodes}
     rm_save_name = partial(rm_params, params_to_remove=[save_name_param])
 
     for (
