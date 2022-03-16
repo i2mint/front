@@ -245,6 +245,9 @@ def simple_namer(name, *, prefix='', suffix=''):
     return f'{prefix}{name}{suffix}'
 
 
+from i2.wrapper import rm_params
+
+
 def _crudified_func_nodes(
     var_nodes: Union[str, Iterable[str]],
     dag: DAG,
@@ -255,6 +258,8 @@ def _crudified_func_nodes(
     save_name_param: str = 'save_name',
 ):
     mall = mall or defaultdict(dict)
+    rm_save_name = partial(rm_params, params_to_remove=[save_name_param])
+
     for (
         func_node,
         argument_names,
@@ -280,7 +285,7 @@ def _crudified_func_nodes(
                 func_node.func,
                 param_to_mall_map=param_to_mall_map,
                 output_store=output_store,
-                empty_name_callback=_empty_name_callback,
+                empty_name_callback=None,
                 auto_namer=lambda: f'{func_node.out}_last_output',
                 output_trans=_return_save_name,
                 mall=mall,
@@ -288,7 +293,30 @@ def _crudified_func_nodes(
                 save_name_param=save_name_param,
             )
 
-            yield ch_func_node_attrs(func_node, func=crudified_func)
+            yield ch_func_node_attrs(func_node, func=rm_save_name(crudified_func))
+
+
+def crudify_func_nodes(
+    var_nodes: Union[str, Iterable[str]],
+    dag: DAG,
+    var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
+    *,
+    mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
+    include_stores_attribute: bool = False,
+    save_name_param: str = 'save_name',
+):
+    return DAG(
+        list(
+            _crudified_func_nodes(
+                var_nodes,
+                dag,
+                var_node_name_to_store_name,
+                mall=mall,
+                include_stores_attribute=include_stores_attribute,
+                save_name_param=save_name_param,
+            )
+        )
+    )
 
 
 # empty_name_callback: Callable[[], Any] = None,
