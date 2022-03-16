@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>front.util &mdash; front 0.1.16 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/toggleprompt.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> front
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front.html">front</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/base.html">front.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/crude.html">front.crude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/data_binding.html">front.examples.data_binding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/experimentation.html">front.examples.experimentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/issues.html">front.examples.issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/kaggle_front.html">front.examples.kaggle_front</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/pos_key_args.html">front.examples.pos_key_args</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/simple.html">front.examples.simple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/tw_data_binding.html">front.examples.tw_data_binding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap.html">front.scrap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_crude.html">front.tests.test_crude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/util.html">front.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">front</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>front.util</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for front.util</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Utils&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">attrgetter</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Mapping</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">suppress</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span><span class="p">,</span> <span class="n">double_up_as_factory</span>
+<span class="kn">from</span> <span class="nn">i2.wrapper</span> <span class="kn">import</span> <span class="n">Ingress</span><span class="p">,</span> <span class="n">wrap</span>
+
+<span class="n">ignore_import_problems</span> <span class="o">=</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">iterable_to_enum</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;CustomEnum&#39;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Enum</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">kv</span><span class="p">):</span> <span class="n">kv</span> <span class="k">for</span> <span class="n">kv</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">})</span>
+
+
+<div class="viewcode-block" id="subdict"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.subdict">[docs]</a><span class="k">def</span> <span class="nf">subdict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets a sub-dict from a Mapping ``d``, extracting only those keys that are both in</span>
+<span class="sd">    ``keys`` and ``d``.</span>
+<span class="sd">    Note that the dict will be ordered as ``keys`` are, so can be used for reordering</span>
+<span class="sd">    a Mapping.</span>
+
+<span class="sd">    &gt;&gt;&gt; subdict({&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3, &#39;d&#39;: 4}, keys=[&#39;b&#39;, &#39;a&#39;, &#39;d&#39;])</span>
+<span class="sd">    {&#39;b&#39;: 2, &#39;a&#39;: 1, &#39;d&#39;: 4}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="n">keys</span> <span class="ow">or</span> <span class="p">())</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">}</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_value_attr</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">keys</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">val_trans</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a copy of ``d`` where ``val_trans`` applied to the values of ``keys``.</span>
+
+<span class="sd">    Meant to be used with ``functools.partial`` to fix ``val_trans``, and possibly</span>
+<span class="sd">    ``transform_keys``.</span>
+
+<span class="sd">    &gt;&gt;&gt; _get_value_attr({&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3}, [&#39;a&#39;, &#39;c&#39;], lambda x: x * 10)</span>
+<span class="sd">    {&#39;a&#39;: 10, &#39;b&#39;: 2, &#39;c&#39;: 30}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">val_trans</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">})</span>
+
+
+<div class="viewcode-block" id="inject_enum_annotations"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.inject_enum_annotations">[docs]</a><span class="nd">@double_up_as_factory</span>
+<span class="k">def</span> <span class="nf">inject_enum_annotations</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_enum_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">enum_list_for_arg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param func: function to wrap</span>
+<span class="sd">    :param enum_list_for_arg: For every argument you want to enumify (i.e. annotate with</span>
+<span class="sd">        an Enum), the list of enum values you want.</span>
+<span class="sd">    :return: A wrapped func.</span>
+
+<span class="sd">    &gt;&gt;&gt; from inspect import signature</span>
+<span class="sd">    &gt;&gt;&gt; def foo(a, b: int, c=&#39;tat&#39;):</span>
+<span class="sd">    ...     return (a + b) * c</span>
+<span class="sd">    &gt;&gt;&gt; bar = inject_enum_annotations(foo, b=[1, 2], c=&#39;tit for tat&#39;.split())</span>
+<span class="sd">    &gt;&gt;&gt; str(signature(bar))  # doctest: +SKIP</span>
+<span class="sd">    &#39;(a, b: front.util.b_enum, c: front.util.c_enum = &#39;tat&#39;)&#39;</span>
+<span class="sd">    &gt;&gt;&gt; b_enum = Sig(bar).annotations[&#39;b&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; list(b_enum)</span>
+<span class="sd">    [&lt;b_enum.1: 1&gt;, &lt;b_enum.2: 2&gt;]</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; c_enum = Sig(bar).annotations[&#39;c&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; list(c_enum)</span>
+<span class="sd">    [&lt;c_enum.tit: &#39;tit&#39;&gt;, &lt;c_enum.for: &#39;for&#39;&gt;, &lt;c_enum.tat: &#39;tat&#39;&gt;]</span>
+
+<span class="sd">    The wrapped bar now accepts enum objects (whose .values will be extracted and</span>
+<span class="sd">    handed to foo for computation).</span>
+
+<span class="sd">    &gt;&gt;&gt; bar(a=2, b=b_enum[&#39;2&#39;], c=c_enum.tit)</span>
+<span class="sd">    &#39;tittittittit&#39;</span>
+
+<span class="sd">    Again, note that the way we need to specify our ``b`` and ``c`` arguments are as</span>
+<span class="sd">    `enum` types, not as the number `2` and string `&#39;tit&#39;`.</span>
+
+<span class="sd">    In the following example, we ask for `extract_enum_value=False` so that we</span>
+<span class="sd">    can still use normal inputs (no Enum objects, though ``b`` and ``c`` will</span>
+<span class="sd">    still be annotated by the Enums.</span>
+
+<span class="sd">    Also note in this example that you can use @ to decorate a function at</span>
+<span class="sd">    definition time.</span>
+
+
+<span class="sd">    &gt;&gt;&gt; @inject_enum_annotations(</span>
+<span class="sd">    ...     b=[1, 2], c=&#39;tit for tat&#39;.split(), extract_enum_value=False</span>
+<span class="sd">    ... )</span>
+<span class="sd">    ... def foo(a, b: int, c=&#39;tat&#39;):</span>
+<span class="sd">    ...     return (a + b) * c</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; foo(2, 2, &#39;tit&#39;)</span>
+<span class="sd">    &#39;tittittittit&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="n">with_enumed_sig</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">ch_annotations</span><span class="p">(</span>
+        <span class="o">**</span><span class="p">{</span>
+            <span class="n">param</span><span class="p">:</span> <span class="n">iterable_to_enum</span><span class="p">(</span><span class="n">enum_list</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s1">_enum&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">enum_list</span> <span class="ow">in</span> <span class="n">enum_list_for_arg</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">extract_enum_value</span><span class="p">:</span>
+        <span class="n">get_values_of_enums</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+            <span class="n">_get_value_attr</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">enum_list_for_arg</span><span class="p">),</span> <span class="n">val_trans</span><span class="o">=</span><span class="n">attrgetter</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">dispatched_enums_func</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span>
+            <span class="n">func</span><span class="p">,</span> <span class="n">Ingress</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">kwargs_trans</span><span class="o">=</span><span class="n">get_values_of_enums</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">dispatched_enums_func</span><span class="o">.</span><span class="n">__signature__</span> <span class="o">=</span> <span class="n">with_enumed_sig</span>
+
+        <span class="k">return</span> <span class="n">with_enumed_sig</span><span class="p">(</span><span class="n">dispatched_enums_func</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">with_enumed_sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span></div>
+
+
+<span class="kn">from</span> <span class="nn">i2.signatures</span> <span class="kn">import</span> <span class="n">empty</span>
+<span class="kn">from</span> <span class="nn">i2.wrapper</span> <span class="kn">import</span> <span class="n">Wrap</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span>
+
+<span class="n">Annot</span> <span class="o">=</span> <span class="n">Any</span>
+<span class="n">AnnotForArgname</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Annot</span><span class="p">],</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Annot</span><span class="p">]]]</span>
+<span class="n">AnnotForType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="n">Annot</span><span class="p">],</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="n">Annot</span><span class="p">]]]</span>
+
+<span class="c1"># TODO: Compare to and possibly use i2.io_trans and/or i2.routing_forest.</span>
+<span class="c1"># Note: A Parameter-&gt;annotation function would be more general</span>
+<span class="c1">#   A Parameter-&gt;Parameter function even more general</span>
+<div class="viewcode-block" id="annotate_func_arguments"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.annotate_func_arguments">[docs]</a><span class="k">def</span> <span class="nf">annotate_func_arguments</span><span class="p">(</span>
+    <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">ignore_existing_annot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">annot_for_argname</span><span class="p">:</span> <span class="n">AnnotForArgname</span> <span class="o">=</span> <span class="p">(),</span>
+    <span class="n">annot_for_dflt_type</span><span class="p">:</span> <span class="n">AnnotForType</span> <span class="o">=</span> <span class="p">(),</span>
+    <span class="n">dflt_annot</span><span class="p">:</span> <span class="n">Annot</span> <span class="o">=</span> <span class="n">empty</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Annotate</span>
+
+<span class="sd">    :param func: The function whose args we want to annotate</span>
+<span class="sd">    :param ignore_existing_annot: Set to True to ignore existing annots.</span>
+<span class="sd">    :param annot_for_argname: Annotation for specific argnames</span>
+<span class="sd">    :param annot_for_dflt_type: Annotation for specific types. Arg defaults will be</span>
+<span class="sd">        compared (with ``isinstance(dflt_val, types)``) to types and the annotation</span>
+<span class="sd">        (value) of the the first matching type (key) will be injected</span>
+<span class="sd">    :param dflt_annot: Default annotation to use if no match found earlier.</span>
+<span class="sd">        The default is `inspect.Parameter.empty`, which means &quot;don&#39;t annotate&quot;.</span>
+<span class="sd">        If you want all your params to be annotated no matter what, you might consider</span>
+<span class="sd">        ``typing.Any``, or in the case of command line interfaces, ``str``.</span>
+<span class="sd">    :return: A wrapped function with the desired signature changes, if any changes</span>
+<span class="sd">        need to be made, or the same function untouched if not.</span>
+
+<span class="sd">    &gt;&gt;&gt; from inspect import signature</span>
+<span class="sd">    &gt;&gt;&gt; from functools import partial</span>
+<span class="sd">    &gt;&gt;&gt; from typing import Any</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; def foo(a, b, c, aa: int=1, bb: int=1.0, cc: int=None, aaa=1, bbb=1.0, ccc=None):</span>
+<span class="sd">    ...     pass</span>
+<span class="sd">    ...</span>
+
+<span class="sd">    If nothing changes, you just get back the same function:</span>
+
+<span class="sd">    &gt;&gt;&gt; assert str(signature(annotate_func_arguments(foo))) == (</span>
+<span class="sd">    ...     &quot;(a, b, c, &quot;</span>
+<span class="sd">    ...     &quot;aa: int = 1, bb: int = 1.0, cc: int = None, &quot;</span>
+<span class="sd">    ...     &quot;aaa=1, bbb=1.0, ccc=None)&quot;</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    In the following:</span>
+
+<span class="sd">    - ``b: str`` through the argname rule, but ``bb`` (as well as ``aa`` and ``bb``)</span>
+<span class="sd">    didn&#39;t change because ``ignore_existing_annot=False`` by default.</span>
+
+<span class="sd">    - ``aaa: float`` (even though default is ``1``) and ``ccc: &#39;NoneAnnot&#39;`` because of</span>
+<span class="sd">    the ``annot_for_dflt_type`` rules.</span>
+
+<span class="sd">    &gt;&gt;&gt; annotator = partial(</span>
+<span class="sd">    ...     annotate_func_arguments,</span>
+<span class="sd">    ...     annot_for_argname = {&#39;b&#39;: str, &#39;bb&#39;: str},</span>
+<span class="sd">    ...     # don&#39;t confuse following with dict(int=float), which means {&#39;int&#39;: float}</span>
+<span class="sd">    ...     annot_for_dflt_type = {int: float, type(None): &#39;NoneAnnot&#39;},</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; wrapped_func = annotator(foo)</span>
+<span class="sd">    &gt;&gt;&gt; assert str(signature(wrapped_func)) == (</span>
+<span class="sd">    ... &quot;(a, b: str, c, &quot;</span>
+<span class="sd">    ... &quot;aa: int = 1, bb: int = 1.0, cc: int = None, &quot;</span>
+<span class="sd">    ... &quot;aaa: float = 1, bbb=1.0, ccc: &#39;NoneAnnot&#39; = None)&quot;</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    See in the following what happens if we ask the default annotation to be ``Any`` and</span>
+<span class="sd">    ``ignore_existing_annot=True``:</span>
+
+<span class="sd">    &gt;&gt;&gt; another_annotator = partial(</span>
+<span class="sd">    ...     annotator,  # use the previous one, but...</span>
+<span class="sd">    ...     dflt_annot=Any,  # and specify a default annotation</span>
+<span class="sd">    ...     ignore_existing_annot=True  # now ignore any existing annotations</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; wrapped_func = another_annotator(foo)</span>
+<span class="sd">    &gt;&gt;&gt; assert str(signature(wrapped_func)) == (</span>
+<span class="sd">    ... &quot;(a: Any, b: str, c: Any, &quot;</span>
+<span class="sd">    ... &quot;aa: float = 1, bb: str = 1.0, cc: &#39;NoneAnnot&#39; = None, &quot;</span>
+<span class="sd">    ... &quot;aaa: float = 1, bbb: Any = 1.0, ccc: &#39;NoneAnnot&#39; = None)&quot;</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">annot_changes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">_annotate_func_arguments</span><span class="p">(</span>
+            <span class="n">func</span><span class="p">,</span>
+            <span class="n">annot_for_argname</span><span class="o">=</span><span class="n">annot_for_argname</span><span class="p">,</span>
+            <span class="n">annot_for_dflt_type</span><span class="o">=</span><span class="n">annot_for_dflt_type</span><span class="p">,</span>
+            <span class="n">dflt_annot</span><span class="o">=</span><span class="n">dflt_annot</span><span class="p">,</span>
+            <span class="n">ignore_existing_annot</span><span class="o">=</span><span class="n">ignore_existing_annot</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">annot_changes</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Wrap</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">Ingress</span><span class="p">(</span><span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">modified</span><span class="p">(</span><span class="o">**</span><span class="n">annot_changes</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">func</span></div>
+
+
+<span class="k">def</span> <span class="nf">_annotate_func_arguments</span><span class="p">(</span>
+    <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">annot_for_argname</span><span class="p">:</span> <span class="n">AnnotForArgname</span> <span class="o">=</span> <span class="p">(),</span>
+    <span class="n">annot_for_dflt_type</span><span class="p">:</span> <span class="n">AnnotForType</span> <span class="o">=</span> <span class="p">(),</span>
+    <span class="n">dflt_annot</span><span class="p">:</span> <span class="n">Annot</span> <span class="o">=</span> <span class="n">empty</span><span class="p">,</span>
+    <span class="n">ignore_existing_annot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper for annotate_func_arguments. Same inputs as the latter.&quot;&quot;&quot;</span>
+    <span class="n">annot_for_argname</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">annot_for_argname</span><span class="p">)</span>
+    <span class="n">annot_for_dflt_type</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">annot_for_dflt_type</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">str</span><span class="o">.</span><span class="n">isidentifier</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">annot_for_argname</span>
+    <span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;All keys should be identifier strings. Some were not: </span><span class="si">{</span><span class="n">annot_for_argname</span><span class="si">=}</span><span class="s1">&#39;</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">annot_for_dflt_type</span>
+    <span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;All keys should be types. Some were not: </span><span class="si">{</span><span class="n">annot_for_dflt_type</span><span class="si">=}</span><span class="s1">&#39;</span>
+    <span class="n">handled_types</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">annot_for_dflt_type</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">ignore_existing_annot</span> <span class="ow">or</span> <span class="n">param</span><span class="o">.</span><span class="n">annotation</span> <span class="ow">is</span> <span class="n">empty</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">annot_for_argname</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;annotation&#39;</span><span class="p">:</span> <span class="n">annot_for_argname</span><span class="p">[</span><span class="n">name</span><span class="p">]}</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span> <span class="o">:=</span> <span class="n">param</span><span class="o">.</span><span class="n">default</span><span class="p">,</span> <span class="n">handled_types</span><span class="p">):</span>
+                <span class="c1"># NOTE: will yield the first one found</span>
+                <span class="k">for</span> <span class="n">type_</span> <span class="ow">in</span> <span class="n">handled_types</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">type_</span><span class="p">):</span>
+                        <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;annotation&#39;</span><span class="p">:</span> <span class="n">annot_for_dflt_type</span><span class="p">[</span><span class="n">type_</span><span class="p">]}</span>
+                        <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">dflt_annot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">empty</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;annotation&#39;</span><span class="p">:</span> <span class="n">dflt_annot</span><span class="p">}</span>
+
+
+<span class="c1">#</span>
+<span class="c1"># f = annotate_func_arguments(</span>
+<span class="c1">#     PCA,</span>
+<span class="c1">#     annot_for_argname=dict(n_components=int, random_state=int),</span>
+<span class="c1">#     annot_for_type={str: str}</span>
+<span class="c1"># )</span>
+<span class="c1">#</span>
+<span class="c1"># Sig(f)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
