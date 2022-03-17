@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.dag &mdash; front 0.1.23 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.dag &mdash; front 0.1.24 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -94,59 +94,39 @@
 <span class="sd">&gt;&gt;&gt; from meshed.makers import code_to_dag</span>
 <span class="sd">&gt;&gt;&gt; @code_to_dag</span>
 <span class="sd">... def dag():</span>
-<span class="sd">...     a = get_a()</span>
-<span class="sd">...     x = foo(a, b, c)</span>
+<span class="sd">...     x = foo(a, b)</span>
 <span class="sd">...     y = bar(x, greeting)</span>
 <span class="sd">...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding</span>
 <span class="sd">&gt;&gt;&gt; print(dag.dot_digraph_ascii())  # doctest: +SKIP</span>
 
 <span class="sd">.. code-block::</span>
-<span class="sd">                             b</span>
+<span class="sd">     ┌──────────┐</span>
+<span class="sd">  ┌▶ │ confuser │ ◀──    a</span>
+<span class="sd">  │  └──────────┘</span>
+<span class="sd">  │    │                │</span>
+<span class="sd">  │    │                │</span>
+<span class="sd">  │    ▼                ▼</span>
+<span class="sd">  │                   ┌─────┐</span>
+<span class="sd">  │       z           │ foo │ ◀──  b</span>
+<span class="sd">  │                   └─────┘</span>
+<span class="sd">  │                     │</span>
+<span class="sd">  │                     │</span>
+<span class="sd">  │                     ▼</span>
+<span class="sd">  │</span>
+<span class="sd">  └──────────────────    x</span>
 
-<span class="sd">                          │</span>
-<span class="sd">                          │</span>
-<span class="sd">                          ▼</span>
-<span class="sd">                        ┌──────────┐</span>
-<span class="sd">             c      ──▶ │   foo    │ ◀┐</span>
-<span class="sd">                        └──────────┘  │</span>
-<span class="sd">                          │           │</span>
-<span class="sd">                          │           │</span>
-<span class="sd">                          ▼           │</span>
-<span class="sd">                                      │</span>
-<span class="sd">      ┌────────────────      x        │</span>
-<span class="sd">      │                               │</span>
-<span class="sd">      │                   │           │</span>
-<span class="sd">      │                   │           │</span>
-<span class="sd">      │                   ▼           │</span>
-<span class="sd">      │                 ┌──────────┐  │</span>
-<span class="sd">      │   greeting  ──▶ │   bar    │  │</span>
-<span class="sd">      │                 └──────────┘  │</span>
-<span class="sd">      │                   │           │</span>
-<span class="sd">      │                   │           │</span>
-<span class="sd">      │                   ▼           │</span>
-<span class="sd">      │                               │</span>
-<span class="sd">      │                      y        │</span>
-<span class="sd">      │                               │</span>
-<span class="sd">      │                 ┌──────────┐  │</span>
-<span class="sd">      │                 │  get_a   │  │</span>
-<span class="sd">      │                 └──────────┘  │</span>
-<span class="sd">      │                   │           │</span>
-<span class="sd">      │                   │           │</span>
-<span class="sd">      │                   ▼           │</span>
-<span class="sd">      │                               │</span>
-<span class="sd">      │                      a       ─┘</span>
-<span class="sd">      │</span>
-<span class="sd">      │                   │</span>
-<span class="sd">      │                   │</span>
-<span class="sd">      │                   ▼</span>
-<span class="sd">      │                 ┌──────────┐</span>
-<span class="sd">      └───────────────▶ │ confuser │</span>
-<span class="sd">                        └──────────┘</span>
-<span class="sd">                          │</span>
-<span class="sd">                          │</span>
-<span class="sd">                          ▼</span>
+<span class="sd">                        │</span>
+<span class="sd">                        │</span>
+<span class="sd">                        ▼</span>
+<span class="sd">                      ┌─────┐</span>
+<span class="sd">       greeting   ──▶ │ bar │</span>
+<span class="sd">                      └─────┘</span>
+<span class="sd">                        │</span>
+<span class="sd">                        │</span>
+<span class="sd">                        ▼</span>
 
-<span class="sd">                             z</span>
+<span class="sd">                         y</span>
+
 
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -163,6 +143,109 @@
 <span class="kn">from</span> <span class="nn">meshed</span> <span class="kn">import</span> <span class="n">DAG</span><span class="p">,</span> <span class="n">FuncNode</span>
 <span class="kn">from</span> <span class="nn">meshed.base</span> <span class="kn">import</span> <span class="n">ch_func_node_attrs</span>
 <span class="kn">from</span> <span class="nn">meshed.itools</span> <span class="kn">import</span> <span class="n">parents</span><span class="p">,</span> <span class="n">children</span>
+
+
+<span class="k">def</span> <span class="nf">simple_namer</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">name</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s1">&#39;</span>
+
+
+<div class="viewcode-block" id="crudify_func_nodes"><a class="viewcode-back" href="../../module_docs/front/dag.html#front.dag.crudify_func_nodes">[docs]</a><span class="k">def</span> <span class="nf">crudify_func_nodes</span><span class="p">(</span>
+    <span class="n">var_nodes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+    <span class="n">dag</span><span class="p">:</span> <span class="n">DAG</span><span class="p">,</span>
+    <span class="n">var_node_name_to_store_name</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">simple_namer</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;_store&#39;</span><span class="p">),</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">mall</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_stores_attribute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">save_name_param</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;save_name&#39;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Crudifies the given ``var_nodes`` in the ``dag``.</span>
+
+<span class="sd">    Crudifying a var node means crudifying it&#39;s ``FuncNode`` neighbors,</span>
+<span class="sd">    i.e. telling the function that outputs to the ``VarNode`` (if any) to save it&#39;s</span>
+<span class="sd">    output in a store and (additionally) return the key it saved it too instead of the</span>
+<span class="sd">    value itself, and telling any consumers of the var node to use that key as it&#39;s</span>
+<span class="sd">    argument instead, retrieving the value from said store.</span>
+
+<span class="sd">    &gt;&gt;&gt; from meshed import DAG, FuncNode</span>
+<span class="sd">    &gt;&gt;&gt; from inspect import signature</span>
+<span class="sd">    &gt;&gt;&gt; def foo(a, b):  return a + b</span>
+<span class="sd">    &gt;&gt;&gt; def bar(x, y):  return  x * y</span>
+<span class="sd">    &gt;&gt;&gt; dag = DAG([</span>
+<span class="sd">    ...     FuncNode(foo, name=&#39;foo&#39;, out=&#39;foo_output&#39;),</span>
+<span class="sd">    ...     FuncNode(bar, bind={&#39;y&#39;: &#39;foo_output&#39;})</span>
+<span class="sd">    ... ])</span>
+
+<span class="sd">    Let&#39;s crudify ``&#39;foo_output&#39;``. We don&#39;t need to specify a mall, since</span>
+<span class="sd">    ``crudify_func_nodes`` will make one for us.</span>
+<span class="sd">    But in order to get access to it, to see what the function is doing, let&#39;s define</span>
+<span class="sd">    a mall with a single store (a dictionary), named ``&#39;foo_output_store&#39;``</span>
+<span class="sd">    (note that the map between ``var_node`` string name and</span>
+<span class="sd">    store name is controlled by the ``var_node_name_to_store_name`` argument)</span>
+
+<span class="sd">    &gt;&gt;&gt; store = dict()</span>
+<span class="sd">    &gt;&gt;&gt; mall = {&#39;foo_output_store&#39;: store}</span>
+<span class="sd">    &gt;&gt;&gt; new_dag = crudify_func_nodes([&#39;foo_output&#39;], dag, mall=mall)</span>
+
+<span class="sd">    The ``new_dag`` is the same in structure, signature, and global behavior (you</span>
+<span class="sd">    get the same outputs for the same inputs):</span>
+
+<span class="sd">    &gt;&gt;&gt; print(dag.synopsis_string())</span>
+<span class="sd">    a,b -&gt; foo -&gt; foo_output</span>
+<span class="sd">    foo_output,x -&gt; bar_ -&gt; bar</span>
+<span class="sd">    &gt;&gt;&gt; assert dag.synopsis_string() == new_dag.synopsis_string()</span>
+<span class="sd">    &gt;&gt;&gt; assert str(signature(dag)) == str(signature(new_dag)) == &#39;(a, b, x)&#39;</span>
+<span class="sd">    &gt;&gt;&gt; assert dag(2, 3, 4) == new_dag(2, 3, 4) == 20</span>
+
+<span class="sd">    But let&#39;s have a closer look at the functions that ``dag`` and ``new_dag`` are</span>
+<span class="sd">    using. The functions of the ``dag`` are the original functions we specified,</span>
+<span class="sd">    behaving normally:</span>
+
+<span class="sd">    &gt;&gt;&gt; dag.func_nodes[0].func(2, 3)</span>
+<span class="sd">    5</span>
+<span class="sd">    &gt;&gt;&gt; dag.func_nodes[1].func(4, 5)</span>
+<span class="sd">    20</span>
+
+<span class="sd">    But the first function of ``new_dag`` outputs ``&#39;bar_last_output&#39;`` instead of ``5``.</span>
+
+<span class="sd">    &gt;&gt;&gt; new_dag.func_nodes[0].func(2, 3)</span>
+<span class="sd">    &#39;bar_last_output&#39;</span>
+
+<span class="sd">    Where did the ``5`` go? In the mall!</span>
+<span class="sd">    &gt;&gt;&gt; mall</span>
+<span class="sd">    {&#39;foo_output_store&#39;: {&#39;bar_last_output&#39;: 5}}</span>
+
+<span class="sd">    So that ``5`` has been stored under the ``&#39;bar_last_output&#39;`` key.</span>
+<span class="sd">    Further, the second function&#39;s second argument will no longer work with numbers,</span>
+<span class="sd">    but with string keys, and use that same store to retrieve the value it needs for</span>
+<span class="sd">    the underlying function:</span>
+
+<span class="sd">    &gt;&gt;&gt; new_dag.func_nodes[1].func(4, &#39;bar_last_output&#39;)</span>
+<span class="sd">    20</span>
+
+
+<span class="sd">    :param var_nodes: The ``VarNodes`` we want to crudify</span>
+<span class="sd">    :param dag: The dag that contains these var_nodes</span>
+<span class="sd">    :param var_node_name_to_store_name: The function to use to make a store for a given</span>
+<span class="sd">        var_node name. If you have an explicit mapping ``m`` for this, just use ``m.get``</span>
+<span class="sd">    :param mall: A ``mall`` (store of stores, i.e. mapping of mappings) whose keys are</span>
+<span class="sd">        store names, and values are the actual stores.</span>
+<span class="sd">    :param include_stores_attribute: Whether the crudified functions should have an</span>
+<span class="sd">        attribute containing a pointer to the stores involved</span>
+<span class="sd">    :param save_name_param: The name that the &quot;save as&quot; parameter should appear as.</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">DAG</span><span class="p">(</span>
+        <span class="nb">list</span><span class="p">(</span>
+            <span class="n">_crudified_func_nodes</span><span class="p">(</span>
+                <span class="n">var_nodes</span><span class="p">,</span>
+                <span class="n">dag</span><span class="p">,</span>
+                <span class="n">var_node_name_to_store_name</span><span class="p">,</span>
+                <span class="n">mall</span><span class="o">=</span><span class="n">mall</span><span class="p">,</span>
+                <span class="n">include_stores_attribute</span><span class="o">=</span><span class="n">include_stores_attribute</span><span class="p">,</span>
+                <span class="n">save_name_param</span><span class="o">=</span><span class="n">save_name_param</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="VarNodeRole"><a class="viewcode-back" href="../../module_docs/front/dag.html#front.dag.VarNodeRole">[docs]</a><span class="k">class</span> <span class="nc">VarNodeRole</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
@@ -211,12 +294,10 @@
 <span class="sd">    We&#39;ll need to have ``foo`` crudify it&#39;s output and both ``bar`` and ``confuser``</span>
 <span class="sd">    crudify one of their params.</span>
 
-
 <span class="sd">    &gt;&gt;&gt; from meshed.makers import code_to_dag</span>
 <span class="sd">    &gt;&gt;&gt; @code_to_dag</span>
 <span class="sd">    ... def dag():</span>
-<span class="sd">    ...     a = get_a()</span>
-<span class="sd">    ...     x = foo(a, b, c)</span>
+<span class="sd">    ...     x = foo(a, b)</span>
 <span class="sd">    ...     y = bar(x, greeting)</span>
 <span class="sd">    ...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding</span>
 <span class="sd">    &gt;&gt;&gt; assert sorted(</span>
@@ -227,7 +308,6 @@
 <span class="sd">    ...     (&#39;confuser&#39;, (VarNodeRole.argument, &#39;x&#39;)),</span>
 <span class="sd">    ...     (&#39;foo&#39;, (VarNodeRole.return_value, &#39;x&#39;)),</span>
 <span class="sd">    ... ])</span>
-
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">var_node</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">var_nodes</span><span class="p">:</span>
@@ -274,11 +354,11 @@
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a copy of a dag where ``var_nodes`` were crudified.</span>
 
+<span class="sd">    &gt;&gt;&gt; from meshed import DAG</span>
 <span class="sd">    &gt;&gt;&gt; from meshed.makers import code_to_dag</span>
 <span class="sd">    &gt;&gt;&gt; @code_to_dag</span>
 <span class="sd">    ... def dag():</span>
-<span class="sd">    ...     a = get_a()</span>
-<span class="sd">    ...     x = foo(a, b, c)</span>
+<span class="sd">    ...     x = foo(a, b)</span>
 <span class="sd">    ...     y = bar(x, greeting)</span>
 <span class="sd">    ...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding</span>
 <span class="sd">    &gt;&gt;&gt;</span>
@@ -288,9 +368,8 @@
 <span class="sd">    ... )  # doctest: +SKIP</span>
 <span class="sd">    [</span>
 <span class="sd">        (FuncNode(a,x -&gt; confuser -&gt; z), (&#39;x&#39;, &#39;a&#39;), None),</span>
-<span class="sd">        (FuncNode( -&gt; get_a -&gt; a), (), &#39;a&#39;),</span>
 <span class="sd">        (FuncNode(x,greeting -&gt; bar -&gt; y), (&#39;x&#39;,), None),</span>
-<span class="sd">        (FuncNode(a,b,c -&gt; foo -&gt; x), (&#39;a&#39;,), &#39;x&#39;)</span>
+<span class="sd">        (FuncNode(a,b -&gt; foo -&gt; x), (&#39;a&#39;,), &#39;x&#39;)</span>
 <span class="sd">    ]</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -346,10 +425,6 @@
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;No save name was given&#39;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">simple_namer</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">name</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s1">&#39;</span>
-
-
 <span class="kn">from</span> <span class="nn">i2.wrapper</span> <span class="kn">import</span> <span class="n">rm_params</span>
 
 
@@ -403,29 +478,6 @@
             <span class="p">)</span>
 
             <span class="k">yield</span> <span class="n">ch_func_node_attrs</span><span class="p">(</span><span class="n">func_node</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">rm_save_name</span><span class="p">(</span><span class="n">crudified_func</span><span class="p">))</span>
-
-
-<span class="k">def</span> <span class="nf">crudify_func_nodes</span><span class="p">(</span>
-    <span class="n">var_nodes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
-    <span class="n">dag</span><span class="p">:</span> <span class="n">DAG</span><span class="p">,</span>
-    <span class="n">var_node_name_to_store_name</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">simple_namer</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;_store&#39;</span><span class="p">),</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">mall</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">include_stores_attribute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">save_name_param</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;save_name&#39;</span><span class="p">,</span>
-<span class="p">):</span>
-    <span class="k">return</span> <span class="n">DAG</span><span class="p">(</span>
-        <span class="nb">list</span><span class="p">(</span>
-            <span class="n">_crudified_func_nodes</span><span class="p">(</span>
-                <span class="n">var_nodes</span><span class="p">,</span>
-                <span class="n">dag</span><span class="p">,</span>
-                <span class="n">var_node_name_to_store_name</span><span class="p">,</span>
-                <span class="n">mall</span><span class="o">=</span><span class="n">mall</span><span class="p">,</span>
-                <span class="n">include_stores_attribute</span><span class="o">=</span><span class="n">include_stores_attribute</span><span class="p">,</span>
-                <span class="n">save_name_param</span><span class="o">=</span><span class="n">save_name_param</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
 
 
 <span class="c1"># empty_name_callback: Callable[[], Any] = None,</span>

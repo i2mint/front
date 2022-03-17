@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.dag &mdash; front 0.1.23 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.dag &mdash; front 0.1.24 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -96,57 +96,10 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">meshed.makers</span> <span class="kn">import</span> <span class="n">code_to_dag</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nd">@code_to_dag</span>
 <span class="gp">... </span><span class="k">def</span> <span class="nf">dag</span><span class="p">():</span>
-<span class="gp">... </span>    <span class="n">a</span> <span class="o">=</span> <span class="n">get_a</span><span class="p">()</span>
-<span class="gp">... </span>    <span class="n">x</span> <span class="o">=</span> <span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">x</span> <span class="o">=</span> <span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="n">y</span> <span class="o">=</span> <span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">greeting</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="n">z</span> <span class="o">=</span> <span class="n">confuser</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># note the w=x to test non-trivial binding</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">dot_digraph_ascii</span><span class="p">())</span>  
-</pre></div>
-</div>
-<div class="highlight-b notranslate"><div class="highlight"><pre><span></span>                    │
-                    │
-                    ▼
-                  ┌──────────┐
-       c      ──▶ │   foo    │ ◀┐
-                  └──────────┘  │
-                    │           │
-                    │           │
-                    ▼           │
-                                │
-┌────────────────      x        │
-│                               │
-│                   │           │
-│                   │           │
-│                   ▼           │
-│                 ┌──────────┐  │
-│   greeting  ──▶ │   bar    │  │
-│                 └──────────┘  │
-│                   │           │
-│                   │           │
-│                   ▼           │
-│                               │
-│                      y        │
-│                               │
-│                 ┌──────────┐  │
-│                 │  get_a   │  │
-│                 └──────────┘  │
-│                   │           │
-│                   │           │
-│                   ▼           │
-│                               │
-│                      a       ─┘
-│
-│                   │
-│                   │
-│                   ▼
-│                 ┌──────────┐
-└───────────────▶ │ confuser │
-                  └──────────┘
-                    │
-                    │
-                    ▼
-
-                       z
 </pre></div>
 </div>
 <dl class="py class">
@@ -158,6 +111,91 @@ a <code class="docutils literal notranslate"><span class="pre">VarNodeRole.argum
 <p>When a <code class="docutils literal notranslate"><span class="pre">VarNode</span></code> is used to store the return value of a <code class="docutils literal notranslate"><span class="pre">FuncNode</span></code>, it’s playing
 a <code class="docutils literal notranslate"><span class="pre">VarNodeRole.return_value</span></code> role.</p>
 <p>Most <code class="docutils literal notranslate"><span class="pre">VarNode``s</span> <span class="pre">play</span> <span class="pre">both</span> <span class="pre">roles</span> <span class="pre">during</span> <span class="pre">a</span> <span class="pre">``DAG</span></code> computation.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="front.dag.crudify_func_nodes">
+<code class="sig-prename descclassname">front.dag.</code><code class="sig-name descname">crudify_func_nodes</code><span class="sig-paren">(</span><em class="sig-param">var_nodes: Union[str, Iterable[str]], dag: meshed.dag.DAG, var_node_name_to_store_name=functools.partial(&lt;function simple_namer&gt;, suffix='_store'), *, mall: Optional[Mapping[str, Mapping[str, Any]]] = None, include_stores_attribute: bool = False, save_name_param: str = 'save_name'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/dag.html#crudify_func_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.dag.crudify_func_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crudifies the given <code class="docutils literal notranslate"><span class="pre">var_nodes</span></code> in the <code class="docutils literal notranslate"><span class="pre">dag</span></code>.</p>
+<p>Crudifying a var node means crudifying it’s <code class="docutils literal notranslate"><span class="pre">FuncNode</span></code> neighbors,
+i.e. telling the function that outputs to the <code class="docutils literal notranslate"><span class="pre">VarNode</span></code> (if any) to save it’s
+output in a store and (additionally) return the key it saved it too instead of the
+value itself, and telling any consumers of the var node to use that key as it’s
+argument instead, retrieving the value from said store.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">meshed</span> <span class="kn">import</span> <span class="n">DAG</span><span class="p">,</span> <span class="n">FuncNode</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">signature</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>  <span class="k">return</span>  <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dag</span> <span class="o">=</span> <span class="n">DAG</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">FuncNode</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;foo_output&#39;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">FuncNode</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="n">bind</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s1">&#39;foo_output&#39;</span><span class="p">})</span>
+<span class="gp">... </span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Let’s crudify <code class="docutils literal notranslate"><span class="pre">'foo_output'</span></code>. We don’t need to specify a mall, since
+<code class="docutils literal notranslate"><span class="pre">crudify_func_nodes</span></code> will make one for us.
+But in order to get access to it, to see what the function is doing, let’s define
+a mall with a single store (a dictionary), named <code class="docutils literal notranslate"><span class="pre">'foo_output_store'</span></code>
+(note that the map between <code class="docutils literal notranslate"><span class="pre">var_node</span></code> string name and
+store name is controlled by the <code class="docutils literal notranslate"><span class="pre">var_node_name_to_store_name</span></code> argument)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mall</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;foo_output_store&#39;</span><span class="p">:</span> <span class="n">store</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_dag</span> <span class="o">=</span> <span class="n">crudify_func_nodes</span><span class="p">([</span><span class="s1">&#39;foo_output&#39;</span><span class="p">],</span> <span class="n">dag</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="n">mall</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">new_dag</span></code> is the same in structure, signature, and global behavior (you
+get the same outputs for the same inputs):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">synopsis_string</span><span class="p">())</span>
+<span class="go">a,b -&gt; foo -&gt; foo_output</span>
+<span class="go">foo_output,x -&gt; bar_ -&gt; bar</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">dag</span><span class="o">.</span><span class="n">synopsis_string</span><span class="p">()</span> <span class="o">==</span> <span class="n">new_dag</span><span class="o">.</span><span class="n">synopsis_string</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">dag</span><span class="p">))</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">new_dag</span><span class="p">))</span> <span class="o">==</span> <span class="s1">&#39;(a, b, x)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">dag</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="n">new_dag</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<p>But let’s have a closer look at the functions that <code class="docutils literal notranslate"><span class="pre">dag</span></code> and <code class="docutils literal notranslate"><span class="pre">new_dag</span></code> are
+using. The functions of the <code class="docutils literal notranslate"><span class="pre">dag</span></code> are the original functions we specified,
+behaving normally:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dag</span><span class="o">.</span><span class="n">func_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dag</span><span class="o">.</span><span class="n">func_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+<p>But the first function of <code class="docutils literal notranslate"><span class="pre">new_dag</span></code> outputs <code class="docutils literal notranslate"><span class="pre">'bar_last_output'</span></code> instead of <code class="docutils literal notranslate"><span class="pre">5</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">new_dag</span><span class="o">.</span><span class="n">func_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">&#39;bar_last_output&#39;</span>
+</pre></div>
+</div>
+<p>Where did the <code class="docutils literal notranslate"><span class="pre">5</span></code> go? In the mall!
+&gt;&gt;&gt; mall
+{‘foo_output_store’: {‘bar_last_output’: 5}}</p>
+<p>So that <code class="docutils literal notranslate"><span class="pre">5</span></code> has been stored under the <code class="docutils literal notranslate"><span class="pre">'bar_last_output'</span></code> key.
+Further, the second function’s second argument will no longer work with numbers,
+but with string keys, and use that same store to retrieve the value it needs for
+the underlying function:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">new_dag</span><span class="o">.</span><span class="n">func_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;bar_last_output&#39;</span><span class="p">)</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_nodes</strong> – The <code class="docutils literal notranslate"><span class="pre">VarNodes</span></code> we want to crudify</p></li>
+<li><p><strong>dag</strong> – The dag that contains these var_nodes</p></li>
+<li><p><strong>var_node_name_to_store_name</strong> – The function to use to make a store for a given
+var_node name. If you have an explicit mapping <code class="docutils literal notranslate"><span class="pre">m</span></code> for this, just use <code class="docutils literal notranslate"><span class="pre">m.get</span></code></p></li>
+<li><p><strong>mall</strong> – A <code class="docutils literal notranslate"><span class="pre">mall</span></code> (store of stores, i.e. mapping of mappings) whose keys are
+store names, and values are the actual stores.</p></li>
+<li><p><strong>include_stores_attribute</strong> – Whether the crudified functions should have an
+attribute containing a pointer to the stores involved</p></li>
+<li><p><strong>save_name_param</strong> – The name that the “save as” parameter should appear as.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
