@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.24 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.25 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -128,6 +128,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">Parameter</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
 <span class="kn">import</span> <span class="nn">dill</span>  <span class="c1"># pip install dill</span>
 
@@ -196,6 +197,38 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;All params of </span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s1"> must be keyword-only. </span><span class="si">{</span><span class="n">sig</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">names</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">allowed_params</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;All params of </span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s1"> must be in </span><span class="si">{</span><span class="n">allowed_params</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_store_on_output</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_store_on_ouput_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># TODO: Assuming order is dangerous. Add extra safety. E.g. extract from dict.</span>
+    <span class="p">(</span>
+        <span class="n">func</span><span class="p">,</span>
+        <span class="n">sig</span><span class="p">,</span>
+        <span class="n">store</span><span class="p">,</span>
+        <span class="n">save_name_param</span><span class="p">,</span>
+        <span class="n">empty_name_callback</span><span class="p">,</span>
+        <span class="n">auto_namer</span><span class="p">,</span>
+        <span class="n">output_trans</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">=</span> <span class="n">_store_on_ouput_args</span>
+    <span class="n">arguments</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">kwargs_from_args_and_kwargs</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">apply_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">save_name</span> <span class="o">=</span> <span class="n">arguments</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">save_name_param</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">save_name</span> <span class="ow">and</span> <span class="n">empty_name_callback</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">callable</span><span class="p">(</span>
+            <span class="n">empty_name_callback</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;empty_name_callback must be callable: </span><span class="si">{</span><span class="n">empty_name_callback</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">empty_name_callback</span><span class="p">()</span>
+    <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">args_and_kwargs_from_kwargs</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">save_name</span> <span class="ow">and</span> <span class="n">auto_namer</span><span class="p">:</span>
+        <span class="n">save_name</span> <span class="o">=</span> <span class="n">call_forgivingly</span><span class="p">(</span><span class="n">auto_namer</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">save_name</span><span class="p">:</span>
+        <span class="n">store</span><span class="p">[</span><span class="n">save_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">output_trans</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">output</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">call_forgivingly</span><span class="p">(</span>
+            <span class="n">output_trans</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="n">save_name</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span>
+        <span class="p">)</span>
 
 
 <span class="c1"># TODO: store_on_output not pickalable: extend i2.wrapper to be able to solve with it</span>
@@ -311,29 +344,19 @@
     <span class="k">if</span> <span class="n">store</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">store</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
-    <span class="nd">@sig</span>
-    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">arguments</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">kwargs_from_args_and_kwargs</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">apply_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">save_name</span> <span class="o">=</span> <span class="n">arguments</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">save_name_param</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">save_name</span> <span class="ow">and</span> <span class="n">empty_name_callback</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="n">callable</span><span class="p">(</span>
-                <span class="n">empty_name_callback</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;empty_name_callback must be callable: </span><span class="si">{</span><span class="n">empty_name_callback</span><span class="si">}</span><span class="s1">&#39;</span>
-            <span class="n">empty_name_callback</span><span class="p">()</span>
-        <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">args_and_kwargs_from_kwargs</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">save_name</span> <span class="ow">and</span> <span class="n">auto_namer</span><span class="p">:</span>
-            <span class="n">save_name</span> <span class="o">=</span> <span class="n">call_forgivingly</span><span class="p">(</span><span class="n">auto_namer</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">save_name</span><span class="p">:</span>
-            <span class="n">store</span><span class="p">[</span><span class="n">save_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">output_trans</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">output</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">call_forgivingly</span><span class="p">(</span>
-                <span class="n">output_trans</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="n">save_name</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span>
-            <span class="p">)</span>
-
+    <span class="n">__func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+        <span class="n">_store_on_output</span><span class="p">,</span>
+        <span class="n">_store_on_ouput_args</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">func</span><span class="p">,</span>
+            <span class="n">sig</span><span class="p">,</span>
+            <span class="n">store</span><span class="p">,</span>
+            <span class="n">save_name_param</span><span class="p">,</span>
+            <span class="n">empty_name_callback</span><span class="p">,</span>
+            <span class="n">auto_namer</span><span class="p">,</span>
+            <span class="n">output_trans</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">_func</span> <span class="o">=</span> <span class="n">sig</span><span class="p">(</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)(</span><span class="n">__func</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">add_store_to_func_attr</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="n">_func</span><span class="p">,</span> <span class="n">add_store_to_func_attr</span><span class="p">,</span> <span class="n">store</span><span class="p">)</span>
 
