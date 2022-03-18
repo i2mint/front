@@ -39,6 +39,7 @@ persisted in some fashion).
 from typing import Any, Mapping, Optional, Callable, Union, Iterable, Iterator
 from inspect import Parameter
 import os
+from functools import partial
 
 import dill  # pip install dill
 
@@ -107,6 +108,38 @@ def _validate_function_keyword_only_params(func, allowed_params: Iterable, obj_n
             raise TypeError(f'All params of {obj_name} must be keyword-only. {sig}')
         if not set(sig.names).issubset(allowed_params):
             raise TypeError(f'All params of {obj_name} must be in {allowed_params}')
+
+
+def _store_on_output(*args, _store_on_ouput_args, **kwargs):
+    # TODO: Assuming order is dangerous. Add extra safety. E.g. extract from dict.
+    (
+        func,
+        sig,
+        store,
+        save_name_param,
+        empty_name_callback,
+        auto_namer,
+        output_trans,
+    ) = _store_on_ouput_args
+    arguments = sig.kwargs_from_args_and_kwargs(args, kwargs, apply_defaults=True)
+    save_name = arguments.pop(save_name_param)
+    if not save_name and empty_name_callback:
+        assert callable(
+            empty_name_callback
+        ), f'empty_name_callback must be callable: {empty_name_callback}'
+        empty_name_callback()
+    args, kwargs = sig.args_and_kwargs_from_kwargs(arguments)
+    output = func(*args, **kwargs)
+    if not save_name and auto_namer:
+        save_name = call_forgivingly(auto_namer, arguments=arguments, output=output)
+    if save_name:
+        store[save_name] = output
+    if not output_trans:
+        return output
+    else:
+        return call_forgivingly(
+            output_trans, save_name=save_name, output=output, arguments=arguments
+        )
 
 
 # TODO: store_on_output not pickalable: extend i2.wrapper to be able to solve with it
@@ -222,29 +255,19 @@ def store_on_output(
     if store is None:
         store = dict()
 
-    @sig
-    @wraps(func)
-    def _func(*args, **kwargs):
-        arguments = sig.kwargs_from_args_and_kwargs(args, kwargs, apply_defaults=True)
-        save_name = arguments.pop(save_name_param)
-        if not save_name and empty_name_callback:
-            assert callable(
-                empty_name_callback
-            ), f'empty_name_callback must be callable: {empty_name_callback}'
-            empty_name_callback()
-        args, kwargs = sig.args_and_kwargs_from_kwargs(arguments)
-        output = func(*args, **kwargs)
-        if not save_name and auto_namer:
-            save_name = call_forgivingly(auto_namer, arguments=arguments, output=output)
-        if save_name:
-            store[save_name] = output
-        if not output_trans:
-            return output
-        else:
-            return call_forgivingly(
-                output_trans, save_name=save_name, output=output, arguments=arguments
-            )
-
+    __func = partial(
+        _store_on_output,
+        _store_on_ouput_args=(
+            func,
+            sig,
+            store,
+            save_name_param,
+            empty_name_callback,
+            auto_namer,
+            output_trans,
+        ),
+    )
+    _func = sig(wraps(func)(__func))
     if isinstance(add_store_to_func_attr, str):
         setattr(_func, add_store_to_func_attr, store)
 
