@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.25 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.26 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -232,7 +232,7 @@
 
 
 <span class="c1"># TODO: store_on_output not pickalable: extend i2.wrapper to be able to solve with it</span>
-<div class="viewcode-block" id="store_on_output"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.store_on_output">[docs]</a><span class="nd">@double_up_as_factory</span>
+<span class="nd">@double_up_as_factory</span>
 <span class="k">def</span> <span class="nf">store_on_output</span><span class="p">(</span>
     <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -360,10 +360,10 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">add_store_to_func_attr</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="n">_func</span><span class="p">,</span> <span class="n">add_store_to_func_attr</span><span class="p">,</span> <span class="n">store</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">_func</span></div>
+    <span class="k">return</span> <span class="n">_func</span>
 
 
-<div class="viewcode-block" id="prepare_for_crude_dispatch"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.prepare_for_crude_dispatch">[docs]</a><span class="nd">@double_up_as_factory</span>
+<span class="nd">@double_up_as_factory</span>
 <span class="k">def</span> <span class="nf">prepare_for_crude_dispatch</span><span class="p">(</span>
     <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -576,7 +576,7 @@
             <span class="p">),</span>
         <span class="p">)</span>
 
-    <span class="n">wrapped_f</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">ingress</span><span class="p">)</span>
+    <span class="n">wrapped_f</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">ingress</span><span class="o">=</span><span class="n">ingress</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">include_stores_attribute</span><span class="p">:</span>
         <span class="n">wrapped_f</span><span class="o">.</span><span class="n">store_for_param</span> <span class="o">=</span> <span class="n">store_for_param</span>
@@ -607,7 +607,7 @@
         <span class="p">)</span>
         <span class="c1"># wrapped_f.__name__ = wrapped_f.__name__ + &quot;_w_output_storing&quot;  # to remove</span>
 
-    <span class="k">return</span> <span class="n">wrapped_f</span></div>
+    <span class="k">return</span> <span class="n">wrapped_f</span>
 
 
 <span class="k">def</span> <span class="nf">_mk_store_for_param</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">param_to_mall_key_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>

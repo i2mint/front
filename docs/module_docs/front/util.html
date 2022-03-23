@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.util &mdash; front 0.1.25 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.util &mdash; front 0.1.26 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -171,61 +171,6 @@ need to be made, or the same function untouched if not.</p>
 <span class="gp">... </span><span class="s2">&quot;aa: float = 1, bb: str = 1.0, cc: &#39;NoneAnnot&#39; = None, &quot;</span>
 <span class="gp">... </span><span class="s2">&quot;aaa: float = 1, bbb: Any = 1.0, ccc: &#39;NoneAnnot&#39; = None)&quot;</span>
 <span class="gp">... </span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt id="front.util.inject_enum_annotations">
-<code class="sig-prename descclassname">front.util.</code><code class="sig-name descname">inject_enum_annotations</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">extract_enum_value</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">enum_list_for_arg</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/util.html#inject_enum_annotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.util.inject_enum_annotations" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>func</strong> – function to wrap</p></li>
-<li><p><strong>enum_list_for_arg</strong> – For every argument you want to enumify (i.e. annotate with
-an Enum), the list of enum values you want.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A wrapped func.</p>
-</dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">signature</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;tat&#39;</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bar</span> <span class="o">=</span> <span class="n">inject_enum_annotations</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;tit for tat&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">bar</span><span class="p">))</span>  
-<span class="go">&#39;(a, b: front.util.b_enum, c: front.util.c_enum = &#39;tat&#39;)&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b_enum</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span><span class="o">.</span><span class="n">annotations</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">b_enum</span><span class="p">)</span>
-<span class="go">[&lt;b_enum.1: 1&gt;, &lt;b_enum.2: 2&gt;]</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">c_enum</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span><span class="o">.</span><span class="n">annotations</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">c_enum</span><span class="p">)</span>
-<span class="go">[&lt;c_enum.tit: &#39;tit&#39;&gt;, &lt;c_enum.for: &#39;for&#39;&gt;, &lt;c_enum.tat: &#39;tat&#39;&gt;]</span>
-</pre></div>
-</div>
-<p>The wrapped bar now accepts enum objects (whose .values will be extracted and
-handed to foo for computation).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bar</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b_enum</span><span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">c_enum</span><span class="o">.</span><span class="n">tit</span><span class="p">)</span>
-<span class="go">&#39;tittittittit&#39;</span>
-</pre></div>
-</div>
-<p>Again, note that the way we need to specify our <code class="docutils literal notranslate"><span class="pre">b</span></code> and <code class="docutils literal notranslate"><span class="pre">c</span></code> arguments are as
-<cite>enum</cite> types, not as the number <cite>2</cite> and string <cite>‘tit’</cite>.</p>
-<p>In the following example, we ask for <cite>extract_enum_value=False</cite> so that we
-can still use normal inputs (no Enum objects, though <code class="docutils literal notranslate"><span class="pre">b</span></code> and <code class="docutils literal notranslate"><span class="pre">c</span></code> will
-still be annotated by the Enums.</p>
-<p>Also note in this example that you can use &#64; to decorate a function at
-definition time.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@inject_enum_annotations</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">b</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;tit for tat&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="n">extract_enum_value</span><span class="o">=</span><span class="kc">False</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="gp">... </span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;tat&#39;</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;tit&#39;</span><span class="p">)</span>
-<span class="go">&#39;tittittittit&#39;</span>
 </pre></div>
 </div>
 </dd></dl>
