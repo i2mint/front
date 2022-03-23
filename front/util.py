@@ -105,7 +105,7 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
         )
 
         dispatched_enums_func = wrap(
-            func, Ingress(func, kwargs_trans=get_values_of_enums)
+            func, ingress=Ingress(func, kwargs_trans=get_values_of_enums)
         )
 
         dispatched_enums_func.__signature__ = with_enumed_sig

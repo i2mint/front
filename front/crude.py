@@ -487,7 +487,7 @@ def prepare_for_crude_dispatch(
             ),
         )
 
-    wrapped_f = wrap(func, ingress)
+    wrapped_f = wrap(func, ingress=ingress)
 
     if include_stores_attribute:
         wrapped_f.store_for_param = store_for_param
