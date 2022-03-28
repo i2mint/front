@@ -9,6 +9,7 @@ from front.tests.util import get_var_nodes_to_crudify, rdm_int, rdm_str
 ## SIMPLE USE CASE ##
 #####################
 
+
 def simple_use_case():
     x = foo(a, b, c)
     y = bar(x, greeting)
@@ -33,6 +34,7 @@ def confuser_func(a: int = 0, x: float = 3.14) -> float:
 ## RUN MODEL USE CASE ##
 ########################
 
+
 def run_model_use_case():
     wfs = get_wfs(src_to_wf, data_src)
     chks = get_chunks(chunker, wfs)
@@ -44,7 +46,9 @@ def get_wfs_func(src_to_wf: Callable, data_src: int) -> Iterable[Iterable[int]]:
     return src_to_wf(data_src)
 
 
-def get_chunks_func(chunker: Callable, wfs: Iterable[Iterable[int]]) -> Iterable[Iterable[int]]:
+def get_chunks_func(
+    chunker: Callable, wfs: Iterable[Iterable[int]]
+) -> Iterable[Iterable[int]]:
     return chain.from_iterable(map(chunker, wfs))
 
 
@@ -59,18 +63,18 @@ def run_model_func(model: Callable, fvs: Iterable[int]) -> Iterable[str]:
 def src_to_wf_func(src):
     for i in range(src):
         yield [i, i + 2, i * 3, i + 5]
-        
+
 
 def chunker_func(wf):
     yield wf[0:2]
     yield wf[2:4]
-    
+
 
 featurizer_func = sum
 
 
 def model_func(x):
-    return f"hi {x}"
+    return f'hi {x}'
 
 
 ###########
@@ -112,7 +116,9 @@ TEST_USE_CASE_PARAMETERS = [
 ]
 
 
-def base_test_use_case(use_case, func_src, inputs, mk_front_func, **mk_front_func_kwargs):
+def base_test_use_case(
+    use_case, func_src, inputs, mk_front_func, **mk_front_func_kwargs
+):
     front_func_src = {
         node_name: mk_front_func(func, **mk_front_func_kwargs)
         for node_name, func in func_src.items()

@@ -268,7 +268,9 @@ def store_on_output(
         ),
     )
 
-    new_return_annotation = Sig(output_trans).return_annotation if output_trans else Parameter.empty
+    new_return_annotation = (
+        Sig(output_trans).return_annotation if output_trans else Parameter.empty
+    )
     if new_return_annotation != Parameter.empty:
         sig = sig.replace(return_annotation=new_return_annotation)
 

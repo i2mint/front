@@ -183,7 +183,9 @@ def _get_returned_by_func_node(var_node: str, dag: DAG):
             f"This var_node had more than one parent. That is shouldn't be possible: "
             f'{var_node}'
         )
-    return next(iter(returned_by_func_node), None)  # If None, it means it is NOT produced by a FuncNode, so is a root (input) node.
+    return next(
+        iter(returned_by_func_node), None
+    )  # If None, it means it is NOT produced by a FuncNode, so is a root (input) node.
 
 
 def _validate_is_func_node(node, var_node, relationship):
@@ -352,7 +354,7 @@ def _crudified_func_nodes(
     mall = mall or dict()
     mall = dict(
         {var_node_name_to_store_name(var_name): dict() for var_name in var_nodes},
-        **mall
+        **mall,
     )
     rm_save_name = partial(rm_params, params_to_remove=[save_name_param])
 

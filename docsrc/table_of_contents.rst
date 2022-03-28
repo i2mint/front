@@ -21,4 +21,6 @@
    module_docs/front/tests/test_crude
    module_docs/front/tests/test_identity_write_output
    module_docs/front/tests/test_py2pydantic
+   module_docs/front/tests/test_use_case
+   module_docs/front/tests/util
    module_docs/front/util
