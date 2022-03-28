@@ -267,7 +267,13 @@ def store_on_output(
             output_trans,
         ),
     )
+
+    new_return_annotation = Sig(output_trans).return_annotation if output_trans else Parameter.empty
+    if new_return_annotation != Parameter.empty:
+        sig = sig.replace(return_annotation=new_return_annotation)
+
     _func = sig(wraps(func)(__func))
+
     if isinstance(add_store_to_func_attr, str):
         setattr(_func, add_store_to_func_attr, store)
 

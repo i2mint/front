@@ -183,9 +183,7 @@ def _get_returned_by_func_node(var_node: str, dag: DAG):
             f"This var_node had more than one parent. That is shouldn't be possible: "
             f'{var_node}'
         )
-    elif len(returned_by_func_node) == 0:
-        return None  # meaning is NOT produced by a FuncNode, so is a root (input) node.
-    return next(iter(returned_by_func_node))
+    return next(iter(returned_by_func_node), None)  # If None, it means it is NOT produced by a FuncNode, so is a root (input) node.
 
 
 def _validate_is_func_node(node, var_node, relationship):
@@ -328,7 +326,7 @@ def _mk_param_to_mall_map_from_for_var_nodes(
             yield param, var_node_name_to_store_name(var_node)
 
 
-def _return_save_name(*, save_name):
+def _return_save_name(*, save_name) -> str:
     return save_name
 
 
@@ -350,9 +348,12 @@ def _crudified_func_nodes(
 ):
     if isinstance(var_nodes, str):
         var_nodes = var_nodes.split()
-    if mall is None:
-        # make a mall for all the var_names, giving them all empty dicts as stores
-        mall = {var_node_name_to_store_name(var_name): dict() for var_name in var_nodes}
+    # make a mall for all the var_names, giving them all empty dicts as stores if they are not there already.
+    mall = mall or dict()
+    mall = dict(
+        {var_node_name_to_store_name(var_name): dict() for var_name in var_nodes},
+        **mall
+    )
     rm_save_name = partial(rm_params, params_to_remove=[save_name_param])
 
     for (
@@ -364,7 +365,7 @@ def _crudified_func_nodes(
             _mk_param_to_mall_map_from_for_var_nodes,
             var_node_name_to_store_name=var_node_name_to_store_name,
         )
-        if (argument_names, return_name) == ((), ()):
+        if (argument_names, return_name) == ((), None):
             yield func_node
         else:
             param_to_mall_map = (
