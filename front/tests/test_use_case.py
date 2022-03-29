@@ -1,5 +1,5 @@
 from itertools import chain
-from typing import Callable, Iterable
+from typing import Any, Callable, ContextManager, Iterable, Mapping
 from meshed.makers import code_to_dag
 from front.dag import crudify_func_nodes
 
@@ -83,50 +83,70 @@ def model_func(x):
 
 TEST_USE_CASE_PARAMETER_NAMES = 'use_case, func_src, kwargs'
 TEST_USE_CASE_PARAMETERS = [
-    # (
-    #     simple_use_case,
-    #     {
-    #         'foo': foo_func,
-    #         'bar': bar_func,
-    #         'confuser': confuser_func,
-    #     },
-    #     {
-    #         'a': rdm_int(),
-    #         'b': rdm_int(),
-    #         'c': rdm_int(),
-    #         'greeting': rdm_str(),
-    #     },
-    # ),
     (
-        run_model_use_case,
+        simple_use_case,
         {
-            'get_wfs': get_wfs_func,
-            'get_chunks': get_chunks_func,
-            'get_fvs': get_fvs_func,
-            'run_model': run_model_func,
+            'foo': foo_func,
+            'bar': bar_func,
+            'confuser': confuser_func,
         },
         {
-            'data_src': 5,
-            'src_to_wf': src_to_wf_func,
-            'chunker': chunker_func,
-            'featurizer': featurizer_func,
-            'model': model_func,
+            'a': rdm_int(),
+            'b': rdm_int(),
+            'c': rdm_int(),
+            'greeting': rdm_str(),
         },
     ),
+    # BUG: The execution of a crudified func node through front returns the result
+    # of the initial function instead of the key used to store the result.
+    # (
+    #     run_model_use_case,
+    #     {
+    #         'get_wfs': get_wfs_func,
+    #         'get_chunks': get_chunks_func,
+    #         'get_fvs': get_fvs_func,
+    #         'run_model': run_model_func,
+    #     },
+    #     {
+    #         'data_src': 5,
+    #         'src_to_wf': src_to_wf_func,
+    #         'chunker': chunker_func,
+    #         'featurizer': featurizer_func,
+    #         'model': model_func,
+    #     },
+    # ),
 ]
 
 
 def base_test_use_case(
-    use_case, func_src, inputs, mk_front_func, **mk_front_func_kwargs
+    use_case: Callable,
+    func_src: Mapping[str, Callable],
+    inputs: Mapping[str, Any],
+    mk_front_func: Callable,
+    run_front_app: ContextManager,
 ):
-    front_func_src = {
-        node_name: mk_front_func(func, **mk_front_func_kwargs)
-        for node_name, func in func_src.items()
-    }
-    front_dag = code_to_dag(use_case, func_src=front_func_src)
-    var_nodes_to_crudify = get_var_nodes_to_crudify(front_func_src.values())
+
+    def mk_crudified_dag():
+        mall = dict()
+        for k, v in inputs.items():
+            if k in var_nodes_to_crudify:
+                store_key = str(v)
+                mall[f'{k}_store'] = {store_key: v}
+                front_dag_inputs[k] = store_key
+        return crudify_func_nodes(var_nodes_to_crudify, dag, mall=mall)
+
+    dispatch_func_src = dict(func_src)
+    var_nodes_to_crudify = get_var_nodes_to_crudify(dispatch_func_src.values())
+    front_dag_inputs = dict(inputs)
     if var_nodes_to_crudify:
-        front_dag = crudify_func_nodes(var_nodes_to_crudify, front_dag)
-    dag = code_to_dag(use_case, func_src=func_src)
-    for kwargs in inputs:
-        assert front_dag(**kwargs) == dag(**kwargs)
+        crudified_dag = mk_crudified_dag()
+        dispatch_func_src = {func_node.name: func_node.func for func_node in crudified_dag.func_nodes}
+    dispatch_funcs = list(dispatch_func_src.values())
+    with run_front_app(dispatch_funcs) as front_app:
+        front_func_src = {
+            node_name: mk_front_func(func, dispatch_funcs, front_app)
+            for node_name, func in dispatch_func_src.items()
+        }
+        dag = code_to_dag(use_case, func_src=func_src)
+        front_dag = code_to_dag(use_case, func_src=front_func_src)
+        assert front_dag(**front_dag_inputs) == dag(**inputs)
