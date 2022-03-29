@@ -85,17 +85,8 @@ TEST_USE_CASE_PARAMETER_NAMES = 'use_case, func_src, kwargs'
 TEST_USE_CASE_PARAMETERS = [
     (
         simple_use_case,
-        {
-            'foo': foo_func,
-            'bar': bar_func,
-            'confuser': confuser_func,
-        },
-        {
-            'a': rdm_int(),
-            'b': rdm_int(),
-            'c': rdm_int(),
-            'greeting': rdm_str(),
-        },
+        {'foo': foo_func, 'bar': bar_func, 'confuser': confuser_func,},
+        {'a': rdm_int(), 'b': rdm_int(), 'c': rdm_int(), 'greeting': rdm_str(),},
     ),
     # BUG: The execution of a crudified func node through front returns the result
     # of the initial function instead of the key used to store the result.
@@ -125,7 +116,6 @@ def base_test_use_case(
     mk_front_func: Callable,
     run_front_app: ContextManager,
 ):
-
     def mk_crudified_dag():
         mall = dict()
         for k, v in inputs.items():
@@ -140,7 +130,9 @@ def base_test_use_case(
     front_dag_inputs = dict(inputs)
     if var_nodes_to_crudify:
         crudified_dag = mk_crudified_dag()
-        dispatch_func_src = {func_node.name: func_node.func for func_node in crudified_dag.func_nodes}
+        dispatch_func_src = {
+            func_node.name: func_node.func for func_node in crudified_dag.func_nodes
+        }
     dispatch_funcs = list(dispatch_func_src.values())
     with run_front_app(dispatch_funcs) as front_app:
         front_func_src = {
