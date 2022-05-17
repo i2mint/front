@@ -1,4 +1,3 @@
-
 from typing import Any, Callable, Mapping, Union
 
 Map = Union[None, Mapping, Callable[[], Mapping]]

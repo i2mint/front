@@ -5,14 +5,14 @@ from enum import IntFlag
 
 
 class ContainerFlag(IntFlag):
-    APP = 0,
-    VIEW = 1,
+    APP = (0,)
+    VIEW = (1,)
 
 
 class InputComponentFlag(IntFlag):
-    TEXT = 1,
-    INT = 2,
-    FLOAT = 4,
+    TEXT = (1,)
+    INT = (2,)
+    FLOAT = (4,)
 
 
 # class OutputComponentFlag(IntFlag):
@@ -37,7 +37,7 @@ class FrontContainerBase(FrontElementBase):
     def __init__(self, children: Iterable[FrontElementBase] = None):
         self.children = children or []
 
-    
+
 class FrontComponentBase(FrontElementBase):
     pass
 
@@ -64,7 +64,7 @@ class FuncViewBase(FrontContainerBase):
 class TextInputBase(ParamInputBase):
     def __init__(self, param: Parameter) -> None:
         super().__init__(param)
-        self.init_value = self.init_value or ""
+        self.init_value = self.init_value or ''
 
 
 class NumberInputBase(ParamInputBase):

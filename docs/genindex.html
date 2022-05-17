@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; front 0.1.26 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Index &mdash; front 0.1.29 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
@@ -41,9 +41,13 @@
               <p><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front.html">front</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/front/app_maker_base.html">front.app_maker_base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/base.html">front.base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/crude.html">front.crude</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/dag.html">front.dag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements.html">front.elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements/elements.html">front.elements.elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements/tree_maker_base.html">front.elements.tree_maker_base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/data_binding.html">front.examples.data_binding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/experimentation.html">front.examples.experimentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/issues.html">front.examples.issues</a></li>
@@ -53,12 +57,16 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/tw_data_binding.html">front.examples.tw_data_binding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap.html">front.scrap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/front/spec_maker.html">front.spec_maker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_crude.html">front.tests.test_crude</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_use_case.html">front.tests.test_use_case</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/util.html">front.tests.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/front/types.html">front.types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/front/util.html">front.util</a></li>
 </ul>
 
@@ -93,9 +101,15 @@
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#V"><strong>V</strong></a>
  
 </div>
@@ -104,8 +118,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/front/util.html#front.util.annotate_func_arguments">annotate_func_arguments() (in module front.util)</a>
 </li>
+      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.AppBase">AppBase (class in front.elements.elements)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/front/app_maker_base.html#front.app_maker_base.AppMakerBase">AppMakerBase (class in front.app_maker_base)</a>
+</li>
       <li><a href="module_docs/front/crude.html#front.crude.auto_key">auto_key() (in module front.crude)</a>
 </li>
   </ul></td>
@@ -121,10 +139,18 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/front/tests/test_use_case.html#front.tests.test_use_case.bar_func">bar_func() (in module front.tests.test_use_case)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.ContainerFlag">ContainerFlag (class in front.elements.elements)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/front/dag.html#front.dag.crudify_func_nodes">crudify_func_nodes() (in module front.dag)</a>
 </li>
@@ -134,7 +160,19 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/front/util.html#front.util.deep_merge">deep_merge() (in module front.util)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/front/crude.html#front.crude.DillFiles">DillFiles (class in front.crude)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/front/elements/tree_maker_base.html#front.elements.tree_maker_base.ElementTreeMakerBase">ElementTreeMakerBase (class in front.elements.tree_maker_base)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -142,17 +180,28 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.FloatInputBase">FloatInputBase (class in front.elements.elements)</a>
+</li>
       <li><a href="module_docs/front/examples/experimentation.html#front.examples.experimentation.foo">foo() (in module front.examples.experimentation)</a>
 
       <ul>
         <li><a href="module_docs/front/examples/simple.html#front.examples.simple.foo">(in module front.examples.simple)</a>
 </li>
       </ul></li>
+      <li><a href="module_docs/front/tests/test_use_case.html#front.tests.test_use_case.foo_func">foo_func() (in module front.tests.test_use_case)</a>
+</li>
       <li>
     front
 
       <ul>
         <li><a href="module_docs/front.html#module-front">module</a>
+</li>
+      </ul></li>
+      <li>
+    front.app_maker_base
+
+      <ul>
+        <li><a href="module_docs/front/app_maker_base.html#module-front.app_maker_base">module</a>
 </li>
       </ul></li>
       <li>
@@ -174,6 +223,27 @@
 
       <ul>
         <li><a href="module_docs/front/dag.html#module-front.dag">module</a>
+</li>
+      </ul></li>
+      <li>
+    front.elements
+
+      <ul>
+        <li><a href="module_docs/front/elements.html#module-front.elements">module</a>
+</li>
+      </ul></li>
+      <li>
+    front.elements.elements
+
+      <ul>
+        <li><a href="module_docs/front/elements/elements.html#module-front.elements.elements">module</a>
+</li>
+      </ul></li>
+      <li>
+    front.elements.tree_maker_base
+
+      <ul>
+        <li><a href="module_docs/front/elements/tree_maker_base.html#module-front.elements.tree_maker_base">module</a>
 </li>
       </ul></li>
       <li>
@@ -204,13 +274,20 @@
         <li><a href="module_docs/front/py2pydantic.html#module-front.py2pydantic">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     front.scrap
 
       <ul>
         <li><a href="module_docs/front/scrap.html#module-front.scrap">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    front.spec_maker
+
+      <ul>
+        <li><a href="module_docs/front/spec_maker.html#module-front.spec_maker">module</a>
 </li>
       </ul></li>
       <li>
@@ -256,17 +333,58 @@
 </li>
       </ul></li>
       <li>
+    front.tests.test_use_case
+
+      <ul>
+        <li><a href="module_docs/front/tests/test_use_case.html#module-front.tests.test_use_case">module</a>
+</li>
+      </ul></li>
+      <li>
+    front.tests.util
+
+      <ul>
+        <li><a href="module_docs/front/tests/util.html#module-front.tests.util">module</a>
+</li>
+      </ul></li>
+      <li>
+    front.types
+
+      <ul>
+        <li><a href="module_docs/front/types.html#module-front.types">module</a>
+</li>
+      </ul></li>
+      <li>
     front.util
 
       <ul>
         <li><a href="module_docs/front/util.html#module-front.util">module</a>
 </li>
       </ul></li>
+      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.FrontComponentBase">FrontComponentBase (class in front.elements.elements)</a>
+</li>
+      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.FrontContainerBase">FrontContainerBase (class in front.elements.elements)</a>
+</li>
+      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.FrontElementBase">FrontElementBase (class in front.elements.elements)</a>
+</li>
       <li><a href="module_docs/front/py2pydantic.html#front.py2pydantic.func_to_pyd_func">func_to_pyd_func() (in module front.py2pydantic)</a>
 </li>
       <li><a href="module_docs/front/py2pydantic.html#front.py2pydantic.func_to_pyd_input_model_cls">func_to_pyd_input_model_cls() (in module front.py2pydantic)</a>
 </li>
       <li><a href="module_docs/front/py2pydantic.html#front.py2pydantic.func_to_pyd_model_specs">func_to_pyd_model_specs() (in module front.py2pydantic)</a>
+</li>
+      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.FuncViewBase">FuncViewBase (class in front.elements.elements)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/front/util.html#front.util.incremental_str_maker">incremental_str_maker() (in module front.util)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.InputComponentFlag">InputComponentFlag (class in front.elements.elements)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -282,11 +400,19 @@
       <ul>
         <li><a href="module_docs/front.html#module-front">front</a>
 </li>
+        <li><a href="module_docs/front/app_maker_base.html#module-front.app_maker_base">front.app_maker_base</a>
+</li>
         <li><a href="module_docs/front/base.html#module-front.base">front.base</a>
 </li>
         <li><a href="module_docs/front/crude.html#module-front.crude">front.crude</a>
 </li>
         <li><a href="module_docs/front/dag.html#module-front.dag">front.dag</a>
+</li>
+        <li><a href="module_docs/front/elements.html#module-front.elements">front.elements</a>
+</li>
+        <li><a href="module_docs/front/elements/elements.html#module-front.elements.elements">front.elements.elements</a>
+</li>
+        <li><a href="module_docs/front/elements/tree_maker_base.html#module-front.elements.tree_maker_base">front.elements.tree_maker_base</a>
 </li>
         <li><a href="module_docs/front/examples/data_binding.html#module-front.examples.data_binding">front.examples.data_binding</a>
 </li>
@@ -297,6 +423,8 @@
         <li><a href="module_docs/front/py2pydantic.html#module-front.py2pydantic">front.py2pydantic</a>
 </li>
         <li><a href="module_docs/front/scrap.html#module-front.scrap">front.scrap</a>
+</li>
+        <li><a href="module_docs/front/spec_maker.html#module-front.spec_maker">front.spec_maker</a>
 </li>
         <li><a href="module_docs/front/tests/app_identity_pydantic_output.html#module-front.tests.app_identity_pydantic_output">front.tests.app_identity_pydantic_output</a>
 </li>
@@ -310,9 +438,39 @@
 </li>
         <li><a href="module_docs/front/tests/test_py2pydantic.html#module-front.tests.test_py2pydantic">front.tests.test_py2pydantic</a>
 </li>
+        <li><a href="module_docs/front/tests/test_use_case.html#module-front.tests.test_use_case">front.tests.test_use_case</a>
+</li>
+        <li><a href="module_docs/front/tests/util.html#module-front.tests.util">front.tests.util</a>
+</li>
+        <li><a href="module_docs/front/types.html#module-front.types">front.types</a>
+</li>
         <li><a href="module_docs/front/util.html#module-front.util">front.util</a>
 </li>
       </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.NumberInputBase">NumberInputBase (class in front.elements.elements)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/front/util.html#front.util.obj_name">obj_name() (in module front.util)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.ParamInputBase">ParamInputBase (class in front.elements.elements)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -324,6 +482,14 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/front/util.html#front.util.subdict">subdict() (in module front.util)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.TextInputBase">TextInputBase (class in front.elements.elements)</a>
 </li>
   </ul></td>
 </tr></table>

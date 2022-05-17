@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.util &mdash; front 0.1.26 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.util &mdash; front 0.1.29 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -41,9 +41,13 @@
               <p><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front.html">front</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/app_maker_base.html">front.app_maker_base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/base.html">front.base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/crude.html">front.crude</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/dag.html">front.dag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/elements.html">front.elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/elements/elements.html">front.elements.elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/elements/tree_maker_base.html">front.elements.tree_maker_base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/data_binding.html">front.examples.data_binding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/experimentation.html">front.examples.experimentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/issues.html">front.examples.issues</a></li>
@@ -53,12 +57,16 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/tw_data_binding.html">front.examples.tw_data_binding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap.html">front.scrap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/spec_maker.html">front.spec_maker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_crude.html">front.tests.test_crude</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_use_case.html">front.tests.test_use_case</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/util.html">front.tests.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/types.html">front.types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/util.html">front.util</a></li>
 </ul>
 
@@ -97,6 +105,9 @@
 
 <span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span><span class="p">,</span> <span class="n">double_up_as_factory</span>
 <span class="kn">from</span> <span class="nn">i2.wrapper</span> <span class="kn">import</span> <span class="n">Ingress</span><span class="p">,</span> <span class="n">wrap</span>
+<span class="kn">from</span> <span class="nn">i2.signatures</span> <span class="kn">import</span> <span class="n">name_of_obj</span>
+
+<span class="kn">from</span> <span class="nn">front.types</span> <span class="kn">import</span> <span class="n">Map</span>
 
 <span class="n">ignore_import_problems</span> <span class="o">=</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">)</span>
 
@@ -350,6 +361,50 @@
 <span class="c1"># )</span>
 <span class="c1">#</span>
 <span class="c1"># Sig(f)</span>
+
+
+<span class="k">def</span> <span class="nf">normalize_map</span><span class="p">(</span><span class="nb">map</span><span class="p">:</span> <span class="n">Map</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">map</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">map</span><span class="p">,</span> <span class="n">Callable</span><span class="p">)</span> <span class="k">else</span> <span class="nb">map</span> <span class="ow">or</span> <span class="p">{}</span>
+
+
+<div class="viewcode-block" id="deep_merge"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.deep_merge">[docs]</a><span class="k">def</span> <span class="nf">deep_merge</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Merges b into a&quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value_b</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">value_a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value_a</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value_b</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+            <span class="n">a</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">deep_merge</span><span class="p">(</span><span class="n">value_a</span><span class="p">,</span> <span class="n">value_b</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">a</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_b</span>
+    <span class="k">return</span> <span class="n">a</span></div>
+
+
+<div class="viewcode-block" id="incremental_str_maker"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.incremental_str_maker">[docs]</a><span class="k">def</span> <span class="nf">incremental_str_maker</span><span class="p">(</span><span class="n">str_format</span><span class="o">=</span><span class="s1">&#39;{:03.f}&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make a function that will produce a (incrementally) new string at every call.&quot;&quot;&quot;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">mk_next_str</span><span class="p">():</span>
+        <span class="k">nonlocal</span> <span class="n">i</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">str_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mk_next_str</span></div>
+
+
+<span class="n">unnamed_obj</span> <span class="o">=</span> <span class="n">incremental_str_maker</span><span class="p">(</span><span class="n">str_format</span><span class="o">=</span><span class="s1">&#39;UnnamedObject</span><span class="si">{:03.0f}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="obj_name"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.obj_name">[docs]</a><span class="k">def</span> <span class="nf">obj_name</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The func.__name__ of a callable func, or makes and returns one if that fails.</span>
+<span class="sd">    To make one, it calls unamed_func_name which produces incremental names to reduce the chances of clashing&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name_of_obj</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;&lt;lambda&gt;&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">unnamed_obj</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">name</span></div>
+
+
+<span class="k">def</span> <span class="nf">dflt_name_trans</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">obj_name</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
 </pre></div>
 
            </div>

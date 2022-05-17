@@ -18,19 +18,15 @@ def dflt_trans(objs):
 
 def dflt_convention():
     return {
-        'app': {
-            'title': 'My Front Application'
-        },
-        'obj': {
-            'trans': dflt_trans
-        },
+        'app': {'title': 'My Front Application'},
+        'obj': {'trans': dflt_trans},
         'rendering': {
             Callable: {
                 'container': ContainerFlag.VIEW,
                 'inputs': {
                     int: InputComponentFlag.INT,
                     float: InputComponentFlag.FLOAT,
-                    Any: InputComponentFlag.TEXT
+                    Any: InputComponentFlag.TEXT,
                 },
                 # 'output': {
                 #     int: OutputComponentFlag.NUMBER,
@@ -42,15 +38,16 @@ def dflt_convention():
 
 
 class AppMakerBase(ABC):
-    def __init__(self, element_tree_maker_factory: Callable, spec_maker_factory: Callable = SpecMaker):
+    def __init__(
+        self,
+        element_tree_maker_factory: Callable,
+        spec_maker_factory: Callable = SpecMaker,
+    ):
         self.spec_maker: SpecMaker = spec_maker_factory()
         self.el_tree_maker: ElementTreeMakerBase = element_tree_maker_factory()
 
     def mk_app(
-        self,
-        objs: Iterable[Any],
-        config: Map = None,
-        convention: Map = None
+        self, objs: Iterable[Any], config: Map = None, convention: Map = None
     ) -> FrontApp:
         convention = convention or dflt_convention
         spec = self._mk_spec(config, convention)
@@ -64,7 +61,9 @@ class AppMakerBase(ABC):
     def _prepare_objs(self, objs: Iterable[Any], obj_spec: dict) -> Iterable[Any]:
         def validate_obj(obj):
             if not isinstance(obj, Callable):
-                raise NotImplementedError('Only objects of type Callable are supported for now.')
+                raise NotImplementedError(
+                    'Only objects of type Callable are supported for now.'
+                )
 
         for obj in objs:
             validate_obj(obj)
