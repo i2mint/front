@@ -8,6 +8,9 @@ from enum import Enum
 
 from i2 import Sig, double_up_as_factory
 from i2.wrapper import Ingress, wrap
+from i2.signatures import name_of_obj
+
+from front.types import Map
 
 ignore_import_problems = suppress(ImportError, ModuleNotFoundError)
 
@@ -261,3 +264,47 @@ def _annotate_func_arguments(
 # )
 #
 # Sig(f)
+
+
+def normalize_map(map: Map) -> Mapping:
+    return map() if isinstance(map, Callable) else map or {}
+
+
+def deep_merge(a: Mapping, b: Mapping):
+    """Merges b into a"""
+
+    for key, value_b in b.items():
+        value_a = a.get(key)
+        if isinstance(value_a, Mapping) and isinstance(value_b, Mapping):
+            a[key] = deep_merge(value_a, value_b)
+        else:
+            a[key] = value_b
+    return a
+
+
+def incremental_str_maker(str_format='{:03.f}'):
+    """Make a function that will produce a (incrementally) new string at every call."""
+    i = 0
+
+    def mk_next_str():
+        nonlocal i
+        i += 1
+        return str_format.format(i)
+
+    return mk_next_str
+
+
+unnamed_obj = incremental_str_maker(str_format='UnnamedObject{:03.0f}')
+
+
+def obj_name(func):
+    """The func.__name__ of a callable func, or makes and returns one if that fails.
+    To make one, it calls unamed_func_name which produces incremental names to reduce the chances of clashing"""
+    name = name_of_obj(func)
+    if name is None or name == '<lambda>':
+        return unnamed_obj()
+    return name
+
+
+def dflt_name_trans(obj):
+    return obj_name(obj).replace('_', ' ').title()
