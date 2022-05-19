@@ -53,11 +53,17 @@ class AppMakerBase(ABC):
     def mk_app(
         self, objs: Iterable[Any], config: Map = None, convention: Map = None
     ) -> FrontApp:
+        element_tree, spec = self._element_tree_and_spec(objs, config, convention)
+        return self._mk_app(element_tree, spec.app_spec)
+
+    def _element_tree_and_spec(
+        self, objs: Iterable[Any], config: Map = None, convention: Map = None
+    ):
         convention = convention or dflt_convention
         spec = self._mk_spec(config, convention)
         front_objs = self._prepare_objs(objs, spec.obj_spec)
-        app_el_tree = self._mk_element_tree(front_objs, spec.rendering_spec)
-        return self._mk_app(app_el_tree, spec.app_spec)
+        element_tree = self._mk_element_tree(front_objs, spec.rendering_spec)
+        return element_tree, spec
 
     def _mk_spec(self, config: Map, convention: Map) -> FrontSpec:
         return self.spec_maker.mk_spec(config, convention)
