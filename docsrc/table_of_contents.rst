@@ -19,6 +19,7 @@
    module_docs/front/examples/tw_data_binding
    module_docs/front/py2pydantic
    module_docs/front/scrap
+   module_docs/front/scrap/tw_simple_new_arch
    module_docs/front/spec_maker
    module_docs/front/tests/app_identity_pydantic_output
    module_docs/front/tests/app_identity_write_output

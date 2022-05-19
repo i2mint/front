@@ -8,9 +8,9 @@ def foo(a: int = 1, b: int = 2, c=3):
     return (a * b) + c
 
 
-def bar(x, greeting="hello"):
+def bar(x, greeting='hello'):
     """bar greets its input"""
-    return f"{greeting} {x}"
+    return f'{greeting} {x}'
 
 
 def confuser(a: int, x: float = 3.14):
