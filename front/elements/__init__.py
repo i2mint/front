@@ -6,7 +6,7 @@ from .elements import (
     FrontComponentBase,
     ParamInputBase,
     TextInputBase,
-    NumberInputBase,
+    IntInputBase,
     FloatInputBase,
     AppBase,
     FuncViewBase,

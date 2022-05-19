@@ -25,7 +25,11 @@ def dflt_convention():
                 'container': ContainerFlag.VIEW,
                 'inputs': {
                     int: InputComponentFlag.INT,
-                    float: InputComponentFlag.FLOAT,
+                    float: {
+                        'component': InputComponentFlag.FLOAT,
+                        'format': '%.2f',
+                        'step': 0.01
+                    },
                     Any: InputComponentFlag.TEXT,
                 },
                 # 'output': {
@@ -52,8 +56,8 @@ class AppMakerBase(ABC):
         convention = convention or dflt_convention
         spec = self._mk_spec(config, convention)
         front_objs = self._prepare_objs(objs, spec.obj_spec)
-        element_tree = self._mk_element_tree(front_objs, spec.rendering_spec)
-        return self._mk_app(element_tree, spec.app_spec)
+        app_el_tree = self._mk_element_tree(front_objs, spec.rendering_spec)
+        return self._mk_app(app_el_tree, spec.app_spec)
 
     def _mk_spec(self, config: Map, convention: Map) -> FrontSpec:
         return self.spec_maker.mk_spec(config, convention)
@@ -71,7 +75,7 @@ class AppMakerBase(ABC):
         trans_func = obj_spec['trans']
         return trans_func(objs)
 
-    def _mk_element_tree(self, objs: Iterable[Any], rendering_spec: dict):
+    def _mk_element_tree(self, objs: Iterable[Any], rendering_spec: dict) -> AppBase:
         return self.el_tree_maker.mk_tree(objs, rendering_spec)
 
     def _mk_app(self, element_tree: AppBase, app_specs: dict) -> FrontApp:
