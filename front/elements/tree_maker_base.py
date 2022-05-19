@@ -14,9 +14,7 @@ from front.util import deep_merge
 
 
 class ElementTreeMakerBase(ABC):
-    def mk_tree(
-        self, front_objs: Iterable[Any], rendering_spec: dict
-    ) -> AppBase:
+    def mk_tree(self, front_objs: Iterable[Any], rendering_spec: dict) -> AppBase:
         def inject_components(spec_node):
             _spec_node = dict(spec_node)
             for key, value in spec_node.items():
@@ -56,14 +54,18 @@ class ElementTreeMakerBase(ABC):
                 for p in sig.params:
                     component_kwargs = dict(param=p)
                     annot = p.annotation if p.annotation != _empty else None
-                    param_type = annot or (type(p.default) if p.default != _empty else Any)
+                    param_type = annot or (
+                        type(p.default) if p.default != _empty else Any
+                    )
                     component_spec = inputs_rendering_spec.get(p.name)
                     if not component_spec:
                         component_spec = inputs_rendering_spec.get(param_type)
                     if not component_spec:
                         component_spec = inputs_rendering_spec[Any]
                     if isinstance(component_spec, Mapping):
-                        component_spec = dict(component_spec)  # Make a copy before popping
+                        component_spec = dict(
+                            component_spec
+                        )  # Make a copy before popping
                         component_factory = component_spec.pop('component')
                         component_kwargs = dict(component_kwargs, **component_spec)
                     else:

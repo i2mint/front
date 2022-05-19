@@ -16,7 +16,6 @@ class InputComponentFlag(IntFlag):
     FLOAT_SLIDER = (8,)
 
 
-
 # class OutputComponentFlag(IntFlag):
 #     TEXT = 1,
 #     NUMBER = 2,
@@ -70,7 +69,9 @@ class TextInputBase(ParamInputBase):
 
 
 class NumberInputBase(ParamInputBase):
-    def __init__(self, param: Parameter, min_value = None, max_value = None, format: str = None):
+    def __init__(
+        self, param: Parameter, min_value=None, max_value=None, format: str = None
+    ):
         super().__init__(param)
         self.min_value = min_value
         self.max_value = max_value
@@ -78,13 +79,26 @@ class NumberInputBase(ParamInputBase):
 
 
 class IntInputBase(NumberInputBase):
-    def __init__(self, param: Parameter, min_value: int = None, max_value: int = None, format: str = None):
+    def __init__(
+        self,
+        param: Parameter,
+        min_value: int = None,
+        max_value: int = None,
+        format: str = None,
+    ):
         super().__init__(param, min_value, max_value, format)
         self.init_value = int(self.init_value) if self.init_value is not None else 0
 
 
 class FloatInputBase(NumberInputBase):
-    def __init__(self, param: Parameter, min_value: float = None, max_value: float = None, format: str = None, step: float = None):
+    def __init__(
+        self,
+        param: Parameter,
+        min_value: float = None,
+        max_value: float = None,
+        format: str = None,
+        step: float = None,
+    ):
         super().__init__(param, min_value, max_value, format)
         self.init_value = float(self.init_value) if self.init_value is not None else 0.0
         self.step = step

@@ -28,7 +28,7 @@ def dflt_convention():
                     float: {
                         'component': InputComponentFlag.FLOAT,
                         'format': '%.2f',
-                        'step': 0.01
+                        'step': 0.01,
                     },
                     Any: InputComponentFlag.TEXT,
                 },
