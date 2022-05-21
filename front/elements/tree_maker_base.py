@@ -56,13 +56,12 @@ class ElementTreeMakerBase(ABC):
                     input_key = f'{obj.__name__}_{label}'
                     stored_value = self._get_stored_value(input_key)
                     init_value = (
-                        stored_value if stored_value is not None
+                        stored_value
+                        if stored_value is not None
                         else (p.default if p.default != _empty else None)
                     )
                     component_kwargs = dict(
-                        label=p.name,
-                        input_key=input_key,
-                        init_value=init_value
+                        label=p.name, input_key=input_key, init_value=init_value
                     )
                     annot = p.annotation if p.annotation != _empty else None
                     param_type = annot or (

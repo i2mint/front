@@ -63,7 +63,9 @@ class FuncViewBase(FrontContainerBase):
 
 
 class TextInputBase(InputBase):
-    def __init__(self, label: str, input_key: str = None, init_value: Any = None) -> None:
+    def __init__(
+        self, label: str, input_key: str = None, init_value: Any = None
+    ) -> None:
         super().__init__(label, input_key, init_value)
         self.init_value = str(self.init_value) if self.init_value is not None else ''
 

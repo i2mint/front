@@ -45,6 +45,7 @@ class AppMakerBase(ABC):
     """
     Base class which 
     """
+
     def __init__(
         self,
         element_tree_maker_factory: Callable,

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.elements.elements &mdash; front 0.1.32 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <title>front.elements.elements &mdash; front 0.1.33 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -22,7 +22,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="front.elements.tree_maker_base" href="tree_maker_base.html" />
+    <link rel="next" title="front.elements.implementation" href="implementation.html" />
     <link rel="prev" title="front.elements" href="../elements.html" /> 
 </head>
 
@@ -50,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../dag.html">front.dag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../elements.html">front.elements</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">front.elements.elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implementation.html">front.elements.implementation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tree_maker_base.html">front.elements.tree_maker_base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/data_binding.html">front.examples.data_binding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/experimentation.html">front.examples.experimentation</a></li>
@@ -113,7 +114,7 @@
 
 <dl class="py class">
 <dt id="front.elements.elements.FloatInputBase">
-<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">FloatInputBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span><span class="p">:</span> <span class="n">inspect.Parameter</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">format</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">step</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#FloatInputBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.FloatInputBase" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">FloatInputBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">input_key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">format</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">step</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#FloatInputBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.FloatInputBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
@@ -133,7 +134,12 @@
 
 <dl class="py class">
 <dt id="front.elements.elements.FuncViewBase">
-<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">FuncViewBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span></em>, <em class="sig-param"><span class="n">children</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="#front.elements.elements.ParamInputBase" title="front.elements.elements.ParamInputBase">front.elements.elements.ParamInputBase</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#FuncViewBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.FuncViewBase" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">FuncViewBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span></em>, <em class="sig-param"><span class="n">children</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="#front.elements.elements.InputBase" title="front.elements.elements.InputBase">front.elements.elements.InputBase</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#FuncViewBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.FuncViewBase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="front.elements.elements.InputBase">
+<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">InputBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">input_key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#InputBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.InputBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
@@ -144,22 +150,17 @@
 
 <dl class="py class">
 <dt id="front.elements.elements.IntInputBase">
-<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">IntInputBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span><span class="p">:</span> <span class="n">inspect.Parameter</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">format</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#IntInputBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.IntInputBase" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">IntInputBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">input_key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">format</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#IntInputBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.IntInputBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
 <dt id="front.elements.elements.NumberInputBase">
-<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">NumberInputBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span><span class="p">:</span> <span class="n">inspect.Parameter</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">format</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#NumberInputBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.NumberInputBase" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py class">
-<dt id="front.elements.elements.ParamInputBase">
-<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">ParamInputBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span><span class="p">:</span> <span class="n">inspect.Parameter</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#ParamInputBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.ParamInputBase" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">NumberInputBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">input_key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">format</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#NumberInputBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.NumberInputBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
 <dt id="front.elements.elements.TextInputBase">
-<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">TextInputBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span><span class="p">:</span> <span class="n">inspect.Parameter</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#TextInputBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.TextInputBase" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">TextInputBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">input_key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#TextInputBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.TextInputBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -169,7 +170,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../elements.html" class="btn btn-neutral float-left" title="front.elements" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="tree_maker_base.html" class="btn btn-neutral float-right" title="front.elements.tree_maker_base" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="implementation.html" class="btn btn-neutral float-right" title="front.elements.implementation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -3,6 +3,7 @@ from typing import Callable
 from front.elements.elements import FrontComponentBase
 from i2 import Sig
 
+
 def implement_component(
     base_cls: type,
     component_factory: Callable,
@@ -24,5 +25,5 @@ def implement_component(
             if input_value_callback:
                 input_value_callback(input_value, self)
             return input_value
-            
+
     return component_class
