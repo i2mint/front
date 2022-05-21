@@ -42,6 +42,9 @@ def dflt_convention():
 
 
 class AppMakerBase(ABC):
+    """
+    Base class which 
+    """
     def __init__(
         self,
         element_tree_maker_factory: Callable,
@@ -53,9 +56,11 @@ class AppMakerBase(ABC):
     def mk_app(
         self, objs: Iterable[Any], config: Map = None, convention: Map = None
     ) -> FrontApp:
-        element_tree, spec = self._element_tree_and_spec(objs, config, convention)
-        return self._mk_app(element_tree, spec.app_spec)
+        element_tree, app_spec = self._element_tree_and_spec(objs, config, convention)
+        return self._mk_app(element_tree, app_spec)
 
+    # TODO: Find a way so this method does not do two things. Maybe consider the
+    # element tree to be part of the spec object.
     def _element_tree_and_spec(
         self, objs: Iterable[Any], config: Map = None, convention: Map = None
     ):
@@ -63,7 +68,7 @@ class AppMakerBase(ABC):
         spec = self._mk_spec(config, convention)
         front_objs = self._prepare_objs(objs, spec.obj_spec)
         element_tree = self._mk_element_tree(front_objs, spec.rendering_spec)
-        return element_tree, spec
+        return element_tree, spec.app_spec
 
     def _mk_spec(self, config: Map, convention: Map) -> FrontSpec:
         return self.spec_maker.mk_spec(config, convention)

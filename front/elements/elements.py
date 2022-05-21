@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from inspect import Parameter, _empty
-from typing import Callable, Iterable
+from typing import Any, Callable, Iterable
 from enum import IntFlag
 
 
@@ -47,32 +47,38 @@ class AppBase(FrontContainerBase):
     title: str = None
 
 
-class ParamInputBase(FrontComponentBase):
-    def __init__(self, param: Parameter):
+class InputBase(FrontComponentBase):
+    def __init__(self, label: str, input_key: str = None, init_value: Any = None):
         super().__init__()
-        self.param = param
-        self.label = param.name
-        self.init_value = param.default if param.default != _empty else None
+        self.label = label
+        self.input_key = input_key
+        self.init_value = init_value
 
 
 class FuncViewBase(FrontContainerBase):
-    def __init__(self, func: Callable, children: Iterable[ParamInputBase] = None):
+    def __init__(self, func: Callable, children: Iterable[InputBase] = None):
         super().__init__(children)
         self.func = func
         self.name = func.__name__ or 'Front Func View'
 
 
-class TextInputBase(ParamInputBase):
-    def __init__(self, param: Parameter) -> None:
-        super().__init__(param)
+class TextInputBase(InputBase):
+    def __init__(self, label: str, input_key: str = None, init_value: Any = None) -> None:
+        super().__init__(label, input_key, init_value)
         self.init_value = str(self.init_value) if self.init_value is not None else ''
 
 
-class NumberInputBase(ParamInputBase):
+class NumberInputBase(InputBase):
     def __init__(
-        self, param: Parameter, min_value=None, max_value=None, format: str = None
+        self,
+        label: str,
+        input_key: str = None,
+        init_value: Any = None,
+        min_value=None,
+        max_value=None,
+        format: str = None,
     ):
-        super().__init__(param)
+        super().__init__(label, input_key, init_value)
         self.min_value = min_value
         self.max_value = max_value
         self.format = format
@@ -81,24 +87,28 @@ class NumberInputBase(ParamInputBase):
 class IntInputBase(NumberInputBase):
     def __init__(
         self,
-        param: Parameter,
+        label: str,
+        input_key: str = None,
+        init_value: Any = None,
         min_value: int = None,
         max_value: int = None,
         format: str = None,
     ):
-        super().__init__(param, min_value, max_value, format)
+        super().__init__(label, input_key, init_value, min_value, max_value, format)
         self.init_value = int(self.init_value) if self.init_value is not None else 0
 
 
 class FloatInputBase(NumberInputBase):
     def __init__(
         self,
-        param: Parameter,
+        label: str,
+        input_key: str = None,
+        init_value: Any = None,
         min_value: float = None,
         max_value: float = None,
         format: str = None,
         step: float = None,
     ):
-        super().__init__(param, min_value, max_value, format)
+        super().__init__(label, input_key, init_value, min_value, max_value, format)
         self.init_value = float(self.init_value) if self.init_value is not None else 0.0
         self.step = step

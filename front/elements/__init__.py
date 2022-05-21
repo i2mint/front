@@ -4,7 +4,7 @@ from .elements import (
     FrontElementBase,
     FrontContainerBase,
     FrontComponentBase,
-    ParamInputBase,
+    InputBase,
     TextInputBase,
     IntInputBase,
     FloatInputBase,
@@ -12,3 +12,4 @@ from .elements import (
     FuncViewBase,
 )
 from .tree_maker_base import ElementTreeMakerBase
+from .implementation import implement_component
