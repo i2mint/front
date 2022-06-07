@@ -1,6 +1,13 @@
 from abc import ABC
 from typing import Any, Callable, Iterable
-from front.elements import COMPONENT_FLOAT, COMPONENT_TEXT, AppBase, COMPONENT_INT, CONTAINER_VIEW, ElementTreeMakerBase
+from front.elements import (
+    COMPONENT_FLOAT,
+    COMPONENT_TEXT,
+    AppBase,
+    COMPONENT_INT,
+    CONTAINER_VIEW,
+    ElementTreeMakerBase,
+)
 from front.spec_maker import SpecMaker
 from front.types import FrontApp, FrontSpec, Map
 from front.elements import AppBase, CONTAINER_VIEW
@@ -22,17 +29,13 @@ def dflt_convention():
             Callable: {
                 'container': CONTAINER_VIEW,
                 'inputs': {
-                    int: {
-                        'component': COMPONENT_INT,
-                    },
+                    int: {'component': COMPONENT_INT,},
                     float: {
                         'component': COMPONENT_FLOAT,
                         'format': '%.2f',
                         'step': 0.01,
                     },
-                    Any: {
-                        'component': COMPONENT_TEXT,
-                    },
+                    Any: {'component': COMPONENT_TEXT,},
                 },
             },
         },

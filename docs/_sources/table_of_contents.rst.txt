@@ -8,6 +8,7 @@
    module_docs/front/crude
    module_docs/front/dag
    module_docs/front/elements
+   module_docs/front/elements/element_flags
    module_docs/front/elements/elements
    module_docs/front/elements/implementation
    module_docs/front/elements/tree_maker_base
