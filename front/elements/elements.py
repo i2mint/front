@@ -1,28 +1,5 @@
 from abc import ABC, abstractmethod
-from inspect import Parameter, _empty
 from typing import Any, Callable, Iterable
-from enum import IntFlag
-
-
-class ContainerFlag(IntFlag):
-    APP = (0,)
-    VIEW = (1,)
-
-
-class InputComponentFlag(IntFlag):
-    TEXT = (1,)
-    INT = (2,)
-    FLOAT = (4,)
-    FLOAT_SLIDER = (8,)
-
-
-# class OutputComponentFlag(IntFlag):
-#     TEXT = 1,
-#     NUMBER = 2,
-
-
-# ComponentFlag = Union[InputComponentFlag, OutputComponentFlag]
-# ElementFlag = Union[ContainerFlag, ComponentFlag]
 
 
 class FrontElementBase(ABC):

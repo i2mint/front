@@ -1,11 +1,9 @@
 from abc import ABC
 from typing import Any, Callable, Iterable
-from front.elements import ElementTreeMakerBase
+from front.elements import COMPONENT_FLOAT, COMPONENT_TEXT, AppBase, COMPONENT_INT, CONTAINER_VIEW, ElementTreeMakerBase
 from front.spec_maker import SpecMaker
-
 from front.types import FrontApp, FrontSpec, Map
-from front.elements import ContainerFlag, InputComponentFlag
-from front.elements.elements import AppBase
+from front.elements import AppBase, CONTAINER_VIEW
 from front.util import dflt_name_trans
 
 
@@ -22,20 +20,20 @@ def dflt_convention():
         'obj': {'trans': dflt_trans},
         'rendering': {
             Callable: {
-                'container': ContainerFlag.VIEW,
+                'container': CONTAINER_VIEW,
                 'inputs': {
-                    int: InputComponentFlag.INT,
+                    int: {
+                        'component': COMPONENT_INT,
+                    },
                     float: {
-                        'component': InputComponentFlag.FLOAT,
+                        'component': COMPONENT_FLOAT,
                         'format': '%.2f',
                         'step': 0.01,
                     },
-                    Any: InputComponentFlag.TEXT,
+                    Any: {
+                        'component': COMPONENT_TEXT,
+                    },
                 },
-                # 'output': {
-                #     int: OutputComponentFlag.NUMBER,
-                #     Any: OutputComponentFlag.TEXT
-                # }
             },
         },
     }

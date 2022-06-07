@@ -1,10 +1,9 @@
 from abc import ABC, abstractclassmethod
 from inspect import _empty
 from typing import Any, Callable, Iterable, Mapping
+from front.elements.element_flags import CONTAINER_APP
 from front.elements.elements import (
     AppBase,
-    ContainerFlag,
-    InputComponentFlag,
     FrontElementBase,
     FrontContainerBase,
 )
@@ -20,10 +19,8 @@ class ElementTreeMakerBase(ABC):
             for key, value in spec_node.items():
                 if isinstance(value, Mapping):
                     new_value = inject_components(value)
-                elif isinstance(value, InputComponentFlag):
-                    new_value = self._component_mapping[value]
-                elif isinstance(value, ContainerFlag):
-                    new_value = self._container_mapping[value]
+                elif key in ('container', 'component'):
+                    new_value = self._element_mapping[value]
                 else:
                     new_value = value
                 _spec_node[key] = new_value
@@ -36,11 +33,12 @@ class ElementTreeMakerBase(ABC):
             return {}
 
         _rendering_spec = inject_components(rendering_spec)
-        root_factory = self._container_mapping.get(ContainerFlag.APP)
+        root_factory = self._element_mapping.get(CONTAINER_APP)
         if not root_factory:
             raise RuntimeError(
                 'No app element as been defined for this front application.'
             )
+        # TODO: Use generators instead of appending values to lists
         obj_containers = []
         for obj in front_objs:
             type_rendering_spec = get_type_rendering_spec(obj)
@@ -93,12 +91,7 @@ class ElementTreeMakerBase(ABC):
 
     @property
     @abstractclassmethod
-    def _component_mapping(cls) -> Mapping[InputComponentFlag, FrontElementBase]:
-        pass
-
-    @property
-    @abstractclassmethod
-    def _container_mapping(cls) -> Mapping[ContainerFlag, FrontElementBase]:
+    def _element_mapping(cls) -> Mapping[int, FrontElementBase]:
         pass
 
     @abstractclassmethod
