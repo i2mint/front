@@ -206,3 +206,9 @@ app_maker = AppMaker()
 app = app_maker.mk_app([foo])
 app()
 ```
+
+# Workflow
+
+Here is a diagram of the workflow described above.
+
+![image](https://user-images.githubusercontent.com/63666082/174157691-5edf72bd-383d-4c07-8dc3-9272ac55561d.png)
