@@ -6,8 +6,9 @@ from .elements import (
     TextInputBase,
     IntInputBase,
     FloatInputBase,
-    AppBase,
-    FuncViewBase,
+    NamedContainerBase,
+    DagContainerBase,
+    GraphBase
 )
 from .tree_maker_base import ElementTreeMakerBase
 from .implementation import implement_component

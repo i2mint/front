@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from typing import Any, Callable, Iterable
+from meshed import DAG
 
 
 class FrontElementBase(ABC):
@@ -15,13 +17,25 @@ class FrontContainerBase(FrontElementBase):
     def __init__(self, children: Iterable[FrontElementBase] = None):
         self.children = children or []
 
+    def _render_children(self):
+        for child in self.children:
+            child.render()
+
 
 class FrontComponentBase(FrontElementBase):
     pass
 
 
-class AppBase(FrontContainerBase):
-    title: str = None
+class NamedContainerBase(FrontContainerBase):
+    def __init__(self, children: Iterable[FrontElementBase] = None, name: str = None):
+        super().__init__(children)
+        self.name = name
+
+
+class DagContainerBase(NamedContainerBase):
+    def __init__(self, dag: DAG, children: Iterable[FrontElementBase] = None, name: str = None):
+        super().__init__(children, name)
+        self.dag = dag
 
 
 class InputBase(FrontComponentBase):
@@ -30,13 +44,6 @@ class InputBase(FrontComponentBase):
         self.label = label
         self.input_key = input_key
         self.init_value = init_value
-
-
-class FuncViewBase(FrontContainerBase):
-    def __init__(self, func: Callable, children: Iterable[InputBase] = None):
-        super().__init__(children)
-        self.func = func
-        self.name = func.__name__ or 'Front Func View'
 
 
 class TextInputBase(InputBase):
@@ -91,3 +98,14 @@ class FloatInputBase(NumberInputBase):
         super().__init__(label, input_key, init_value, min_value, max_value, format)
         self.init_value = float(self.init_value) if self.init_value is not None else 0.0
         self.step = step
+
+
+class GraphBase(FrontComponentBase):
+    def __init__(
+        self,
+        figure_or_dot: Any,
+        use_container_width: bool = False
+    ):
+        super().__init__()
+        self.figure_or_dot = figure_or_dot
+        self.use_container_width = use_container_width

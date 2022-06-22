@@ -29,20 +29,20 @@ There are two types of elements:
 
 To implement an element, you must implement its ``render`` method.
 
-A bunch of base elements are defined in [front/elements/elements.py](https://github.com/i2mint/front/blob/0576bad1aa0e7163854cf4b50861edeced0dc0f4/front/elements/elements.py). They gather the common logic and properties for a type of element (e.g. ``AppBase`` for the main container of ``InputBase`` for any input component). You can use those base elements depending on your needs.
+A bunch of base elements are defined in [front/elements/elements.py](https://github.com/i2mint/front/blob/0576bad1aa0e7163854cf4b50861edeced0dc0f4/front/elements/elements.py). They gather the common logic and properties for a type of element (e.g. ``NamedContainerBase`` for any container with a name or ``InputBase`` for any input component). You can use those base elements depending on your needs.
 
 Example (from [streamlitfront](https://github.com/i2mint/streamlitfront/blob/f14fcd358268e766f618c41198d9039d4402436f/streamlitfront/elements/elements.py)):
 
 ```python
 from functools import partial
 import streamlit as st
-from front.elements import FuncViewBase, InputBase, TextInputBase, IntInputBase, FloatInputBase, AppBase, implement_component
+from front.elements import DagViewBase, InputBase, TextInputBase, IntInputBase, FloatInputBase, NamedContainerBase, implement_component
 
 from streamlitfront.session_state import _SessionState, get_state
 
 
-class App(AppBase):
-    """Implementation of ``AppBase`` for streamlitfront."""
+class App(NamedContainerBase):
+    """Implementation of the app root container for streamlitfront."""
     def render(self):
         # Page setup
         st.set_page_config(layout='wide')
@@ -59,7 +59,7 @@ class App(AppBase):
 
         # Setup navigation
         with st.sidebar:
-            st.title(self.title)
+            st.title(self.name)
             view_key = st.radio(options=tuple(views.keys()), label='Select your view')
         # view_key = _get_view_key(tuple(views.keys()), label='Select your view')
 
@@ -69,8 +69,8 @@ class App(AppBase):
         view_runner()  # runs the page with the state
 
 
-class FuncView(FuncViewBase):
-    """Implementation of ``FuncViewBase`` for streamlitfront."""
+class DagView(DagViewBase):
+    """Implementation of ``DagViewBase`` for streamlitfront."""
     def render(self):
         st.markdown(f'''## **{self.name}**''')
         func_inputs = {}
@@ -127,12 +127,12 @@ from typing import Any, Mapping
 from front.elements import (
     ElementTreeMakerBase,
     FrontElementBase,
-    CONTAINER_APP,
-    CONTAINER_VIEW,
-    COMPONENT_TEXT,
-    COMPONENT_INT,
-    COMPONENT_FLOAT,
-    COMPONENT_FLOAT_SLIDER,
+    APP_CONTAINER,
+    VIEW_CONTAINER,
+    TEXT_INPUT_COMPONENT,
+    INT_INPUT_COMPONENT,
+    FLOAT_INPUT_COMPONENT,
+    FLOAT_INPUT_SLIDER_COMPONENT,
 )
 import streamlit as st
 
@@ -142,7 +142,7 @@ from streamlitfront.elements.elements import (
     FloatSliderInput,
     IntInput,
     TextInput,
-    FuncView,
+    DagView,
 )
 
 
@@ -154,12 +154,12 @@ class ElementTreeMaker(ElementTreeMakerBase):
     @property
     def _element_mapping(cls) -> Mapping[int, FrontElementBase]:
         return {
-            CONTAINER_APP: App,
-            CONTAINER_VIEW: FuncView,
-            COMPONENT_TEXT: TextInput,
-            COMPONENT_INT: IntInput,
-            COMPONENT_FLOAT: FloatInput,
-            COMPONENT_FLOAT_SLIDER: FloatSliderInput,
+            APP_CONTAINER: App,
+            VIEW_CONTAINER: DagView,
+            TEXT_INPUT_COMPONENT: TextInput,
+            INT_INPUT_COMPONENT: IntInput,
+            FLOAT_INPUT_COMPONENT: FloatInput,
+            FLOAT_INPUT_SLIDER_COMPONENT: FloatSliderInput,
         }
 
     def _get_stored_value(cls, key: str) -> Any:
