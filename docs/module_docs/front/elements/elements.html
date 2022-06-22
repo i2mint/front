@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.elements.elements &mdash; front 0.1.36 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <title>front.elements.elements &mdash; front 0.1.37 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -103,8 +103,8 @@
   <section id="module-front.elements.elements">
 <span id="front-elements-elements"></span><h1>front.elements.elements<a class="headerlink" href="#module-front.elements.elements" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="front.elements.elements.AppBase">
-<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">AppBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">children</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="#front.elements.elements.FrontElementBase" title="front.elements.elements.FrontElementBase">front.elements.elements.FrontElementBase</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#AppBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.AppBase" title="Permalink to this definition">¶</a></dt>
+<dt id="front.elements.elements.DagContainerBase">
+<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">DagContainerBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dag</span><span class="p">:</span> <span class="n">meshed.dag.DAG</span></em>, <em class="sig-param"><span class="n">children</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="#front.elements.elements.FrontElementBase" title="front.elements.elements.FrontElementBase">front.elements.elements.FrontElementBase</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#DagContainerBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.DagContainerBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
@@ -128,8 +128,8 @@
 <dd></dd></dl>
 
 <dl class="py class">
-<dt id="front.elements.elements.FuncViewBase">
-<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">FuncViewBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span></em>, <em class="sig-param"><span class="n">children</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="#front.elements.elements.InputBase" title="front.elements.elements.InputBase">front.elements.elements.InputBase</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#FuncViewBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.FuncViewBase" title="Permalink to this definition">¶</a></dt>
+<dt id="front.elements.elements.GraphBase">
+<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">GraphBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">figure_or_dot</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">use_container_width</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#GraphBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.GraphBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
@@ -140,6 +140,11 @@
 <dl class="py class">
 <dt id="front.elements.elements.IntInputBase">
 <em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">IntInputBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">input_key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">format</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#IntInputBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.IntInputBase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="front.elements.elements.NamedContainerBase">
+<em class="property">class </em><code class="sig-prename descclassname">front.elements.elements.</code><code class="sig-name descname">NamedContainerBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">children</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="#front.elements.elements.FrontElementBase" title="front.elements.elements.FrontElementBase">front.elements.elements.FrontElementBase</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/front/elements/elements.html#NamedContainerBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.elements.elements.NamedContainerBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">

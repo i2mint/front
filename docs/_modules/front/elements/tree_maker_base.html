@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.elements.tree_maker_base &mdash; front 0.1.36 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <title>front.elements.tree_maker_base &mdash; front 0.1.37 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -101,93 +101,111 @@
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractclassmethod</span>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">_empty</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Mapping</span>
-<span class="kn">from</span> <span class="nn">front.elements.element_flags</span> <span class="kn">import</span> <span class="n">CONTAINER_APP</span>
+<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span>
+<span class="kn">from</span> <span class="nn">meshed</span> <span class="kn">import</span> <span class="n">DAG</span>
+<span class="kn">from</span> <span class="nn">front.elements.element_flags</span> <span class="kn">import</span> <span class="n">APP_CONTAINER</span>
 <span class="kn">from</span> <span class="nn">front.elements.elements</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">AppBase</span><span class="p">,</span>
+    <span class="n">NamedContainerBase</span><span class="p">,</span>
     <span class="n">FrontElementBase</span><span class="p">,</span>
     <span class="n">FrontContainerBase</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span>
-
-<span class="kn">from</span> <span class="nn">front.util</span> <span class="kn">import</span> <span class="n">deep_merge</span>
+<span class="kn">from</span> <span class="nn">front.util</span> <span class="kn">import</span> <span class="n">deep_merge</span><span class="p">,</span> <span class="n">dflt_name_trans</span>
 
 
 <div class="viewcode-block" id="ElementTreeMakerBase"><a class="viewcode-back" href="../../../module_docs/front/elements/tree_maker_base.html#front.elements.tree_maker_base.ElementTreeMakerBase">[docs]</a><span class="k">class</span> <span class="nc">ElementTreeMakerBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">mk_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">front_objs</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">rendering_spec</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AppBase</span><span class="p">:</span>
-        <span class="k">def</span> <span class="nf">inject_components</span><span class="p">(</span><span class="n">spec_node</span><span class="p">):</span>
-            <span class="n">_spec_node</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">spec_node</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">spec_node</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
-                    <span class="n">new_value</span> <span class="o">=</span> <span class="n">inject_components</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;container&#39;</span><span class="p">,</span> <span class="s1">&#39;component&#39;</span><span class="p">):</span>
-                    <span class="n">new_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_element_mapping</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">new_value</span> <span class="o">=</span> <span class="n">value</span>
-                <span class="n">_spec_node</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_value</span>
-            <span class="k">return</span> <span class="n">_spec_node</span>
-
-        <span class="k">def</span> <span class="nf">get_type_rendering_spec</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">_rendering_spec</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="n">v</span>
-            <span class="k">return</span> <span class="p">{}</span>
-
-        <span class="n">_rendering_spec</span> <span class="o">=</span> <span class="n">inject_components</span><span class="p">(</span><span class="n">rendering_spec</span><span class="p">)</span>
-        <span class="n">root_factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_element_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CONTAINER_APP</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">mk_tree</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">front_objs</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">rendering_spec</span><span class="p">:</span> <span class="nb">dict</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NamedContainerBase</span><span class="p">:</span>
+        <span class="n">_rendering_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inject_components</span><span class="p">(</span><span class="n">rendering_spec</span><span class="p">)</span>
+        <span class="n">root_factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_element_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">APP_CONTAINER</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">root_factory</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
                 <span class="s1">&#39;No app element as been defined for this front application.&#39;</span>
             <span class="p">)</span>
-        <span class="c1"># TODO: Use generators instead of appending values to lists</span>
-        <span class="n">obj_containers</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">front_objs</span><span class="p">:</span>
-            <span class="n">type_rendering_spec</span> <span class="o">=</span> <span class="n">get_type_rendering_spec</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-            <span class="n">obj_rendering_spec</span> <span class="o">=</span> <span class="n">_rendering_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="p">{})</span>
-            <span class="n">obj_rendering_spec</span> <span class="o">=</span> <span class="n">deep_merge</span><span class="p">(</span><span class="n">type_rendering_spec</span><span class="p">,</span> <span class="n">obj_rendering_spec</span><span class="p">)</span>
-            <span class="n">container_factory</span> <span class="o">=</span> <span class="n">type_rendering_spec</span><span class="p">[</span><span class="s1">&#39;container&#39;</span><span class="p">]</span>
-            <span class="n">components</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Callable</span><span class="p">):</span>
-                <span class="n">inputs_rendering_spec</span> <span class="o">=</span> <span class="n">obj_rendering_spec</span><span class="p">[</span><span class="s1">&#39;inputs&#39;</span><span class="p">]</span>
-                <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
-                    <span class="n">label</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span>
-                    <span class="n">input_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1">&#39;</span>
-                    <span class="n">stored_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_stored_value</span><span class="p">(</span><span class="n">input_key</span><span class="p">)</span>
-                    <span class="n">init_value</span> <span class="o">=</span> <span class="p">(</span>
-                        <span class="n">stored_value</span>
-                        <span class="k">if</span> <span class="n">stored_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                        <span class="k">else</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">default</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">default</span> <span class="o">!=</span> <span class="n">_empty</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
-                    <span class="p">)</span>
-                    <span class="n">component_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-                        <span class="n">label</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">input_key</span><span class="o">=</span><span class="n">input_key</span><span class="p">,</span> <span class="n">init_value</span><span class="o">=</span><span class="n">init_value</span>
-                    <span class="p">)</span>
-                    <span class="n">annot</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">annotation</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">annotation</span> <span class="o">!=</span> <span class="n">_empty</span> <span class="k">else</span> <span class="kc">None</span>
-                    <span class="n">param_type</span> <span class="o">=</span> <span class="n">annot</span> <span class="ow">or</span> <span class="p">(</span>
-                        <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">default</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">default</span> <span class="o">!=</span> <span class="n">_empty</span> <span class="k">else</span> <span class="n">Any</span>
-                    <span class="p">)</span>
-                    <span class="n">component_spec</span> <span class="o">=</span> <span class="n">inputs_rendering_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">component_spec</span><span class="p">:</span>
-                        <span class="n">component_spec</span> <span class="o">=</span> <span class="n">inputs_rendering_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param_type</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">component_spec</span><span class="p">:</span>
-                        <span class="n">component_spec</span> <span class="o">=</span> <span class="n">inputs_rendering_spec</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component_spec</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
-                        <span class="n">component_spec</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-                            <span class="n">component_spec</span>
-                        <span class="p">)</span>  <span class="c1"># Make a copy before popping</span>
-                        <span class="n">component_factory</span> <span class="o">=</span> <span class="n">component_spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;component&#39;</span><span class="p">)</span>
-                        <span class="n">component_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">component_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">component_spec</span><span class="p">)</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">component_factory</span> <span class="o">=</span> <span class="n">component_spec</span>
-                    <span class="n">component</span> <span class="o">=</span> <span class="n">component_factory</span><span class="p">(</span><span class="o">**</span><span class="n">component_kwargs</span><span class="p">)</span>
-                    <span class="n">components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                    <span class="s1">&#39;Only callables front objects are supported for now&#39;</span>
-                <span class="p">)</span>
-            <span class="n">container</span> <span class="o">=</span> <span class="n">container_factory</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">components</span><span class="p">)</span>
-            <span class="n">obj_containers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">container</span><span class="p">)</span>
-        <span class="n">root</span><span class="p">:</span> <span class="n">FrontContainerBase</span> <span class="o">=</span> <span class="n">root_factory</span><span class="p">(</span><span class="n">obj_containers</span><span class="p">)</span>
+        <span class="n">views</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gen_views</span><span class="p">(</span><span class="n">front_objs</span><span class="p">,</span> <span class="n">_rendering_spec</span><span class="p">))</span>
+        <span class="n">root</span><span class="p">:</span> <span class="n">FrontContainerBase</span> <span class="o">=</span> <span class="n">root_factory</span><span class="p">(</span><span class="n">views</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">root</span>
+
+    <span class="k">def</span> <span class="nf">_inject_components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec_node</span><span class="p">):</span>
+        <span class="n">_spec_node</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">spec_node</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">spec_node</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+                <span class="n">new_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inject_components</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;container&#39;</span><span class="p">,</span> <span class="s1">&#39;component&#39;</span><span class="p">):</span>
+                <span class="n">new_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_element_mapping</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_value</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="n">_spec_node</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_value</span>
+        <span class="k">return</span> <span class="n">_spec_node</span>
+
+    <span class="k">def</span> <span class="nf">_gen_views</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">front_objs</span><span class="p">,</span> <span class="n">spec</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">front_objs</span><span class="p">:</span>
+            <span class="n">type_rendering_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_type_rendering_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+            <span class="n">obj_rendering_spec</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">obj_rendering_spec</span> <span class="o">=</span> <span class="n">deep_merge</span><span class="p">(</span><span class="n">type_rendering_spec</span><span class="p">,</span> <span class="n">obj_rendering_spec</span><span class="p">)</span>
+            <span class="n">view_factory</span> <span class="o">=</span> <span class="n">obj_rendering_spec</span><span class="p">[</span><span class="s1">&#39;container&#39;</span><span class="p">]</span>
+            <span class="n">view_name</span> <span class="o">=</span> <span class="n">obj_rendering_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">dflt_name_trans</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+            <span class="n">elements</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gen_view_elements</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">obj_rendering_spec</span><span class="p">))</span>
+            <span class="k">yield</span> <span class="n">view_factory</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="n">view_name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_type_rendering_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">spec</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">v</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">_gen_view_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">obj_rendering_spec</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">DAG</span><span class="p">):</span>
+            <span class="n">exec_spec</span> <span class="o">=</span> <span class="n">obj_rendering_spec</span><span class="p">[</span><span class="s1">&#39;execution&#39;</span><span class="p">]</span>
+            <span class="n">exec_container_factory</span> <span class="o">=</span> <span class="n">exec_spec</span><span class="p">[</span><span class="s1">&#39;container&#39;</span><span class="p">]</span>
+            <span class="n">exec_container_name</span> <span class="o">=</span> <span class="n">exec_spec</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="n">inputs_spec</span> <span class="o">=</span> <span class="n">exec_spec</span><span class="p">[</span><span class="s1">&#39;inputs&#39;</span><span class="p">]</span>
+            <span class="n">input_components</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gen_input_components</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">inputs_spec</span><span class="p">))</span>
+            <span class="k">yield</span> <span class="n">exec_container_factory</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">input_components</span><span class="p">,</span> <span class="n">exec_container_name</span><span class="p">)</span>
+
+            <span class="n">graph_spec</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">obj_rendering_spec</span><span class="p">[</span><span class="s1">&#39;graph&#39;</span><span class="p">])</span>
+            <span class="n">display_for_single_node</span> <span class="o">=</span> <span class="n">graph_spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;display_for_single_node&#39;</span><span class="p">)</span>
+            <span class="n">display_graph</span> <span class="o">=</span> <span class="n">graph_spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">func_nodes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">display_for_single_node</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">display_graph</span><span class="p">:</span>
+                <span class="n">container_factory</span> <span class="o">=</span> <span class="n">graph_spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;container&#39;</span><span class="p">)</span>
+                <span class="n">container_name</span> <span class="o">=</span> <span class="n">graph_spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+                <span class="n">graph_factory</span> <span class="o">=</span> <span class="n">graph_spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;component&#39;</span><span class="p">)</span>
+                <span class="n">graph_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">figure_or_dot</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">dot_digraph</span><span class="p">(),</span> <span class="o">**</span><span class="n">graph_spec</span><span class="p">)</span>
+                <span class="n">graph</span> <span class="o">=</span> <span class="n">graph_factory</span><span class="p">(</span><span class="o">**</span><span class="n">graph_kwargs</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">container_factory</span><span class="p">([</span><span class="n">graph</span><span class="p">],</span> <span class="n">container_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Only DAG front objects are supported for now&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gen_input_components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">inputs_spec</span><span class="p">):</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">input_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="n">stored_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_stored_value</span><span class="p">(</span><span class="n">input_key</span><span class="p">)</span>
+            <span class="n">init_value</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">stored_value</span>
+                <span class="k">if</span> <span class="n">stored_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">else</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">default</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">default</span> <span class="o">!=</span> <span class="n">_empty</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">input_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">input_key</span><span class="o">=</span><span class="n">input_key</span><span class="p">,</span> <span class="n">init_value</span><span class="o">=</span><span class="n">init_value</span>
+            <span class="p">)</span>
+            <span class="n">annot</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">annotation</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">annotation</span> <span class="o">!=</span> <span class="n">_empty</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">param_type</span> <span class="o">=</span> <span class="n">annot</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">default</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">default</span> <span class="o">!=</span> <span class="n">_empty</span> <span class="k">else</span> <span class="n">Any</span><span class="p">)</span>
+            <span class="n">input_spec</span> <span class="o">=</span> <span class="n">inputs_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">input_spec</span><span class="p">:</span>
+                <span class="n">input_spec</span> <span class="o">=</span> <span class="n">inputs_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param_type</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">input_spec</span><span class="p">:</span>
+                <span class="n">input_spec</span> <span class="o">=</span> <span class="n">inputs_spec</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_spec</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+                <span class="n">input_spec</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">input_spec</span><span class="p">)</span>  <span class="c1"># Make a copy before popping</span>
+                <span class="n">input_factory</span> <span class="o">=</span> <span class="n">input_spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;component&#39;</span><span class="p">)</span>
+                <span class="n">input_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">input_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">input_spec</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">input_factory</span> <span class="o">=</span> <span class="n">input_spec</span>
+            <span class="k">yield</span> <span class="n">input_factory</span><span class="p">(</span><span class="o">**</span><span class="n">input_kwargs</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractclassmethod</span>

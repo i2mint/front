@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.elements.elements &mdash; front 0.1.36 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <title>front.elements.elements &mdash; front 0.1.37 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -99,7 +99,9 @@
              
   <h1>Source code for front.elements.elements</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">meshed</span> <span class="kn">import</span> <span class="n">DAG</span>
 
 
 <div class="viewcode-block" id="FrontElementBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.FrontElementBase">[docs]</a><span class="k">class</span> <span class="nc">FrontElementBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
@@ -113,15 +115,29 @@
     <span class="n">children</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">FrontElementBase</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">children</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">FrontElementBase</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">children</span> <span class="ow">or</span> <span class="p">[]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">children</span> <span class="ow">or</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">_render_children</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="n">child</span><span class="o">.</span><span class="n">render</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="FrontComponentBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.FrontComponentBase">[docs]</a><span class="k">class</span> <span class="nc">FrontComponentBase</span><span class="p">(</span><span class="n">FrontElementBase</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="AppBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.AppBase">[docs]</a><span class="k">class</span> <span class="nc">AppBase</span><span class="p">(</span><span class="n">FrontContainerBase</span><span class="p">):</span>
-    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span></div>
+<div class="viewcode-block" id="NamedContainerBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.NamedContainerBase">[docs]</a><span class="k">class</span> <span class="nc">NamedContainerBase</span><span class="p">(</span><span class="n">FrontContainerBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">children</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">FrontElementBase</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">children</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span></div>
+
+
+<div class="viewcode-block" id="DagContainerBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.DagContainerBase">[docs]</a><span class="k">class</span> <span class="nc">DagContainerBase</span><span class="p">(</span><span class="n">NamedContainerBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">DAG</span><span class="p">,</span> <span class="n">children</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">FrontElementBase</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">children</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dag</span> <span class="o">=</span> <span class="n">dag</span></div>
 
 
 <div class="viewcode-block" id="InputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.InputBase">[docs]</a><span class="k">class</span> <span class="nc">InputBase</span><span class="p">(</span><span class="n">FrontComponentBase</span><span class="p">):</span>
@@ -130,13 +146,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_key</span> <span class="o">=</span> <span class="n">input_key</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init_value</span> <span class="o">=</span> <span class="n">init_value</span></div>
-
-
-<div class="viewcode-block" id="FuncViewBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.FuncViewBase">[docs]</a><span class="k">class</span> <span class="nc">FuncViewBase</span><span class="p">(</span><span class="n">FrontContainerBase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">children</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">InputBase</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">children</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">or</span> <span class="s1">&#39;Front Func View&#39;</span></div>
 
 
 <div class="viewcode-block" id="TextInputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.TextInputBase">[docs]</a><span class="k">class</span> <span class="nc">TextInputBase</span><span class="p">(</span><span class="n">InputBase</span><span class="p">):</span>
@@ -191,6 +200,13 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">input_key</span><span class="p">,</span> <span class="n">init_value</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_value</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="n">step</span></div>
+
+
+<div class="viewcode-block" id="GraphBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.GraphBase">[docs]</a><span class="k">class</span> <span class="nc">GraphBase</span><span class="p">(</span><span class="n">FrontComponentBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">figure_or_dot</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">use_container_width</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure_or_dot</span> <span class="o">=</span> <span class="n">figure_or_dot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_container_width</span> <span class="o">=</span> <span class="n">use_container_width</span></div>
 </pre></div>
 
            </div>

@@ -33,7 +33,9 @@ class NamedContainerBase(FrontContainerBase):
 
 
 class DagContainerBase(NamedContainerBase):
-    def __init__(self, dag: DAG, children: Iterable[FrontElementBase] = None, name: str = None):
+    def __init__(
+        self, dag: DAG, children: Iterable[FrontElementBase] = None, name: str = None
+    ):
         super().__init__(children, name)
         self.dag = dag
 
@@ -101,11 +103,7 @@ class FloatInputBase(NumberInputBase):
 
 
 class GraphBase(FrontComponentBase):
-    def __init__(
-        self,
-        figure_or_dot: Any,
-        use_container_width: bool = False
-    ):
+    def __init__(self, figure_or_dot: Any, use_container_width: bool = False):
         super().__init__()
         self.figure_or_dot = figure_or_dot
         self.use_container_width = use_container_width

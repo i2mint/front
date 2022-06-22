@@ -8,7 +8,7 @@ from .elements import (
     FloatInputBase,
     NamedContainerBase,
     DagContainerBase,
-    GraphBase
+    GraphBase,
 )
 from .tree_maker_base import ElementTreeMakerBase
 from .implementation import implement_component

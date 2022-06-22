@@ -11,7 +11,7 @@ from front.elements import (
     FLOAT_INPUT_COMPONENT,
     TEXT_INPUT_COMPONENT,
     INT_INPUT_COMPONENT,
-    GRAPH_COMPONENT
+    GRAPH_COMPONENT,
 )
 from front.elements.element_flags import TEXT_OUTPUT_COMPONENT
 from front.spec_maker import SpecMaker
@@ -22,9 +22,12 @@ from front.util import obj_name
 def dflt_trans(objs):
     def gen_trans_obj():
         for obj in objs:
-            trans_obj = DAG([obj]) if callable(obj) and not isinstance(obj, DAG) else copy(obj)
+            trans_obj = (
+                DAG([obj]) if callable(obj) and not isinstance(obj, DAG) else copy(obj)
+            )
             trans_obj.__name__ = obj_name(obj)
             yield trans_obj
+
     return list(gen_trans_obj())
 
 
@@ -57,7 +60,7 @@ def dflt_convention():
                     'component': GRAPH_COMPONENT,
                     'display': True,
                     'display_for_single_node': False,
-                }
+                },
             },
         },
     }
@@ -105,7 +108,9 @@ class AppMakerBase(ABC):
         trans_func = obj_spec['trans']
         return trans_func(objs)
 
-    def _mk_element_tree(self, objs: Iterable[Any], rendering_spec: dict) -> NamedContainerBase:
+    def _mk_element_tree(
+        self, objs: Iterable[Any], rendering_spec: dict
+    ) -> NamedContainerBase:
         return self.el_tree_maker.mk_tree(objs, rendering_spec)
 
     def _mk_app(self, element_tree: NamedContainerBase, app_specs: dict) -> FrontApp:

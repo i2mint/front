@@ -13,7 +13,9 @@ from front.util import deep_merge, dflt_name_trans
 
 
 class ElementTreeMakerBase(ABC):
-    def mk_tree(self, front_objs: Iterable[Any], rendering_spec: dict) -> NamedContainerBase:
+    def mk_tree(
+        self, front_objs: Iterable[Any], rendering_spec: dict
+    ) -> NamedContainerBase:
         _rendering_spec = self._inject_components(rendering_spec)
         root_factory = self._element_mapping.get(APP_CONTAINER)
         if not root_factory:
@@ -63,24 +65,18 @@ class ElementTreeMakerBase(ABC):
 
             graph_spec = dict(obj_rendering_spec['graph'])
             display_for_single_node = graph_spec.pop('display_for_single_node')
-            display_graph = (
-                graph_spec.pop('display') and
-                (
-                    len(obj.func_nodes) > 1 or
-                    display_for_single_node
-                )
+            display_graph = graph_spec.pop('display') and (
+                len(obj.func_nodes) > 1 or display_for_single_node
             )
             if display_graph:
                 container_factory = graph_spec.pop('container')
-                container_name = graph_spec.pop('name')                
+                container_name = graph_spec.pop('name')
                 graph_factory = graph_spec.pop('component')
                 graph_kwargs = dict(figure_or_dot=obj.dot_digraph(), **graph_spec)
                 graph = graph_factory(**graph_kwargs)
                 yield container_factory([graph], container_name)
         else:
-            raise NotImplementedError(
-                    'Only DAG front objects are supported for now'
-                )
+            raise NotImplementedError('Only DAG front objects are supported for now')
 
     def _gen_input_components(self, obj, inputs_spec):
         sig = Sig(obj)
@@ -89,26 +85,22 @@ class ElementTreeMakerBase(ABC):
             input_key = f'{obj.__name__}_{label}'
             stored_value = self._get_stored_value(input_key)
             init_value = (
-                    stored_value
-                    if stored_value is not None
-                    else (p.default if p.default != _empty else None)
-                )
+                stored_value
+                if stored_value is not None
+                else (p.default if p.default != _empty else None)
+            )
             input_kwargs = dict(
-                    label=p.name, input_key=input_key, init_value=init_value
-                )
+                label=p.name, input_key=input_key, init_value=init_value
+            )
             annot = p.annotation if p.annotation != _empty else None
-            param_type = annot or (
-                    type(p.default) if p.default != _empty else Any
-                )
+            param_type = annot or (type(p.default) if p.default != _empty else Any)
             input_spec = inputs_spec.get(p.name)
             if not input_spec:
                 input_spec = inputs_spec.get(param_type)
             if not input_spec:
                 input_spec = inputs_spec[Any]
             if isinstance(input_spec, Mapping):
-                input_spec = dict(
-                        input_spec
-                    )  # Make a copy before popping
+                input_spec = dict(input_spec)  # Make a copy before popping
                 input_factory = input_spec.pop('component')
                 input_kwargs = dict(input_kwargs, **input_spec)
             else:
