@@ -307,4 +307,5 @@ def obj_name(func):
 
 
 def dflt_name_trans(obj):
-    return obj_name(obj).replace('_', ' ').title()
+    obj_str = obj if isinstance(obj, str) else obj_name(obj)
+    return obj_str.replace('_', ' ').title()

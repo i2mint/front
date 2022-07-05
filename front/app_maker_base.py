@@ -3,7 +3,6 @@ from copy import copy
 from typing import Any, Callable, Iterable
 from meshed import DAG
 from front.elements import (
-    NamedContainerBase,
     ElementTreeMakerBase,
     VIEW_CONTAINER,
     SECTION_CONTAINER,
@@ -11,9 +10,10 @@ from front.elements import (
     FLOAT_INPUT_COMPONENT,
     TEXT_INPUT_COMPONENT,
     INT_INPUT_COMPONENT,
-    GRAPH_COMPONENT,
+    GRAPH_COMPONENT
 )
-from front.elements.element_flags import TEXT_OUTPUT_COMPONENT
+from front.elements.elements import FrontContainerBase
+# from front.elements.element_flags import TEXT_OUTPUT_COMPONENT
 from front.spec_maker import SpecMaker
 from front.types import FrontApp, FrontSpec, Map
 from front.util import obj_name
@@ -110,9 +110,9 @@ class AppMakerBase(ABC):
 
     def _mk_element_tree(
         self, objs: Iterable[Any], rendering_spec: dict
-    ) -> NamedContainerBase:
+    ) -> FrontContainerBase:
         return self.el_tree_maker.mk_tree(objs, rendering_spec)
 
-    def _mk_app(self, element_tree: NamedContainerBase, app_specs: dict) -> FrontApp:
+    def _mk_app(self, element_tree: FrontContainerBase, app_specs: dict) -> FrontApp:
         element_tree.name = app_specs['title']
         return element_tree.render
