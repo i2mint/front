@@ -10,9 +10,10 @@ from front.elements import (
     FLOAT_INPUT_COMPONENT,
     TEXT_INPUT_COMPONENT,
     INT_INPUT_COMPONENT,
-    GRAPH_COMPONENT
+    GRAPH_COMPONENT,
 )
 from front.elements.elements import FrontContainerBase
+
 # from front.elements.element_flags import TEXT_OUTPUT_COMPONENT
 from front.spec_maker import SpecMaker
 from front.types import FrontApp, FrontSpec, Map

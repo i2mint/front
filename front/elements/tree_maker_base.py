@@ -61,9 +61,7 @@ class ElementTreeMakerBase(ABC):
             inputs_spec = exec_spec['inputs']
             input_components = list(self._gen_input_components(obj, inputs_spec))
             yield exec_container_factory(
-                dag=obj,
-                name=exec_container_name,
-                children=input_components
+                dag=obj, name=exec_container_name, children=input_components
             )
 
             graph_spec = dict(obj_rendering_spec['graph'])
@@ -78,8 +76,7 @@ class ElementTreeMakerBase(ABC):
                 graph_kwargs = dict(figure_or_dot=obj.dot_digraph(), **graph_spec)
                 graph = graph_factory(**graph_kwargs)
                 yield container_factory(
-                    name=container_name,
-                    children=[graph],
+                    name=container_name, children=[graph],
                 )
         else:
             raise NotImplementedError('Only DAG front objects are supported for now')
@@ -103,19 +100,20 @@ class ElementTreeMakerBase(ABC):
                     else (p.default if p.default != _empty else None)
                 )
                 input_kwargs = dict(
-                    name=dflt_name_trans(p.name), input_key=input_key, init_value=init_value
+                    name=dflt_name_trans(p.name),
+                    input_key=input_key,
+                    init_value=init_value,
                 )
                 yield self._mk_input_component(
                     input_spec,
                     name=dflt_name_trans(p.name),
                     input_key=input_key,
-                    init_value=init_value
+                    init_value=init_value,
                 )
             else:
                 container_factory = self._element_mapping[MULTI_SOURCE_INPUT_CONTAINER]
                 children = list(self._gen_multi_input_components(input_spec))
                 yield container_factory(name=p.name, children=children)
-
 
     def _gen_multi_input_components(self, multi_input_spec: dict):
         for k, v in multi_input_spec.items():
@@ -126,7 +124,6 @@ class ElementTreeMakerBase(ABC):
         input_factory = input_spec.pop('component')
         input_kwargs = dict(init_input_kwargs, **input_spec)
         return input_factory(**input_kwargs)
-
 
     @property
     @abstractclassmethod

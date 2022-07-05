@@ -45,9 +45,7 @@ class InputBase(FrontComponentBase):
 
 
 class MultiSourceInputContainerBase(FrontContainerBase):
-    def __init__(
-        self, name: str, children: Iterable[InputBase] = None
-    ):
+    def __init__(self, name: str, children: Iterable[InputBase] = None):
         super().__init__(name, children)
 
 
@@ -111,11 +109,10 @@ class FileUploaderBase(InputBase):
         name: str,
         input_key: str = None,
         init_value: Any = None,
-        type: Optional[Union[str, List[str]]] = None
+        type: Optional[Union[str, List[str]]] = None,
     ) -> None:
         super().__init__(name, input_key, init_value)
         self.type = type
-
 
 
 class GraphBase(FrontComponentBase):
