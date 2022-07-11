@@ -1,5 +1,6 @@
 """Utils"""
 
+from copy import copy
 from operator import attrgetter
 from functools import partial
 from typing import Iterable, Callable, Mapping
@@ -273,13 +274,14 @@ def normalize_map(map: Map) -> Mapping:
 def deep_merge(a: Mapping, b: Mapping):
     """Merges b into a"""
 
+    result = dict(a)
     for key, value_b in b.items():
         value_a = a.get(key)
         if isinstance(value_a, Mapping) and isinstance(value_b, Mapping):
-            a[key] = deep_merge(value_a, value_b)
+            result[key] = deep_merge(value_a, value_b)
         else:
-            a[key] = value_b
-    return a
+            result[key] = value_b
+    return result
 
 
 def incremental_str_maker(str_format='{:03.f}'):
@@ -309,3 +311,12 @@ def obj_name(func):
 def dflt_name_trans(obj):
     obj_str = obj if isinstance(obj, str) else obj_name(obj)
     return obj_str.replace('_', ' ').title()
+
+
+def dflt_trans(objs):
+    def trans(obj):
+        trans_obj = copy(obj)
+        trans_obj.__name__ = obj_name(obj)
+        return trans_obj
+
+    return list(map(trans, objs))

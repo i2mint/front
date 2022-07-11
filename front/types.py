@@ -3,6 +3,7 @@ from typing import Any, Callable, Mapping, Union
 Map = Union[None, Mapping, Callable[[], Mapping]]
 Configuration = Mapping
 Convention = Mapping
+FrontElementName = Union[None, str, Callable[[Any], str]]
 
 
 class FrontSpec:
