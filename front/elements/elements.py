@@ -30,7 +30,7 @@ AUDIO_RECORDER_COMPONENT = '3cdcc586-bf4b-412b-a5a1-9fd5e47f25c9'
 
 
 class FrontElementBase(ABC):
-    def __init__(self, obj = None, name: FrontElementName = None):
+    def __init__(self, obj=None, name: FrontElementName = None):
         self.obj = obj
         name = name(obj) if isinstance(name, Callable) else name
         self.name = name or ''
@@ -44,9 +44,7 @@ class FrontElementBase(ABC):
 ELEMENT_KEY = '_front_element'
 STORED_VALUE_GETTER = 'stored_value_getter'
 
-FrontElementSpec = TypedDict(
-    'FrontElementSpec', {ELEMENT_KEY: FrontElementBase}
-)
+FrontElementSpec = TypedDict('FrontElementSpec', {ELEMENT_KEY: FrontElementBase})
 
 
 def mk_element_from_spec(spec: FrontElementSpec):
@@ -56,7 +54,8 @@ def mk_element_from_spec(spec: FrontElementSpec):
     except KeyError:
         raise RuntimeError(
             f'Key "{ELEMENT_KEY}" is missing in the following element specification: \
-                {spec}')
+                {spec}'
+        )
     return factory(**_spec)
 
 
@@ -92,22 +91,14 @@ class FrontContainerBase(FrontElementBase):
     children: Iterable[FrontElementBase]
 
     def __init__(
-        self,
-        obj = None,
-        name: FrontElementName = None,
-        **kwargs: FrontElementSpec
+        self, obj=None, name: FrontElementName = None, **kwargs: FrontElementSpec
     ):
         super().__init__(obj=obj, name=name)
         specs = [dict(dict(name=k, obj=obj), **v) for k, v in kwargs.items()]
         self._mk_children(specs)
 
     def _mk_children(self, specs):
-        self.children = list(
-            map(
-                mk_element_from_spec,
-                specs
-            )
-        )
+        self.children = list(map(mk_element_from_spec, specs))
 
     def _render_children(self):
         for child in self.children:
@@ -119,9 +110,7 @@ class FrontComponentBase(FrontElementBase):
 
 
 class ExecContainerBase(FrontContainerBase):
-    def __init__(
-        self, obj: Callable, inputs: dict, name: FrontElementName = None
-    ):
+    def __init__(self, obj: Callable, inputs: dict, name: FrontElementName = None):
         element_specs = mk_input_element_specs(obj, inputs)
         super().__init__(obj=obj, name=name, **element_specs)
 
@@ -129,10 +118,10 @@ class ExecContainerBase(FrontContainerBase):
 class InputBase(FrontComponentBase):
     def __init__(
         self,
-        obj = None,
+        obj=None,
         name: FrontElementName = None,
         input_key: str = None,
-        init_value: Any = None
+        init_value: Any = None,
     ):
         super().__init__(obj=obj, name=name)
         self.input_key = input_key
@@ -142,10 +131,10 @@ class InputBase(FrontComponentBase):
 class TextInputBase(InputBase):
     def __init__(
         self,
-        obj = None,
+        obj=None,
         name: FrontElementName = None,
         input_key: str = None,
-        init_value: Any = None
+        init_value: Any = None,
     ):
         super().__init__(obj=obj, name=name, input_key=input_key, init_value=init_value)
         self.init_value = str(self.init_value) if self.init_value is not None else ''
@@ -154,7 +143,7 @@ class TextInputBase(InputBase):
 class NumberInputBase(InputBase):
     def __init__(
         self,
-        obj = None,
+        obj=None,
         name: FrontElementName = None,
         input_key: str = None,
         init_value: Any = None,
@@ -171,7 +160,7 @@ class NumberInputBase(InputBase):
 class IntInputBase(NumberInputBase):
     def __init__(
         self,
-        obj = None,
+        obj=None,
         name: FrontElementName = None,
         input_key: str = None,
         init_value: Any = None,
@@ -186,7 +175,7 @@ class IntInputBase(NumberInputBase):
             init_value=init_value,
             min_value=min_value,
             max_value=max_value,
-            format=format
+            format=format,
         )
         self.init_value = int(self.init_value) if self.init_value is not None else 0
 
@@ -194,7 +183,7 @@ class IntInputBase(NumberInputBase):
 class FloatInputBase(NumberInputBase):
     def __init__(
         self,
-        obj = None,
+        obj=None,
         name: FrontElementName = None,
         input_key: str = None,
         init_value: Any = None,
@@ -210,7 +199,7 @@ class FloatInputBase(NumberInputBase):
             init_value=init_value,
             min_value=min_value,
             max_value=max_value,
-            format=format
+            format=format,
         )
         self.init_value = float(self.init_value) if self.init_value is not None else 0.0
         self.step = step
@@ -219,7 +208,7 @@ class FloatInputBase(NumberInputBase):
 class FileUploaderBase(InputBase):
     def __init__(
         self,
-        obj = None,
+        obj=None,
         name: FrontElementName = None,
         input_key: str = None,
         init_value: Any = None,

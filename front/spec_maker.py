@@ -57,17 +57,16 @@ DFLT_CONVENTION = {
                         'step': 0.01,
                     },
                     Any: {ELEMENT_KEY: TEXT_INPUT_COMPONENT,},
-                    DEFAULT_INPUT_KEY: {NAME_KEY: lambda p: p.name}
-                }
-            }
+                    DEFAULT_INPUT_KEY: {NAME_KEY: lambda p: p.name},
+                },
+            },
         }
-    }
+    },
 }
 
 
 class SpecMaker:
     def mk_spec(self, config: Map, convention: Map = None) -> FrontSpec:
-
         def get_inheritance_path(cls):
             path = []
             for cls_key in cls_keys:
@@ -78,7 +77,6 @@ class SpecMaker:
                     path.insert(i, cls_key)
             return path
 
-
         config = normalize_map(config)
         convention = convention or DFLT_CONVENTION
         convention = normalize_map(convention)
@@ -86,10 +84,7 @@ class SpecMaker:
 
         rendering_spec = spec.get('rendering', {})
         cls_keys = [k for k in rendering_spec if isclass(k)]
-        inheritance_paths = {
-            cls: get_inheritance_path(cls)
-            for cls in cls_keys
-        }
+        inheritance_paths = {cls: get_inheritance_path(cls) for cls in cls_keys}
         for cls, path in inheritance_paths.items():
             cls_spec = rendering_spec[cls]
             for subcls in path:

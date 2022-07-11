@@ -17,12 +17,8 @@ class ElementTreeMakerBase(ABC):
         self.front_objs = front_objs
         self.rendering_spec = self._inject_components(rendering_spec)
         root_factory = self._get_root_factory()
-        obj_rendering_specs = {
-            k: v for k, v in self._gen_obj_rendering_specs()
-        }
-        root: FrontContainerBase = root_factory(
-            **obj_rendering_specs
-        )
+        obj_rendering_specs = {k: v for k, v in self._gen_obj_rendering_specs()}
+        root: FrontContainerBase = root_factory(**obj_rendering_specs)
         return root
 
     def _inject_components(self, spec_node: dict):
@@ -49,7 +45,9 @@ class ElementTreeMakerBase(ABC):
         for obj in self.front_objs:
             setattr(obj, STORED_VALUE_GETTER, self._get_stored_value)
             obj_name = obj.__name__
-            type_rendering_spec = self._get_type_rendering_spec(self.rendering_spec, obj)
+            type_rendering_spec = self._get_type_rendering_spec(
+                self.rendering_spec, obj
+            )
             obj_rendering_spec = self.rendering_spec.get(obj.__name__, {})
             obj_rendering_spec = deep_merge(type_rendering_spec, obj_rendering_spec)
             obj_rendering_spec['obj'] = obj
