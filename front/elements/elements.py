@@ -127,15 +127,15 @@ class InputBase(FrontComponentBase):
         self.input_key = input_key
         self.init_value = init_value
 
-    
+
 class MultiSourceInputContainerBase(FrontContainerBase):
     def __init__(
         self,
-        obj = None,
+        obj=None,
         name: FrontElementName = None,
         input_key: str = None,
         init_value: Any = None,
-        **kwargs: FrontElementSpec
+        **kwargs: FrontElementSpec,
     ):
         # TODO: This is definitely not the right way spread the input_key and
         # init_value to the child input components since a value can be compatible
@@ -146,7 +146,7 @@ class MultiSourceInputContainerBase(FrontContainerBase):
         #     for k, v in kwargs.items()
         # }
         super().__init__(obj=obj, name=name, **kwargs)
-        
+
 
 class TextInputBase(InputBase):
     def __init__(
