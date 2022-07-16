@@ -18,6 +18,7 @@
    module_docs/front/examples/pos_key_args
    module_docs/front/examples/simple
    module_docs/front/examples/tw_data_binding
+   module_docs/front/examples/wordle
    module_docs/front/py2pydantic
    module_docs/front/scrap
    module_docs/front/scrap/tw_simple_new_arch
