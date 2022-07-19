@@ -3,7 +3,7 @@
    :caption: Contents:
 
    module_docs/front
-   module_docs/front/app_maker_base
+   module_docs/front/app_maker
    module_docs/front/base
    module_docs/front/crude
    module_docs/front/dag
@@ -22,7 +22,7 @@
    module_docs/front/py2pydantic
    module_docs/front/scrap
    module_docs/front/scrap/tw_simple_new_arch
-   module_docs/front/spec_maker
+   module_docs/front/spec_maker_base
    module_docs/front/tests/app_identity_pydantic_output
    module_docs/front/tests/app_identity_write_output
    module_docs/front/tests/test_combos

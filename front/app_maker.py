@@ -6,7 +6,6 @@ from front.spec_maker_base import SpecMakerBase
 from front.types import FrontApp, Map
 
 
-
 class AppMaker:
     def __init__(
         self,

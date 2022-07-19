@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.elements.elements &mdash; front 0.1.41 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <title>front.elements.elements &mdash; front 0.1.42 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -41,7 +41,7 @@
               <p><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front.html">front</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/app_maker_base.html">front.app_maker_base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/app_maker.html">front.app_maker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/base.html">front.base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/crude.html">front.crude</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/dag.html">front.dag</a></li>
@@ -60,7 +60,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap.html">front.scrap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap/tw_simple_new_arch.html">front.scrap.tw_simple_new_arch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/spec_maker.html">front.spec_maker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/spec_maker_base.html">front.spec_maker_base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
@@ -99,41 +99,21 @@
              
   <h1>Source code for front.elements.elements</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">_empty</span>
 <span class="kn">from</span> <span class="nn">front.types</span> <span class="kn">import</span> <span class="n">FrontElementName</span>
-<span class="kn">from</span> <span class="nn">front.util</span> <span class="kn">import</span> <span class="n">deep_merge</span>
-
-<span class="c1"># ================================== ELEMENT IDS ==================================</span>
-<span class="c1"># CONTAINERS</span>
-<span class="n">APP_CONTAINER</span> <span class="o">=</span> <span class="s1">&#39;72aa8125-597f-4f4b-8820-88ac037670ab&#39;</span>
-<span class="n">VIEW_CONTAINER</span> <span class="o">=</span> <span class="s1">&#39;7fee36ae-6921-4f30-9231-64288e930964&#39;</span>
-<span class="n">SECTION_CONTAINER</span> <span class="o">=</span> <span class="s1">&#39;8a1750ab-6608-4cab-a2e4-377d1ea5991a&#39;</span>
-<span class="n">EXEC_SECTION_CONTAINER</span> <span class="o">=</span> <span class="s1">&#39;9e3d7a51-00e0-4973-b3cf-db6b7d9a6ba8&#39;</span>
-<span class="n">MULTI_SOURCE_INPUT_CONTAINER</span> <span class="o">=</span> <span class="s1">&#39;def87219-642d-40b1-ba16-b29b0519bda4&#39;</span>
-
-<span class="c1"># COMPONENTS</span>
-<span class="n">TEXT_INPUT_COMPONENT</span> <span class="o">=</span> <span class="s1">&#39;8e58f1c6-639f-47b7-9c28-184d559366de&#39;</span>
-<span class="n">TEXT_INPUT_COMPONENT_AREA</span> <span class="o">=</span> <span class="s1">&#39;bcdcbcd5-2aee-428b-a7fc-0ad35f58f9fe&#39;</span>
-<span class="n">TEXT_OUTPUT_COMPONENT</span> <span class="o">=</span> <span class="s1">&#39;31d8cf81-7490-4cc5-8e6d-f71093776f33&#39;</span>
-
-<span class="n">INT_INPUT_COMPONENT</span> <span class="o">=</span> <span class="s1">&#39;542847a3-2458-4ca1-a36b-be0c4a918e73&#39;</span>
-<span class="n">INT_INPUT_SLIDER_COMPONENT</span> <span class="o">=</span> <span class="s1">&#39;4b906006-7c9d-40a2-9856-0f827e98a231&#39;</span>
-
-<span class="n">FLOAT_INPUT_COMPONENT</span> <span class="o">=</span> <span class="s1">&#39;918ece4f-2fe4-47a8-a0dc-28a75b0986c4&#39;</span>
-<span class="n">FLOAT_INPUT_SLIDER_COMPONENT</span> <span class="o">=</span> <span class="s1">&#39;ac5c1a38-7a17-4f9f-be10-395774bc16e8&#39;</span>
-
-<span class="n">FILE_UPLOADER_COMPONENT</span> <span class="o">=</span> <span class="s1">&#39;4d3ad1f6-b5d7-4404-b383-522f58ccf93a&#39;</span>
-<span class="n">AUDIO_RECORDER_COMPONENT</span> <span class="o">=</span> <span class="s1">&#39;3cdcc586-bf4b-412b-a5a1-9fd5e47f25c9&#39;</span>
-<span class="c1"># =================================================================================</span>
+<span class="kn">from</span> <span class="nn">front.util</span> <span class="kn">import</span> <span class="n">deep_merge</span><span class="p">,</span> <span class="n">get_value</span>
 
 
-<div class="viewcode-block" id="FrontElementBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.FrontElementBase">[docs]</a><span class="k">class</span> <span class="nc">FrontElementBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">FrontElementName</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">Callable</span><span class="p">)</span> <span class="k">else</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
+<div class="viewcode-block" id="FrontElementBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.FrontElementBase">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">FrontElementBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">FrontElementName</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">get_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -142,8 +122,6 @@
 
 
 <span class="n">ELEMENT_KEY</span> <span class="o">=</span> <span class="s1">&#39;_front_element&#39;</span>
-<span class="n">STORED_VALUE_GETTER</span> <span class="o">=</span> <span class="s1">&#39;stored_value_getter&#39;</span>
-
 <span class="n">FrontElementSpec</span> <span class="o">=</span> <span class="n">TypedDict</span><span class="p">(</span><span class="s1">&#39;FrontElementSpec&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">ELEMENT_KEY</span><span class="p">:</span> <span class="n">FrontElementBase</span><span class="p">})</span>
 
 
@@ -159,7 +137,7 @@
     <span class="k">return</span> <span class="n">factory</span><span class="p">(</span><span class="o">**</span><span class="n">_spec</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">mk_input_element_specs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">mk_input_element_specs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">stored_value_getter</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">mk_input_spec</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
         <span class="n">annot</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">annotation</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">annotation</span> <span class="o">!=</span> <span class="n">_empty</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="n">param_type</span> <span class="o">=</span> <span class="n">annot</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">default</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">default</span> <span class="o">!=</span> <span class="n">_empty</span> <span class="k">else</span> <span class="n">Any</span><span class="p">)</span>
@@ -170,7 +148,7 @@
             <span class="n">input_spec</span> <span class="o">=</span> <span class="n">inputs_spec</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
         <span class="n">dflt_input_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">input_key</span> <span class="o">=</span> <span class="n">input_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;input_key&#39;</span><span class="p">,</span> <span class="n">dflt_input_key</span><span class="p">)</span>
-        <span class="n">stored_value</span> <span class="o">=</span> <span class="n">stored_value_getter</span><span class="p">(</span><span class="n">input_key</span><span class="p">)</span>
+        <span class="n">stored_value</span> <span class="o">=</span> <span class="n">stored_value_getter</span><span class="p">(</span><span class="n">input_key</span><span class="p">)</span> <span class="k">if</span> <span class="n">stored_value_getter</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="n">init_value</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">stored_value</span>
             <span class="k">if</span> <span class="n">stored_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -182,7 +160,6 @@
     <span class="n">default</span> <span class="o">=</span> <span class="n">inputs_spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;_default&#39;</span><span class="p">,</span> <span class="p">{})</span>
     <span class="n">inputs_spec</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">deep_merge</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">inputs_spec</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
     <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-    <span class="n">stored_value_getter</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">STORED_VALUE_GETTER</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
     <span class="n">elements_spec</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">mk_input_spec</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">params</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">elements_spec</span>
 
@@ -205,27 +182,63 @@
             <span class="n">child</span><span class="o">.</span><span class="n">render</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="FrontComponentBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.FrontComponentBase">[docs]</a><span class="k">class</span> <span class="nc">FrontComponentBase</span><span class="p">(</span><span class="n">FrontElementBase</span><span class="p">):</span>
+<div class="viewcode-block" id="FrontComponentBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.FrontComponentBase">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">FrontComponentBase</span><span class="p">(</span><span class="n">FrontElementBase</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="ExecContainerBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.ExecContainerBase">[docs]</a><span class="k">class</span> <span class="nc">ExecContainerBase</span><span class="p">(</span><span class="n">FrontContainerBase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">FrontElementName</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="n">element_specs</span> <span class="o">=</span> <span class="n">mk_input_element_specs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">element_specs</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="InputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.InputBase">[docs]</a><span class="k">class</span> <span class="nc">InputBase</span><span class="p">(</span><span class="n">FrontComponentBase</span><span class="p">):</span>
+<div class="viewcode-block" id="TextSectionBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.TextSectionBase">[docs]</a><span class="k">class</span> <span class="nc">TextSectionBase</span><span class="p">(</span><span class="n">FrontComponentBase</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="n">FrontElementName</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">input_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_key</span> <span class="o">=</span> <span class="n">input_key</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">init_value</span> <span class="o">=</span> <span class="n">init_value</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">get_value</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="n">get_value</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span></div>
+
+
+<div class="viewcode-block" id="InputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.InputBase">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">InputBase</span><span class="p">(</span><span class="n">FrontComponentBase</span><span class="p">):</span>
+    <span class="n">input_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="OutputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.OutputBase">[docs]</a><span class="k">class</span> <span class="nc">OutputBase</span><span class="p">(</span><span class="n">FrontComponentBase</span><span class="p">):</span>
+    <span class="n">output</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">render_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">output</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ExecContainerBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.ExecContainerBase">[docs]</a><span class="k">class</span> <span class="nc">ExecContainerBase</span><span class="p">(</span><span class="n">FrontContainerBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">inputs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">output</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">FrontElementName</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">stored_value_getter</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">element_specs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">mk_input_element_specs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">stored_value_getter</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span>
+        <span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">element_specs</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">input_components</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">InputBase</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">InputBase</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">output_component</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutputBase</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">next</span><span class="p">(</span>
+            <span class="nb">iter</span><span class="p">(</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">OutputBase</span><span class="p">))</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MultiSourceInputContainerBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.MultiSourceInputContainerBase">[docs]</a><span class="k">class</span> <span class="nc">MultiSourceInputContainerBase</span><span class="p">(</span><span class="n">FrontContainerBase</span><span class="p">):</span>
@@ -237,7 +250,7 @@
         <span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">FrontElementSpec</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="c1"># TODO: This is definitely not the right way spread the input_key and</span>
+        <span class="c1"># TODO: This is definitely not the right way to spread the input_key and</span>
         <span class="c1"># init_value to the child input components since a value can be compatible</span>
         <span class="c1"># with some compoenents and incompatible with others.</span>
         <span class="c1"># Just ignoring them for now.</span>
@@ -248,94 +261,42 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="TextInputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.TextInputBase">[docs]</a><span class="k">class</span> <span class="nc">TextInputBase</span><span class="p">(</span><span class="n">InputBase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="n">FrontElementName</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">input_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">input_key</span><span class="o">=</span><span class="n">input_key</span><span class="p">,</span> <span class="n">init_value</span><span class="o">=</span><span class="n">init_value</span><span class="p">)</span>
+<div class="viewcode-block" id="TextInputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.TextInputBase">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">TextInputBase</span><span class="p">(</span><span class="n">InputBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init_value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_value</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span></div>
 
 
-<div class="viewcode-block" id="NumberInputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.NumberInputBase">[docs]</a><span class="k">class</span> <span class="nc">NumberInputBase</span><span class="p">(</span><span class="n">InputBase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="n">FrontElementName</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">input_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">input_key</span><span class="o">=</span><span class="n">input_key</span><span class="p">,</span> <span class="n">init_value</span><span class="o">=</span><span class="n">init_value</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">min_value</span> <span class="o">=</span> <span class="n">min_value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_value</span> <span class="o">=</span> <span class="n">max_value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="nb">format</span></div>
+<div class="viewcode-block" id="NumberInputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.NumberInputBase">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">NumberInputBase</span><span class="p">(</span><span class="n">InputBase</span><span class="p">):</span>
+    <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="IntInputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.IntInputBase">[docs]</a><span class="k">class</span> <span class="nc">IntInputBase</span><span class="p">(</span><span class="n">NumberInputBase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="n">FrontElementName</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">input_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">min_value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-            <span class="n">input_key</span><span class="o">=</span><span class="n">input_key</span><span class="p">,</span>
-            <span class="n">init_value</span><span class="o">=</span><span class="n">init_value</span><span class="p">,</span>
-            <span class="n">min_value</span><span class="o">=</span><span class="n">min_value</span><span class="p">,</span>
-            <span class="n">max_value</span><span class="o">=</span><span class="n">max_value</span><span class="p">,</span>
-            <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span>
-        <span class="p">)</span>
+<div class="viewcode-block" id="IntInputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.IntInputBase">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">IntInputBase</span><span class="p">(</span><span class="n">NumberInputBase</span><span class="p">):</span>
+    <span class="n">min_value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">max_value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init_value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_value</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">0</span></div>
 
 
-<div class="viewcode-block" id="FloatInputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.FloatInputBase">[docs]</a><span class="k">class</span> <span class="nc">FloatInputBase</span><span class="p">(</span><span class="n">NumberInputBase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="n">FrontElementName</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">input_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">min_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-            <span class="n">input_key</span><span class="o">=</span><span class="n">input_key</span><span class="p">,</span>
-            <span class="n">init_value</span><span class="o">=</span><span class="n">init_value</span><span class="p">,</span>
-            <span class="n">min_value</span><span class="o">=</span><span class="n">min_value</span><span class="p">,</span>
-            <span class="n">max_value</span><span class="o">=</span><span class="n">max_value</span><span class="p">,</span>
-            <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">init_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_value</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">0.0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="n">step</span></div>
+<div class="viewcode-block" id="FloatInputBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.FloatInputBase">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">FloatInputBase</span><span class="p">(</span><span class="n">NumberInputBase</span><span class="p">):</span>
+    <span class="n">min_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">max_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_value</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">0.0</span></div>
 
 
-<div class="viewcode-block" id="FileUploaderBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.FileUploaderBase">[docs]</a><span class="k">class</span> <span class="nc">FileUploaderBase</span><span class="p">(</span><span class="n">InputBase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="n">FrontElementName</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">input_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">init_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="nb">type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">input_key</span><span class="o">=</span><span class="n">input_key</span><span class="p">,</span> <span class="n">init_value</span><span class="o">=</span><span class="n">init_value</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span></div>
+<div class="viewcode-block" id="FileUploaderBase"><a class="viewcode-back" href="../../../module_docs/front/elements/elements.html#front.elements.elements.FileUploaderBase">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">FileUploaderBase</span><span class="p">(</span><span class="n">InputBase</span><span class="p">):</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 </pre></div>
 
            </div>

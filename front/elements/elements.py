@@ -88,7 +88,14 @@ class FrontComponentBase(FrontElementBase):
 
 
 class TextSectionBase(FrontComponentBase):
-    def __init__(self, content: str, kind: str = 'text', obj: Any = None, name: FrontElementName = None, **kwargs):
+    def __init__(
+        self,
+        content: str,
+        kind: str = 'text',
+        obj: Any = None,
+        name: FrontElementName = None,
+        **kwargs,
+    ):
         super().__init__(obj, name)
         self.content = get_value(content, self.obj) or ''
         self.kind = get_value(kind, self.obj)
@@ -110,27 +117,27 @@ class OutputBase(FrontComponentBase):
 
 
 class ExecContainerBase(FrontContainerBase):
-    def __init__(self, obj: Callable, inputs: dict, output: dict, name: FrontElementName = None, stored_value_getter: Callable[[str], Any] = None):
+    def __init__(
+        self,
+        obj: Callable,
+        inputs: dict,
+        output: dict,
+        name: FrontElementName = None,
+        stored_value_getter: Callable[[str], Any] = None,
+    ):
         element_specs = dict(
-            mk_input_element_specs(obj, inputs, stored_value_getter),
-            output=output
+            mk_input_element_specs(obj, inputs, stored_value_getter), output=output
         )
         super().__init__(obj=obj, name=name, **element_specs)
 
     @property
     def input_components(self) -> Iterable[InputBase]:
-        return [
-            child for child in self.children
-            if isinstance(child, InputBase)
-        ]
+        return [child for child in self.children if isinstance(child, InputBase)]
 
     @property
     def output_component(self) -> OutputBase:
         return next(
-            iter(
-                child for child in self.children
-                if isinstance(child, OutputBase)
-            )
+            iter(child for child in self.children if isinstance(child, OutputBase))
         )
 
 

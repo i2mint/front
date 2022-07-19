@@ -19,25 +19,17 @@ BASE_DFLT_CONVENTION = {
     RENDERING_KEY: {
         collections.abc.Callable: {
             NAME_KEY: dflt_name_trans,
-            'description': {
-                NAME_KEY: 'Description',
-                'content': lambda o: o.__doc__,
-            },
+            'description': {NAME_KEY: 'Description', 'content': lambda o: o.__doc__,},
             'execution': {
                 NAME_KEY: 'Execution',
                 'inputs': {
-                    float: {
-                        'format': '%.2f',
-                        'step': 0.01,
-                    },
+                    float: {'format': '%.2f', 'step': 0.01,},
                     DEFAULT_INPUT_KEY: {NAME_KEY: lambda p: p.name},
                 },
-                'output': {
-                    NAME_KEY: 'Output',
-                }
-            }
+                'output': {NAME_KEY: 'Output',},
+            },
         }
-    }
+    },
 }
 
 
