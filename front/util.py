@@ -267,8 +267,12 @@ def _annotate_func_arguments(
 # Sig(f)
 
 
+def get_value(obj, *args, **kwargs):
+    return obj(*args, **kwargs) if isinstance(obj, Callable) else obj
+
+
 def normalize_map(map: Map) -> Mapping:
-    return map() if isinstance(map, Callable) else map or {}
+    return get_value(map) or {}
 
 
 def deep_merge(a: Mapping, b: Mapping):

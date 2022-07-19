@@ -1,19 +1,20 @@
 from abc import ABC
 from typing import Any, Callable, Iterable
-from front.elements import ElementTreeMakerBase
+from front.elements import ElementTreeMaker
 from front.elements.elements import FrontContainerBase
-from front.spec_maker import SpecMaker
+from front.spec_maker_base import SpecMakerBase
 from front.types import FrontApp, Map
 
 
-class AppMakerBase(ABC):
+
+class AppMaker:
     def __init__(
         self,
-        element_tree_maker_factory: Callable,
-        spec_maker_factory: Callable = SpecMaker,
+        spec_maker_factory: Callable,
+        element_tree_maker_factory: Callable = ElementTreeMaker,
     ):
-        self.spec_maker: SpecMaker = spec_maker_factory()
-        self.el_tree_maker: ElementTreeMakerBase = element_tree_maker_factory()
+        self.spec_maker: SpecMakerBase = spec_maker_factory()
+        self.el_tree_maker: ElementTreeMaker = element_tree_maker_factory()
 
     def mk_app(
         self, objs: Iterable[Any], config: Map = None, convention: Map = None

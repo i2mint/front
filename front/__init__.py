@@ -35,3 +35,7 @@ with suppress(ModuleNotFoundError, ImportError):
     from warnings import warn
 
     warn('Moved to seperate streamlitfront package', DeprecationWarning)
+
+from .app_maker import AppMaker
+from .spec_maker_base import SpecMakerBase, APP_KEY, OBJ_KEY, RENDERING_KEY, NAME_KEY, DEFAULT_INPUT_KEY
+from .elements import ElementTreeMaker, ELEMENT_KEY
