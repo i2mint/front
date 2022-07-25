@@ -36,7 +36,7 @@ def mk_element_from_spec(spec: FrontElementSpec):
                 {spec}'
         )
     return factory(**_spec)
- 
+
 
 def mk_input_element_specs(obj, inputs, stored_value_getter):
     def mk_input_spec(p):
@@ -131,7 +131,12 @@ class ExecContainerBase(FrontContainerBase):
 
     @property
     def input_components(self) -> Iterable[InputBase]:
-        return [child for child in self.children if isinstance(child, InputBase) or isinstance(child, MultiSourceInputContainerBase)]
+        return [
+            child
+            for child in self.children
+            if isinstance(child, InputBase)
+            or isinstance(child, MultiSourceInputContainerBase)
+        ]
 
     @property
     def output_component(self) -> OutputBase:

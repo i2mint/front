@@ -44,4 +44,11 @@ from .spec_maker_base import (
     RENDERING_KEY,
     NAME_KEY,
 )
-from .elements import ElementTreeMaker, ELEMENT_KEY, FrontComponentBase, FrontContainerBase, FrontElementBase, DEFAULT_INPUT_KEY
+from .elements import (
+    ElementTreeMaker,
+    ELEMENT_KEY,
+    FrontComponentBase,
+    FrontContainerBase,
+    FrontElementBase,
+    DEFAULT_INPUT_KEY,
+)
