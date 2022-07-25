@@ -43,6 +43,8 @@ def mk_input_element_specs(obj, inputs, stored_value_getter):
         input_spec = inputs_spec.get(p.name, {})
         annot = p.annotation if p.annotation != _empty else None
         param_type = annot or (type(p.default) if p.default != _empty else Any)
+        if param_type not in inputs_spec:
+            param_type = Any
         type_spec = inputs_spec.get(param_type, {})
         input_spec = deep_merge(type_spec, input_spec)
         dflt_input_key = f'{obj.__name__}_{p.name}'
