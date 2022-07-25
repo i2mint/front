@@ -22,6 +22,7 @@ class FrontElementBase(ABC):
 
 
 ELEMENT_KEY = '_front_element'
+DEFAULT_INPUT_KEY = '_default'
 FrontElementSpec = TypedDict('FrontElementSpec', {ELEMENT_KEY: FrontElementBase})
 
 
@@ -35,17 +36,15 @@ def mk_element_from_spec(spec: FrontElementSpec):
                 {spec}'
         )
     return factory(**_spec)
-
+ 
 
 def mk_input_element_specs(obj, inputs, stored_value_getter):
     def mk_input_spec(p):
+        input_spec = inputs_spec.get(p.name, {})
         annot = p.annotation if p.annotation != _empty else None
         param_type = annot or (type(p.default) if p.default != _empty else Any)
-        input_spec = inputs_spec.get(p.name)
-        if not input_spec:
-            input_spec = inputs_spec.get(param_type)
-        if not input_spec:
-            input_spec = inputs_spec[Any]
+        type_spec = inputs_spec.get(param_type, {})
+        input_spec = deep_merge(type_spec, input_spec)
         dflt_input_key = f'{obj.__name__}_{p.name}'
         input_key = input_spec.get('input_key', dflt_input_key)
         stored_value = stored_value_getter(input_key) if stored_value_getter else None
@@ -57,7 +56,7 @@ def mk_input_element_specs(obj, inputs, stored_value_getter):
         return dict(input_spec, obj=p, input_key=input_key, init_value=init_value)
 
     inputs_spec = dict(inputs)
-    default = inputs_spec.pop('_default', {})
+    default = inputs_spec.pop(DEFAULT_INPUT_KEY, {})
     inputs_spec = {k: deep_merge(default, v) for k, v in inputs_spec.items()}
     sig = Sig(obj)
     elements_spec = {p.name: mk_input_spec(p) for p in sig.params}
@@ -132,7 +131,7 @@ class ExecContainerBase(FrontContainerBase):
 
     @property
     def input_components(self) -> Iterable[InputBase]:
-        return [child for child in self.children if isinstance(child, InputBase)]
+        return [child for child in self.children if isinstance(child, InputBase) or isinstance(child, MultiSourceInputContainerBase)]
 
     @property
     def output_component(self) -> OutputBase:
@@ -197,3 +196,12 @@ class FloatInputBase(NumberInputBase):
 @dataclass
 class FileUploaderBase(InputBase):
     type: Optional[Union[str, List[str]]] = None
+
+
+@dataclass
+class SelectBoxBase(InputBase):
+    options: Iterable = None
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.options = self.options or []

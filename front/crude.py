@@ -347,7 +347,7 @@ def prepare_for_crude_dispatch(
     >>> mall = dict(
     ...     a = {'one': 1, 'two': 2},
     ...     b_store = {'three': 3, 'four': 4},
-    ...     ununsed_store = {'to': 'illustrate'}
+    ...     unused_store = {'to': 'illustrate'}
     ... )
     >>> crude_func = prepare_for_crude_dispatch(
     ...     func, param_to_mall_map=param_to_mall_map, mall=mall

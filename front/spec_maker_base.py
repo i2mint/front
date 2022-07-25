@@ -11,7 +11,6 @@ APP_KEY = 'app'
 OBJ_KEY = 'obj'
 RENDERING_KEY = 'rendering'
 NAME_KEY = 'name'
-DEFAULT_INPUT_KEY = '_default'
 
 BASE_DFLT_CONVENTION = {
     APP_KEY: {'title': 'My Front Application'},
