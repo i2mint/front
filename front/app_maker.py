@@ -16,6 +16,7 @@ class AppMaker:
     3. Build a composite tree of Front elements based on the "rendering" specification.
     4. Build an app from the composite tree and "app" specification.
     """
+
     def __init__(
         self,
         spec_maker_factory: Callable,

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.app_maker &mdash; front 0.1.44 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.app_maker &mdash; front 0.1.45 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -102,6 +102,37 @@
              
   <section id="module-front.app_maker">
 <span id="front-app-maker"></span><h1>front.app_maker<a class="headerlink" href="#module-front.app_maker" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="front.app_maker.AppMaker">
+<em class="property">class </em><code class="sig-prename descclassname">front.app_maker.</code><code class="sig-name descname">AppMaker</code><span class="sig-paren">(</span><em class="sig-param">spec_maker_factory: Callable</em>, <em class="sig-param">element_tree_maker_factory: Callable = &lt;class 'front.elements.tree_maker_base.ElementTreeMaker'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/app_maker.html#AppMaker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.app_maker.AppMaker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main class of front, doing the following:
+1. Consume the configuration (short language) to produce a specification object
+(long language) using the provided spec maker. The specification is a nested
+structure which contains 3 sub-specification objects: “obj”, “rendering” and “app”.
+2. Transform the input objects using the “trans” function from the “obj”
+specification (uses front.util.dflt_trans by default).
+3. Build a composite tree of Front elements based on the “rendering” specification.
+4. Build an app from the composite tree and “app” specification.</p>
+<dl class="py method">
+<dt id="front.app_maker.AppMaker.mk_app">
+<code class="sig-name descname">mk_app</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">objs</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>None<span class="p">, </span>Mapping<span class="p">, </span>Callable<span class="p">[</span><span class="p">]</span><span class="p">, </span>Mapping<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">convention</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>None<span class="p">, </span>Mapping<span class="p">, </span>Callable<span class="p">[</span><span class="p">]</span><span class="p">, </span>Mapping<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Callable<a class="reference internal" href="../../_modules/front/app_maker.html#AppMaker.mk_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.app_maker.AppMaker.mk_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entry point of the AppMaker class to make a Front application.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objs</strong> – The objects that the user of the resulting
+application will be interacting with.</p></li>
+<li><p><strong>config</strong> – The configuration of the resulting application.</p></li>
+<li><p><strong>convention</strong> – The convention used to complete the configuration by
+providing default values for everything that is not specified in the
+configuration.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

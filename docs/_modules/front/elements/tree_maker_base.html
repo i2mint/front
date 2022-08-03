@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.elements.tree_maker_base &mdash; front 0.1.41 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <title>front.elements.tree_maker_base &mdash; front 0.1.45 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -41,7 +41,7 @@
               <p><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front.html">front</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/app_maker_base.html">front.app_maker_base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/app_maker.html">front.app_maker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/base.html">front.base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/crude.html">front.crude</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/dag.html">front.dag</a></li>
@@ -60,7 +60,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap.html">front.scrap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap/tw_simple_new_arch.html">front.scrap.tw_simple_new_arch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/spec_maker.html">front.spec_maker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/spec_maker_base.html">front.spec_maker_base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
@@ -99,51 +99,54 @@
              
   <h1>Source code for front.elements.tree_maker_base</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractclassmethod</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Mapping</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span>
 <span class="kn">from</span> <span class="nn">front.elements.elements</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">APP_CONTAINER</span><span class="p">,</span>
     <span class="n">ELEMENT_KEY</span><span class="p">,</span>
-    <span class="n">STORED_VALUE_GETTER</span><span class="p">,</span>
-    <span class="n">FrontElementBase</span><span class="p">,</span>
     <span class="n">FrontContainerBase</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">front.util</span> <span class="kn">import</span> <span class="n">deep_merge</span>
 
 
-<div class="viewcode-block" id="ElementTreeMakerBase"><a class="viewcode-back" href="../../../module_docs/front/elements/tree_maker_base.html#front.elements.tree_maker_base.ElementTreeMakerBase">[docs]</a><span class="k">class</span> <span class="nc">ElementTreeMakerBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">mk_tree</span><span class="p">(</span>
+<div class="viewcode-block" id="ElementTreeMaker"><a class="viewcode-back" href="../../../module_docs/front/elements/tree_maker_base.html#front.elements.tree_maker_base.ElementTreeMaker">[docs]</a><span class="k">class</span> <span class="nc">ElementTreeMaker</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Takes care of generating the composite tree of elements based on the &quot;rendering&quot;</span>
+<span class="sd">    specification previously compiled from the configuration. This composite tree will</span>
+<span class="sd">    then be used to build the application by rendering each element recursively from</span>
+<span class="sd">    the root of the tree (the App container).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ElementTreeMaker.mk_tree"><a class="viewcode-back" href="../../../module_docs/front/elements/tree_maker_base.html#front.elements.tree_maker_base.ElementTreeMaker.mk_tree">[docs]</a>    <span class="k">def</span> <span class="nf">mk_tree</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">front_objs</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">rendering_spec</span><span class="p">:</span> <span class="nb">dict</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrontContainerBase</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Entrypoint of the ElementTreeMaker class. Builds the composite tree</span>
+<span class="sd">        </span>
+<span class="sd">        :param front_objs: The objects to render after transformation (see AppMaker).</span>
+<span class="sd">        :param rendering_spec: The rendering spec of the application, compiled from</span>
+<span class="sd">            the given configuration.</span>
+<span class="sd">            This nested object contains information on how an object should be rendered</span>
+<span class="sd">            based on its type (general spec that can be reused for several objects) or</span>
+<span class="sd">            its name (specific spec for a single object). Both specs can be used for a</span>
+<span class="sd">            single objects. In that case, the spec that will be used for this object</span>
+<span class="sd">            will be a combination between those two specs (any value in the specific</span>
+<span class="sd">            spec overwrites the value in the general spec for any key that they could</span>
+<span class="sd">            have in common).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">front_objs</span> <span class="o">=</span> <span class="n">front_objs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rendering_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inject_components</span><span class="p">(</span><span class="n">rendering_spec</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rendering_spec</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">rendering_spec</span><span class="p">)</span>
         <span class="n">root_factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_root_factory</span><span class="p">()</span>
         <span class="n">obj_rendering_specs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gen_obj_rendering_specs</span><span class="p">()}</span>
         <span class="n">root</span><span class="p">:</span> <span class="n">FrontContainerBase</span> <span class="o">=</span> <span class="n">root_factory</span><span class="p">(</span><span class="o">**</span><span class="n">obj_rendering_specs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">root</span>
-
-    <span class="k">def</span> <span class="nf">_inject_components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec_node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="n">_spec_node</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">spec_node</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">spec_node</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
-                <span class="n">new_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inject_components</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="n">ELEMENT_KEY</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">new_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_element_mapping</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">new_value</span> <span class="o">=</span> <span class="n">value</span>
-            <span class="n">_spec_node</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_value</span>
-        <span class="k">return</span> <span class="n">_spec_node</span>
+        <span class="k">return</span> <span class="n">root</span></div>
 
     <span class="k">def</span> <span class="nf">_get_root_factory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">root_factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_element_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">APP_CONTAINER</span><span class="p">)</span>
+        <span class="n">root_factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rendering_spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ELEMENT_KEY</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">root_factory</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                <span class="s1">&#39;No app element as been defined for this front application.&#39;</span>
+                <span class="s1">&#39;No app element has been defined for this front application.&#39;</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">root_factory</span>
 
     <span class="k">def</span> <span class="nf">_gen_obj_rendering_specs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_objs</span><span class="p">:</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">STORED_VALUE_GETTER</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_stored_value</span><span class="p">)</span>
             <span class="n">obj_name</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__name__</span>
             <span class="n">type_rendering_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_type_rendering_spec</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">rendering_spec</span><span class="p">,</span> <span class="n">obj</span>
@@ -166,16 +169,7 @@
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">spec</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">v</span>
-        <span class="k">return</span> <span class="p">{}</span>
-
-    <span class="nd">@property</span>
-    <span class="nd">@abstractclassmethod</span>
-    <span class="k">def</span> <span class="nf">_element_mapping</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">FrontElementBase</span><span class="p">]:</span>
-        <span class="k">pass</span>
-
-    <span class="nd">@abstractclassmethod</span>
-    <span class="k">def</span> <span class="nf">_get_stored_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="k">pass</span></div>
+        <span class="k">return</span> <span class="p">{}</span></div>
 </pre></div>
 
            </div>

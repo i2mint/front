@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.spec_maker_base &mdash; front 0.1.44 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.spec_maker_base &mdash; front 0.1.45 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -105,7 +105,60 @@
 <dl class="py class">
 <dt id="front.spec_maker_base.SpecMakerBase">
 <em class="property">class </em><code class="sig-prename descclassname">front.spec_maker_base.</code><code class="sig-name descname">SpecMakerBase</code><a class="reference internal" href="../../_modules/front/spec_maker_base.html#SpecMakerBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.spec_maker_base.SpecMakerBase" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This abstract class takes care of transforming the configuration given by the
+user (short language) to a detailed specification to build the application (long
+language).</p>
+<p>To do so, the “mk_spec” method first merges the configuration with the convention,
+then does the following for the rendering specification:
+Let’s consider we have three classes A, B and C with C extends B and B extends A
+A &lt;- B &lt;- C.
+If the rendering configuration contains the following:
+{</p>
+<blockquote>
+<div><dl class="simple">
+<dt>A: {</dt><dd><p>‘a’: {…}</p>
+</dd>
+</dl>
+<p>},
+B: {</p>
+<blockquote>
+<div><p>‘b’: {…}</p>
+</div></blockquote>
+<p>},
+C: {</p>
+<blockquote>
+<div><p>‘c’: {…}</p>
+</div></blockquote>
+<p>},</p>
+</div></blockquote>
+<p>}
+The resulting rendering specification will be:
+{</p>
+<blockquote>
+<div><dl class="simple">
+<dt>A: {</dt><dd><p>‘a’: {…}</p>
+</dd>
+</dl>
+<p>},
+B: {</p>
+<blockquote>
+<div><p>‘a’: {…},
+‘b’: {…}</p>
+</div></blockquote>
+<p>},
+C: {</p>
+<blockquote>
+<div><p>‘a’: {…},
+‘b’: {…},
+‘c’: {…}</p>
+</div></blockquote>
+<p>},</p>
+</div></blockquote>
+<p>}</p>
+<p>This abstract class needs to be overloaded in every concrete front framework with
+a concrete implementation for the “_dflt_convention” property, which will return
+the convention after injecting the concrete element factories in it.</p>
+</dd></dl>
 
 </section>
 

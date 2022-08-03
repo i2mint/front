@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.spec_maker_base &mdash; front 0.1.44 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.spec_maker_base &mdash; front 0.1.45 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -123,7 +123,9 @@
                 <span class="n">NAME_KEY</span><span class="p">:</span> <span class="s1">&#39;Execution&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="p">{</span>
                     <span class="nb">float</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,},</span>
-                    <span class="n">DEFAULT_INPUT_KEY</span><span class="p">:</span> <span class="p">{</span><span class="n">NAME_KEY</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">},</span>
+                    <span class="n">DEFAULT_INPUT_KEY</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="n">NAME_KEY</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+                    <span class="p">},</span>
                 <span class="p">},</span>
                 <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="p">{</span><span class="n">NAME_KEY</span><span class="p">:</span> <span class="s1">&#39;Output&#39;</span><span class="p">,},</span>
             <span class="p">},</span>
@@ -133,6 +135,47 @@
 
 
 <div class="viewcode-block" id="SpecMakerBase"><a class="viewcode-back" href="../../module_docs/front/spec_maker_base.html#front.spec_maker_base.SpecMakerBase">[docs]</a><span class="k">class</span> <span class="nc">SpecMakerBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This abstract class takes care of transforming the configuration given by the</span>
+<span class="sd">    user (short language) to a detailed specification to build the application (long</span>
+<span class="sd">    language).</span>
+<span class="sd">    </span>
+<span class="sd">    To do so, the &quot;mk_spec&quot; method first merges the configuration with the convention,</span>
+<span class="sd">    then does the following for the rendering specification:</span>
+<span class="sd">    Let&#39;s consider we have three classes A, B and C with C extends B and B extends A</span>
+<span class="sd">    A &lt;- B &lt;- C.</span>
+<span class="sd">    If the rendering configuration contains the following:</span>
+<span class="sd">    {</span>
+<span class="sd">        A: {</span>
+<span class="sd">            &#39;a&#39;: {...}</span>
+<span class="sd">        },</span>
+<span class="sd">        B: {</span>
+<span class="sd">            &#39;b&#39;: {...}</span>
+<span class="sd">        },</span>
+<span class="sd">        C: {</span>
+<span class="sd">            &#39;c&#39;: {...}</span>
+<span class="sd">        },</span>
+<span class="sd">    }</span>
+<span class="sd">    The resulting rendering specification will be:</span>
+<span class="sd">    {</span>
+<span class="sd">        A: {</span>
+<span class="sd">            &#39;a&#39;: {...}</span>
+<span class="sd">        },</span>
+<span class="sd">        B: {</span>
+<span class="sd">            &#39;a&#39;: {...},</span>
+<span class="sd">            &#39;b&#39;: {...}</span>
+<span class="sd">        },</span>
+<span class="sd">        C: {</span>
+<span class="sd">            &#39;a&#39;: {...},</span>
+<span class="sd">            &#39;b&#39;: {...},</span>
+<span class="sd">            &#39;c&#39;: {...}</span>
+<span class="sd">        },</span>
+<span class="sd">    }</span>
+
+<span class="sd">    This abstract class needs to be overloaded in every concrete front framework with</span>
+<span class="sd">    a concrete implementation for the &quot;_dflt_convention&quot; property, which will return</span>
+<span class="sd">    the convention after injecting the concrete element factories in it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">mk_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Map</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Map</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrontSpec</span><span class="p">:</span>
         <span class="k">def</span> <span class="nf">get_inheritance_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
             <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
@@ -146,7 +189,7 @@
 
         <span class="n">config</span> <span class="o">=</span> <span class="n">normalize_map</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">convention</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">convention</span> <span class="o">=</span> <span class="n">deep_merge</span><span class="p">(</span><span class="n">BASE_DFLT_CONVENTION</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dflt_convention</span><span class="p">)</span>
+            <span class="n">convention</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dflt_convention</span>
         <span class="n">convention</span> <span class="o">=</span> <span class="n">normalize_map</span><span class="p">(</span><span class="n">convention</span><span class="p">)</span>
         <span class="n">spec</span> <span class="o">=</span> <span class="n">deep_merge</span><span class="p">(</span><span class="n">convention</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
 
@@ -169,6 +212,8 @@
     <span class="nd">@property</span>
     <span class="nd">@abstractclassmethod</span>
     <span class="k">def</span> <span class="nf">_dflt_convention</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;IMPORTANT! This property needs to be overloaded in concrete subclasses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 </pre></div>
 

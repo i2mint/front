@@ -13,4 +13,5 @@ class FrontSpec:
     obj_spec: dict
     rendering_spec: dict
 
+
 FrontApp = Callable

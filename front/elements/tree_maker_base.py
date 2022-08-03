@@ -13,6 +13,7 @@ class ElementTreeMaker:
     then be used to build the application by rendering each element recursively from
     the root of the tree (the App container).
     """
+
     def mk_tree(
         self, front_objs: Iterable[Any], rendering_spec: dict
     ) -> FrontContainerBase:

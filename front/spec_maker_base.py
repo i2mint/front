@@ -30,7 +30,7 @@ BASE_DFLT_CONVENTION = {
                 'output': {NAME_KEY: 'Output',},
             },
         }
-    }
+    },
 }
 
 
@@ -75,6 +75,7 @@ class SpecMakerBase(ABC):
     a concrete implementation for the "_dflt_convention" property, which will return
     the convention after injecting the concrete element factories in it.
     """
+
     def mk_spec(self, config: Map, convention: Map = None) -> FrontSpec:
         def get_inheritance_path(cls):
             path = []
