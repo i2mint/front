@@ -23,16 +23,58 @@ BASE_DFLT_CONVENTION = {
                 NAME_KEY: 'Execution',
                 'inputs': {
                     float: {'format': '%.2f', 'step': 0.01,},
-                    DEFAULT_INPUT_KEY: {NAME_KEY: lambda p: p.name},
+                    DEFAULT_INPUT_KEY: {
+                        NAME_KEY: lambda p: p.name.replace('_', ' ').title()
+                    },
                 },
                 'output': {NAME_KEY: 'Output',},
             },
         }
-    },
+    }
 }
 
 
 class SpecMakerBase(ABC):
+    """This abstract class takes care of transforming the configuration given by the
+    user (short language) to a detailed specification to build the application (long
+    language).
+    
+    To do so, the "mk_spec" method first merges the configuration with the convention,
+    then does the following for the rendering specification:
+    Let's consider we have three classes A, B and C with C extends B and B extends A
+    A <- B <- C.
+    If the rendering configuration contains the following:
+    {
+        A: {
+            'a': {...}
+        },
+        B: {
+            'b': {...}
+        },
+        C: {
+            'c': {...}
+        },
+    }
+    The resulting rendering specification will be:
+    {
+        A: {
+            'a': {...}
+        },
+        B: {
+            'a': {...},
+            'b': {...}
+        },
+        C: {
+            'a': {...},
+            'b': {...},
+            'c': {...}
+        },
+    }
+
+    This abstract class needs to be overloaded in every concrete front framework with
+    a concrete implementation for the "_dflt_convention" property, which will return
+    the convention after injecting the concrete element factories in it.
+    """
     def mk_spec(self, config: Map, convention: Map = None) -> FrontSpec:
         def get_inheritance_path(cls):
             path = []
@@ -46,7 +88,7 @@ class SpecMakerBase(ABC):
 
         config = normalize_map(config)
         if convention is None:
-            convention = deep_merge(BASE_DFLT_CONVENTION, self._dflt_convention)
+            convention = self._dflt_convention
         convention = normalize_map(convention)
         spec = deep_merge(convention, config)
 
@@ -69,4 +111,6 @@ class SpecMakerBase(ABC):
     @property
     @abstractclassmethod
     def _dflt_convention(cls) -> Mapping:
+        """IMPORTANT! This property needs to be overloaded in concrete subclasses.
+        """
         pass

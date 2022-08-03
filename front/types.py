@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Any, Callable, Mapping, Union
 
 Map = Union[None, Mapping, Callable[[], Mapping]]
@@ -6,11 +7,10 @@ Convention = Mapping
 FrontElementName = Union[None, str, Callable[[Any], str]]
 
 
+@dataclass
 class FrontSpec:
-    def __init__(self, obj_spec: dict, rendering_spec: dict, app_spec: dict):
-        self.obj_spec = obj_spec
-        self.rendering_spec = rendering_spec
-        self.app_spec = app_spec
-
+    app_spec: dict
+    obj_spec: dict
+    rendering_spec: dict
 
 FrontApp = Callable

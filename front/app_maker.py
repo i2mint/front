@@ -7,6 +7,15 @@ from front.types import FrontApp, Map
 
 
 class AppMaker:
+    """Main class of front, doing the following:
+    1. Consume the configuration (short language) to produce a specification object
+    (long language) using the provided spec maker. The specification is a nested
+    structure which contains 3 sub-specification objects: "obj", "rendering" and "app".
+    2. Transform the input objects using the "trans" function from the "obj"
+    specification (uses front.util.dflt_trans by default).
+    3. Build a composite tree of Front elements based on the "rendering" specification.
+    4. Build an app from the composite tree and "app" specification.
+    """
     def __init__(
         self,
         spec_maker_factory: Callable,
@@ -18,6 +27,15 @@ class AppMaker:
     def mk_app(
         self, objs: Iterable[Any], config: Map = None, convention: Map = None
     ) -> FrontApp:
+        """Entry point of the AppMaker class to make a Front application.
+
+        :param objs: The objects that the user of the resulting
+            application will be interacting with.
+        :param config: The configuration of the resulting application.
+        :param convention: The convention used to complete the configuration by
+            providing default values for everything that is not specified in the
+            configuration.
+        """
         element_tree, app_spec = self._element_tree_and_spec(objs, config, convention)
         return self._mk_app(element_tree, app_spec)
 
