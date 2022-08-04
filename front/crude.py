@@ -705,7 +705,6 @@ class Crudifier(_Crudifier):
 
     Here are a few examples of how to use it.
 
-    >>> from i2 import Sig
     >>> def foo(x, y):
     ...     return x + y
     ...
@@ -721,13 +720,14 @@ class Crudifier(_Crudifier):
 
     And apply it to any function containing a argumennt named ``x``:
 
+    >>> from inspect import signature
     >>> crudified_foo = crudify(foo)
-    >>> str(Sig(crudified_foo))  # note how x has now a str annotation
+    >>> str(signature(crudified_foo))  # note how x has now a str annotation
     '(x: str, y)'
     >>> crudified_foo('stored_two', 3)  # -> 2 + 3
     5
     >>> crudified_bar = crudify(bar)
-    >>> str(Sig(crudified_bar))  # note how x has now a str annotation
+    >>> str(signature(crudified_bar))  # note how x has now a str annotation
     '(a, x: str)'
     >>> crudified_bar(3, 'stored_two')  # -> 3 * 2
     6
@@ -739,7 +739,7 @@ class Crudifier(_Crudifier):
 
     >>> crudify = Crudifier('x y', mall={'x': {'stored_two': 2}, 'y': {'three': 3}})
     >>> f = crudify(foo)
-    >>> str(Sig(f))  # note that both x and y have a str annotation now
+    >>> str(signature(f))  # note that both x and y have a str annotation now
     '(x: str, y: str)'
     >>> f('stored_two', 'three')
     5
