@@ -295,6 +295,7 @@ def prepare_for_crude_dispatch(
     empty_name_callback: Callable[[], Any] = None,
     auto_namer: Callable[..., str] = None,
     output_trans: Callable[..., Any] = None,
+    verbose: bool = True,
 ):
     """
     Wrap func into something that is ready for CRUDE dispatch.
@@ -448,11 +449,15 @@ def prepare_for_crude_dispatch(
     store_for_param = {}
 
     if param_to_mall_map is not None:
+        if isinstance(param_to_mall_map, str):
+            param_to_mall_map = param_to_mall_map.strip().split()
 
         sig = Sig(func)
 
         # get an {argname: store, ...} dict from param_to_mall_map:
-        store_for_param = _mk_store_for_param(sig, param_to_mall_map, mall) or dict()
+        store_for_param = (
+            _mk_store_for_param(sig, param_to_mall_map, mall, verbose=verbose) or dict()
+        )
 
         def kwargs_trans(outer_kw):
             """
