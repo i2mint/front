@@ -48,7 +48,6 @@ from i2.wrapper import Ingress, wrap
 from dol import Files, wrap_kvs
 from dol.filesys import mk_tmp_dol_dir, ensure_dir
 
-
 KT = str
 VT = Any
 StoreType = Mapping[KT, VT]
@@ -678,3 +677,145 @@ def simple_mall_dispatch_core_func(
         return list(filter(lambda k: key in k, store))
     elif action == 'get':
         return store[key]
+
+# ---------------------------------------------------------------------------------------
+# Tools to make crudifying easier
+
+from dataclasses import dataclass, make_dataclass
+from typing import Iterable
+from i2 import Sig, Pipe
+
+_Crudifier = make_dataclass(
+    '_Crudifier',
+    [(p.name, p.kind, p.default) for p in Sig(prepare_for_crude_dispatch).params[1:]]
+)
+
+
+class Crudifier(_Crudifier):
+    """Convenience class to make crudify (i.e. map/source inputs of) functions.
+
+    See https://github.com/i2mint/front/issues/21.
+
+    ``prepare_for_crude_dispatch`` works well if you want to crudify a single function,
+    but if you're trying to crudify multiple functions according to a specific fixed
+    convention, using it directly would involve too much boilerplate.
+
+    ``Crudifier`` is one the tools we offer to reduce this boilerplate.
+
+    Here are a few examples of how to use it.
+
+    >>> from i2 import Sig
+    >>> def foo(x, y):
+    ...     return x + y
+    ...
+    >>> def bar(a, x):
+    ...     return a * x
+
+    Let's say we want ``x`` to be sourced by the ``x_store`` mapping listed in the
+    ``mall``. We can make a ``crudify`` function like this:
+
+    >>> crudify = Crudifier(
+    ...     param_to_mall_map={'x': 'x_store'}, mall={'x_store': {'stored_two': 2}}
+    ... )
+
+    And apply it to any function containing a argumennt named ``x``:
+
+    >>> crudified_foo = crudify(foo)
+    >>> str(Sig(crudified_foo))  # note how x has now a str annotation
+    '(x: str, y)'
+    >>> crudified_foo('stored_two', 3)  # -> 2 + 3
+    5
+    >>> crudified_bar = crudify(bar)
+    >>> str(Sig(crudified_bar))  # note how x has now a str annotation
+    '(a, x: str)'
+    >>> crudified_bar(3, 'stored_two')  # -> 3 * 2
+    6
+
+    If the argument names correspond to ``mall`` key, the first ``param_to_mall_map``
+    argument can be specified a list of arguments, or even a space-separated string of
+    these argument names. In the following, we the ``'x y'`` is equivalent to
+    ``['x', 'y']``, which is equivalent to ``{'x': 'x', 'y', 'y'}``.
+
+    >>> crudify = Crudifier('x y', mall={'x': {'stored_two': 2}, 'y': {'three': 3}})
+    >>> f = crudify(foo)
+    >>> str(Sig(f))  # note that both x and y have a str annotation now
+    '(x: str, y: str)'
+    >>> f('stored_two', 'three')
+    5
+
+    This allows you to do things like partialize, to fix the mall, and only have to
+    specify the param_to_mall_map when you want to crudify.
+    In the following, note the ``verbose=False`` which tells the crudification not to
+    issue any warning when it sees we have keys in our ``mall`` that are not arguments
+    of the function.
+
+    >>> from functools import partial
+    >>>
+    >>> mall = {
+    ...     'x': {'stored_two': 2}, 'y': {'three': 3}, 'fall_back_store': {'zebra': 11}
+    ... }
+    >>> Crudify = partial(Crudifier, mall=mall, verbose=False)
+    >>> f = Crudify('x')(foo)
+    >>> f('stored_two', 3)
+    5
+    >>> f = Crudify('x y')(foo)
+    >>> f('stored_two', 'three')
+    5
+    >>> b = Crudify({'a': 'fall_back_store'})(bar)
+    >>> b('zebra', 3)
+    33
+
+    This callable object, or something like it, can then be used in a recursive
+    transformer such a the front rendering process to indicate that a function should
+    be crudified, and how.
+
+    For example, say we had a mini-language where this
+
+    >>> configs = {
+    ...     foo: {
+    ...         'preprocesses': Crudify('x y'),
+    ...         'whatevs': 42
+    ...     },
+    ...     bar: {
+    ...         'blahblah': 24
+    ...     }
+    ... }
+
+    should be preprocessed in such a way that adds a ``'func'`` key to each item of
+    ``configs`` which contains a transformed function if a ```preprocess`` function
+    or list of functions is specified, or the original function itself otherwise.
+    The following would implement this:
+
+    >>> from typing import Iterable
+    >>> from i2 import Pipe
+    >>>
+    >>> def _ensure_iterable(v):
+    ...     if not isinstance(v, Iterable):
+    ...         v = [v]
+    ...     return v
+    ...
+    >>> def prepare(configs):
+    ...     for func, specs in configs.items():
+    ...         if (processes := specs.get('preprocesses', None)) is not None:
+    ...             preprocess = Pipe(*_ensure_iterable(processes))
+    ...             _func = preprocess(func)
+    ...         else:
+    ...             _func = func
+    ...         specs = dict(specs, func=_func)
+    ...         yield func, specs
+
+    >>> prepared_configs = dict(prepare(configs))
+
+    Now get the ``func`` value under ``foo``, and see that it has been crudified:
+
+    >>> processed_foo = prepared_configs[foo]['func']
+    >>> processed_foo('stored_two', 'three')
+    5
+
+    """
+    def __call__(self, func):
+        # is there a safer way than vars to get the init fields (keys and values)?
+        return prepare_for_crude_dispatch(func, **vars(self))
+
+
+# ---------------------------------------------------------------------------------------
