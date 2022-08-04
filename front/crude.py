@@ -678,6 +678,7 @@ def simple_mall_dispatch_core_func(
     elif action == 'get':
         return store[key]
 
+
 # ---------------------------------------------------------------------------------------
 # Tools to make crudifying easier
 
@@ -687,7 +688,7 @@ from i2 import Sig, Pipe
 
 _Crudifier = make_dataclass(
     '_Crudifier',
-    [(p.name, p.kind, p.default) for p in Sig(prepare_for_crude_dispatch).params[1:]]
+    [(p.name, p.kind, p.default) for p in Sig(prepare_for_crude_dispatch).params[1:]],
 )
 
 
@@ -813,6 +814,7 @@ class Crudifier(_Crudifier):
     5
 
     """
+
     def __call__(self, func):
         # is there a safer way than vars to get the init fields (keys and values)?
         return prepare_for_crude_dispatch(func, **vars(self))
