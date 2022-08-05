@@ -125,11 +125,13 @@ class ExecContainerBase(FrontContainerBase):
         output: dict,
         name: FrontElementName = None,
         stored_value_getter: Callable[[str], Any] = None,
+        auto_submit: bool = False
     ):
         element_specs = dict(
             mk_input_element_specs(obj, inputs, stored_value_getter), output=output
         )
         super().__init__(obj=obj, name=name, **element_specs)
+        self.auto_submit = auto_submit
 
     @property
     def input_components(self) -> Iterable[InputBase]:
