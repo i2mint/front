@@ -688,7 +688,10 @@ from i2 import Sig, Pipe
 
 _Crudifier = make_dataclass(
     '_Crudifier',
-    [(p.name, p.kind, p.default) for p in Sig(prepare_for_crude_dispatch).params[1:]],
+    [
+        (p.name, p.annotation, p.default)
+        for p in Sig(prepare_for_crude_dispatch).params[1:]
+    ],
 )
 
 
