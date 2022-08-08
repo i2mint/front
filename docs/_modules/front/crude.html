@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.47 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.51 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -586,7 +586,7 @@
                     <span class="n">store_key</span> <span class="o">=</span> <span class="n">outer_kw</span><span class="p">[</span><span class="n">param</span><span class="p">]</span>
                     <span class="c1"># store_key points to the value the outer user wants the value for:</span>
                     <span class="c1"># store is the store where to find it</span>
-                    <span class="k">yield</span> <span class="n">param</span><span class="p">,</span> <span class="n">store</span><span class="p">[</span><span class="n">store_key</span><span class="p">]</span>
+                    <span class="k">yield</span> <span class="n">param</span><span class="p">,</span> <span class="n">store</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">store_key</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">get_values_from_stores</span><span class="p">())</span>
 
@@ -805,7 +805,6 @@
 
 <span class="sd">    Here are a few examples of how to use it.</span>
 
-<span class="sd">    &gt;&gt;&gt; from i2 import Sig</span>
 <span class="sd">    &gt;&gt;&gt; def foo(x, y):</span>
 <span class="sd">    ...     return x + y</span>
 <span class="sd">    ...</span>
@@ -821,13 +820,14 @@
 
 <span class="sd">    And apply it to any function containing a argumennt named ``x``:</span>
 
+<span class="sd">    &gt;&gt;&gt; from inspect import signature</span>
 <span class="sd">    &gt;&gt;&gt; crudified_foo = crudify(foo)</span>
-<span class="sd">    &gt;&gt;&gt; str(Sig(crudified_foo))  # note how x has now a str annotation</span>
+<span class="sd">    &gt;&gt;&gt; str(signature(crudified_foo))  # note how x has now a str annotation</span>
 <span class="sd">    &#39;(x: str, y)&#39;</span>
 <span class="sd">    &gt;&gt;&gt; crudified_foo(&#39;stored_two&#39;, 3)  # -&gt; 2 + 3</span>
 <span class="sd">    5</span>
 <span class="sd">    &gt;&gt;&gt; crudified_bar = crudify(bar)</span>
-<span class="sd">    &gt;&gt;&gt; str(Sig(crudified_bar))  # note how x has now a str annotation</span>
+<span class="sd">    &gt;&gt;&gt; str(signature(crudified_bar))  # note how x has now a str annotation</span>
 <span class="sd">    &#39;(a, x: str)&#39;</span>
 <span class="sd">    &gt;&gt;&gt; crudified_bar(3, &#39;stored_two&#39;)  # -&gt; 3 * 2</span>
 <span class="sd">    6</span>
@@ -839,7 +839,7 @@
 
 <span class="sd">    &gt;&gt;&gt; crudify = Crudifier(&#39;x y&#39;, mall={&#39;x&#39;: {&#39;stored_two&#39;: 2}, &#39;y&#39;: {&#39;three&#39;: 3}})</span>
 <span class="sd">    &gt;&gt;&gt; f = crudify(foo)</span>
-<span class="sd">    &gt;&gt;&gt; str(Sig(f))  # note that both x and y have a str annotation now</span>
+<span class="sd">    &gt;&gt;&gt; str(signature(f))  # note that both x and y have a str annotation now</span>
 <span class="sd">    &#39;(x: str, y: str)&#39;</span>
 <span class="sd">    &gt;&gt;&gt; f(&#39;stored_two&#39;, &#39;three&#39;)</span>
 <span class="sd">    5</span>

@@ -486,7 +486,7 @@ def prepare_for_crude_dispatch(
                     store_key = outer_kw[param]
                     # store_key points to the value the outer user wants the value for:
                     # store is the store where to find it
-                    yield param, store[store_key]
+                    yield param, store.get(store_key)
 
             return dict(get_values_from_stores())
 
