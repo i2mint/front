@@ -32,11 +32,12 @@ FrontApp = Callable
 #         print('__set__', self.id)
 #         self.state[self.id] = value
 
+
 @dataclass
 class BoundData:
     id: str
     state: Mapping
-    
+
     # def __init__(self, id, state):
     #     setattr(type(self), id, BoundDataValue(id, state))
     #     self.id = id

@@ -128,7 +128,7 @@ class ExecContainerBase(FrontContainerBase):
         name: FrontElementName = None,
         stored_value_getter: Callable[[str], Any] = None,
         auto_submit: bool = False,
-        on_submit: Callable[[Any], None] = None
+        on_submit: Callable[[Any], None] = None,
     ):
         element_specs = dict(
             mk_input_element_specs(obj, inputs, stored_value_getter), output=output
