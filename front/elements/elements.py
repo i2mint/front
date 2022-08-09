@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Any, Callable, Iterable, List, Optional, TypedDict, Union
 from i2 import Sig
 from inspect import _empty
-from front.types import FrontElementName
+from front.types import BoundData, FrontElementName
 from front.util import deep_merge, get_value
 
 
@@ -107,6 +107,8 @@ class TextSectionBase(FrontComponentBase):
 class InputBase(FrontComponentBase):
     input_key: str = None
     init_value: Any = None
+    value: BoundData = None
+    on_value_change: Callable[..., None] = None
 
 
 class OutputBase(FrontComponentBase):
@@ -125,13 +127,15 @@ class ExecContainerBase(FrontContainerBase):
         output: dict,
         name: FrontElementName = None,
         stored_value_getter: Callable[[str], Any] = None,
-        auto_submit: bool = False
+        auto_submit: bool = False,
+        on_submit: Callable[[Any], None] = None
     ):
         element_specs = dict(
             mk_input_element_specs(obj, inputs, stored_value_getter), output=output
         )
         super().__init__(obj=obj, name=name, **element_specs)
         self.auto_submit = auto_submit
+        self.on_submit = on_submit
 
     @property
     def input_components(self) -> Iterable[InputBase]:
@@ -156,6 +160,8 @@ class MultiSourceInputContainerBase(FrontContainerBase):
         name: FrontElementName = None,
         input_key: str = None,
         init_value: Any = None,
+        value: BoundData = None,
+        on_value_change: Callable = None,
         **kwargs: FrontElementSpec,
     ):
         # TODO: This is definitely not the right way to spread the input_key and
@@ -209,7 +215,7 @@ class FileUploaderBase(InputBase):
 
 @dataclass
 class SelectBoxBase(InputBase):
-    options: Iterable = None
+    options: Union[Iterable, BoundData] = None
 
     def __post_init__(self):
         super().__post_init__()
