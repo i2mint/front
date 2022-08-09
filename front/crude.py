@@ -682,13 +682,12 @@ def simple_mall_dispatch_core_func(
 # ---------------------------------------------------------------------------------------
 # Tools to make crudifying easier
 
-from dataclasses import dataclass, make_dataclass
 from typing import Iterable
 from i2 import Sig, Pipe
+from i2.signatures import sig_to_dataclass
 
-_Crudifier = make_dataclass(
-    '_Crudifier',
-    [(p.name, p.kind, p.default) for p in Sig(prepare_for_crude_dispatch).params[1:]],
+_Crudifier = sig_to_dataclass(
+    Sig(prepare_for_crude_dispatch).params[1:], cls_name='_Crudifier', module=__name__,
 )
 
 
