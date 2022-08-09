@@ -2,8 +2,6 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Callable, Mapping, Union
 
-import nanoid
-
 Map = Union[None, Mapping, Callable[[], Mapping]]
 Configuration = Mapping
 Convention = Mapping
