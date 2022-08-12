@@ -5,6 +5,7 @@ from i2 import Sig
 from inspect import _empty
 from front.types import BoundData, FrontElementName
 from front.util import deep_merge, get_value
+from pydantic import validate_arguments
 
 
 @dataclass
@@ -137,20 +138,27 @@ class ExecContainerBase(FrontContainerBase):
         self.auto_submit = auto_submit
         self.on_submit = on_submit
 
-    @property
-    def input_components(self) -> Iterable[InputBase]:
-        return [
+    def _render_inputs(self):
+        input_components = [
             child
             for child in self.children
             if isinstance(child, InputBase)
             or isinstance(child, MultiSourceInputContainerBase)
         ]
-
-    @property
-    def output_component(self) -> OutputBase:
-        return next(
+        return {
+            input_component.obj.name: input_component.render()
+            for input_component in input_components
+        }
+    
+    def _submit(self, inputs):
+        pydantic_obj = validate_arguments(self.obj)
+        output = pydantic_obj(**inputs)
+        output_component = next(
             iter(child for child in self.children if isinstance(child, OutputBase))
         )
+        output_component.render_output(output)
+        if self.on_submit:
+            self.on_submit(output)
 
 
 class MultiSourceInputContainerBase(FrontContainerBase):
