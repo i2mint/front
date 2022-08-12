@@ -149,7 +149,7 @@ class ExecContainerBase(FrontContainerBase):
             input_component.obj.name: input_component.render()
             for input_component in input_components
         }
-    
+
     def _submit(self, inputs):
         pydantic_obj = validate_arguments(self.obj)
         output = pydantic_obj(**inputs)
