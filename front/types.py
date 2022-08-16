@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Callable, Mapping, Union
+from typing import Any, Callable, Mapping, Union, overload
 
 Map = Union[None, Mapping, Callable[[], Mapping]]
 Configuration = Mapping
@@ -17,36 +17,24 @@ class FrontSpec:
 
 FrontApp = Callable
 
+NotFound = type('NotFound', (), {})()
 
-# @dataclass
-# class BoundDataValue:
-#     id: str
-#     state: Mapping
-
-#     def __get__(self, instance, owner):
-#         print('__get__', self.id)
-#         if self.id in self.state:
-#             return self.state[self.id]
-
-#     def __set__(self, instance, value):
-#         print('__set__', self.id)
-#         self.state[self.id] = value
-
+class StateValueError(ValueError):
+    'Raised when trying to add a forbidden value to the state.'
 
 @dataclass
 class BoundData:
     id: str
     state: Mapping
 
-    # def __init__(self, id, state):
-    #     setattr(type(self), id, BoundDataValue(id, state))
-    #     self.id = id
-
-    @property
-    def value(self):
+    def get(self):
         if self.id in self.state:
             return self.state[self.id]
+        return NotFound
 
-    @value.setter
-    def value(self, v):
-        self.state[self.id] = v
+    def set(self, value):
+        if value is NotFound:
+            raise StateValueError('Cannot store NotFound in the state.')
+        self.state[self.id] = value
+
+    __call__ = get

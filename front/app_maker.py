@@ -65,4 +65,4 @@ class AppMaker:
 
     def _mk_app(self, element_tree: FrontContainerBase, app_specs: dict) -> FrontApp:
         element_tree.name = app_specs['title']
-        return element_tree.render
+        return element_tree

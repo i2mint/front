@@ -18,6 +18,7 @@ def implement_component(
                 attr_name = input_mapping.get(name, name)
                 attr = getattr(self, attr_name, None)
                 if attr is not None:
+                    attr = attr() if callable(attr) else attr
                     component_factory_kwargs[name] = attr
             input_value = component_factory(**component_factory_kwargs)
             if input_value_callback:
