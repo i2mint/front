@@ -19,8 +19,10 @@ FrontApp = Callable
 
 NotFound = type('NotFound', (), {})()
 
+
 class StateValueError(ValueError):
     'Raised when trying to add a forbidden value to the state.'
+
 
 @dataclass
 class BoundData:

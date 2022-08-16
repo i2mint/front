@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.types &mdash; front 0.1.55 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.types &mdash; front 0.1.56 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -100,7 +100,7 @@
   <h1>Source code for front.types</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">overload</span>
 
 <span class="n">Map</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Mapping</span><span class="p">]]</span>
 <span class="n">Configuration</span> <span class="o">=</span> <span class="n">Mapping</span>
@@ -117,20 +117,11 @@
 
 <span class="n">FrontApp</span> <span class="o">=</span> <span class="n">Callable</span>
 
+<span class="n">NotFound</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s1">&#39;NotFound&#39;</span><span class="p">,</span> <span class="p">(),</span> <span class="p">{})()</span>
 
-<span class="c1"># @dataclass</span>
-<span class="c1"># class BoundDataValue:</span>
-<span class="c1">#     id: str</span>
-<span class="c1">#     state: Mapping</span>
 
-<span class="c1">#     def __get__(self, instance, owner):</span>
-<span class="c1">#         print(&#39;__get__&#39;, self.id)</span>
-<span class="c1">#         if self.id in self.state:</span>
-<span class="c1">#             return self.state[self.id]</span>
-
-<span class="c1">#     def __set__(self, instance, value):</span>
-<span class="c1">#         print(&#39;__set__&#39;, self.id)</span>
-<span class="c1">#         self.state[self.id] = value</span>
+<div class="viewcode-block" id="StateValueError"><a class="viewcode-back" href="../../module_docs/front/types.html#front.types.StateValueError">[docs]</a><span class="k">class</span> <span class="nc">StateValueError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="s1">&#39;Raised when trying to add a forbidden value to the state.&#39;</span></div>
 
 
 <div class="viewcode-block" id="BoundData"><a class="viewcode-back" href="../../module_docs/front/types.html#front.types.BoundData">[docs]</a><span class="nd">@dataclass</span>
@@ -138,18 +129,17 @@
     <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">state</span><span class="p">:</span> <span class="n">Mapping</span>
 
-    <span class="c1"># def __init__(self, id, state):</span>
-    <span class="c1">#     setattr(type(self), id, BoundDataValue(id, state))</span>
-    <span class="c1">#     self.id = id</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">NotFound</span>
 
-    <span class="nd">@value</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span></div>
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">NotFound</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">StateValueError</span><span class="p">(</span><span class="s1">&#39;Cannot store NotFound in the state.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="fm">__call__</span> <span class="o">=</span> <span class="n">get</span></div>
 </pre></div>
 
            </div>

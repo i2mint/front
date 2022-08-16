@@ -153,9 +153,7 @@ class ExecContainerBase(FrontContainerBase):
         auto_submit: bool = False,
         on_submit: Callable[[Any], None] = None,
     ):
-        element_specs = dict(
-            mk_input_element_specs(obj, inputs), output=output
-        )
+        element_specs = dict(mk_input_element_specs(obj, inputs), output=output)
         super().__init__(obj=obj, name=name, **element_specs)
         self.auto_submit = auto_submit
         self.on_submit = on_submit
@@ -257,7 +255,5 @@ class SelectBoxBase(InputBase):
         )
         value = self.value()
         self._preselected_index = (
-            self._options.index(value)
-            if value in self._options
-            else 0
+            self._options.index(value) if value in self._options else 0
         )
