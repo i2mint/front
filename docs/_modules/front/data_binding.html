@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.types &mdash; front 0.1.58 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.data_binding &mdash; front 0.1.58 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -92,7 +92,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>front.types</li>
+      <li>front.data_binding</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,24 +101,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for front.types</h1><div class="highlight"><pre>
+  <h1>Source code for front.data_binding</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="n">Map</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Mapping</span><span class="p">]]</span>
-<span class="n">Configuration</span> <span class="o">=</span> <span class="n">Mapping</span>
-<span class="n">Convention</span> <span class="o">=</span> <span class="n">Mapping</span>
-<span class="n">FrontElementName</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span>
+<span class="kn">from</span> <span class="nn">front.state</span> <span class="kn">import</span> <span class="n">GetterSetter</span><span class="p">,</span> <span class="n">State</span>
 
 
-<div class="viewcode-block" id="FrontSpec"><a class="viewcode-back" href="../../module_docs/front/types.html#front.types.FrontSpec">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">FrontSpec</span><span class="p">:</span>
-    <span class="n">app_spec</span><span class="p">:</span> <span class="nb">dict</span>
-    <span class="n">obj_spec</span><span class="p">:</span> <span class="nb">dict</span>
-    <span class="n">rendering_spec</span><span class="p">:</span> <span class="nb">dict</span></div>
+<span class="n">NotFound</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s1">&#39;NotFound&#39;</span><span class="p">,</span> <span class="p">(),</span> <span class="p">{})()</span>
 
 
-<span class="n">FrontApp</span> <span class="o">=</span> <span class="n">Callable</span>
+<div class="viewcode-block" id="StateValueError"><a class="viewcode-back" href="../../module_docs/front/data_binding.html#front.data_binding.StateValueError">[docs]</a><span class="k">class</span> <span class="nc">StateValueError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="s1">&#39;Raised when trying to add a forbidden value to the state.&#39;</span></div>
+
+
+<span class="k">class</span> <span class="nc">BoundData</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">GetterSetter</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">forbidden_writes</span><span class="o">=</span><span class="p">{</span><span class="n">NotFound</span><span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">NotFound</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="fm">__call__</span> <span class="o">=</span> <span class="n">get</span>
 </pre></div>
 
            </div>

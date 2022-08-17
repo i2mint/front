@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass
 
 from front.state import GetterSetter, State
@@ -14,10 +13,7 @@ class StateValueError(ValueError):
 class BoundData:
     def __init__(self, id: str, state: GetterSetter):
         self.id = id
-        self.state = State(
-            state=state,
-            forbidden_writes={NotFound}
-        )
+        self.state = State(state=state, forbidden_writes={NotFound})
 
     def get(self):
         return self.state.get(self.id, NotFound)
