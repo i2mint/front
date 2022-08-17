@@ -2,9 +2,10 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from threading import Timer
 from typing import Any, Callable, Iterable, List, Optional, TypedDict, Union
+from front.data_binding import BoundData
 from i2 import Sig
 from inspect import _empty
-from front.types import BoundData, FrontElementName
+from front.types import FrontElementName
 from front.util import deep_merge, get_value
 from i2.signatures import call_forgivingly
 from pydantic import validate_arguments
