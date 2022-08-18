@@ -215,6 +215,29 @@ def mk_binder(*identifiers: Identifiers, bound_val_factory=BoundVal):
     >>> d
     {'foo': "I'm bound", 'bar': 'me too'}
 
+    A ``Binder`` will also have some useful mapping methods that are linked to the
+    underlying ``state``.
+
+    >>> Binder = mk_binder('the', 'variables', 'I', 'want')
+    >>> state = dict()
+    >>> b = Binder(state)
+    >>> list(b)
+    []
+    >>> b.want  # I see a want, but no value is set
+    ValueNotSet
+    >>> list(b)  # list still gives me nothing
+    []
+    >>> b.want = 42  # but if I set a value for want
+    >>> list(b)  # I see want in the list
+    ['want']
+    >>> 'want' in b  # I can do this too
+    True
+    >>> 'not_in_there' in b
+    False
+    >>> 'variables' in b  # 'variables' not "there" because not set
+    False
+
+
     """
     identifiers = ensure_identifiers(*identifiers)
 
