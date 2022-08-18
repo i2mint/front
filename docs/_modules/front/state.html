@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.state &mdash; front 0.1.62 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.state &mdash; front 0.1.63 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -392,30 +392,21 @@
         <span class="k">return</span> <span class="n">Binder</span></div>
 
 
-<div class="viewcode-block" id="alt_binder_demo_test"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.alt_binder_demo_test">[docs]</a><span class="k">def</span> <span class="nf">alt_binder_demo_test</span><span class="p">():</span>
+<div class="viewcode-block" id="binder_test"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.binder_test">[docs]</a><span class="k">def</span> <span class="nf">binder_test</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;This work is to try to add &#39;auto registering&#39; of bounded variables&quot;&quot;&quot;</span>
-
     <span class="n">Binder</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">()</span>
     <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">Binder</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------ Existing attrs ------------&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">foo</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="si">{</span><span class="n">d</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">d</span> <span class="o">==</span> <span class="p">{}</span>
+    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">foo</span> <span class="ow">is</span> <span class="n">ValueNotSet</span>
     <span class="n">s</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">42</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">foo</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="si">{</span><span class="n">d</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------ Non existing attrs ------------&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">new_attr</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="si">{</span><span class="n">d</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">new_attr</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="si">{</span><span class="n">d</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">s</span><span class="o">.</span><span class="n">new_attr</span> <span class="o">=</span> <span class="mi">496</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">new_attr</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="si">{</span><span class="n">d</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span></div>
+    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="mi">42</span>
+    <span class="k">assert</span> <span class="n">d</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">496</span>
+    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="mi">496</span>
+    <span class="k">assert</span> <span class="n">d</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">496</span><span class="p">}</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">bar</span> <span class="o">=</span> <span class="mi">8128</span>
+    <span class="k">assert</span> <span class="n">d</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">496</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">8128</span><span class="p">}</span></div>
 </pre></div>
 
            </div>

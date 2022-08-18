@@ -9,7 +9,6 @@ from typing import (
     Iterable,
     MutableMapping,
     Optional,
-    Container,
 )
 from functools import partial
 
@@ -172,79 +171,57 @@ Identifier = NewType('Identifier', str)
 Identifiers = Union[Iterable[Identifier], str]
 StateFactory = Callable[[Identifiers], StateType]
 
-DFLT_BOUND_VAL_FACTORY = BoundVal
 
+@dataclass
+class Binder:
+    _reserved_vars = {'_state', '_factory', '_container'}
 
-class _Binder:
-    _reserved_vars = {'_state', '_factory'}
-
-    def __init__(self, state: StateType, factory=DFLT_BOUND_VAL_FACTORY):
+    def __init__(self, state: StateType, factory: Callable, container: type):
         self._state = state
         self._factory = factory
+        self._container = container
+
+    def __getattr__(self, k):
+        if k not in self._container.__dict__:
+            setattr(self._container, k, self._factory(k))
+        c = self._container(self._state)
+        return getattr(c, k)
+
+    def __setattr__(self, k, v):
+        # Need this "not _state, _factory or _container", or the __init__ won't be able to set
+        # _state, _factory and _container
+        if k in self._reserved_vars:
+            self.__dict__[k] = v
+        else:
+            getattr(self, k)
+            c = self._container(self._state)
+            setattr(c, k, v)
 
     def __iter__(self):
-        yield from self._state
-
-    __dir__ = __iter__
+        yield from self._container._state
 
 
-class _DynamicBindsMixin:
-    def __getattr__(self, k):
-        if k not in self.__dict__:
-            setattr(type(self), k, self._factory(k))
-        return getattr(self, k)
-
-    def __setattr__(self, k, v):
-        # Need this "not in _reserved_vars", otherwise the __init__ won't be able to set
-        # _state and _factory
-        if k not in self._reserved_vars:
-            self.__dict__['_state'][k] = v
-        self.__dict__[k] = v  # put it in the __dict__ (so it becomes an attribute)
-
-
-class _ExclusiveBindsMixin(_DynamicBindsMixin):
-    _allowed_ids: Container = ()
-
-    def __getattr__(self, k):
-        if k not in self.__dict__ and k not in self._allowed_ids:
-            raise AttributeError(
-                f'That attribute is not in the self._allowed_ids collection: {k}'
-            )
-        else:
-            return super().__getattr__(k)
-
-    def __setattr__(self, k, v):
-        # Need this "not in _reserved_vars", otherwise the __init__ won't be able to set
-        # _state and _factory
-        if k not in self._reserved_vars and k not in self._allowed_ids:
-            raise ForbiddenWrite(
-                "Can't write there. The id is not in the self._allowed_ids collection"
-                f': {k}'
-            )
-        else:
-            return super().__setattr__(k, v)
-
-
-def tw_mk_binder(
-    state: Optional[StateType] = None,
-    allowed_ids: Optional[Identifiers] = None,
-    bound_val_factory: Callable = DFLT_BOUND_VAL_FACTORY,
+def mk_binder(
+    *identifiers: Identifiers,
+    state: StateType,
+    bound_val_factory=BoundVal,
 ):
     """
-    >>> Binder = tw_mk_binder()
+
+    :param identifiers:
+    :param bound_val_factory:
+    :return:
+
+    >>> Binder = mk_binder('foo bar')
     >>> d = dict()
     >>> b = Binder(d)
 
-    If I ask for ``b.foo`` (or any valid python identifier I want) it'll be inserted
-    as an "descriptor" attribute of ``Binder``, but it's  value will be special value
-    ``ValueNotSet``.
+    We ``b.foo`` exists, but is not set.
 
     >>> b.foo
     ValueNotSet
-    >>> 'foo' in dir(Binder)
-    True
 
-    Let's set the value of ``foo```:
+    So let's set it:
 
     >>> b.foo = 42
     >>> b.foo
@@ -277,7 +254,7 @@ def tw_mk_binder(
     A ``Binder`` will also have some useful mapping methods that are linked to the
     underlying ``state``.
 
-    >>> Binder = tw_mk_binder(allowed_ids=['the', 'variables', 'I', 'want'])
+    >>> Binder = mk_binder('the', 'variables', 'I', 'want')
     >>> state = dict()
     >>> b = Binder(state)
     >>> list(b)
@@ -296,153 +273,19 @@ def tw_mk_binder(
     >>> 'variables' in b  # 'variables' not "there" because not set
     False
 
+
     """
+    identifiers = ensure_identifiers(*identifiers)
 
-    # TODO: Make it pickalble! (add reduce? Make base outside function?)
+    @dataclass
+    class BoundValContainer:
+        _state: MutableMapping
 
-    if allowed_ids is None:
-
-        class DynamicBinder(_Binder, _DynamicBindsMixin):
-            """Specific Binder with dynamic on-the-fly identifiers"""
-
-        Binder = DynamicBinder
-
-    else:
-        if isinstance(allowed_ids, str):
-            identifiers = ensure_identifiers(allowed_ids)
-        else:
-            identifiers = ensure_identifiers(*allowed_ids)
-
-        assert not isinstance(identifiers, str)
-
-        class ExclusiveBinder(_Binder, _ExclusiveBindsMixin):
-            """Specific Binder with exclusive identifiers"""
-
-            _allowed_ids = set(identifiers)
-
-        for id_ in identifiers:
-            setattr(ExclusiveBinder, id_, bound_val_factory(id_))
-
-        Binder = ExclusiveBinder
-
-    # TODO: Should we really be having the function return type or instance thereof
-    #  according to whether state is given?
-    if state is not None:
-        return Binder(state=state)
-    else:
-        return Binder
-
-
-def tw_binder_test(mk_binder=tw_mk_binder):
-    """This work is to try to add 'auto registering' of bounded variables"""
-
-    import pytest
-
-    def _test_fresh_state_with_foobar(binder, state):
-        assert binder._state == state
-        assert state == {}
-        assert binder.foo is ValueNotSet
-        binder.foo = 42
-        assert binder.foo == 42
-        assert state == {'foo': 42}
-        binder.foo = 496
-        assert binder.foo == 496
-        assert state == {'foo': 496}
-        binder.bar = 8128
-        assert state == {'foo': 496, 'bar': 8128}
-
-    # all defaults: no mk_binder arguments: Get a non-exclusive Binder type
-    Binder = mk_binder()
-    state = dict()
-    binder = Binder(state)
-    _test_fresh_state_with_foobar(binder, state)
-
-    # give a state to a binder directly get a non-exclusive binder instance.
-    state = dict()
-    binder = mk_binder(state)
-    _test_fresh_state_with_foobar(binder, state)
-
-    # Specify some identifiers, and be only allowed to use those
-    Binder = mk_binder(allowed_ids='foo bar')
-    state = dict()
-    binder = Binder(state)
-    _test_fresh_state_with_foobar(binder, state)
-
-    with pytest.raises(AttributeError) as err:
-        binder.not_foo
-    assert str(err.value) == (
-        'That attribute is not in the self._allowed_ids collection: not_foo'
+    for id_ in identifiers:
+        setattr(Binder, id_, bound_val_factory(id_))
+        
+    return Binder(
+        state=state,
+        factory=bound_val_factory,
+        container=BoundValContainer
     )
-
-    with pytest.raises(ForbiddenWrite) as err:
-        binder.not_foo = -42
-    assert str(err.value) == (
-        "Can't write there. The id is not in the self._allowed_ids collection: not_foo"
-    )
-
-    Binder = mk_binder(allowed_ids='foo bar')
-    state = dict()
-    binder = Binder(state)
-
-    assert binder._state == state
-    assert state == {}
-    assert binder.foo is ValueNotSet
-    binder.foo = 42
-    assert binder.foo == 42
-    assert state == {'foo': 42}
-    binder.foo = 496
-    assert binder.foo == 496
-    assert state == {'foo': 496}
-    binder.bar = 8128
-    assert state == {'foo': 496, 'bar': 8128}
-
-    # TODO: No test of iter here: Should iter reflect state or inclusion list?
-    # Here are a few:
-
-    d = dict(gaga=123)
-    b = mk_binder(state=d, allowed_ids='foo bar')
-    assert list(b) == ['gaga']  # no foo, no bar (should there be?)
-    assert b.foo == ValueNotSet
-    # still (trying to access non-existing foo, didn't make a difference (should it?):
-    assert list(b) == ['gaga']
-    b.foo = 42
-    assert list(b) == ['gaga', 'foo']
-    assert d == {'gaga': 123, 'foo': 42}
-
-    # but though gaga is in the state, and the iter, it's still not accessible through
-    # attributes because not in allwed_ids.
-    # TODO: What should the behavior actually be?
-    with pytest.raises(AttributeError) as err:
-        binder.gaga
-    assert str(err.value) == (
-        'That attribute is not in the self._allowed_ids collection: gaga'
-    )
-
-    with pytest.raises(ForbiddenWrite) as err:
-        binder.gaga = 'googoo'
-    assert str(err.value) == (
-        "Can't write there. The id is not in the self._allowed_ids collection: gaga"
-    )
-
-    #
-    # # give a state to a binder directly get a non-exclusive binder instance.
-    # state = dict(foo=42)
-    # binder = mk_binder(state)
-    # assert binder.foo == 42
-    # assert binder.bar == ValueNotSet
-    # binder.foo = 1
-    # binder.bar = 2
-    # assert state == {'foo': 1, 'bar': 2}
-    #
-    # # Test iteration behavior
-    # d = dict(gaga=123)
-    # b = mk_binder(state=d)
-    # assert list(b) == ['gaga']  # no foo, no bar (should there be?)
-    # assert b.foo == ValueNotSet
-    # # still (trying to access non-existing foo, didn't make a difference (should it?):
-    # assert list(b) == ['gaga']
-    # b.foo = 42
-    # assert list(b) == ['gaga', 'foo']
-    # assert d == {'gaga': 123, 'foo': 42}
-    #
-    # # Test iteration behavior when we give an inclusion list
