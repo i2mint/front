@@ -1,5 +1,15 @@
 from dataclasses import dataclass
-from typing import Protocol, KT, VT, Mapping, Union, Callable, Iterable, MutableMapping
+from typing import (
+    Protocol,
+    KT,
+    VT,
+    Mapping,
+    Union,
+    Callable,
+    Iterable,
+    MutableMapping,
+    Optional,
+)
 from functools import partial
 
 
@@ -121,7 +131,7 @@ class HasState(Protocol):
 
 
 _mk_sentinel = partial(
-    mk_sentinel, boolean_value=True, repr_=lambda x: x.__name__, module=__name__
+    mk_sentinel, boolean_value=False, repr_=lambda x: x.__name__, module=__name__
 )
 ValueNotSet, Empty = map(_mk_sentinel, ['ValueNotSet', 'Empty'])
 
@@ -152,24 +162,21 @@ class BoundVal:
 
 
 # from typing import Iterable, Callable, MutableMapping, Union
+from typing import NewType
 
 from i2 import ensure_identifiers
 
-StateType = MutableMapping
-Identifier = str
+StateType = NewType('StateType', MutableMapping)
+Identifier = NewType('Identifier', str)
 Identifiers = Union[Iterable[Identifier], str]
 StateFactory = Callable[[Identifiers], StateType]
 
-#
-# class Binder:
-#     def __init__(
-#         self, *identifiers, state: StateType,
-#     ):
-#         self._state = state
-#
 
-
-def mk_binder(*identifiers: Identifiers, bound_val_factory=BoundVal):
+def mk_binder(
+    *identifiers: Identifiers,
+    state: Optional[StateType] = None,
+    bound_val_factory=BoundVal,
+):
     """
 
     :param identifiers:
@@ -242,45 +249,17 @@ def mk_binder(*identifiers: Identifiers, bound_val_factory=BoundVal):
     identifiers = ensure_identifiers(*identifiers)
 
     # TODO: Make it pickalble! (add reduce? Make base outside function?)
-    class Binder:
-        def __init__(self, state: StateType):
-            self._state = state
-
-        def __iter__(self):
-            yield from self._state
-
-    # TODO: Make definitions work within class!
-    for id_ in identifiers:
-        setattr(Binder, id_, bound_val_factory(id_))
-
-    return Binder
-
-
-def alt_binder_demo_test():
-    """This work is to try to add 'auto registering' of bounded variables"""
-
     @dataclass
     class Binder:
         _reserved_vars = {'_state', '_factory'}
 
-        def __init__(self, state: MutableMapping, factory=BoundVal):
+        def __init__(self, state: StateType, factory=bound_val_factory):
             self._state = state
             self._factory = factory
 
         def __getattr__(self, k):
             if k not in self.__dict__:
-                setattr(self, k, self._factory(k))
-            #             setattr(self, k, ValueNotSet)  # violates SoC! Is BoundVal's
-            #             concern
-
-            #             value = self._factory(k)
-            #             self.__dict__.update({k: value})
-            #             self._state.update({k: value})
-            # Here returning ValueNotSet. Don't like that since it's BoundVal's hidden
-            # concern.
-            # I'd rather just return getattr(self, k) and let BoundVal descriptor say
-            # whatever it wants
-            #             return ValueNotSet
+                setattr(type(self), k, self._factory(k))
             return getattr(self, k)
 
         def __setattr__(self, k, v):
@@ -293,29 +272,29 @@ def alt_binder_demo_test():
         def __iter__(self):
             yield from self._state
 
-        # TODO: These are just for binder_demo_test: Remove when issue solved
-        foo = BoundVal('foo')
-        bar = BoundVal('bar')
+        # # TODO: Not doing this because:
+        # #  https://docs.python.org/3/library/functions.html#locals
+        # for id_ in identifiers:
+        #     locals()[id_] = bound_val_factory(id_)
 
-    # Binder: HasState
+    for id_ in identifiers:
+        setattr(Binder, id_, bound_val_factory(id_))
 
+    # TODO: Should we really be having the function return type or instance thereof
+    #  according to whether state is given?
+    if state is not None:
+        return Binder(state=state)
+    else:
+        return Binder
+
+
+def alt_binder_demo_test():
+    """This work is to try to add 'auto registering' of bounded variables"""
+
+    Binder = mk_binder()
     d = dict()
     s = Binder(d)
 
-    print(
-        '''
-    Here we demonstrate that existing descriptor instances of ``BoundVal`` are behaving 
-    differently whether they've been defined in the Binder class 
-    or defined "on the fly".
-    
-    We don't want this difference. 
-    We want to have ``new_attr`` be what ``factory`` tells us it should be (default is 
-    ``BoundVal``) and let the descriptor take over from there, giving us a 
-    ``ValueNotSet`` if no value 
-    has been set.
-    
-    '''
-    )
     print('------------ Existing attrs ------------')
     print(f'{s.foo=}')
     print(f'\t{d=}')
