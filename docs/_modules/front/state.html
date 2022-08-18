@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.state &mdash; front 0.1.61 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.state &mdash; front 0.1.62 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -103,7 +103,17 @@
              
   <h1>Source code for front.state</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">KT</span><span class="p">,</span> <span class="n">VT</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">MutableMapping</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Protocol</span><span class="p">,</span>
+    <span class="n">KT</span><span class="p">,</span>
+    <span class="n">VT</span><span class="p">,</span>
+    <span class="n">Mapping</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">MutableMapping</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
 
@@ -225,7 +235,7 @@
 
 
 <span class="n">_mk_sentinel</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
-    <span class="n">mk_sentinel</span><span class="p">,</span> <span class="n">boolean_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="vm">__name__</span>
+    <span class="n">mk_sentinel</span><span class="p">,</span> <span class="n">boolean_value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">repr_</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="vm">__name__</span>
 <span class="p">)</span>
 <span class="n">ValueNotSet</span><span class="p">,</span> <span class="n">Empty</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">_mk_sentinel</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ValueNotSet&#39;</span><span class="p">,</span> <span class="s1">&#39;Empty&#39;</span><span class="p">])</span>
 
@@ -256,24 +266,21 @@
 
 
 <span class="c1"># from typing import Iterable, Callable, MutableMapping, Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NewType</span>
 
 <span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">ensure_identifiers</span>
 
-<span class="n">StateType</span> <span class="o">=</span> <span class="n">MutableMapping</span>
-<span class="n">Identifier</span> <span class="o">=</span> <span class="nb">str</span>
+<span class="n">StateType</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s1">&#39;StateType&#39;</span><span class="p">,</span> <span class="n">MutableMapping</span><span class="p">)</span>
+<span class="n">Identifier</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s1">&#39;Identifier&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
 <span class="n">Identifiers</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Identifier</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span>
 <span class="n">StateFactory</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Identifiers</span><span class="p">],</span> <span class="n">StateType</span><span class="p">]</span>
 
-<span class="c1">#</span>
-<span class="c1"># class Binder:</span>
-<span class="c1">#     def __init__(</span>
-<span class="c1">#         self, *identifiers, state: StateType,</span>
-<span class="c1">#     ):</span>
-<span class="c1">#         self._state = state</span>
-<span class="c1">#</span>
 
-
-<div class="viewcode-block" id="mk_binder"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.mk_binder">[docs]</a><span class="k">def</span> <span class="nf">mk_binder</span><span class="p">(</span><span class="o">*</span><span class="n">identifiers</span><span class="p">:</span> <span class="n">Identifiers</span><span class="p">,</span> <span class="n">bound_val_factory</span><span class="o">=</span><span class="n">BoundVal</span><span class="p">):</span>
+<div class="viewcode-block" id="mk_binder"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.mk_binder">[docs]</a><span class="k">def</span> <span class="nf">mk_binder</span><span class="p">(</span>
+    <span class="o">*</span><span class="n">identifiers</span><span class="p">:</span> <span class="n">Identifiers</span><span class="p">,</span>
+    <span class="n">state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StateType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">bound_val_factory</span><span class="o">=</span><span class="n">BoundVal</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    :param identifiers:</span>
@@ -346,45 +353,17 @@
     <span class="n">identifiers</span> <span class="o">=</span> <span class="n">ensure_identifiers</span><span class="p">(</span><span class="o">*</span><span class="n">identifiers</span><span class="p">)</span>
 
     <span class="c1"># TODO: Make it pickalble! (add reduce? Make base outside function?)</span>
-    <span class="k">class</span> <span class="nc">Binder</span><span class="p">:</span>
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">StateType</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">state</span>
-
-        <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span>
-
-    <span class="c1"># TODO: Make definitions work within class!</span>
-    <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="n">identifiers</span><span class="p">:</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="n">Binder</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">bound_val_factory</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">Binder</span></div>
-
-
-<div class="viewcode-block" id="alt_binder_demo_test"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.alt_binder_demo_test">[docs]</a><span class="k">def</span> <span class="nf">alt_binder_demo_test</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;This work is to try to add &#39;auto registering&#39; of bounded variables&quot;&quot;&quot;</span>
-
     <span class="nd">@dataclass</span>
     <span class="k">class</span> <span class="nc">Binder</span><span class="p">:</span>
         <span class="n">_reserved_vars</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_state&#39;</span><span class="p">,</span> <span class="s1">&#39;_factory&#39;</span><span class="p">}</span>
 
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">MutableMapping</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">BoundVal</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">StateType</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">bound_val_factory</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">state</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">factory</span>
 
         <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
-            <span class="c1">#             setattr(self, k, ValueNotSet)  # violates SoC! Is BoundVal&#39;s</span>
-            <span class="c1">#             concern</span>
-
-            <span class="c1">#             value = self._factory(k)</span>
-            <span class="c1">#             self.__dict__.update({k: value})</span>
-            <span class="c1">#             self._state.update({k: value})</span>
-            <span class="c1"># Here returning ValueNotSet. Don&#39;t like that since it&#39;s BoundVal&#39;s hidden</span>
-            <span class="c1"># concern.</span>
-            <span class="c1"># I&#39;d rather just return getattr(self, k) and let BoundVal descriptor say</span>
-            <span class="c1"># whatever it wants</span>
-            <span class="c1">#             return ValueNotSet</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
@@ -397,29 +376,29 @@
         <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span>
 
-        <span class="c1"># TODO: These are just for binder_demo_test: Remove when issue solved</span>
-        <span class="n">foo</span> <span class="o">=</span> <span class="n">BoundVal</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
-        <span class="n">bar</span> <span class="o">=</span> <span class="n">BoundVal</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+        <span class="c1"># # TODO: Not doing this because:</span>
+        <span class="c1"># #  https://docs.python.org/3/library/functions.html#locals</span>
+        <span class="c1"># for id_ in identifiers:</span>
+        <span class="c1">#     locals()[id_] = bound_val_factory(id_)</span>
 
-    <span class="c1"># Binder: HasState</span>
+    <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="n">identifiers</span><span class="p">:</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">Binder</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">bound_val_factory</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
 
+    <span class="c1"># TODO: Should we really be having the function return type or instance thereof</span>
+    <span class="c1">#  according to whether state is given?</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Binder</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Binder</span></div>
+
+
+<div class="viewcode-block" id="alt_binder_demo_test"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.alt_binder_demo_test">[docs]</a><span class="k">def</span> <span class="nf">alt_binder_demo_test</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This work is to try to add &#39;auto registering&#39; of bounded variables&quot;&quot;&quot;</span>
+
+    <span class="n">Binder</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">()</span>
     <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">Binder</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Here we demonstrate that existing descriptor instances of ``BoundVal`` are behaving </span>
-<span class="sd">    differently whether they&#39;ve been defined in the Binder class </span>
-<span class="sd">    or defined &quot;on the fly&quot;.</span>
-<span class="sd">    </span>
-<span class="sd">    We don&#39;t want this difference. </span>
-<span class="sd">    We want to have ``new_attr`` be what ``factory`` tells us it should be (default is </span>
-<span class="sd">    ``BoundVal``) and let the descriptor take over from there, giving us a </span>
-<span class="sd">    ``ValueNotSet`` if no value </span>
-<span class="sd">    has been set.</span>
-<span class="sd">    </span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------------ Existing attrs ------------&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">foo</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="si">{</span><span class="n">d</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
