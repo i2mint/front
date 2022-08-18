@@ -103,3 +103,210 @@ class State(MutableMapping):
 
     def __delitem__(self, k):
         del self.state[k]
+
+
+#########################################################################################
+# Binding (Proposals)
+#########################################################################################
+
+from typing import Protocol, MutableMapping, runtime_checkable
+from functools import partial
+
+from i2 import mk_sentinel, ensure_identifiers
+
+
+@runtime_checkable
+class HasState(Protocol):
+    _state: MutableMapping
+
+
+_mk_sentinel = partial(
+    mk_sentinel, boolean_value=True, repr_=lambda x: x.__name__, module=__name__
+)
+ValueNotSet, Empty = map(_mk_sentinel, ['ValueNotSet', 'Empty'])
+
+
+class BoundVal:
+    def __init__(self, key, *, value_not_set=ValueNotSet):
+        self.key = key
+        self.value_not_set = value_not_set
+
+    def __repr__(self):
+        if isinstance(self.key, str):
+            key_str = f"'{self.key}'"
+        else:
+            key_str = self.key
+        return f'{type(self).__name__}({key_str})'
+
+    def _get_(self, obj: HasState, objtype=None):
+        if obj is None:
+            return self
+        return obj._state.get(self.key, self.value_not_set)
+
+    def _set_(self, obj: HasState, value):
+        obj._state[self.key] = value
+        self.something = value
+
+    __get__ = _get_
+    __set__ = _set_
+
+
+# from typing import Iterable, Callable, MutableMapping, Union
+
+from i2 import ensure_identifiers
+
+StateType = MutableMapping
+Identifier = str
+Identifiers = Union[Iterable[Identifier], str]
+StateFactory = Callable[[Identifiers], StateType]
+
+#
+# class Binder:
+#     def __init__(
+#         self, *identifiers, state: StateType,
+#     ):
+#         self._state = state
+#
+
+
+def mk_binder(*identifiers: Identifiers, bound_val_factory=BoundVal):
+    """
+
+    :param identifiers:
+    :param bound_val_factory:
+    :return:
+
+    >>> Binder = mk_binder('foo bar')
+    >>> d = dict()
+    >>> b = Binder(d)
+
+    We ``b.foo`` exists, but is not set.
+
+    >>> b.foo
+    ValueNotSet
+
+    So let's set it:
+
+    >>> b.foo = 42
+    >>> b.foo
+    42
+
+    So ``b.foo`` is now set, but the real point is that this assignment was "registered"
+    in the state we give the ``Binder``:
+
+    >>> d
+    {'foo': 42}
+
+    Wanna see that again?
+
+    >>> b.foo = "I'm bound"
+    >>> b.foo
+    "I'm bound"
+    >>> d
+    {'foo': "I'm bound"}
+
+    And same with ``b.bar``:
+
+    >>> b.bar
+    ValueNotSet
+    >>> b.bar = "me too"
+    >>> b.bar
+    'me too'
+    >>> d
+    {'foo': "I'm bound", 'bar': 'me too'}
+
+    """
+    identifiers = ensure_identifiers(*identifiers)
+
+    # TODO: Make it pickalble! (add reduce? Make base outside function?)
+    class Binder:
+        def __init__(self, state: StateType):
+            self._state = state
+
+        def __iter__(self):
+            yield from self._state
+
+    # TODO: Make definitions work within class!
+    for id_ in identifiers:
+        setattr(Binder, id_, bound_val_factory(id_))
+
+    return Binder
+
+
+def alt_binder_demo_test():
+    """This work is to try to add 'auto registering' of bounded variables"""
+
+    @dataclass
+    class Binder:
+        _reserved_vars = {'_state', '_factory'}
+
+        def __init__(self, state: MutableMapping, factory=BoundVal):
+            self._state = state
+            self._factory = factory
+
+        def __getattr__(self, k):
+            if k not in self.__dict__:
+                setattr(self, k, self._factory(k))
+            #             setattr(self, k, ValueNotSet)  # violates SoC! Is BoundVal's
+            #             concern
+
+            #             value = self._factory(k)
+            #             self.__dict__.update({k: value})
+            #             self._state.update({k: value})
+            # Here returning ValueNotSet. Don't like that since it's BoundVal's hidden
+            # concern.
+            # I'd rather just return getattr(self, k) and let BoundVal descriptor say
+            # whatever it wants
+            #             return ValueNotSet
+            return getattr(self, k)
+
+        def __setattr__(self, k, v):
+            # Need this "not _state or _factory", or the __init__ won't be able to set
+            # _state and _factory
+            if k not in self._reserved_vars:
+                self.__dict__['_state'][k] = v
+            self.__dict__[k] = v  # put it in the __dict__ (so it becomes an attribute)
+
+        def __iter__(self):
+            yield from self._state
+
+        # TODO: These are just for binder_demo_test: Remove when issue solved
+        foo = BoundVal('foo')
+        bar = BoundVal('bar')
+
+    # Binder: HasState
+
+    d = dict()
+    s = Binder(d)
+
+    print(
+        '''
+    Here we demonstrate that existing descriptor instances of ``BoundVal`` are behaving 
+    differently whether they've been defined in the Binder class 
+    or defined "on the fly".
+    
+    We don't want this difference. 
+    We want to have ``new_attr`` be what ``factory`` tells us it should be (default is 
+    ``BoundVal``) and let the descriptor take over from there, giving us a 
+    ``ValueNotSet`` if no value 
+    has been set.
+    
+    '''
+    )
+    print('------------ Existing attrs ------------')
+    print(f'{s.foo=}')
+    print(f'\t{d=}')
+    s.foo = 42
+    print(f'{s.foo=}')
+    print(f'\t{d=}')
+    print('')
+
+    print('------------ Non existing attrs ------------')
+    print(f'{s.new_attr=}')
+    print(f'\t{d=}')
+    print(f'{s.new_attr=}')
+    print(f'\t{d=}')
+    s.new_attr = 496
+    print(f'{s.new_attr=}')
+    print(f'\t{d=}')
+    print('')
