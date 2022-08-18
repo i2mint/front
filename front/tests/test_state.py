@@ -1,4 +1,4 @@
-from front.state import ConditionNotMet, ForbiddenOverwrite, ForbiddenWrite, State
+from front.state import ConditionNotMet, ForbiddenOverwrite, ForbiddenWrite, State, ValueNotSet, mk_binder
 
 
 def test_state():
@@ -63,3 +63,19 @@ def test_state():
     assert list(state.items()) == [('apple', [4, 2]), ('carrot', 12)]
     assert 'apple' in state
     assert 'kiwi' not in state
+
+
+def test_binder():
+    """This work is to try to add 'auto registering' of bounded variables"""
+    d = dict()
+    s = mk_binder(state=d)
+    assert d == {}
+    assert s.foo is ValueNotSet
+    s.foo = 42
+    assert s.foo == 42
+    assert d == {'foo': 42}
+    s.foo = 496
+    assert s.foo == 496
+    assert d == {'foo': 496}
+    s.bar = 8128
+    assert d == {'foo': 496, 'bar': 8128}

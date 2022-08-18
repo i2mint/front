@@ -172,9 +172,38 @@ Identifiers = Union[Iterable[Identifier], str]
 StateFactory = Callable[[Identifiers], StateType]
 
 
+@dataclass
+class Binder:
+    _reserved_vars = {'_state', '_factory', '_container'}
+
+    def __init__(self, state: StateType, factory: Callable, container: type):
+        self._state = state
+        self._factory = factory
+        self._container = container
+
+    def __getattr__(self, k):
+        if k not in self._container.__dict__:
+            setattr(self._container, k, self._factory(k))
+        c = self._container(self._state)
+        return getattr(c, k)
+
+    def __setattr__(self, k, v):
+        # Need this "not _state, _factory or _container", or the __init__ won't be able to set
+        # _state, _factory and _container
+        if k in self._reserved_vars:
+            self.__dict__[k] = v
+        else:
+            getattr(self, k)
+            c = self._container(self._state)
+            setattr(c, k, v)
+
+    def __iter__(self):
+        yield from self._container._state
+
+
 def mk_binder(
     *identifiers: Identifiers,
-    state: Optional[StateType] = None,
+    state: StateType,
     bound_val_factory=BoundVal,
 ):
     """
@@ -248,58 +277,15 @@ def mk_binder(
     """
     identifiers = ensure_identifiers(*identifiers)
 
-    # TODO: Make it pickalble! (add reduce? Make base outside function?)
     @dataclass
-    class Binder:
-        _reserved_vars = {'_state', '_factory'}
-
-        def __init__(self, state: StateType, factory=bound_val_factory):
-            self._state = state
-            self._factory = factory
-
-        def __getattr__(self, k):
-            if k not in self.__dict__:
-                setattr(type(self), k, self._factory(k))
-            return getattr(self, k)
-
-        def __setattr__(self, k, v):
-            # Need this "not _state or _factory", or the __init__ won't be able to set
-            # _state and _factory
-            if k not in self._reserved_vars:
-                self.__dict__['_state'][k] = v
-            self.__dict__[k] = v  # put it in the __dict__ (so it becomes an attribute)
-
-        def __iter__(self):
-            yield from self._state
-
-        # # TODO: Not doing this because:
-        # #  https://docs.python.org/3/library/functions.html#locals
-        # for id_ in identifiers:
-        #     locals()[id_] = bound_val_factory(id_)
+    class BoundValContainer:
+        _state: MutableMapping
 
     for id_ in identifiers:
         setattr(Binder, id_, bound_val_factory(id_))
-
-    # TODO: Should we really be having the function return type or instance thereof
-    #  according to whether state is given?
-    if state is not None:
-        return Binder(state=state)
-    else:
-        return Binder
-
-
-def binder_test():
-    """This work is to try to add 'auto registering' of bounded variables"""
-    Binder = mk_binder()
-    d = dict()
-    s = Binder(d)
-    assert d == {}
-    assert s.foo is ValueNotSet
-    s.foo = 42
-    assert s.foo == 42
-    assert d == {'foo': 42}
-    s.foo = 496
-    assert s.foo == 496
-    assert d == {'foo': 496}
-    s.bar = 8128
-    assert d == {'foo': 496, 'bar': 8128}
+        
+    return Binder(
+        state=state,
+        factory=bound_val_factory,
+        container=BoundValContainer
+    )
