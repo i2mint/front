@@ -189,6 +189,11 @@ class _Binder:
 
 
 class _DynamicBindsMixin:
+    """
+    Intercepts attribute operations, using a binder descriptor as their values.
+    Uses ``_factory`` attribute to make the descriptors for a given attribute name.
+    """
+
     def __getattr__(self, k):
         if k not in self.__dict__:
             setattr(type(self), k, self._factory(k))
@@ -203,26 +208,40 @@ class _DynamicBindsMixin:
 
 
 class _ExclusiveBindsMixin(_DynamicBindsMixin):
+    """
+    To auto-creational functionalities of _DynamicBindsMixin, adds the restriction
+    that this can only be done for a given set of names (as specified by the
+    ``._allowed_ids`` attribute
+    """
+
     _allowed_ids: Container = ()
 
     def __getattr__(self, k):
-        if k not in self.__dict__ and k not in self._allowed_ids:
+        if k in self.__dict__ or k in self._allowed_ids:
+            return super().__getattr__(k)
+        else:
             raise AttributeError(
                 f'That attribute is not in the self._allowed_ids collection: {k}'
             )
-        else:
-            return super().__getattr__(k)
 
     def __setattr__(self, k, v):
-        # Need this "not in _reserved_vars", otherwise the __init__ won't be able to set
-        # _state and _factory
-        if k not in self._reserved_vars and k not in self._allowed_ids:
+        if k in self._reserved_vars or k in self._allowed_ids:
+            return super().__setattr__(k, v)
+        else:
             raise ForbiddenWrite(
                 "Can't write there. The id is not in the self._allowed_ids collection"
                 f': {k}'
             )
-        else:
-            return super().__setattr__(k, v)
+
+
+def _ensure_allowed_ids(allowed_ids):
+    if isinstance(allowed_ids, str):
+        allowed_ids = ensure_identifiers(allowed_ids)
+    else:
+        allowed_ids = ensure_identifiers(*allowed_ids)
+
+    assert not isinstance(allowed_ids, str)
+    return allowed_ids
 
 
 def mk_binder(
@@ -308,19 +327,13 @@ def mk_binder(
         Binder = DynamicBinder
 
     else:
-        if isinstance(allowed_ids, str):
-            identifiers = ensure_identifiers(allowed_ids)
-        else:
-            identifiers = ensure_identifiers(*allowed_ids)
-
-        assert not isinstance(identifiers, str)
 
         class ExclusiveBinder(_Binder, _ExclusiveBindsMixin):
             """Specific Binder with exclusive identifiers"""
 
-            _allowed_ids = set(identifiers)
+            _allowed_ids = set(_ensure_allowed_ids(allowed_ids))
 
-        for id_ in identifiers:
+        for id_ in ExclusiveBinder._allowed_ids:
             setattr(ExclusiveBinder, id_, bound_val_factory(id_))
 
         Binder = ExclusiveBinder
