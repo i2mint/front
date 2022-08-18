@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.state &mdash; front 0.1.63 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.state &mdash; front 0.1.64 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -63,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="examples/wordle.html">front.examples.wordle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="py2pydantic.html">front.py2pydantic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scrap.html">front.scrap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrap/proposal_state.html">front.scrap.proposal_state</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scrap/state_proposal.html">front.scrap.state_proposal</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scrap/tw_simple_new_arch.html">front.scrap.tw_simple_new_arch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spec_maker_base.html">front.spec_maker_base</a></li>
@@ -158,36 +159,23 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="front.state.binder_test">
-<code class="sig-prename descclassname">front.state.</code><code class="sig-name descname">binder_test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/state.html#binder_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.state.binder_test" title="Permalink to this definition">¶</a></dt>
-<dd><p>This work is to try to add ‘auto registering’ of bounded variables</p>
-</dd></dl>
-
-<dl class="py function">
 <dt id="front.state.mk_binder">
-<code class="sig-prename descclassname">front.state.</code><code class="sig-name descname">mk_binder</code><span class="sig-paren">(</span><em class="sig-param">*identifiers: Union[Iterable[NewType.&lt;locals&gt;.new_type], str], state: Optional[NewType.&lt;locals&gt;.new_type] = None, bound_val_factory=&lt;class 'front.state.BoundVal'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/state.html#mk_binder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.state.mk_binder" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>identifiers</strong> – </p></li>
-<li><p><strong>bound_val_factory</strong> – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Binder</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">(</span><span class="s1">&#39;foo bar&#39;</span><span class="p">)</span>
+<code class="sig-prename descclassname">front.state.</code><code class="sig-name descname">mk_binder</code><span class="sig-paren">(</span><em class="sig-param">state: Optional[NewType.&lt;locals&gt;.new_type] = None, allowed_ids: Optional[Union[Iterable[NewType.&lt;locals&gt;.new_type], str]] = None, bound_val_factory: Callable = &lt;class 'front.state.BoundVal'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/state.html#mk_binder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.state.mk_binder" title="Permalink to this definition">¶</a></dt>
+<dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Binder</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Binder</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>We <code class="docutils literal notranslate"><span class="pre">b.foo</span></code> exists, but is not set.</p>
+<p>If I ask for <code class="docutils literal notranslate"><span class="pre">b.foo</span></code> (or any valid python identifier I want) it’ll be inserted
+as an “descriptor” attribute of <code class="docutils literal notranslate"><span class="pre">Binder</span></code>, but it’s  value will be special value
+<code class="docutils literal notranslate"><span class="pre">ValueNotSet</span></code>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">foo</span>
 <span class="go">ValueNotSet</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;foo&#39;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">Binder</span><span class="p">)</span>
+<span class="go">True</span>
 </pre></div>
 </div>
-<p>So let’s set it:</p>
+<p>Let’s set the value of <code class="docutils literal notranslate"><span class="pre">foo`</span></code>:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">42</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">foo</span>
 <span class="go">42</span>
@@ -219,7 +207,7 @@ in the state we give the <code class="docutils literal notranslate"><span class=
 </div>
 <p>A <code class="docutils literal notranslate"><span class="pre">Binder</span></code> will also have some useful mapping methods that are linked to the
 underlying <code class="docutils literal notranslate"><span class="pre">state</span></code>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Binder</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">(</span><span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;variables&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;want&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Binder</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">(</span><span class="n">allowed_ids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;variables&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;want&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">state</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Binder</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>

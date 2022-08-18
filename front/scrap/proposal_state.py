@@ -205,9 +205,7 @@ class Binder:
 
 
 def mk_binder(
-        *identifiers: Identifiers,
-        state: StateType,
-        bound_val_factory=BoundVal,
+    *identifiers: Identifiers, state: StateType, bound_val_factory=BoundVal,
 ):
     """
 
@@ -287,9 +285,4 @@ def mk_binder(
     for id_ in identifiers:
         setattr(Binder, id_, bound_val_factory(id_))
 
-    return Binder(
-        state=state,
-        factory=bound_val_factory,
-        container=BoundValContainer
-    )
-
+    return Binder(state=state, factory=bound_val_factory, container=BoundValContainer)

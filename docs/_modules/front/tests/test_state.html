@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>front.tests.test_state &mdash; front 0.1.64 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/toggleprompt.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> front
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front.html">front</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/app_maker.html">front.app_maker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/base.html">front.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/crude.html">front.crude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/dag.html">front.dag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/data_binding.html">front.data_binding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/elements.html">front.elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/elements/elements.html">front.elements.elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/elements/implementation.html">front.elements.implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/elements/tree_maker_base.html">front.elements.tree_maker_base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/data_binding.html">front.examples.data_binding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/experimentation.html">front.examples.experimentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/issues.html">front.examples.issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/kaggle_front.html">front.examples.kaggle_front</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/pos_key_args.html">front.examples.pos_key_args</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/simple.html">front.examples.simple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/tw_data_binding.html">front.examples.tw_data_binding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/wordle.html">front.examples.wordle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap.html">front.scrap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap/proposal_state.html">front.scrap.proposal_state</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap/state_proposal.html">front.scrap.state_proposal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap/tw_simple_new_arch.html">front.scrap.tw_simple_new_arch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/spec_maker_base.html">front.spec_maker_base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/state.html">front.state</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_crude.html">front.tests.test_crude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_state.html">front.tests.test_state</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_use_case.html">front.tests.test_use_case</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/util.html">front.tests.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/types.html">front.types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/util.html">front.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">front</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>front.tests.test_state</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for front.tests.test_state</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">front.state</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ConditionNotMet</span><span class="p">,</span>
+    <span class="n">ForbiddenOverwrite</span><span class="p">,</span>
+    <span class="n">ForbiddenWrite</span><span class="p">,</span>
+    <span class="n">State</span><span class="p">,</span>
+    <span class="n">ValueNotSet</span><span class="p">,</span>
+    <span class="n">mk_binder</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="k">def</span> <span class="nf">test_state</span><span class="p">():</span>
+
+    <span class="n">st_state</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="n">st_state</span><span class="p">[</span><span class="s1">&#39;_front&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># carve out a place to put front state</span>
+
+    <span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span>
+        <span class="n">state</span><span class="o">=</span><span class="n">st_state</span><span class="p">[</span><span class="s1">&#39;_front&#39;</span><span class="p">],</span>
+        <span class="n">forbidden_writes</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">},</span>
+        <span class="n">forbidden_overwrites</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;banana&#39;</span><span class="p">},</span>
+        <span class="n">condition_for_key</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;apple&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="s1">&#39;carrot&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">state</span> <span class="o">!=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># it&#39;s not an empty dict</span>
+    <span class="c1"># but you can retrieve the dict of key-value pairs, which will be an empty dict</span>
+    <span class="k">assert</span> <span class="nb">dict</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">ForbiddenWrite</span><span class="p">):</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;The value for the apple key must satisfy condition &#39;</span>
+        <span class="s2">&quot;IsInstanceOf(class_or_tuple=&lt;class &#39;list&#39;&gt;)&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">state</span><span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">ForbiddenOverwrite</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;Not allowed to write under this key more than once: apple&#39;</span>
+
+    <span class="c1"># but this works since I&#39;m trying to write the same value (just ignores it)</span>
+    <span class="n">state</span><span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">ConditionNotMet</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;carrot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+
+    <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)[:</span><span class="mi">62</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span>
+        <span class="s1">&#39;The value for the carrot key must satisfy condition &lt;function &#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">state</span><span class="p">[</span><span class="s1">&#39;carrot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span>  <span class="c1"># the value is &gt; 10 so okay!</span>
+    <span class="n">state</span><span class="p">[</span><span class="s1">&#39;carrot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">12</span>  <span class="c1"># overwrites allowed</span>
+
+    <span class="k">assert</span> <span class="nb">dict</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;apple&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;carrot&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">}</span>
+
+    <span class="c1"># We give you a .get since you can always have one when you have a ``__getitem__``:</span>
+    <span class="k">assert</span> <span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;carrot&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">12</span>
+    <span class="k">assert</span> <span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;key_that_does_not_exist&#39;</span><span class="p">,</span> <span class="s1">&#39;my_default&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;my_default&#39;</span>
+
+    <span class="c1"># And then, we&#39;ll forward other MutableMapping operations to the underlying state,</span>
+    <span class="c1"># so if it can handle them, you&#39;ll get those too!</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;carrot&#39;</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]),</span> <span class="p">(</span><span class="s1">&#39;carrot&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">)]</span>
+    <span class="k">assert</span> <span class="s1">&#39;apple&#39;</span> <span class="ow">in</span> <span class="n">state</span>
+    <span class="k">assert</span> <span class="s1">&#39;kiwi&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">state</span>
+
+
+<div class="viewcode-block" id="test_binder_simple"><a class="viewcode-back" href="../../../module_docs/front/tests/test_state.html#front.tests.test_state.test_binder_simple">[docs]</a><span class="k">def</span> <span class="nf">test_binder_simple</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This work is to try to add &#39;auto registering&#39; of bounded variables&quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">d</span> <span class="o">==</span> <span class="p">{}</span>
+    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">foo</span> <span class="ow">is</span> <span class="n">ValueNotSet</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">42</span>
+    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="mi">42</span>
+    <span class="k">assert</span> <span class="n">d</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">496</span>
+    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="mi">496</span>
+    <span class="k">assert</span> <span class="n">d</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">496</span><span class="p">}</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">bar</span> <span class="o">=</span> <span class="mi">8128</span>
+    <span class="k">assert</span> <span class="n">d</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">496</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">8128</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_binder"><a class="viewcode-back" href="../../../module_docs/front/tests/test_state.html#front.tests.test_state.test_binder">[docs]</a><span class="k">def</span> <span class="nf">test_binder</span><span class="p">(</span><span class="n">mk_binder</span><span class="o">=</span><span class="n">mk_binder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This work is to try to add &#39;auto registering&#39; of bounded variables&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_test_fresh_state_with_foobar</span><span class="p">(</span><span class="n">binder</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">binder</span><span class="o">.</span><span class="n">_state</span> <span class="o">==</span> <span class="n">state</span>
+        <span class="k">assert</span> <span class="n">state</span> <span class="o">==</span> <span class="p">{}</span>
+        <span class="k">assert</span> <span class="n">binder</span><span class="o">.</span><span class="n">foo</span> <span class="ow">is</span> <span class="n">ValueNotSet</span>
+        <span class="n">binder</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">42</span>
+        <span class="k">assert</span> <span class="n">binder</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="mi">42</span>
+        <span class="k">assert</span> <span class="n">state</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
+        <span class="n">binder</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">496</span>
+        <span class="k">assert</span> <span class="n">binder</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="mi">496</span>
+        <span class="k">assert</span> <span class="n">state</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">496</span><span class="p">}</span>
+        <span class="n">binder</span><span class="o">.</span><span class="n">bar</span> <span class="o">=</span> <span class="mi">8128</span>
+        <span class="k">assert</span> <span class="n">state</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">496</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">8128</span><span class="p">}</span>
+
+    <span class="c1"># all defaults: no mk_binder arguments: Get a non-exclusive Binder type</span>
+    <span class="n">Binder</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">()</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">binder</span> <span class="o">=</span> <span class="n">Binder</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="n">_test_fresh_state_with_foobar</span><span class="p">(</span><span class="n">binder</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+
+    <span class="c1"># give a state to a binder directly get a non-exclusive binder instance.</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">binder</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="n">_test_fresh_state_with_foobar</span><span class="p">(</span><span class="n">binder</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+
+    <span class="c1"># Specify some identifiers, and be only allowed to use those</span>
+    <span class="n">Binder</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">(</span><span class="n">allowed_ids</span><span class="o">=</span><span class="s1">&#39;foo bar&#39;</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">binder</span> <span class="o">=</span> <span class="n">Binder</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="n">_test_fresh_state_with_foobar</span><span class="p">(</span><span class="n">binder</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">binder</span><span class="o">.</span><span class="n">not_foo</span>
+    <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span>
+        <span class="s1">&#39;That attribute is not in the self._allowed_ids collection: not_foo&#39;</span>
+    <span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">ForbiddenWrite</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">binder</span><span class="o">.</span><span class="n">not_foo</span> <span class="o">=</span> <span class="o">-</span><span class="mi">42</span>
+    <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span>
+        <span class="s2">&quot;Can&#39;t write there. The id is not in the self._allowed_ids collection: not_foo&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">Binder</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">(</span><span class="n">allowed_ids</span><span class="o">=</span><span class="s1">&#39;foo bar&#39;</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">binder</span> <span class="o">=</span> <span class="n">Binder</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">binder</span><span class="o">.</span><span class="n">_state</span> <span class="o">==</span> <span class="n">state</span>
+    <span class="k">assert</span> <span class="n">state</span> <span class="o">==</span> <span class="p">{}</span>
+    <span class="k">assert</span> <span class="n">binder</span><span class="o">.</span><span class="n">foo</span> <span class="ow">is</span> <span class="n">ValueNotSet</span>
+    <span class="n">binder</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">42</span>
+    <span class="k">assert</span> <span class="n">binder</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="mi">42</span>
+    <span class="k">assert</span> <span class="n">state</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
+    <span class="n">binder</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">496</span>
+    <span class="k">assert</span> <span class="n">binder</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="mi">496</span>
+    <span class="k">assert</span> <span class="n">state</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">496</span><span class="p">}</span>
+    <span class="n">binder</span><span class="o">.</span><span class="n">bar</span> <span class="o">=</span> <span class="mi">8128</span>
+    <span class="k">assert</span> <span class="n">state</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">496</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">8128</span><span class="p">}</span>
+
+    <span class="c1"># TODO: No test of iter here: Should iter reflect state or inclusion list?</span>
+    <span class="c1"># Here are a few:</span>
+
+    <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">gaga</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">allowed_ids</span><span class="o">=</span><span class="s1">&#39;foo bar&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;gaga&#39;</span><span class="p">]</span>  <span class="c1"># no foo, no bar (should there be?)</span>
+    <span class="k">assert</span> <span class="n">b</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="n">ValueNotSet</span>
+    <span class="c1"># still (trying to access non-existing foo, didn&#39;t make a difference (should it?):</span>
+    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;gaga&#39;</span><span class="p">]</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">42</span>
+    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;gaga&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">d</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;gaga&#39;</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
+
+    <span class="c1"># but though gaga is in the state, and the iter, it&#39;s still not accessible through</span>
+    <span class="c1"># attributes because not in allwed_ids.</span>
+    <span class="c1"># TODO: What should the behavior actually be?</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">binder</span><span class="o">.</span><span class="n">gaga</span>
+    <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span>
+        <span class="s1">&#39;That attribute is not in the self._allowed_ids collection: gaga&#39;</span>
+    <span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">ForbiddenWrite</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">binder</span><span class="o">.</span><span class="n">gaga</span> <span class="o">=</span> <span class="s1">&#39;googoo&#39;</span>
+    <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span>
+        <span class="s2">&quot;Can&#39;t write there. The id is not in the self._allowed_ids collection: gaga&quot;</span>
+    <span class="p">)</span></div>
+
+    <span class="c1">#</span>
+    <span class="c1"># # give a state to a binder directly get a non-exclusive binder instance.</span>
+    <span class="c1"># state = dict(foo=42)</span>
+    <span class="c1"># binder = mk_binder(state)</span>
+    <span class="c1"># assert binder.foo == 42</span>
+    <span class="c1"># assert binder.bar == ValueNotSet</span>
+    <span class="c1"># binder.foo = 1</span>
+    <span class="c1"># binder.bar = 2</span>
+    <span class="c1"># assert state == {&#39;foo&#39;: 1, &#39;bar&#39;: 2}</span>
+    <span class="c1">#</span>
+    <span class="c1"># # Test iteration behavior</span>
+    <span class="c1"># d = dict(gaga=123)</span>
+    <span class="c1"># b = mk_binder(state=d)</span>
+    <span class="c1"># assert list(b) == [&#39;gaga&#39;]  # no foo, no bar (should there be?)</span>
+    <span class="c1"># assert b.foo == ValueNotSet</span>
+    <span class="c1"># # still (trying to access non-existing foo, didn&#39;t make a difference (should it?):</span>
+    <span class="c1"># assert list(b) == [&#39;gaga&#39;]</span>
+    <span class="c1"># b.foo = 42</span>
+    <span class="c1"># assert list(b) == [&#39;gaga&#39;, &#39;foo&#39;]</span>
+    <span class="c1"># assert d == {&#39;gaga&#39;: 123, &#39;foo&#39;: 42}</span>
+    <span class="c1">#</span>
+    <span class="c1"># # Test iteration behavior when we give an inclusion list</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
