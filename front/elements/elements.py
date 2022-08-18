@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from threading import Timer
 from typing import Any, Callable, Iterable, List, Optional, TypedDict, Union
-from front.data_binding import BoundData
+from front.data_binding import BoundData, NotFound
 from i2 import Sig
 from inspect import _empty
 from front.types import FrontElementName
@@ -121,23 +121,34 @@ class InputBase(FrontComponentBase):
     def __post_init__(self):
         super().__post_init__()
         if not isinstance(self.value, BoundData):
-            if self.bound_data_factory is None:
-                raise ValueError(
-                    f'No factory provided to build a BoundData instance with id \
-                        {self.input_key}'
-                )
             value = self.value
-            self.value = self.bound_data_factory(self.input_key)
-            if value is not None:
+            self.value = self._create_bound_data(self.input_key)
+            if self.value.get() is NotFound and value is not None:
                 self.value.set(value)
-        if not self.value() and self.obj.default != _empty:
-            self.value.set(self.obj.default)
+        dflt_value = self.obj.default
+        if self.value.get() is NotFound and dflt_value != _empty:
+            self.value.set(dflt_value)
 
-    def post_render(self, render_result):
-        # self.value.set(render_result)
-        if self.on_value_change:
-            call_forgivingly(self.on_value_change, render_result)
-        return render_result
+    def pre_render(self):
+        super().pre_render()
+        if self.value.id != self.input_key:
+            # TODO: Use State directly instead of BoundData
+            new_value = self._create_bound_data(self.input_key).get()
+            if new_value is not NotFound and new_value != self.value.get():
+                self.value.set(new_value)
+                self._call_on_value_change()
+
+    def _create_bound_data(self, id):
+        if self.bound_data_factory is None:
+            raise ValueError(
+                f'No factory provided to build a BoundData instance with id \
+                    {self.input_key}'
+            )
+        return self.bound_data_factory(id)
+
+    def _call_on_value_change(self):
+        if self.on_value_change and self.value.get() is not NotFound:
+            call_forgivingly(self.on_value_change, self.value.get())
 
 
 class OutputBase(FrontComponentBase):
@@ -208,7 +219,8 @@ class MultiSourceInputContainerBase(FrontContainerBase):
 class TextInputBase(InputBase):
     def __post_init__(self):
         super().__post_init__()
-        self.value.set(str(self.value()) if self.value() is not None else '')
+        value = self.value.get()
+        self.value.set(str(value) if value is not NotFound else '')
 
 
 @dataclass
@@ -223,7 +235,8 @@ class IntInputBase(NumberInputBase):
 
     def __post_init__(self):
         super().__post_init__()
-        self.value.set(int(self.value()) if self.value() is not None else 0)
+        value = self.value.get()
+        self.value.set(int(value) if value is not NotFound else 0)
 
 
 @dataclass
@@ -234,7 +247,8 @@ class FloatInputBase(NumberInputBase):
 
     def __post_init__(self):
         super().__post_init__()
-        self.value.set(float(self.value()) if self.value() is not None else 0.0)
+        value = self.value.get()
+        self.value.set(float(value) if value is not NotFound else 0.0)
 
 
 @dataclass
@@ -251,10 +265,17 @@ class SelectBoxBase(InputBase):
         self.options = self.options or []
 
     def pre_render(self):
-        self._options = list(
-            (self.options() if callable(self.options) else self.options) or []
-        )
-        value = self.value()
-        self._preselected_index = (
-            self._options.index(value) if value in self._options else 0
-        )
+        super().pre_render()
+        options = self.options() if callable(self.options) else self.options
+        if options in (NotFound, None):
+            options = []
+        self._options = list(options)
+        if self._options:
+            value = self.value.get()
+            self._preselected_index = (
+                self._options.index(value) if value in self._options else 0
+            )
+            selected_value = self._options[self._preselected_index]
+            if selected_value != value:
+                self.value.set(self._options[self._preselected_index])
+                self._call_on_value_change()

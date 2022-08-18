@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.state &mdash; front 0.1.59 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.state &mdash; front 0.1.61 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -318,6 +318,29 @@
 <span class="sd">    &#39;me too&#39;</span>
 <span class="sd">    &gt;&gt;&gt; d</span>
 <span class="sd">    {&#39;foo&#39;: &quot;I&#39;m bound&quot;, &#39;bar&#39;: &#39;me too&#39;}</span>
+
+<span class="sd">    A ``Binder`` will also have some useful mapping methods that are linked to the</span>
+<span class="sd">    underlying ``state``.</span>
+
+<span class="sd">    &gt;&gt;&gt; Binder = mk_binder(&#39;the&#39;, &#39;variables&#39;, &#39;I&#39;, &#39;want&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; state = dict()</span>
+<span class="sd">    &gt;&gt;&gt; b = Binder(state)</span>
+<span class="sd">    &gt;&gt;&gt; list(b)</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; b.want  # I see a want, but no value is set</span>
+<span class="sd">    ValueNotSet</span>
+<span class="sd">    &gt;&gt;&gt; list(b)  # list still gives me nothing</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; b.want = 42  # but if I set a value for want</span>
+<span class="sd">    &gt;&gt;&gt; list(b)  # I see want in the list</span>
+<span class="sd">    [&#39;want&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; &#39;want&#39; in b  # I can do this too</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; &#39;not_in_there&#39; in b</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; &#39;variables&#39; in b  # &#39;variables&#39; not &quot;there&quot; because not set</span>
+<span class="sd">    False</span>
+
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">identifiers</span> <span class="o">=</span> <span class="n">ensure_identifiers</span><span class="p">(</span><span class="o">*</span><span class="n">identifiers</span><span class="p">)</span>
