@@ -288,27 +288,18 @@ def mk_binder(
         return Binder
 
 
-def alt_binder_demo_test():
+def binder_test():
     """This work is to try to add 'auto registering' of bounded variables"""
-
     Binder = mk_binder()
     d = dict()
     s = Binder(d)
-
-    print('------------ Existing attrs ------------')
-    print(f'{s.foo=}')
-    print(f'\t{d=}')
+    assert d == {}
+    assert s.foo is ValueNotSet
     s.foo = 42
-    print(f'{s.foo=}')
-    print(f'\t{d=}')
-    print('')
-
-    print('------------ Non existing attrs ------------')
-    print(f'{s.new_attr=}')
-    print(f'\t{d=}')
-    print(f'{s.new_attr=}')
-    print(f'\t{d=}')
-    s.new_attr = 496
-    print(f'{s.new_attr=}')
-    print(f'\t{d=}')
-    print('')
+    assert s.foo == 42
+    assert d == {'foo': 42}
+    s.foo = 496
+    assert s.foo == 496
+    assert d == {'foo': 496}
+    s.bar = 8128
+    assert d == {'foo': 496, 'bar': 8128}
