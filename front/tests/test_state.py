@@ -1,8 +1,15 @@
-from front.state import ConditionNotMet, ForbiddenOverwrite, ForbiddenWrite, State, ValueNotSet, mk_binder
+from front.state import (
+    ConditionNotMet,
+    ForbiddenOverwrite,
+    ForbiddenWrite,
+    State,
+    ValueNotSet,
+    mk_binder,
+)
+import pytest
 
 
 def test_state():
-    import pytest
 
     st_state = dict()
 
@@ -65,7 +72,7 @@ def test_state():
     assert 'kiwi' not in state
 
 
-def test_binder():
+def test_binder_simple():
     """This work is to try to add 'auto registering' of bounded variables"""
     d = dict()
     s = mk_binder(state=d)
@@ -79,3 +86,116 @@ def test_binder():
     assert d == {'foo': 496}
     s.bar = 8128
     assert d == {'foo': 496, 'bar': 8128}
+
+
+def test_binder(mk_binder=mk_binder):
+    """This work is to try to add 'auto registering' of bounded variables"""
+
+    def _test_fresh_state_with_foobar(binder, state):
+        assert binder._state == state
+        assert state == {}
+        assert binder.foo is ValueNotSet
+        binder.foo = 42
+        assert binder.foo == 42
+        assert state == {'foo': 42}
+        binder.foo = 496
+        assert binder.foo == 496
+        assert state == {'foo': 496}
+        binder.bar = 8128
+        assert state == {'foo': 496, 'bar': 8128}
+
+    # all defaults: no mk_binder arguments: Get a non-exclusive Binder type
+    Binder = mk_binder()
+    state = dict()
+    binder = Binder(state)
+    _test_fresh_state_with_foobar(binder, state)
+
+    # give a state to a binder directly get a non-exclusive binder instance.
+    state = dict()
+    binder = mk_binder(state)
+    _test_fresh_state_with_foobar(binder, state)
+
+    # Specify some identifiers, and be only allowed to use those
+    Binder = mk_binder(allowed_ids='foo bar')
+    state = dict()
+    binder = Binder(state)
+    _test_fresh_state_with_foobar(binder, state)
+
+    with pytest.raises(AttributeError) as err:
+        binder.not_foo
+    assert str(err.value) == (
+        'That attribute is not in the self._allowed_ids collection: not_foo'
+    )
+
+    with pytest.raises(ForbiddenWrite) as err:
+        binder.not_foo = -42
+    assert str(err.value) == (
+        "Can't write there. The id is not in the self._allowed_ids collection: not_foo"
+    )
+
+    Binder = mk_binder(allowed_ids='foo bar')
+    state = dict()
+    binder = Binder(state)
+
+    assert binder._state == state
+    assert state == {}
+    assert binder.foo is ValueNotSet
+    binder.foo = 42
+    assert binder.foo == 42
+    assert state == {'foo': 42}
+    binder.foo = 496
+    assert binder.foo == 496
+    assert state == {'foo': 496}
+    binder.bar = 8128
+    assert state == {'foo': 496, 'bar': 8128}
+
+    # TODO: No test of iter here: Should iter reflect state or inclusion list?
+    # Here are a few:
+
+    d = dict(gaga=123)
+    b = mk_binder(state=d, allowed_ids='foo bar')
+    assert list(b) == ['gaga']  # no foo, no bar (should there be?)
+    assert b.foo == ValueNotSet
+    # still (trying to access non-existing foo, didn't make a difference (should it?):
+    assert list(b) == ['gaga']
+    b.foo = 42
+    assert list(b) == ['gaga', 'foo']
+    assert d == {'gaga': 123, 'foo': 42}
+
+    # but though gaga is in the state, and the iter, it's still not accessible through
+    # attributes because not in allwed_ids.
+    # TODO: What should the behavior actually be?
+    with pytest.raises(AttributeError) as err:
+        binder.gaga
+    assert str(err.value) == (
+        'That attribute is not in the self._allowed_ids collection: gaga'
+    )
+
+    with pytest.raises(ForbiddenWrite) as err:
+        binder.gaga = 'googoo'
+    assert str(err.value) == (
+        "Can't write there. The id is not in the self._allowed_ids collection: gaga"
+    )
+
+    #
+    # # give a state to a binder directly get a non-exclusive binder instance.
+    # state = dict(foo=42)
+    # binder = mk_binder(state)
+    # assert binder.foo == 42
+    # assert binder.bar == ValueNotSet
+    # binder.foo = 1
+    # binder.bar = 2
+    # assert state == {'foo': 1, 'bar': 2}
+    #
+    # # Test iteration behavior
+    # d = dict(gaga=123)
+    # b = mk_binder(state=d)
+    # assert list(b) == ['gaga']  # no foo, no bar (should there be?)
+    # assert b.foo == ValueNotSet
+    # # still (trying to access non-existing foo, didn't make a difference (should it?):
+    # assert list(b) == ['gaga']
+    # b.foo = 42
+    # assert list(b) == ['gaga', 'foo']
+    # assert d == {'gaga': 123, 'foo': 42}
+    #
+    # # Test iteration behavior when we give an inclusion list
