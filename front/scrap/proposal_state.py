@@ -283,6 +283,6 @@ def mk_binder(
         _state: MutableMapping
 
     for id_ in identifiers:
-        setattr(Binder, id_, bound_val_factory(id_))
+        setattr(BoundValContainer, id_, bound_val_factory(id_))
 
     return Binder(state=state, factory=bound_val_factory, container=BoundValContainer)
