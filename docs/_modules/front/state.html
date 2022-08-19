@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.state &mdash; front 0.1.64 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.state &mdash; front 0.1.65 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -294,6 +294,11 @@
 
 
 <span class="k">class</span> <span class="nc">_DynamicBindsMixin</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Intercepts attribute operations, using a binder descriptor as their values.</span>
+<span class="sd">    Uses ``_factory`` attribute to make the descriptors for a given attribute name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
@@ -308,26 +313,40 @@
 
 
 <span class="k">class</span> <span class="nc">_ExclusiveBindsMixin</span><span class="p">(</span><span class="n">_DynamicBindsMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    To auto-creational functionalities of _DynamicBindsMixin, adds the restriction</span>
+<span class="sd">    that this can only be done for a given set of names (as specified by the</span>
+<span class="sd">    ``._allowed_ids`` attribute</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">_allowed_ids</span><span class="p">:</span> <span class="n">Container</span> <span class="o">=</span> <span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="ow">and</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allowed_ids</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="ow">or</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allowed_ids</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;That attribute is not in the self._allowed_ids collection: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="c1"># Need this &quot;not in _reserved_vars&quot;, otherwise the __init__ won&#39;t be able to set</span>
-        <span class="c1"># _state and _factory</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reserved_vars</span> <span class="ow">and</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allowed_ids</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reserved_vars</span> <span class="ow">or</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allowed_ids</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ForbiddenWrite</span><span class="p">(</span>
                 <span class="s2">&quot;Can&#39;t write there. The id is not in the self._allowed_ids collection&quot;</span>
                 <span class="sa">f</span><span class="s1">&#39;: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_ensure_allowed_ids</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">allowed_ids</span> <span class="o">=</span> <span class="n">ensure_identifiers</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">allowed_ids</span> <span class="o">=</span> <span class="n">ensure_identifiers</span><span class="p">(</span><span class="o">*</span><span class="n">allowed_ids</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">allowed_ids</span>
 
 
 <div class="viewcode-block" id="mk_binder"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.mk_binder">[docs]</a><span class="k">def</span> <span class="nf">mk_binder</span><span class="p">(</span>
@@ -413,19 +432,13 @@
         <span class="n">Binder</span> <span class="o">=</span> <span class="n">DynamicBinder</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">identifiers</span> <span class="o">=</span> <span class="n">ensure_identifiers</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">identifiers</span> <span class="o">=</span> <span class="n">ensure_identifiers</span><span class="p">(</span><span class="o">*</span><span class="n">allowed_ids</span><span class="p">)</span>
-
-        <span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">identifiers</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
 
         <span class="k">class</span> <span class="nc">ExclusiveBinder</span><span class="p">(</span><span class="n">_Binder</span><span class="p">,</span> <span class="n">_ExclusiveBindsMixin</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Specific Binder with exclusive identifiers&quot;&quot;&quot;</span>
 
-            <span class="n">_allowed_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">identifiers</span><span class="p">)</span>
+            <span class="n">_allowed_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_ensure_allowed_ids</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">))</span>
 
-        <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="n">identifiers</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="n">ExclusiveBinder</span><span class="o">.</span><span class="n">_allowed_ids</span><span class="p">:</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="n">ExclusiveBinder</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">bound_val_factory</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
 
         <span class="n">Binder</span> <span class="o">=</span> <span class="n">ExclusiveBinder</span>
