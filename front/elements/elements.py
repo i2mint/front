@@ -2,13 +2,14 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from threading import Timer
 from typing import Any, Callable, Iterable, List, Optional, TypedDict, Union
-from front.data_binding import BoundData, NotFound
+from front.data_binding import BoundData, ValueNotSet
 from i2 import Sig
 from inspect import _empty
 from front.types import FrontElementName
 from front.util import deep_merge, get_value
 from i2.signatures import call_forgivingly
 from pydantic import validate_arguments
+from front.data_binding import Binder as b
 
 
 @dataclass
@@ -61,8 +62,8 @@ def mk_input_element_specs(obj, inputs):
             param_type = Any
         type_spec = inputs_spec.get(param_type, {})
         input_spec = deep_merge(type_spec, input_spec)
-        dflt_input_key = f'{obj.__name__}_{p.name}'
-        input_key = input_spec.get('input_key', dflt_input_key)
+        value = input_spec.get('value')
+        input_key = value.id if value else f'{obj.__name__}_{p.name}'
         return dict(input_spec, obj=p, input_key=input_key)
 
     inputs_spec = dict(inputs)
@@ -123,20 +124,24 @@ class InputBase(FrontComponentBase):
         if not isinstance(self.value, BoundData):
             value = self.value
             self.value = self._create_bound_data(self.input_key)
-            if self.value.get() is NotFound and value is not None:
+            if self.value.get() is ValueNotSet and value is not None:
                 self.value.set(value)
         dflt_value = self.obj.default
-        if self.value.get() is NotFound and dflt_value != _empty:
+        if self.value.get() is ValueNotSet and dflt_value != _empty:
             self.value.set(dflt_value)
 
-    def pre_render(self):
-        super().pre_render()
-        if self.value.id != self.input_key:
-            # TODO: Use State directly instead of BoundData
-            new_value = self._create_bound_data(self.input_key).get()
-            if new_value is not NotFound and new_value != self.value.get():
-                self.value.set(new_value)
-                self._call_on_value_change()
+    def on_change(self):
+        value = self.value.get()
+        if self.on_value_change and value is not ValueNotSet:
+            call_forgivingly(self.on_value_change, self.value.get())
+
+    # def pre_render(self):
+    #     super().pre_render()
+    #     if self.value.id != self.input_key:
+    #         new_value = getattr(b, self.input_key).get()
+    #         if new_value is not ValueNotSet and new_value != self.value.get():
+    #             self.value.set(new_value)
+    #             self._call_on_value_change()
 
     def _create_bound_data(self, id):
         if self.bound_data_factory is None:
@@ -145,10 +150,6 @@ class InputBase(FrontComponentBase):
                     {self.input_key}'
             )
         return self.bound_data_factory(id)
-
-    def _call_on_value_change(self):
-        if self.on_value_change and self.value.get() is not NotFound:
-            call_forgivingly(self.on_value_change, self.value.get())
 
 
 class OutputBase(FrontComponentBase):
@@ -220,7 +221,7 @@ class TextInputBase(InputBase):
     def __post_init__(self):
         super().__post_init__()
         value = self.value.get()
-        self.value.set(str(value) if value is not NotFound else '')
+        self.value.set(str(value) if value is not ValueNotSet else '')
 
 
 @dataclass
@@ -236,7 +237,7 @@ class IntInputBase(NumberInputBase):
     def __post_init__(self):
         super().__post_init__()
         value = self.value.get()
-        self.value.set(int(value) if value is not NotFound else 0)
+        self.value.set(int(value) if value is not ValueNotSet else 0)
 
 
 @dataclass
@@ -248,7 +249,7 @@ class FloatInputBase(NumberInputBase):
     def __post_init__(self):
         super().__post_init__()
         value = self.value.get()
-        self.value.set(float(value) if value is not NotFound else 0.0)
+        self.value.set(float(value) if value is not ValueNotSet else 0.0)
 
 
 @dataclass
@@ -267,7 +268,7 @@ class SelectBoxBase(InputBase):
     def pre_render(self):
         super().pre_render()
         options = self.options() if callable(self.options) else self.options
-        if options in (NotFound, None):
+        if options in (ValueNotSet, None):
             options = []
         self._options = list(options)
         if self._options:
@@ -277,5 +278,4 @@ class SelectBoxBase(InputBase):
             )
             selected_value = self._options[self._preselected_index]
             if selected_value != value:
-                self.value.set(self._options[self._preselected_index])
-                self._call_on_value_change()
+                self.value.set(selected_value)
