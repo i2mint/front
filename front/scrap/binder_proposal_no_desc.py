@@ -11,7 +11,7 @@ StateType = NewType('StateType', MutableMapping)
 @runtime_checkable
 class HasState(Protocol):
     _state: MutableMapping
-    
+
 
 _mk_sentinel = partial(
     mk_sentinel, boolean_value=False, repr_=lambda x: x.__name__, module=__name__
@@ -52,7 +52,7 @@ class Binder:
     def __post_init__(self):
         sig = Sig(self.__init__)
         self._reserved_keys = sig.names
-    
+
     def __getattr__(self, k):
         self._ensure_reserved_keys()
         if k not in self.__dict__['_reserved_keys']:
@@ -68,7 +68,9 @@ class Binder:
 
     def _ensure_reserved_keys(self):
         if '_reserved_keys' not in self.__dict__:
-            self.__dict__['_reserved_keys'] = Sig(self.__init__).names + ['_reserved_keys']
+            self.__dict__['_reserved_keys'] = Sig(self.__init__).names + [
+                '_reserved_keys'
+            ]
 
 
 def test_binder_simple():

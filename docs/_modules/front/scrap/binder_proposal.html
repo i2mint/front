@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>front.scrap.binder_proposal &mdash; front 0.1.67 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/toggleprompt.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> front
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front.html">front</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/app_maker.html">front.app_maker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/base.html">front.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/crude.html">front.crude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/dag.html">front.dag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/data_binding.html">front.data_binding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/elements.html">front.elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/elements/elements.html">front.elements.elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/elements/implementation.html">front.elements.implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/elements/tree_maker_base.html">front.elements.tree_maker_base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/data_binding.html">front.examples.data_binding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/experimentation.html">front.examples.experimentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/issues.html">front.examples.issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/kaggle_front.html">front.examples.kaggle_front</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/pos_key_args.html">front.examples.pos_key_args</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/simple.html">front.examples.simple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/tw_data_binding.html">front.examples.tw_data_binding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/examples/wordle.html">front.examples.wordle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap.html">front.scrap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap/binder_proposal.html">front.scrap.binder_proposal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap/binder_proposal_no_desc.html">front.scrap.binder_proposal_no_desc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap/state_proposal.html">front.scrap.state_proposal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/scrap/tw_simple_new_arch.html">front.scrap.tw_simple_new_arch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/spec_maker_base.html">front.spec_maker_base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/state.html">front.state</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_crude.html">front.tests.test_crude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_state.html">front.tests.test_state</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/test_use_case.html">front.tests.test_use_case</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/tests/util.html">front.tests.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/types.html">front.types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/util.html">front.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">front</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>front.scrap.binder_proposal</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for front.scrap.binder_proposal</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Naive stash of VF proposals for binding&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Protocol</span><span class="p">,</span>
+    <span class="n">KT</span><span class="p">,</span>
+    <span class="n">VT</span><span class="p">,</span>
+    <span class="n">Mapping</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">MutableMapping</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+
+<span class="c1">#########################################################################################</span>
+<span class="c1"># Binding (Proposals)</span>
+<span class="c1">#########################################################################################</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">MutableMapping</span><span class="p">,</span> <span class="n">runtime_checkable</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">mk_sentinel</span><span class="p">,</span> <span class="n">ensure_identifiers</span>
+
+
+<div class="viewcode-block" id="HasState"><a class="viewcode-back" href="../../../module_docs/front/scrap/binder_proposal.html#front.scrap.binder_proposal.HasState">[docs]</a><span class="nd">@runtime_checkable</span>
+<span class="k">class</span> <span class="nc">HasState</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="n">_state</span><span class="p">:</span> <span class="n">MutableMapping</span></div>
+
+
+<span class="n">_mk_sentinel</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+    <span class="n">mk_sentinel</span><span class="p">,</span> <span class="n">boolean_value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">repr_</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="vm">__name__</span>
+<span class="p">)</span>
+<span class="n">ValueNotSet</span><span class="p">,</span> <span class="n">Empty</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">_mk_sentinel</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ValueNotSet&#39;</span><span class="p">,</span> <span class="s1">&#39;Empty&#39;</span><span class="p">])</span>
+
+
+<span class="k">class</span> <span class="nc">BoundVal</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">value_not_set</span><span class="o">=</span><span class="n">ValueNotSet</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value_not_set</span> <span class="o">=</span> <span class="n">value_not_set</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">key_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">key_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="n">key_str</span><span class="si">}</span><span class="s1">)&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_get_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">HasState</span><span class="p">,</span> <span class="n">objtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_not_set</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_set_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">HasState</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">something</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="fm">__get__</span> <span class="o">=</span> <span class="n">_get_</span>
+    <span class="fm">__set__</span> <span class="o">=</span> <span class="n">_set_</span>
+
+
+<span class="c1"># from typing import Iterable, Callable, MutableMapping, Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NewType</span>
+
+<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">ensure_identifiers</span>
+
+<span class="n">StateType</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s1">&#39;StateType&#39;</span><span class="p">,</span> <span class="n">MutableMapping</span><span class="p">)</span>
+<span class="n">Identifier</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s1">&#39;Identifier&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+<span class="n">Identifiers</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Identifier</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span>
+<span class="n">StateFactory</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Identifiers</span><span class="p">],</span> <span class="n">StateType</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="Binder"><a class="viewcode-back" href="../../../module_docs/front/scrap/binder_proposal.html#front.scrap.binder_proposal.Binder">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Binder</span><span class="p">:</span>
+    <span class="n">_reserved_vars</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_state&#39;</span><span class="p">,</span> <span class="s1">&#39;_factory&#39;</span><span class="p">,</span> <span class="s1">&#39;_container&#39;</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">StateType</span><span class="p">,</span> <span class="n">factory</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">container</span><span class="p">:</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">factory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_container</span> <span class="o">=</span> <span class="n">container</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="c1"># Need this &quot;not _state, _factory or _container&quot;, or the __init__ won&#39;t be</span>
+        <span class="c1"># able to set</span>
+        <span class="c1"># _state, _factory and _container</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reserved_vars</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Call getattr on self only to make sure that the descriptor has been</span>
+            <span class="c1"># created.</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="o">.</span><span class="n">_state</span></div>
+
+
+<div class="viewcode-block" id="mk_binder"><a class="viewcode-back" href="../../../module_docs/front/scrap/binder_proposal.html#front.scrap.binder_proposal.mk_binder">[docs]</a><span class="k">def</span> <span class="nf">mk_binder</span><span class="p">(</span>
+    <span class="o">*</span><span class="n">identifiers</span><span class="p">:</span> <span class="n">Identifiers</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">StateType</span><span class="p">,</span> <span class="n">bound_val_factory</span><span class="o">=</span><span class="n">BoundVal</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param identifiers:</span>
+<span class="sd">    :param bound_val_factory:</span>
+<span class="sd">    :return:</span>
+
+<span class="sd">    &gt;&gt;&gt; Binder = mk_binder(&#39;foo bar&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; d = dict()</span>
+<span class="sd">    &gt;&gt;&gt; b = Binder(d)</span>
+
+<span class="sd">    We ``b.foo`` exists, but is not set.</span>
+
+<span class="sd">    &gt;&gt;&gt; b.foo</span>
+<span class="sd">    ValueNotSet</span>
+
+<span class="sd">    So let&#39;s set it:</span>
+
+<span class="sd">    &gt;&gt;&gt; b.foo = 42</span>
+<span class="sd">    &gt;&gt;&gt; b.foo</span>
+<span class="sd">    42</span>
+
+<span class="sd">    So ``b.foo`` is now set, but the real point is that this assignment was &quot;registered&quot;</span>
+<span class="sd">    in the state we give the ``Binder``:</span>
+
+<span class="sd">    &gt;&gt;&gt; d</span>
+<span class="sd">    {&#39;foo&#39;: 42}</span>
+
+<span class="sd">    Wanna see that again?</span>
+
+<span class="sd">    &gt;&gt;&gt; b.foo = &quot;I&#39;m bound&quot;</span>
+<span class="sd">    &gt;&gt;&gt; b.foo</span>
+<span class="sd">    &quot;I&#39;m bound&quot;</span>
+<span class="sd">    &gt;&gt;&gt; d</span>
+<span class="sd">    {&#39;foo&#39;: &quot;I&#39;m bound&quot;}</span>
+
+<span class="sd">    And same with ``b.bar``:</span>
+
+<span class="sd">    &gt;&gt;&gt; b.bar</span>
+<span class="sd">    ValueNotSet</span>
+<span class="sd">    &gt;&gt;&gt; b.bar = &quot;me too&quot;</span>
+<span class="sd">    &gt;&gt;&gt; b.bar</span>
+<span class="sd">    &#39;me too&#39;</span>
+<span class="sd">    &gt;&gt;&gt; d</span>
+<span class="sd">    {&#39;foo&#39;: &quot;I&#39;m bound&quot;, &#39;bar&#39;: &#39;me too&#39;}</span>
+
+<span class="sd">    A ``Binder`` will also have some useful mapping methods that are linked to the</span>
+<span class="sd">    underlying ``state``.</span>
+
+<span class="sd">    &gt;&gt;&gt; Binder = mk_binder(&#39;the&#39;, &#39;variables&#39;, &#39;I&#39;, &#39;want&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; state = dict()</span>
+<span class="sd">    &gt;&gt;&gt; b = Binder(state)</span>
+<span class="sd">    &gt;&gt;&gt; list(b)</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; b.want  # I see a want, but no value is set</span>
+<span class="sd">    ValueNotSet</span>
+<span class="sd">    &gt;&gt;&gt; list(b)  # list still gives me nothing</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; b.want = 42  # but if I set a value for want</span>
+<span class="sd">    &gt;&gt;&gt; list(b)  # I see want in the list</span>
+<span class="sd">    [&#39;want&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; &#39;want&#39; in b  # I can do this too</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; &#39;not_in_there&#39; in b</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; &#39;variables&#39; in b  # &#39;variables&#39; not &quot;there&quot; because not set</span>
+<span class="sd">    False</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">identifiers</span> <span class="o">=</span> <span class="n">ensure_identifiers</span><span class="p">(</span><span class="o">*</span><span class="n">identifiers</span><span class="p">)</span>
+
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">BoundValContainer</span><span class="p">:</span>
+        <span class="n">_state</span><span class="p">:</span> <span class="n">MutableMapping</span>
+
+    <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="n">identifiers</span><span class="p">:</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">BoundValContainer</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">bound_val_factory</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">Binder</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">bound_val_factory</span><span class="p">,</span> <span class="n">container</span><span class="o">=</span><span class="n">BoundValContainer</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

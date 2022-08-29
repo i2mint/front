@@ -5,9 +5,7 @@ from front.state import GetterSetter, State, StateType
 from i2 import Sig
 from i2.util import mk_sentinel
 
-_mk_sentinel = partial(
-    mk_sentinel, repr_=lambda x: x.__name__, module=__name__
-)
+_mk_sentinel = partial(mk_sentinel, repr_=lambda x: x.__name__, module=__name__)
 ValueNotSet, Empty = map(_mk_sentinel, ['ValueNotSet', 'Empty'])
 
 
@@ -25,7 +23,6 @@ class BoundData:
     __call__ = get
 
 
-
 @dataclass
 class Binder:
     front_state: StateType
@@ -34,7 +31,7 @@ class Binder:
     def __post_init__(self):
         sig = Sig(self.__init__)
         self._reserved_keys = sig.names
-    
+
     def __getattr__(self, k):
         self._ensure_reserved_keys()
         if k not in self.__dict__['_reserved_keys']:
@@ -51,7 +48,8 @@ class Binder:
                 bound_data.set(v)
             self.__dict__[k] = bound_data
 
-
     def _ensure_reserved_keys(self):
         if '_reserved_keys' not in self.__dict__:
-            self.__dict__['_reserved_keys'] = Sig(self.__init__).names + ['_reserved_keys']
+            self.__dict__['_reserved_keys'] = Sig(self.__init__).names + [
+                '_reserved_keys'
+            ]

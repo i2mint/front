@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.data_binding &mdash; front 0.1.66 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.data_binding &mdash; front 0.1.67 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -60,7 +60,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/wordle.html">front.examples.wordle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap.html">front.scrap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap/proposal_state.html">front.scrap.proposal_state</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap/binder_proposal.html">front.scrap.binder_proposal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap/binder_proposal_no_desc.html">front.scrap.binder_proposal_no_desc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap/state_proposal.html">front.scrap.state_proposal</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap/tw_simple_new_arch.html">front.scrap.tw_simple_new_arch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/spec_maker_base.html">front.spec_maker_base</a></li>
@@ -104,29 +105,60 @@
              
   <h1>Source code for front.data_binding</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
-<span class="kn">from</span> <span class="nn">front.state</span> <span class="kn">import</span> <span class="n">GetterSetter</span><span class="p">,</span> <span class="n">State</span>
+<span class="kn">from</span> <span class="nn">front.state</span> <span class="kn">import</span> <span class="n">GetterSetter</span><span class="p">,</span> <span class="n">State</span><span class="p">,</span> <span class="n">StateType</span>
+<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span>
+<span class="kn">from</span> <span class="nn">i2.util</span> <span class="kn">import</span> <span class="n">mk_sentinel</span>
 
-
-<span class="n">NotFound</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s1">&#39;NotFound&#39;</span><span class="p">,</span> <span class="p">(),</span> <span class="p">{})()</span>
-
-
-<div class="viewcode-block" id="StateValueError"><a class="viewcode-back" href="../../module_docs/front/data_binding.html#front.data_binding.StateValueError">[docs]</a><span class="k">class</span> <span class="nc">StateValueError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-    <span class="s1">&#39;Raised when trying to add a forbidden value to the state.&#39;</span></div>
+<span class="n">_mk_sentinel</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">mk_sentinel</span><span class="p">,</span> <span class="n">repr_</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">ValueNotSet</span><span class="p">,</span> <span class="n">Empty</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">_mk_sentinel</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ValueNotSet&#39;</span><span class="p">,</span> <span class="s1">&#39;Empty&#39;</span><span class="p">])</span>
 
 
 <span class="k">class</span> <span class="nc">BoundData</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">GetterSetter</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">forbidden_writes</span><span class="o">=</span><span class="p">{</span><span class="n">NotFound</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">forbidden_writes</span><span class="o">=</span><span class="p">{</span><span class="n">ValueNotSet</span><span class="p">})</span>
 
     <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">NotFound</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">ValueNotSet</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="fm">__call__</span> <span class="o">=</span> <span class="n">get</span>
+
+
+<div class="viewcode-block" id="Binder"><a class="viewcode-back" href="../../module_docs/front/data_binding.html#front.data_binding.Binder">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Binder</span><span class="p">:</span>
+    <span class="n">front_state</span><span class="p">:</span> <span class="n">StateType</span>
+    <span class="n">bound_data_factory</span> <span class="o">=</span> <span class="n">BoundData</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reserved_keys</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">names</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_reserved_keys</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_reserved_keys&#39;</span><span class="p">]:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">Empty</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_reserved_keys</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_reserved_keys&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bound_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound_data_factory</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_state</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Empty</span><span class="p">:</span>
+                <span class="n">bound_data</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">bound_data</span>
+
+    <span class="k">def</span> <span class="nf">_ensure_reserved_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;_reserved_keys&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_reserved_keys&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span><span class="o">.</span><span class="n">names</span> <span class="o">+</span> <span class="p">[</span>
+                <span class="s1">&#39;_reserved_keys&#39;</span>
+            <span class="p">]</span></div>
 </pre></div>
 
            </div>

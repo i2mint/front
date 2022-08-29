@@ -94,7 +94,7 @@ class Binder:
         if k in self._reserved_vars:
             self.__dict__[k] = v
         else:
-            # Call getattr on self only to make sure that the descriptor has been 
+            # Call getattr on self only to make sure that the descriptor has been
             # created.
             getattr(self, k)
             c = self._container(self._state)
