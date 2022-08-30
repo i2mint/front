@@ -170,8 +170,7 @@ class ExecContainerBase(FrontContainerBase):
 
     def _render_inputs(self):
         input_components = [
-            child for child in self.children
-            if isinstance(child, InputBase)
+            child for child in self.children if isinstance(child, InputBase)
         ]
         return {
             input_component.obj.name: input_component()
@@ -207,7 +206,7 @@ class MultiSourceInputBase(InputBase):
             input_key=input_key,
             value=value,
             on_value_change=on_value_change,
-            bound_data_factory=bound_data_factory
+            bound_data_factory=bound_data_factory,
         )
         specs = [
             dict(
@@ -215,11 +214,11 @@ class MultiSourceInputBase(InputBase):
                 name=k,
                 value=self.value,
                 on_value_change=self.on_value_change,
-                **v
-            ) for k, v in kwargs.items()]
+                **v,
+            )
+            for k, v in kwargs.items()
+        ]
         self.input_components = list(map(mk_element_from_spec, specs))
-
-
 
         # TODO: This is definitely not the right way to spread the input_key and
         # init_value to the child input components since a value can be compatible
