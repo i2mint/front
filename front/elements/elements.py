@@ -82,9 +82,6 @@ class FrontContainerBase(FrontElementBase):
     ):
         super().__init__(obj=obj, name=name)
         specs = [dict(dict(name=k, obj=obj), **v) for k, v in kwargs.items()]
-        self._mk_children(specs)
-
-    def _mk_children(self, specs):
         self.children = list(map(mk_element_from_spec, specs))
 
     def _render_children(self):
@@ -173,10 +170,8 @@ class ExecContainerBase(FrontContainerBase):
 
     def _render_inputs(self):
         input_components = [
-            child
-            for child in self.children
+            child for child in self.children
             if isinstance(child, InputBase)
-            or isinstance(child, MultiSourceInputContainerBase)
         ]
         return {
             input_component.obj.name: input_component()
@@ -195,16 +190,37 @@ class ExecContainerBase(FrontContainerBase):
             self.on_submit(output)
 
 
-class MultiSourceInputContainerBase(FrontContainerBase):
+class MultiSourceInputBase(InputBase):
     def __init__(
         self,
         obj=None,
         name: FrontElementName = None,
         input_key: str = None,
-        value: BoundData = None,
-        on_value_change: Callable = None,
+        value: Any = None,
+        on_value_change: Callable[..., None] = None,
+        bound_data_factory: Callable = None,
         **kwargs: FrontElementSpec,
     ):
+        super().__init__(
+            obj=obj,
+            name=name,
+            input_key=input_key,
+            value=value,
+            on_value_change=on_value_change,
+            bound_data_factory=bound_data_factory
+        )
+        specs = [
+            dict(
+                obj=self.obj,
+                name=k,
+                value=self.value,
+                on_value_change=self.on_value_change,
+                **v
+            ) for k, v in kwargs.items()]
+        self.input_components = list(map(mk_element_from_spec, specs))
+
+
+
         # TODO: This is definitely not the right way to spread the input_key and
         # init_value to the child input components since a value can be compatible
         # with some compoenents and incompatible with others.
@@ -213,7 +229,11 @@ class MultiSourceInputContainerBase(FrontContainerBase):
         #     k: dict(v, input_key=input_key, init_value=init_value)
         #     for k, v in kwargs.items()
         # }
-        super().__init__(obj=obj, name=name, **kwargs)
+        # super().__init__(
+        #     obj=obj,
+        #     name=name,
+        #     **kwargs
+        # )
 
 
 @dataclass
