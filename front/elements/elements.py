@@ -18,7 +18,7 @@ class FrontElementBase(ABC):
     name: FrontElementName = None
 
     def __post_init__(self):
-        self.name = get_value(self.name, self.obj) or ""
+        self.name = get_value(self.name, self.obj) or ''
 
     def pre_render(self):
         pass
@@ -36,9 +36,9 @@ class FrontElementBase(ABC):
         return self.post_render(r)
 
 
-ELEMENT_KEY = "_front_element"
-DEFAULT_INPUT_KEY = "_default"
-FrontElementSpec = TypedDict("FrontElementSpec", {ELEMENT_KEY: FrontElementBase})
+ELEMENT_KEY = '_front_element'
+DEFAULT_INPUT_KEY = '_default'
+FrontElementSpec = TypedDict('FrontElementSpec', {ELEMENT_KEY: FrontElementBase})
 
 
 def mk_element_from_spec(spec: FrontElementSpec):
@@ -53,7 +53,7 @@ def mk_element_from_spec(spec: FrontElementSpec):
     try:
         return factory(**_spec)
     except Exception as e:
-        print(f"An error occurred when trying to build element {factory}")
+        print(f'An error occurred when trying to build element {factory}')
         raise e
 
 
@@ -66,8 +66,8 @@ def mk_input_element_specs(obj, inputs):
             param_type = Any
         type_spec = inputs_spec.get(param_type, {})
         input_spec = deep_merge(type_spec, input_spec)
-        value = input_spec.get("value")
-        input_key = value.id if value else f"{obj.__name__}_{p.name}"
+        value = input_spec.get('value')
+        input_key = value.id if value else f'{obj.__name__}_{p.name}'
         return dict(input_spec, obj=p, input_key=input_key)
 
     inputs_spec = dict(inputs)
@@ -102,13 +102,13 @@ class TextSectionBase(FrontComponentBase):
     def __init__(
         self,
         content: str,
-        kind: str = "text",
+        kind: str = 'text',
         obj: Any = None,
         name: FrontElementName = None,
         **kwargs,
     ):
         super().__init__(obj, name)
-        self.content = get_value(content, self.obj) or ""
+        self.content = get_value(content, self.obj) or ''
         self.kind = get_value(kind, self.obj)
         self.kwargs = kwargs
 
@@ -147,8 +147,8 @@ class InputBase(FrontComponentBase):
     def _create_bound_data(self, id):
         if self.bound_data_factory is None:
             raise ValueError(
-                f"No factory provided to build a BoundData instance with id \
-                    {self.input_key}"
+                f'No factory provided to build a BoundData instance with id \
+                    {self.input_key}'
             )
         return self.bound_data_factory(id)
 
@@ -244,7 +244,7 @@ class TextInputBase(InputBase):
     def __post_init__(self):
         super().__post_init__()
         value = self.value.get()
-        self.value.set(str(value) if value is not ValueNotSet else "")
+        self.value.set(str(value) if value is not ValueNotSet else '')
 
 
 @dataclass
