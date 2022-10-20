@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from threading import Timer
-from typing import Any, Callable, Iterable, List, Optional, TypedDict, Union
+from typing import Any, Callable, Iterable, List, Literal, Optional, TypedDict, Union, get_args, get_origin
 from front.data_binding import BoundData, ValueNotSet
 from i2 import Sig
 from inspect import _empty
@@ -62,6 +62,8 @@ def mk_input_element_specs(obj, inputs):
         input_spec = inputs_spec.get(p.name, {})
         annot = p.annotation if p.annotation != _empty else None
         param_type = annot or (type(p.default) if p.default != _empty else Any)
+        param_origin_type = get_origin(param_type)
+        param_type = param_origin_type or param_type
         if param_type not in inputs_spec:
             param_type = Any
         type_spec = inputs_spec.get(param_type, {})
@@ -182,8 +184,11 @@ class ExecContainerBase(FrontContainerBase):
         }
 
     def _submit(self, inputs):
-        pydantic_obj = validate_arguments(self.obj)
-        output = pydantic_obj(**inputs)
+        # There is a pending bug in pydantic that transforms types to <type>_iterator
+        # and make the app failing: https://github.com/pydantic/pydantic/issues/3581
+        # pydantic_obj = validate_arguments(self.obj)
+        # output = pydantic_obj(**inputs)
+        output = self.obj(**inputs)
         output_component = next(
             iter(child for child in self.children if isinstance(child, OutputBase))
         )
@@ -291,8 +296,10 @@ class SelectBoxBase(InputBase):
     def pre_render(self):
         super().pre_render()
         options = self.options() if callable(self.options) else self.options
-        if options in (ValueNotSet, None):
-            options = []
+        if not options:
+            annot = self.obj.annotation
+            if get_origin(annot) == Literal:
+                options = list(get_args(annot))
         self._options = list(options)
         if self._options:
             value = self.value.get()

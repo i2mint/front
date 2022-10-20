@@ -36,7 +36,7 @@ that points to the actual python object (which is stored in a session's memory o
 persisted in some fashion).
 """
 
-from typing import Any, Mapping, Optional, Callable, Union, Iterable, Iterator
+from typing import Any, Literal, Mapping, Optional, Callable, Union, Iterable, Iterator
 from inspect import Parameter
 import os
 from functools import partial
@@ -490,13 +490,17 @@ def prepare_for_crude_dispatch(
 
             return dict(get_values_from_stores())
 
+        outer_sig = sig.ch_annotations(
+            **{
+                param: Literal[tuple(store)]
+                for param, store in store_for_param.items()
+            }
+        )
+
         ingress = Ingress(
             inner_sig=sig,
             kwargs_trans=kwargs_trans,
-            outer_sig=(
-                sig.ch_annotations(**{name: str for name in store_for_param})
-                # + [save_name_param]
-            ),
+            outer_sig=outer_sig,
         )
 
     wrapped_f = wrap(func, ingress=ingress)
