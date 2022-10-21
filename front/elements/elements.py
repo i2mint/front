@@ -169,10 +169,18 @@ class ExecContainerBase(FrontContainerBase):
         auto_submit: bool = False,
         on_submit: Callable[[Any], None] = None,
     ):
+        self.inputs = inputs
+        self._feed_kwargs_input_spec()
         element_specs = dict(mk_input_element_specs(obj, inputs), output=output)
         super().__init__(obj=obj, name=name, **element_specs)
         self.auto_submit = auto_submit
         self.on_submit = on_submit
+
+    def _feed_kwargs_input_spec(self):
+        inputs_spec = dict(self.inputs)
+        kwargs_spec = inputs_spec.pop('kwargs', None)
+        if kwargs_spec:
+            self.inputs['kwargs']['inputs'] = inputs_spec
 
     def _render_inputs(self):
         input_components = [
@@ -253,6 +261,14 @@ class TextInputBase(InputBase):
 
 
 @dataclass
+class BooleanInputBase(InputBase):
+    def __post_init__(self):
+        super().__post_init__()
+        value = self.value.get()
+        self.value.set(bool(value) if value is not ValueNotSet else False)
+
+
+@dataclass
 class NumberInputBase(InputBase):
     format: str = None
 
@@ -309,3 +325,24 @@ class SelectBoxBase(InputBase):
             selected_value = self._options[self._preselected_index]
             if selected_value != value:
                 self.value.set(selected_value)
+
+
+@dataclass
+class KwargsInputBase(InputBase):
+    inputs: dict = None
+    func_sig: Sig = None
+
+    def __post_init__(self):
+        super().__post_init__()
+
+        @self.func_sig
+        def get_kwargs(**kwargs):
+            return kwargs
+
+        self.get_kwargs = get_kwargs
+
+    def _get_kwargs(self, **kwargs):
+        return kwargs
+
+    def _return_kwargs(self, output):
+        self.value.set(output)
