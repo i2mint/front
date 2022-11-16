@@ -380,7 +380,7 @@ def prepare_for_crude_dispatch(
 
     >>> from inspect import signature
     >>> str(signature(crude_func))
-    '(a: str, b: str, c: int)'
+    "(a: Literal['one', 'two'], b: Literal['three', 'four'], c: int)"
 
     By default, the ``output_store`` argument is None, but if you specify a mapping
     there (or a string key that appears in the ``mall`` you specified, pointing to
@@ -394,7 +394,7 @@ def prepare_for_crude_dispatch(
     ...     output_store=output_store
     ... )
     >>> str(signature(crude_func))
-    "(a: str, b: str, c: int, save_name: str = '')"
+    "(a: Literal['one', 'two'], b: Literal['three', 'four'], c: int, save_name: str = '')"
 
     You now have this extra ``save_name`` param in your function.
     (Note that you can change its name through the ``prepare_for_crude_dispatch``'s
@@ -726,12 +726,12 @@ class Crudifier(_Crudifier):
     >>> from inspect import signature
     >>> crudified_foo = crudify(foo)
     >>> str(signature(crudified_foo))  # note how x has now a str annotation
-    '(x: str, y)'
+    "(x: Literal['stored_two'], y)"
     >>> crudified_foo('stored_two', 3)  # -> 2 + 3
     5
     >>> crudified_bar = crudify(bar)
     >>> str(signature(crudified_bar))  # note how x has now a str annotation
-    '(a, x: str)'
+    "(a, x: Literal['stored_two'])"
     >>> crudified_bar(3, 'stored_two')  # -> 3 * 2
     6
 
@@ -743,7 +743,7 @@ class Crudifier(_Crudifier):
     >>> crudify = Crudifier('x y', mall={'x': {'stored_two': 2}, 'y': {'three': 3}})
     >>> f = crudify(foo)
     >>> str(signature(f))  # note that both x and y have a str annotation now
-    '(x: str, y: str)'
+    "(x: Literal['stored_two'], y: Literal['three'])"
     >>> f('stored_two', 'three')
     5
 

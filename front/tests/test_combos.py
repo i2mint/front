@@ -22,7 +22,7 @@ def test_prepare_for_crude_dispatch_and_variations():
         include_stores_attribute=True,
     )
 
-    assert str(Sig(bar)) == "(a: str, b, save_name: str = '')"
+    assert str(Sig(bar)) == "(a: Literal['one', 'two'], b, save_name: str = '')"
     assert bar('two', 'mice', save_name='save_here') == 'micemice'
 
     assert bar.store_for_param == {'a': {'one': 1, 'two': 2}}

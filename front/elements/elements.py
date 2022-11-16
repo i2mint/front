@@ -63,14 +63,25 @@ def mk_input_element_specs(obj, inputs):
         annot = p.annotation if p.annotation != _empty else None
         param_type = annot or (type(p.default) if p.default != _empty else Any)
         param_origin_type = get_origin(param_type)
-        param_type = param_origin_type or param_type
+        is_noneable = p.default is None
+        if param_origin_type == Union:
+            types = list(get_args(param_type))
+            none_type = type(None)
+            if none_type in types:
+                types.remove(none_type)
+                is_noneable = True
+            if len(types) > 1:
+                raise NotImplementedError('Union type is not supported yet.')
+            param_type = types[0]
+        else:
+            param_type = param_origin_type or param_type
         if param_type not in inputs_spec:
             param_type = Any
         type_spec = inputs_spec.get(param_type, {})
         input_spec = deep_merge(type_spec, input_spec)
         value = input_spec.get('value')
         input_key = value.id if value else f'{obj.__name__}_{p.name}'
-        return dict(input_spec, obj=p, input_key=input_key)
+        return dict(input_spec, obj=p, input_key=input_key, is_noneable=is_noneable)
 
     inputs_spec = dict(inputs)
     default = inputs_spec.pop(DEFAULT_INPUT_KEY, {})
@@ -118,20 +129,24 @@ class TextSectionBase(FrontComponentBase):
 @dataclass
 class InputBase(FrontComponentBase):
     input_key: str = None
-    value: Any = None
+    value: Any = ValueNotSet
     on_value_change: Callable[..., None] = None
     bound_data_factory: Callable = None
+    is_noneable: bool = False
+    disabled: bool = False
 
     def __post_init__(self):
         super().__post_init__()
         if not isinstance(self.value, BoundData):
             value = self.value
-            self.value = self._create_bound_data(self.input_key)
-            if self.value.get() is ValueNotSet and value is not None:
+            self.value = self._create_bound_data(self.value_key)
+            if self.value.get() is ValueNotSet and value is not ValueNotSet:
                 self.value.set(value)
         dflt_value = self.obj.default
         if self.value.get() is ValueNotSet and dflt_value != _empty:
             self.value.set(dflt_value)
+        self._init_view_value()
+        self._init_none_value()
 
     def on_change(self):
         value = self.value.get()
@@ -146,13 +161,49 @@ class InputBase(FrontComponentBase):
     #             self.value.set(new_value)
     #             self._call_on_value_change()
 
-    def _create_bound_data(self, id):
+    def post_render(self, render_result):
+        self.value.set(render_result)
+        return render_result
+
+    @property
+    def value_key(self) -> str:
+        return self._build_key('value')
+
+    @property
+    def view_key(self) -> str:
+        return self._build_key('view')
+
+    @property
+    def none_key(self) -> str:
+        return self._build_key('none')
+
+    def _build_key(self, suffix: str):
+        return f'{self.input_key}_{suffix}'
+
+    @property
+    def _dflt_view_value(self) -> Any:
+        return None
+
+    def _get_view_value(self):
+        return self.value.get() or self._dflt_view_value
+
+    def _init_view_value(self):
+        self.view_value = self._create_bound_data(self.view_key)
+        if self.view_value.get() is ValueNotSet:
+            self.view_value.set(self._get_view_value())
+
+    def _init_none_value(self):
+        self.none_value = self._create_bound_data(self.none_key)
+        if self.none_value.get() is ValueNotSet:
+            self.none_value.set(self.value.get() is None)
+
+    def _create_bound_data(self, key):
         if self.bound_data_factory is None:
             raise ValueError(
                 f'No factory provided to build a BoundData instance with id \
-                    {self.input_key}'
+                    {key}'
             )
-        return self.bound_data_factory(id)
+        return self.bound_data_factory(key)
 
 
 class OutputBase(FrontComponentBase):
@@ -184,12 +235,17 @@ class ExecContainerBase(FrontContainerBase):
 
     def _render_inputs(self):
         input_components = [
-            child for child in self.children if isinstance(child, InputBase)
+            self._noneable(child) if child.is_noneable else child 
+            for child in self.children if isinstance(child, InputBase)
         ]
         return {
             input_component.obj.name: input_component()
             for input_component in input_components
         }
+
+    @abstractmethod
+    def _noneable(self, input: InputBase) -> InputBase:
+        pass
 
     def _submit(self, inputs):
         # There is a pending bug in pydantic that transforms types to <type>_iterator
@@ -212,9 +268,11 @@ class MultiSourceInputBase(InputBase):
         obj=None,
         name: FrontElementName = None,
         input_key: str = None,
-        value: Any = None,
+        value: Any = ValueNotSet,
         on_value_change: Callable[..., None] = None,
         bound_data_factory: Callable = None,
+        is_noneable: bool = False,
+        disabled: bool = False,
         **kwargs: FrontElementSpec,
     ):
         super().__init__(
@@ -224,6 +282,8 @@ class MultiSourceInputBase(InputBase):
             value=value,
             on_value_change=on_value_change,
             bound_data_factory=bound_data_factory,
+            is_noneable=is_noneable,
+            disabled=disabled,
         )
         specs = [
             dict(
@@ -254,18 +314,16 @@ class MultiSourceInputBase(InputBase):
 
 @dataclass
 class TextInputBase(InputBase):
-    def __post_init__(self):
-        super().__post_init__()
-        value = self.value.get()
-        self.value.set(str(value) if value is not ValueNotSet else '')
+    @property
+    def _dflt_view_value(self):
+        return ''
 
 
 @dataclass
 class BooleanInputBase(InputBase):
-    def __post_init__(self):
-        super().__post_init__()
-        value = self.value.get()
-        self.value.set(bool(value) if value is not ValueNotSet else False)
+    @property
+    def _dflt_view_value(self):
+        return False
 
 
 @dataclass
@@ -278,10 +336,9 @@ class IntInputBase(NumberInputBase):
     min_value: int = None
     max_value: int = None
 
-    def __post_init__(self):
-        super().__post_init__()
-        value = self.value.get()
-        self.value.set(int(value) if value is not ValueNotSet else 0)
+    @property
+    def _dflt_view_value(self):
+        return 0
 
 
 @dataclass
@@ -290,10 +347,9 @@ class FloatInputBase(NumberInputBase):
     max_value: float = None
     step: float = None
 
-    def __post_init__(self):
-        super().__post_init__()
-        value = self.value.get()
-        self.value.set(float(value) if value is not ValueNotSet else 0.0)
+    @property
+    def _dflt_view_value(self):
+        return 0.0
 
 
 @dataclass
