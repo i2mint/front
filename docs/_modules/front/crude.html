@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.69 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.70 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -92,9 +92,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>front.crude</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">front.crude</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -142,7 +142,7 @@
 <span class="sd">persisted in some fashion).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">Parameter</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
@@ -486,7 +486,7 @@
 
 <span class="sd">    &gt;&gt;&gt; from inspect import signature</span>
 <span class="sd">    &gt;&gt;&gt; str(signature(crude_func))</span>
-<span class="sd">    &#39;(a: str, b: str, c: int)&#39;</span>
+<span class="sd">    &quot;(a: Literal[&#39;one&#39;, &#39;two&#39;], b: Literal[&#39;three&#39;, &#39;four&#39;], c: int)&quot;</span>
 
 <span class="sd">    By default, the ``output_store`` argument is None, but if you specify a mapping</span>
 <span class="sd">    there (or a string key that appears in the ``mall`` you specified, pointing to</span>
@@ -500,7 +500,7 @@
 <span class="sd">    ...     output_store=output_store</span>
 <span class="sd">    ... )</span>
 <span class="sd">    &gt;&gt;&gt; str(signature(crude_func))</span>
-<span class="sd">    &quot;(a: str, b: str, c: int, save_name: str = &#39;&#39;)&quot;</span>
+<span class="sd">    &quot;(a: Literal[&#39;one&#39;, &#39;two&#39;], b: Literal[&#39;three&#39;, &#39;four&#39;], c: int, save_name: str = &#39;&#39;)&quot;</span>
 
 <span class="sd">    You now have this extra ``save_name`` param in your function.</span>
 <span class="sd">    (Note that you can change its name through the ``prepare_for_crude_dispatch``&#39;s</span>
@@ -596,13 +596,12 @@
 
             <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">get_values_from_stores</span><span class="p">())</span>
 
+        <span class="n">outer_sig</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">ch_annotations</span><span class="p">(</span>
+            <span class="o">**</span><span class="p">{</span><span class="n">param</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">store</span><span class="p">)]</span> <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">store</span> <span class="ow">in</span> <span class="n">store_for_param</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="p">)</span>
+
         <span class="n">ingress</span> <span class="o">=</span> <span class="n">Ingress</span><span class="p">(</span>
-            <span class="n">inner_sig</span><span class="o">=</span><span class="n">sig</span><span class="p">,</span>
-            <span class="n">kwargs_trans</span><span class="o">=</span><span class="n">kwargs_trans</span><span class="p">,</span>
-            <span class="n">outer_sig</span><span class="o">=</span><span class="p">(</span>
-                <span class="n">sig</span><span class="o">.</span><span class="n">ch_annotations</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">store_for_param</span><span class="p">})</span>
-                <span class="c1"># + [save_name_param]</span>
-            <span class="p">),</span>
+            <span class="n">inner_sig</span><span class="o">=</span><span class="n">sig</span><span class="p">,</span> <span class="n">kwargs_trans</span><span class="o">=</span><span class="n">kwargs_trans</span><span class="p">,</span> <span class="n">outer_sig</span><span class="o">=</span><span class="n">outer_sig</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">wrapped_f</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">ingress</span><span class="o">=</span><span class="n">ingress</span><span class="p">)</span>
@@ -828,12 +827,12 @@
 <span class="sd">    &gt;&gt;&gt; from inspect import signature</span>
 <span class="sd">    &gt;&gt;&gt; crudified_foo = crudify(foo)</span>
 <span class="sd">    &gt;&gt;&gt; str(signature(crudified_foo))  # note how x has now a str annotation</span>
-<span class="sd">    &#39;(x: str, y)&#39;</span>
+<span class="sd">    &quot;(x: Literal[&#39;stored_two&#39;], y)&quot;</span>
 <span class="sd">    &gt;&gt;&gt; crudified_foo(&#39;stored_two&#39;, 3)  # -&gt; 2 + 3</span>
 <span class="sd">    5</span>
 <span class="sd">    &gt;&gt;&gt; crudified_bar = crudify(bar)</span>
 <span class="sd">    &gt;&gt;&gt; str(signature(crudified_bar))  # note how x has now a str annotation</span>
-<span class="sd">    &#39;(a, x: str)&#39;</span>
+<span class="sd">    &quot;(a, x: Literal[&#39;stored_two&#39;])&quot;</span>
 <span class="sd">    &gt;&gt;&gt; crudified_bar(3, &#39;stored_two&#39;)  # -&gt; 3 * 2</span>
 <span class="sd">    6</span>
 
@@ -845,7 +844,7 @@
 <span class="sd">    &gt;&gt;&gt; crudify = Crudifier(&#39;x y&#39;, mall={&#39;x&#39;: {&#39;stored_two&#39;: 2}, &#39;y&#39;: {&#39;three&#39;: 3}})</span>
 <span class="sd">    &gt;&gt;&gt; f = crudify(foo)</span>
 <span class="sd">    &gt;&gt;&gt; str(signature(f))  # note that both x and y have a str annotation now</span>
-<span class="sd">    &#39;(x: str, y: str)&#39;</span>
+<span class="sd">    &quot;(x: Literal[&#39;stored_two&#39;], y: Literal[&#39;three&#39;])&quot;</span>
 <span class="sd">    &gt;&gt;&gt; f(&#39;stored_two&#39;, &#39;three&#39;)</span>
 <span class="sd">    5</span>
 

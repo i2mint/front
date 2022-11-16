@@ -491,16 +491,11 @@ def prepare_for_crude_dispatch(
             return dict(get_values_from_stores())
 
         outer_sig = sig.ch_annotations(
-            **{
-                param: Literal[tuple(store)]
-                for param, store in store_for_param.items()
-            }
+            **{param: Literal[tuple(store)] for param, store in store_for_param.items()}
         )
 
         ingress = Ingress(
-            inner_sig=sig,
-            kwargs_trans=kwargs_trans,
-            outer_sig=outer_sig,
+            inner_sig=sig, kwargs_trans=kwargs_trans, outer_sig=outer_sig,
         )
 
     wrapped_f = wrap(func, ingress=ingress)
