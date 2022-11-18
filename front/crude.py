@@ -713,20 +713,20 @@ class Crudifier(_Crudifier):
     ``mall``. We can make a ``crudify`` function like this:
 
     >>> crudify = Crudifier(
-    ...     param_to_mall_map={'x': 'x_store'}, mall={'x_store': {'stored_two': 2}}
+    ...     param_to_mall_map={'x': 'x_store'}, mall={'x_store': {'stored_two': 2, 'stored_four': 4}}
     ... )
 
     And apply it to any function containing a argumennt named ``x``:
 
     >>> from inspect import signature
     >>> crudified_foo = crudify(foo)
-    >>> str(signature(crudified_foo))  # note how x has now a str annotation
-    "(x: Literal['stored_two'], y)"
+    >>> str(signature(crudified_foo))  # note how x has now a Literal annotation showing what the valid str inputs are
+    "(x: Literal['stored_two', 'stored_four'], y)"
     >>> crudified_foo('stored_two', 3)  # -> 2 + 3
     5
     >>> crudified_bar = crudify(bar)
-    >>> str(signature(crudified_bar))  # note how x has now a str annotation
-    "(a, x: Literal['stored_two'])"
+    >>> str(signature(crudified_bar))
+    "(a, x: Literal['stored_two', 'stored_four'])"
     >>> crudified_bar(3, 'stored_two')  # -> 3 * 2
     6
 
@@ -735,10 +735,10 @@ class Crudifier(_Crudifier):
     these argument names. In the following, the ``'x y'`` is equivalent to
     ``['x', 'y']``, which is equivalent to ``{'x': 'x', 'y', 'y'}``.
 
-    >>> crudify = Crudifier('x y', mall={'x': {'stored_two': 2}, 'y': {'three': 3}})
+    >>> crudify = Crudifier('x y', mall={'x': {'stored_two': 2, 'stored_four': 4}, 'y': {'three': 3}})
     >>> f = crudify(foo)
     >>> str(signature(f))  # note that both x and y have a str annotation now
-    "(x: Literal['stored_two'], y: Literal['three'])"
+    "(x: Literal['stored_two', 'stored_four'], y: Literal['three'])"
     >>> f('stored_two', 'three')
     5
 
