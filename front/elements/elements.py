@@ -357,6 +357,9 @@ class FileUploaderBase(InputBase):
     type: Optional[Union[str, List[str]]] = None
 
 
+SELECT_BOX_DFLT_INDEX = 0
+
+
 @dataclass
 class SelectBoxBase(InputBase):
     options: Union[Iterable, BoundData] = None
@@ -367,20 +370,29 @@ class SelectBoxBase(InputBase):
 
     def pre_render(self):
         super().pre_render()
-        options = self.options() if callable(self.options) else self.options
+        options = self._ensure_options()
         if not options:
             annot = self.obj.annotation
             if get_origin(annot) == Literal:
                 options = list(get_args(annot))
         self._options = list(options)
         if self._options:
-            value = self.value.get()
+            view_value = self.view_value.get()
             self._preselected_index = (
-                self._options.index(value) if value in self._options else 0
+                self._options.index(view_value) if view_value in self._options
+                else SELECT_BOX_DFLT_INDEX
             )
             selected_value = self._options[self._preselected_index]
-            if selected_value != value:
-                self.value.set(selected_value)
+            if selected_value != view_value:
+                self.view_value.set(selected_value)
+
+    @property
+    def _dflt_view_value(self) -> Any:
+        options = self._ensure_options()
+        return options[SELECT_BOX_DFLT_INDEX] if options else None
+
+    def _ensure_options(self):
+        return self.options() if callable(self.options) else self.options
 
 
 @dataclass
