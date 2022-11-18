@@ -1,7 +1,18 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from threading import Timer
-from typing import Any, Callable, Iterable, List, Literal, Optional, TypedDict, Union, get_args, get_origin
+from typing import (
+    Any,
+    Callable,
+    Iterable,
+    List,
+    Literal,
+    Optional,
+    TypedDict,
+    Union,
+    get_args,
+    get_origin,
+)
 from front.data_binding import BoundData, ValueNotSet
 from i2 import Sig
 from inspect import _empty
@@ -235,8 +246,9 @@ class ExecContainerBase(FrontContainerBase):
 
     def _render_inputs(self):
         input_components = [
-            self._noneable(child) if child.is_noneable else child 
-            for child in self.children if isinstance(child, InputBase)
+            self._noneable(child) if child.is_noneable else child
+            for child in self.children
+            if isinstance(child, InputBase)
         ]
         return {
             input_component.obj.name: input_component()
