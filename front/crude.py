@@ -732,7 +732,7 @@ class Crudifier(_Crudifier):
 
     If the argument names correspond to ``mall`` key, the first ``param_to_mall_map``
     argument can be specified a list of arguments, or even a space-separated string of
-    these argument names. In the following, we the ``'x y'`` is equivalent to
+    these argument names. In the following, the ``'x y'`` is equivalent to
     ``['x', 'y']``, which is equivalent to ``{'x': 'x', 'y', 'y'}``.
 
     >>> crudify = Crudifier('x y', mall={'x': {'stored_two': 2}, 'y': {'three': 3}})
