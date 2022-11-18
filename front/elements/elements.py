@@ -391,7 +391,8 @@ class SelectBoxBase(InputBase):
         if self._options:
             view_value = self.view_value.get()
             self._preselected_index = (
-                self._options.index(view_value) if view_value in self._options
+                self._options.index(view_value)
+                if view_value in self._options
                 else SELECT_BOX_DFLT_INDEX
             )
             selected_value = self._options[self._preselected_index]
