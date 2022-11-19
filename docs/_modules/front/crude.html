@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.74 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.75 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -795,7 +795,8 @@
     <span class="n">Sig</span><span class="p">(</span><span class="n">prepare_for_crude_dispatch</span><span class="p">)</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">cls_name</span><span class="o">=</span><span class="s1">&#39;_Crudifier&#39;</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="vm">__name__</span><span class="p">,</span>
 <span class="p">)</span>
 
-
+<span class="c1"># TODO: Should Crudifier be simply served by `i2.FuncFactory(prepare_for_crude_dispatch)` (without first arg)?</span>
+<span class="c1">#   Might want this issue solved first: https://github.com/i2mint/i2/issues/39</span>
 <div class="viewcode-block" id="Crudifier"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.Crudifier">[docs]</a><span class="k">class</span> <span class="nc">Crudifier</span><span class="p">(</span><span class="n">_Crudifier</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convenience class to make crudify (i.e. map/source inputs of) functions.</span>
 
