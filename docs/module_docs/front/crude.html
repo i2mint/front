@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.72 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.73 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -157,20 +157,20 @@ convention, using it directly would involve too much boilerplate.</p>
 <p>Let’s say we want <code class="docutils literal notranslate"><span class="pre">x</span></code> to be sourced by the <code class="docutils literal notranslate"><span class="pre">x_store</span></code> mapping listed in the
 <code class="docutils literal notranslate"><span class="pre">mall</span></code>. We can make a <code class="docutils literal notranslate"><span class="pre">crudify</span></code> function like this:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crudify</span> <span class="o">=</span> <span class="n">Crudifier</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">param_to_mall_map</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;x_store&#39;</span><span class="p">},</span> <span class="n">mall</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x_store&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;stored_two&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}}</span>
+<span class="gp">... </span>    <span class="n">param_to_mall_map</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;x_store&#39;</span><span class="p">},</span> <span class="n">mall</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x_store&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;stored_two&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;stored_four&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}}</span>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 <p>And apply it to any function containing a argumennt named <code class="docutils literal notranslate"><span class="pre">x</span></code>:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">signature</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crudified_foo</span> <span class="o">=</span> <span class="n">crudify</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">crudified_foo</span><span class="p">))</span>  <span class="c1"># note how x has now a str annotation</span>
-<span class="go">&quot;(x: Literal[&#39;stored_two&#39;], y)&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">crudified_foo</span><span class="p">))</span>  <span class="c1"># note how x has now a Literal annotation showing what the valid str inputs are</span>
+<span class="go">&quot;(x: Literal[&#39;stored_two&#39;, &#39;stored_four&#39;], y)&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crudified_foo</span><span class="p">(</span><span class="s1">&#39;stored_two&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># -&gt; 2 + 3</span>
 <span class="go">5</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crudified_bar</span> <span class="o">=</span> <span class="n">crudify</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">crudified_bar</span><span class="p">))</span>  <span class="c1"># note how x has now a str annotation</span>
-<span class="go">&quot;(a, x: Literal[&#39;stored_two&#39;])&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">crudified_bar</span><span class="p">))</span>
+<span class="go">&quot;(a, x: Literal[&#39;stored_two&#39;, &#39;stored_four&#39;])&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crudified_bar</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;stored_two&#39;</span><span class="p">)</span>  <span class="c1"># -&gt; 3 * 2</span>
 <span class="go">6</span>
 </pre></div>
@@ -179,10 +179,10 @@ convention, using it directly would involve too much boilerplate.</p>
 argument can be specified a list of arguments, or even a space-separated string of
 these argument names. In the following, the <code class="docutils literal notranslate"><span class="pre">'x</span> <span class="pre">y'</span></code> is equivalent to
 <code class="docutils literal notranslate"><span class="pre">['x',</span> <span class="pre">'y']</span></code>, which is equivalent to <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">'x',</span> <span class="pre">'y',</span> <span class="pre">'y'}</span></code>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crudify</span> <span class="o">=</span> <span class="n">Crudifier</span><span class="p">(</span><span class="s1">&#39;x y&#39;</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;stored_two&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;three&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}})</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crudify</span> <span class="o">=</span> <span class="n">Crudifier</span><span class="p">(</span><span class="s1">&#39;x y&#39;</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;stored_two&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;stored_four&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;three&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">crudify</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>  <span class="c1"># note that both x and y have a str annotation now</span>
-<span class="go">&quot;(x: Literal[&#39;stored_two&#39;], y: Literal[&#39;three&#39;])&quot;</span>
+<span class="go">&quot;(x: Literal[&#39;stored_two&#39;, &#39;stored_four&#39;], y: Literal[&#39;three&#39;])&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="s1">&#39;stored_two&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">)</span>
 <span class="go">5</span>
 </pre></div>
