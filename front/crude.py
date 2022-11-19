@@ -696,7 +696,8 @@ _Crudifier = sig_to_dataclass(
     module=__name__,
 )
 
-
+# TODO: Should Crudifier be simply served by `i2.FuncFactory(prepare_for_crude_dispatch)` (without first arg)?
+#   Might want this issue solved first: https://github.com/i2mint/i2/issues/39
 class Crudifier(_Crudifier):
     """Convenience class to make crudify (i.e. map/source inputs of) functions.
 
