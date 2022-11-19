@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.73 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.74 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -922,6 +922,89 @@
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
         <span class="c1"># is there a safer way than vars to get the init fields (keys and values)?</span>
         <span class="k">return</span> <span class="n">prepare_for_crude_dispatch</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div>
+
+
+<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">name_of_obj</span><span class="p">,</span> <span class="n">Sig</span>
+<span class="kn">from</span> <span class="nn">dol</span> <span class="kn">import</span> <span class="n">chain_get</span>
+
+<span class="c1"># Note: Could use function objects themselves as keys instead of (or along with) function names. Pros/cons?</span>
+
+<span class="c1"># alt arg names:</span>
+<span class="c1"># def crudify_based_on_names(func, *, input_store_for_arg=(), output_store_for_func_name=()):  pass</span>
+
+
+<span class="k">def</span> <span class="nf">_remove_non_valued_items</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_keys_to_search</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Function defining what forms of keys will be searched in the arg_input_stores</span>
+<span class="sd">    when using crudify_based_on_names on a function.</span>
+<span class="sd">    Note that since chain_get will be used on this, it&#39;s the first key found that will be used,</span>
+<span class="sd">    making, for example, a ``(func, arg_name)`` specification have precedence over an `arg_name` specification&quot;&quot;&quot;</span>
+    <span class="n">func_name</span> <span class="o">=</span> <span class="n">name_of_obj</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">arg_name</span> <span class="ow">in</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="p">(</span>
+            <span class="n">arg_name</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">arg_name</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">func_name</span><span class="p">,</span> <span class="n">arg_name</span><span class="p">),</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">func_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">arg_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                <span class="n">arg_name</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+
+<div class="viewcode-block" id="crudify_based_on_names"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.crudify_based_on_names">[docs]</a><span class="k">def</span> <span class="nf">crudify_based_on_names</span><span class="p">(</span>
+    <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">arg_input_stores</span><span class="o">=</span><span class="p">(),</span> <span class="n">func_output_stores</span><span class="o">=</span><span class="p">(),</span> <span class="n">crudifier</span><span class="o">=</span><span class="n">Crudifier</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Crudify a function based on general</span>
+
+<span class="sd">    :param func:</span>
+<span class="sd">    :param arg_input_stores:</span>
+<span class="sd">    :param func_output_stores:</span>
+<span class="sd">    :param crudifier:</span>
+<span class="sd">    :return:</span>
+
+<span class="sd">    &gt;&gt;&gt; from functools import partial</span>
+<span class="sd">    &gt;&gt;&gt; def foo(x, y):</span>
+<span class="sd">    ...     return x + y</span>
+<span class="sd">    &gt;&gt;&gt; def bar(a, x):</span>
+<span class="sd">    ...     return a * x</span>
+<span class="sd">    &gt;&gt;&gt; general_crudifier = partial(</span>
+<span class="sd">    ...     crudify_based_on_names,</span>
+<span class="sd">    ...     arg_input_stores={&#39;x&#39;: &#39;x_store&#39;},</span>
+<span class="sd">    ...     crudifier=partial(prepare_for_crude_dispatch, mall={&#39;x_store&#39;: {&#39;stored_two&#39;: 2, &#39;stored_four&#39;: 4}})</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; foo, bar = map(general_crudifier, [foo, bar])</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; foo(&#39;stored_two&#39;, 10)</span>
+<span class="sd">    12</span>
+<span class="sd">    &gt;&gt;&gt; bar(4, &#39;stored_four&#39;)</span>
+<span class="sd">    16</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">arg_input_stores</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arg_input_stores</span><span class="p">)</span>
+    <span class="n">func_output_stores</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">func_output_stores</span><span class="p">)</span>
+    <span class="n">func_name</span> <span class="o">=</span> <span class="n">name_of_obj</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="n">param_to_mall_map</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">_remove_non_valued_items</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="n">arg_name</span><span class="p">:</span> <span class="n">chain_get</span><span class="p">(</span><span class="n">arg_input_stores</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">arg_name</span><span class="p">,</span> <span class="n">keys</span> <span class="ow">in</span> <span class="n">_keys_to_search</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="ow">or</span> <span class="kc">None</span>
+    <span class="p">)</span>
+    <span class="n">output_store</span> <span class="o">=</span> <span class="n">chain_get</span><span class="p">(</span><span class="n">func_output_stores</span><span class="p">,</span> <span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">func_name</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">param_to_mall_map</span> <span class="ow">or</span> <span class="n">output_store</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">crudifier</span><span class="p">(</span>
+            <span class="n">func</span><span class="p">,</span> <span class="n">param_to_mall_map</span><span class="o">=</span><span class="n">param_to_mall_map</span><span class="p">,</span> <span class="n">output_store</span><span class="o">=</span><span class="n">output_store</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">func</span></div>
 
 
 <span class="c1"># ---------------------------------------------------------------------------------------</span>
