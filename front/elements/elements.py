@@ -58,8 +58,7 @@ def mk_element_from_spec(spec: FrontElementSpec):
         factory = _spec.pop(ELEMENT_KEY)
     except KeyError:
         raise RuntimeError(
-            f'Key "{ELEMENT_KEY}" is missing in the following element specification: \
-                {spec}'
+            f'Key "{ELEMENT_KEY}" is missing in the following element specification: {spec}'
         )
     try:
         return factory(**_spec)
@@ -192,16 +191,23 @@ class InputBase(FrontComponentBase):
         return f'{self.input_key}_{suffix}'
 
     @property
-    def _dflt_view_value(self) -> Any:
+    def _type(self):
+        return str
+
+    @property
+    def _dflt_view_value(self):
         return None
 
-    def _get_view_value(self):
-        return self.value.get() or self._dflt_view_value
+    def _get_init_view_value(self):
+        value = self.value.get()
+        if value in [None, ValueNotSet]:
+            return self._dflt_view_value
+        return self._type(value)
 
     def _init_view_value(self):
         self.view_value = self._create_bound_data(self.view_key)
         if self.view_value.get() is ValueNotSet:
-            self.view_value.set(self._get_view_value())
+            self.view_value.set(self._get_init_view_value())
 
     def _init_none_value(self):
         self.none_value = self._create_bound_data(self.none_key)
@@ -211,8 +217,7 @@ class InputBase(FrontComponentBase):
     def _create_bound_data(self, key):
         if self.bound_data_factory is None:
             raise ValueError(
-                f'No factory provided to build a BoundData instance with id \
-                    {key}'
+                f'No factory provided to build a BoundData instance with id "{key}"'
             )
         return self.bound_data_factory(key)
 
@@ -301,8 +306,12 @@ class MultiSourceInputBase(InputBase):
             dict(
                 obj=self.obj,
                 name=k,
+                input_key=self.input_key,
                 value=self.value,
                 on_value_change=self.on_value_change,
+                bound_data_factory=self.bound_data_factory,
+                is_noneable=self.is_noneable,
+                disabled=self.disabled,
                 **v,
             )
             for k, v in kwargs.items()
@@ -334,6 +343,10 @@ class TextInputBase(InputBase):
 @dataclass
 class BooleanInputBase(InputBase):
     @property
+    def _type(self):
+        return bool
+
+    @property
     def _dflt_view_value(self):
         return False
 
@@ -349,6 +362,10 @@ class IntInputBase(NumberInputBase):
     max_value: int = None
 
     @property
+    def _type(self):
+        return int
+
+    @property
     def _dflt_view_value(self):
         return 0
 
@@ -358,6 +375,10 @@ class FloatInputBase(NumberInputBase):
     min_value: float = None
     max_value: float = None
     step: float = None
+
+    @property
+    def _type(self):
+        return float
 
     @property
     def _dflt_view_value(self):
@@ -400,7 +421,7 @@ class SelectBoxBase(InputBase):
                 self.view_value.set(selected_value)
 
     @property
-    def _dflt_view_value(self) -> Any:
+    def _dflt_view_value(self):
         options = self._ensure_options()
         return options[SELECT_BOX_DFLT_INDEX] if options else None
 
