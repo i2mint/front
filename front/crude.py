@@ -851,14 +851,14 @@ def _keys_to_search(func):
 
 
 def crudify_based_on_names(
-    func, *, arg_input_stores=(), func_output_stores=(), crudifier=Crudifier
+    func, *, param_to_mall_map=(), output_store=(), crudifier=Crudifier
 ):
     """
     Crudify a function based on general
 
     :param func:
-    :param arg_input_stores:
-    :param func_output_stores:
+    :param param_to_mall_map:
+    :param output_store:
     :param crudifier:
     :return:
 
@@ -881,19 +881,19 @@ def crudify_based_on_names(
     16
 
     """
-    arg_input_stores = dict(arg_input_stores)
-    func_output_stores = dict(func_output_stores)
+    param_to_mall_map = dict(param_to_mall_map)
+    output_store = dict(output_store)
     func_name = name_of_obj(func)
     param_to_mall_map = (
         _remove_non_valued_items(
             {
-                arg_name: chain_get(arg_input_stores, keys)
+                arg_name: chain_get(param_to_mall_map, keys)
                 for arg_name, keys in _keys_to_search(func)
             }
         )
         or None
     )
-    output_store = chain_get(func_output_stores, (func, func_name), default=None)
+    output_store = chain_get(output_store, (func, func_name), default=None)
     if param_to_mall_map or output_store:
         return crudifier(
             func, param_to_mall_map=param_to_mall_map, output_store=output_store
