@@ -388,6 +388,7 @@ class FloatInputBase(NumberInputBase):
 @dataclass
 class FileUploaderBase(InputBase):
     type: Optional[Union[str, List[str]]] = None
+    accept_multiple_files: bool = False
 
 
 SELECT_BOX_DFLT_INDEX = 0
