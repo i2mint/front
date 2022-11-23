@@ -22,27 +22,24 @@ def bar():
 def test_arg_input_stores(foo, bar):
     general_crudifier = partial(
         crudify_based_on_names,
-        arg_input_stores={"x": "x_store"},
+        arg_input_stores={'x': 'x_store'},
         crudifier=partial(
             prepare_for_crude_dispatch,
-            mall={"x_store": {"stored_two": 2, "stored_four": 4}},
+            mall={'x_store': {'stored_two': 2, 'stored_four': 4}},
         ),
     )
 
     foo, bar = map(general_crudifier, [foo, bar])
 
-    assert foo("stored_two", 10) == 12
-    assert bar(4, "stored_four") == 16
+    assert foo('stored_two', 10) == 12
+    assert bar(4, 'stored_four') == 16
 
 
 def test_func_output_store(foo, bar):
     general_crudifier = partial(
         crudify_based_on_names,
-        func_output_store={"foo": "foo_store"},
-        crudifier=partial(
-            prepare_for_crude_dispatch,
-            mall={"foo_store": {}},
-        ),
+        func_output_store={'foo': 'foo_store'},
+        crudifier=partial(prepare_for_crude_dispatch, mall={'foo_store': {}},),
     )
 
     foo = map(general_crudifier, [foo])
