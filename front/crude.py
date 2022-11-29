@@ -937,7 +937,6 @@ def crudify_based_on_names(
     )
     output_store = chain_get(output_store, (func, func_name), default=None)
     if param_to_mall_map or output_store:
-        print(dict(param_to_mall_map=param_to_mall_map, output_store=output_store))
         return crudifier(
             func, param_to_mall_map=param_to_mall_map, output_store=output_store
         )
