@@ -40,7 +40,8 @@ from typing import Any, Literal, Mapping, Optional, Callable, Union, Iterable, I
 from inspect import Parameter
 import os
 from functools import partial
-
+import time
+from numbers import Number
 import dill  # pip install dill
 
 from i2 import Sig, double_up_as_factory
@@ -55,21 +56,62 @@ StoreName = KT
 Mall = Mapping[StoreName, StoreType]
 
 
-def auto_key(*args, **kwargs) -> KT:
+def auto_key_from_arguments(*args, **kwargs) -> KT:
     """Make a str key from arguments.
 
-    >>> auto_key(1,2,c=3,d=4)
+    >>> auto_key_from_arguments(1,2,c=3,d=4)
     '1,2,c=3,d=4'
-    >>> auto_key(1,2)
+    >>> auto_key_from_arguments(1,2)
     '1,2'
-    >>> auto_key(c=3,d=4)
+    >>> auto_key_from_arguments(c=3,d=4)
     'c=3,d=4'
-    >>> auto_key()
+    >>> auto_key_from_arguments()
     ''
     """
     args_str = ','.join(map(str, args))
     kwargs_str = ','.join(map(lambda kv: f'{kv[0]}={kv[1]}', kwargs.items()))
     return ','.join(filter(None, [args_str, kwargs_str]))
+
+
+auto_key = auto_key_from_arguments  # TODO: Deprecate this backcompatibility alias?
+
+
+def auto_key_from_time(
+        *args, __format: Union[Number, str, Callable] = 1e6, **kwargs
+) -> KT:
+    """Make a str key with current timestamp (ignoring arguments)
+
+    :param __format: When a number, will be used as a multiplier of current utc time
+
+    >>> auto_key_from_time()  # doctest: +SKIP
+    '1_669_724_787_630_906'
+
+    But `auto_key_from_time` is really meant to be used with ``functools.partial`` to
+    parametrize its ``__format``, such as:
+
+    >>> from functools import partial
+    >>>
+    >>> time_in_ms = partial(auto_key_from_time, __format=1e3)
+    >>> normal_format = partial(auto_key_from_time, __format='%Y-%m-%d %H:%M:%S')
+    >>> modulo_1000 = partial(auto_key_from_time, __format=lambda x: int(x % 1000))
+    >>>
+    >>> time_in_ms()  # doctest: +SKIP
+    '1_669_724_787_641'
+    >>> normal_format()  # doctest: +SKIP
+    '2022-11-29 12:26:27'
+    >>> modulo_1000()  # doctest: +SKIP
+    '788'
+    """
+    utc_seconds = time.time()
+    if isinstance(__format, Number):
+        return f"{int(utc_seconds * __format):_}"
+    elif isinstance(__format, str):
+        return time.strftime(__format, time.gmtime(utc_seconds))
+    else:
+        assert callable(__format), (
+                f"__format should be callable, str or number. Was: {__format}"
+        )
+        return str(__format(utc_seconds))
 
 
 @wrap_kvs(data_of_obj=dill.dumps, obj_of_data=dill.loads)
@@ -895,6 +937,7 @@ def crudify_based_on_names(
     )
     output_store = chain_get(output_store, (func, func_name), default=None)
     if param_to_mall_map or output_store:
+        print(dict(param_to_mall_map=param_to_mall_map, output_store=output_store))
         return crudifier(
             func, param_to_mall_map=param_to_mall_map, output_store=output_store
         )
