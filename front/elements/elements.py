@@ -149,7 +149,7 @@ class InputBase(FrontComponentBase):
         super().__post_init__()
         if not isinstance(self.value, BoundData):
             value = self.value
-            self.value = self._create_bound_data(self.value_key)
+            self.value = self._create_bound_data(self.input_key)
             if self.value.get() is ValueNotSet and value is not ValueNotSet:
                 self.value.set(value)
         dflt_value = self.obj.default
@@ -163,21 +163,9 @@ class InputBase(FrontComponentBase):
         if self.on_value_change and value is not ValueNotSet:
             call_forgivingly(self.on_value_change, self.value.get())
 
-    # def pre_render(self):
-    #     super().pre_render()
-    #     if self.value.id != self.input_key:
-    #         new_value = getattr(b, self.input_key).get()
-    #         if new_value is not ValueNotSet and new_value != self.value.get():
-    #             self.value.set(new_value)
-    #             self._call_on_value_change()
-
     def post_render(self, render_result):
         self.value.set(render_result)
         return render_result
-
-    @property
-    def value_key(self) -> str:
-        return self._build_key('value')
 
     @property
     def view_key(self) -> str:
@@ -205,14 +193,12 @@ class InputBase(FrontComponentBase):
         return self._type(value)
 
     def _init_view_value(self):
-        self.view_value = self._create_bound_data(self.view_key)
-        if self.view_value.get() is ValueNotSet:
-            self.view_value.set(self._get_init_view_value())
+        view_value = self._create_bound_data(self.view_key).get()
+        self.view_value = view_value if view_value is not ValueNotSet else self._get_init_view_value()
 
     def _init_none_value(self):
-        self.none_value = self._create_bound_data(self.none_key)
-        if self.none_value.get() is ValueNotSet:
-            self.none_value.set(self.value.get() is None)
+        none_value = self._create_bound_data(self.none_key).get()
+        self.none_value = none_value if none_value is not ValueNotSet else self.value.get() is None
 
     def _create_bound_data(self, key):
         if self.bound_data_factory is None:
@@ -411,15 +397,14 @@ class SelectBoxBase(InputBase):
                 options = list(get_args(annot))
         self._options = list(options)
         if self._options:
-            view_value = self.view_value.get()
             self._preselected_index = (
-                self._options.index(view_value)
-                if view_value in self._options
+                self._options.index(self.view_value)
+                if self.view_value in self._options
                 else SELECT_BOX_DFLT_INDEX
             )
             selected_value = self._options[self._preselected_index]
-            if selected_value != view_value:
-                self.view_value.set(selected_value)
+            if selected_value != self.view_value:
+                self.view_value = selected_value
 
     @property
     def _dflt_view_value(self):
