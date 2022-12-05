@@ -382,14 +382,13 @@ SELECT_BOX_DFLT_INDEX = 0
 
 @dataclass
 class SelectBoxBase(InputBase):
-    options: Union[Iterable, BoundData] = None
+    options: Union[Iterable, Callable] = None
 
     def __post_init__(self):
         super().__post_init__()
         self.options = self.options or []
-
-    def pre_render(self):
-        super().pre_render()
+    # def pre_render(self):
+    #     super().pre_render()
         options = self._ensure_options()
         if not options:
             annot = self.obj.annotation
@@ -418,19 +417,21 @@ class SelectBoxBase(InputBase):
 @dataclass
 class KwargsInputBase(InputBase):
     inputs: dict = None
-    func_sig: Sig = None
+    func_sig: Union[Sig, Callable] = None
 
-    def __post_init__(self):
-        super().__post_init__()
+    def pre_render(self):
+        super().pre_render()
+        func_sig = self.func_sig if isinstance(self.func_sig, Sig) else self.func_sig()
+        func_sig = func_sig or Sig()
 
-        @self.func_sig
+        @func_sig
         def get_kwargs(**kwargs):
             return kwargs
 
         self.get_kwargs = get_kwargs
 
-    def _get_kwargs(self, **kwargs):
-        return kwargs
+    # def _get_kwargs(self, **kwargs):
+    #     return kwargs
 
     def _return_kwargs(self, output):
         self.value.set(output)
