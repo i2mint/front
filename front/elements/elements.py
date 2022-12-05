@@ -387,8 +387,6 @@ class SelectBoxBase(InputBase):
     def __post_init__(self):
         super().__post_init__()
         self.options = self.options or []
-    # def pre_render(self):
-    #     super().pre_render()
         options = self._ensure_options()
         if not options:
             annot = self.obj.annotation
@@ -429,9 +427,6 @@ class KwargsInputBase(InputBase):
             return kwargs
 
         self.get_kwargs = get_kwargs
-
-    # def _get_kwargs(self, **kwargs):
-    #     return kwargs
 
     def _return_kwargs(self, output):
         self.value.set(output)
