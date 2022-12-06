@@ -194,11 +194,15 @@ class InputBase(FrontComponentBase):
 
     def _init_view_value(self):
         view_value = self._create_bound_data(self.view_key).get()
-        self.view_value = view_value if view_value is not ValueNotSet else self._get_init_view_value()
+        self.view_value = (
+            view_value if view_value is not ValueNotSet else self._get_init_view_value()
+        )
 
     def _init_none_value(self):
         none_value = self._create_bound_data(self.none_key).get()
-        self.none_value = none_value if none_value is not ValueNotSet else self.value.get() is None
+        self.none_value = (
+            none_value if none_value is not ValueNotSet else self.value.get() is None
+        )
 
     def _create_bound_data(self, key):
         if self.bound_data_factory is None:

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.77 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.78 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -147,7 +147,8 @@
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">Parameter</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
 <span class="kn">import</span> <span class="nn">dill</span>  <span class="c1"># pip install dill</span>
 
 <span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span><span class="p">,</span> <span class="n">double_up_as_factory</span>
@@ -162,21 +163,62 @@
 <span class="n">Mall</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">StoreName</span><span class="p">,</span> <span class="n">StoreType</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="auto_key"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.auto_key">[docs]</a><span class="k">def</span> <span class="nf">auto_key</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KT</span><span class="p">:</span>
+<div class="viewcode-block" id="auto_key_from_arguments"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.auto_key_from_arguments">[docs]</a><span class="k">def</span> <span class="nf">auto_key_from_arguments</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KT</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Make a str key from arguments.</span>
 
-<span class="sd">    &gt;&gt;&gt; auto_key(1,2,c=3,d=4)</span>
+<span class="sd">    &gt;&gt;&gt; auto_key_from_arguments(1,2,c=3,d=4)</span>
 <span class="sd">    &#39;1,2,c=3,d=4&#39;</span>
-<span class="sd">    &gt;&gt;&gt; auto_key(1,2)</span>
+<span class="sd">    &gt;&gt;&gt; auto_key_from_arguments(1,2)</span>
 <span class="sd">    &#39;1,2&#39;</span>
-<span class="sd">    &gt;&gt;&gt; auto_key(c=3,d=4)</span>
+<span class="sd">    &gt;&gt;&gt; auto_key_from_arguments(c=3,d=4)</span>
 <span class="sd">    &#39;c=3,d=4&#39;</span>
-<span class="sd">    &gt;&gt;&gt; auto_key()</span>
+<span class="sd">    &gt;&gt;&gt; auto_key_from_arguments()</span>
 <span class="sd">    &#39;&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">args_str</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>
     <span class="n">kwargs_str</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">kv</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
     <span class="k">return</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="n">args_str</span><span class="p">,</span> <span class="n">kwargs_str</span><span class="p">]))</span></div>
+
+
+<span class="n">auto_key</span> <span class="o">=</span> <span class="n">auto_key_from_arguments</span>  <span class="c1"># TODO: Deprecate this backcompatibility alias?</span>
+
+
+<div class="viewcode-block" id="auto_key_from_time"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.auto_key_from_time">[docs]</a><span class="k">def</span> <span class="nf">auto_key_from_time</span><span class="p">(</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">__format</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e6</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KT</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Make a str key with current timestamp (ignoring arguments)</span>
+
+<span class="sd">    :param __format: When a number, will be used as a multiplier of current utc time</span>
+
+<span class="sd">    &gt;&gt;&gt; auto_key_from_time()  # doctest: +SKIP</span>
+<span class="sd">    &#39;1_669_724_787_630_906&#39;</span>
+
+<span class="sd">    But `auto_key_from_time` is really meant to be used with ``functools.partial`` to</span>
+<span class="sd">    parametrize its ``__format``, such as:</span>
+
+<span class="sd">    &gt;&gt;&gt; from functools import partial</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; time_in_ms = partial(auto_key_from_time, __format=1e3)</span>
+<span class="sd">    &gt;&gt;&gt; normal_format = partial(auto_key_from_time, __format=&#39;%Y-%m-%d %H:%M:%S&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; modulo_1000 = partial(auto_key_from_time, __format=lambda x: int(x % 1000))</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; time_in_ms()  # doctest: +SKIP</span>
+<span class="sd">    &#39;1_669_724_787_641&#39;</span>
+<span class="sd">    &gt;&gt;&gt; normal_format()  # doctest: +SKIP</span>
+<span class="sd">    &#39;2022-11-29 12:26:27&#39;</span>
+<span class="sd">    &gt;&gt;&gt; modulo_1000()  # doctest: +SKIP</span>
+<span class="sd">    &#39;788&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">utc_seconds</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">__format</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">utc_seconds</span> <span class="o">*</span> <span class="n">__format</span><span class="p">)</span><span class="si">:</span><span class="s1">_</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">__format</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">__format</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">utc_seconds</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">callable</span><span class="p">(</span>
+            <span class="n">__format</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;__format should be callable, str or number. Was: </span><span class="si">{</span><span class="n">__format</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">__format</span><span class="p">(</span><span class="n">utc_seconds</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="DillFiles"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.DillFiles">[docs]</a><span class="nd">@wrap_kvs</span><span class="p">(</span><span class="n">data_of_obj</span><span class="o">=</span><span class="n">dill</span><span class="o">.</span><span class="n">dumps</span><span class="p">,</span> <span class="n">obj_of_data</span><span class="o">=</span><span class="n">dill</span><span class="o">.</span><span class="n">loads</span><span class="p">)</span>
@@ -940,7 +982,7 @@
 
 
 <span class="k">def</span> <span class="nf">_keys_to_search</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Function defining what forms of keys will be searched in the arg_input_stores</span>
+    <span class="sd">&quot;&quot;&quot;Function defining what forms of keys will be searched in the param_to_mall_map</span>
 <span class="sd">    when using crudify_based_on_names on a function.</span>
 <span class="sd">    Note that since chain_get will be used on this, it&#39;s the first key found that will be used,</span>
 <span class="sd">    making, for example, a ``(func, arg_name)`` specification have precedence over an `arg_name` specification&quot;&quot;&quot;</span>
@@ -958,14 +1000,14 @@
 
 
 <div class="viewcode-block" id="crudify_based_on_names"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.crudify_based_on_names">[docs]</a><span class="k">def</span> <span class="nf">crudify_based_on_names</span><span class="p">(</span>
-    <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">arg_input_stores</span><span class="o">=</span><span class="p">(),</span> <span class="n">func_output_stores</span><span class="o">=</span><span class="p">(),</span> <span class="n">crudifier</span><span class="o">=</span><span class="n">Crudifier</span>
+    <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">param_to_mall_map</span><span class="o">=</span><span class="p">(),</span> <span class="n">output_store</span><span class="o">=</span><span class="p">(),</span> <span class="n">crudifier</span><span class="o">=</span><span class="n">Crudifier</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Crudify a function based on general</span>
 
 <span class="sd">    :param func:</span>
-<span class="sd">    :param arg_input_stores:</span>
-<span class="sd">    :param func_output_stores:</span>
+<span class="sd">    :param param_to_mall_map:</span>
+<span class="sd">    :param output_store:</span>
 <span class="sd">    :param crudifier:</span>
 <span class="sd">    :return:</span>
 
@@ -976,7 +1018,7 @@
 <span class="sd">    ...     return a * x</span>
 <span class="sd">    &gt;&gt;&gt; general_crudifier = partial(</span>
 <span class="sd">    ...     crudify_based_on_names,</span>
-<span class="sd">    ...     arg_input_stores={&#39;x&#39;: &#39;x_store&#39;},</span>
+<span class="sd">    ...     param_to_mall_map={&#39;x&#39;: &#39;x_store&#39;},</span>
 <span class="sd">    ...     crudifier=partial(prepare_for_crude_dispatch, mall={&#39;x_store&#39;: {&#39;stored_two&#39;: 2, &#39;stored_four&#39;: 4}})</span>
 <span class="sd">    ... )</span>
 <span class="sd">    &gt;&gt;&gt;</span>
@@ -988,19 +1030,19 @@
 <span class="sd">    16</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">arg_input_stores</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arg_input_stores</span><span class="p">)</span>
-    <span class="n">func_output_stores</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">func_output_stores</span><span class="p">)</span>
+    <span class="n">param_to_mall_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">param_to_mall_map</span><span class="p">)</span>
+    <span class="n">output_store</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">output_store</span><span class="p">)</span>
     <span class="n">func_name</span> <span class="o">=</span> <span class="n">name_of_obj</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="n">param_to_mall_map</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">_remove_non_valued_items</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="n">arg_name</span><span class="p">:</span> <span class="n">chain_get</span><span class="p">(</span><span class="n">arg_input_stores</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+                <span class="n">arg_name</span><span class="p">:</span> <span class="n">chain_get</span><span class="p">(</span><span class="n">param_to_mall_map</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">arg_name</span><span class="p">,</span> <span class="n">keys</span> <span class="ow">in</span> <span class="n">_keys_to_search</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
             <span class="p">}</span>
         <span class="p">)</span>
         <span class="ow">or</span> <span class="kc">None</span>
     <span class="p">)</span>
-    <span class="n">output_store</span> <span class="o">=</span> <span class="n">chain_get</span><span class="p">(</span><span class="n">func_output_stores</span><span class="p">,</span> <span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">func_name</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">output_store</span> <span class="o">=</span> <span class="n">chain_get</span><span class="p">(</span><span class="n">output_store</span><span class="p">,</span> <span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">func_name</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">param_to_mall_map</span> <span class="ow">or</span> <span class="n">output_store</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">crudifier</span><span class="p">(</span>
             <span class="n">func</span><span class="p">,</span> <span class="n">param_to_mall_map</span><span class="o">=</span><span class="n">param_to_mall_map</span><span class="p">,</span> <span class="n">output_store</span><span class="o">=</span><span class="n">output_store</span>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.77 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.78 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -267,30 +267,77 @@ The following would implement this:</p>
 
 <dl class="py function">
 <dt id="front.crude.auto_key">
-<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">auto_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/front/crude.html#auto_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.auto_key" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">auto_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#front.crude.auto_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a str key from arguments.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key_from_arguments</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="go">&#39;1,2,c=3,d=4&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key_from_arguments</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="go">&#39;1,2&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key_from_arguments</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="go">&#39;c=3,d=4&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key_from_arguments</span><span class="p">()</span>
 <span class="go">&#39;&#39;</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py function">
+<dt id="front.crude.auto_key_from_arguments">
+<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">auto_key_from_arguments</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/front/crude.html#auto_key_from_arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.auto_key_from_arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a str key from arguments.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key_from_arguments</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">&#39;1,2,c=3,d=4&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key_from_arguments</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">&#39;1,2&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key_from_arguments</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">&#39;c=3,d=4&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key_from_arguments</span><span class="p">()</span>
+<span class="go">&#39;&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="front.crude.auto_key_from_time">
+<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">auto_key_from_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="n">__format</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>numbers.Number<span class="p">, </span>str<span class="p">, </span>Callable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">1000000.0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/front/crude.html#auto_key_from_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.auto_key_from_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a str key with current timestamp (ignoring arguments)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>__format</strong> – When a number, will be used as a multiplier of current utc time</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">auto_key_from_time</span><span class="p">()</span>  
+<span class="go">&#39;1_669_724_787_630_906&#39;</span>
+</pre></div>
+</div>
+<p>But <cite>auto_key_from_time</cite> is really meant to be used with <code class="docutils literal notranslate"><span class="pre">functools.partial</span></code> to
+parametrize its <code class="docutils literal notranslate"><span class="pre">__format</span></code>, such as:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_in_ms</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">auto_key_from_time</span><span class="p">,</span> <span class="n">__format</span><span class="o">=</span><span class="mf">1e3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normal_format</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">auto_key_from_time</span><span class="p">,</span> <span class="n">__format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modulo_1000</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">auto_key_from_time</span><span class="p">,</span> <span class="n">__format</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">%</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_in_ms</span><span class="p">()</span>  
+<span class="go">&#39;1_669_724_787_641&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normal_format</span><span class="p">()</span>  
+<span class="go">&#39;2022-11-29 12:26:27&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modulo_1000</span><span class="p">()</span>  
+<span class="go">&#39;788&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
 <dt id="front.crude.crudify_based_on_names">
-<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">crudify_based_on_names</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">*</em>, <em class="sig-param">arg_input_stores=()</em>, <em class="sig-param">func_output_stores=()</em>, <em class="sig-param">crudifier=&lt;class 'front.crude.Crudifier'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/crude.html#crudify_based_on_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.crudify_based_on_names" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">front.crude.</code><code class="sig-name descname">crudify_based_on_names</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">*</em>, <em class="sig-param">param_to_mall_map=()</em>, <em class="sig-param">output_store=()</em>, <em class="sig-param">crudifier=&lt;class 'front.crude.Crudifier'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/crude.html#crudify_based_on_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.crude.crudify_based_on_names" title="Permalink to this definition">¶</a></dt>
 <dd><p>Crudify a function based on general</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>func</strong> – </p></li>
-<li><p><strong>arg_input_stores</strong> – </p></li>
-<li><p><strong>func_output_stores</strong> – </p></li>
+<li><p><strong>param_to_mall_map</strong> – </p></li>
+<li><p><strong>output_store</strong> – </p></li>
 <li><p><strong>crudifier</strong> – </p></li>
 </ul>
 </dd>
@@ -305,7 +352,7 @@ The following would implement this:</p>
 <span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">general_crudifier</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">crudify_based_on_names</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">arg_input_stores</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;x_store&#39;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="n">param_to_mall_map</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;x_store&#39;</span><span class="p">},</span>
 <span class="gp">... </span>    <span class="n">crudifier</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">prepare_for_crude_dispatch</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x_store&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;stored_two&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;stored_four&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}})</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="go">&gt;&gt;&gt;</span>

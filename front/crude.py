@@ -77,7 +77,7 @@ auto_key = auto_key_from_arguments  # TODO: Deprecate this backcompatibility ali
 
 
 def auto_key_from_time(
-        *args, __format: Union[Number, str, Callable] = 1e6, **kwargs
+    *args, __format: Union[Number, str, Callable] = 1e6, **kwargs
 ) -> KT:
     """Make a str key with current timestamp (ignoring arguments)
 
@@ -104,13 +104,13 @@ def auto_key_from_time(
     """
     utc_seconds = time.time()
     if isinstance(__format, Number):
-        return f"{int(utc_seconds * __format):_}"
+        return f'{int(utc_seconds * __format):_}'
     elif isinstance(__format, str):
         return time.strftime(__format, time.gmtime(utc_seconds))
     else:
-        assert callable(__format), (
-                f"__format should be callable, str or number. Was: {__format}"
-        )
+        assert callable(
+            __format
+        ), f'__format should be callable, str or number. Was: {__format}'
         return str(__format(utc_seconds))
 
 
