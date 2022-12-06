@@ -19,10 +19,10 @@ def bar():
     return inner
 
 
-def test_arg_input_stores(foo, bar):
+def test_param_to_mall_map(foo, bar):
     general_crudifier = partial(
         crudify_based_on_names,
-        arg_input_stores={'x': 'x_store'},
+        param_to_mall_map={'x': 'x_store'},
         crudifier=partial(
             prepare_for_crude_dispatch,
             mall={'x_store': {'stored_two': 2, 'stored_four': 4}},

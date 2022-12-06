@@ -875,7 +875,7 @@ def _remove_non_valued_items(d: dict):
 
 
 def _keys_to_search(func):
-    """Function defining what forms of keys will be searched in the arg_input_stores
+    """Function defining what forms of keys will be searched in the param_to_mall_map
     when using crudify_based_on_names on a function.
     Note that since chain_get will be used on this, it's the first key found that will be used,
     making, for example, a ``(func, arg_name)`` specification have precedence over an `arg_name` specification"""
@@ -911,7 +911,7 @@ def crudify_based_on_names(
     ...     return a * x
     >>> general_crudifier = partial(
     ...     crudify_based_on_names,
-    ...     arg_input_stores={'x': 'x_store'},
+    ...     param_to_mall_map={'x': 'x_store'},
     ...     crudifier=partial(prepare_for_crude_dispatch, mall={'x_store': {'stored_two': 2, 'stored_four': 4}})
     ... )
     >>>
