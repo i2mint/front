@@ -56,18 +56,19 @@ from meshed.base import ch_func_node_attrs
 from meshed.itools import parents, children
 
 
+# TODO: Lot's of cleaning and simplification needed in this module!!!
 def simple_namer(name, *, prefix='', suffix=''):
     return f'{prefix}{name}{suffix}'
 
 
 def crudify_func_nodes(
-    var_nodes: Union[str, Iterable[str]],
-    dag: DAG,
-    var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
-    *,
-    mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
-    include_stores_attribute: bool = False,
-    save_name_param: str = 'save_name',
+        var_nodes: Union[str, Iterable[str]],
+        dag: DAG,
+        var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
+        *,
+        mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
+        include_stores_attribute: bool = False,
+        save_name_param: str = 'save_name',
 ):
     """Crudifies the given ``var_nodes`` in the ``dag``.
 
@@ -158,6 +159,17 @@ def crudify_func_nodes(
         )
     )
 
+def crudify_funcs(
+        var_nodes: Union[str, Iterable[str]],
+        dag: DAG,  # TODO: Postelize. Accept func_nodes and funcs
+        var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
+        *,
+        mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
+        include_stores_attribute: bool = False,
+        save_name_param: str = 'save_name',
+):
+    return list(_crudified_funcs(**locals()))
+
 
 class VarNodeRole(Enum):
     """(Var)Node roles.
@@ -243,9 +255,9 @@ _no_more_elements = type('NoMoreElements', (), {})()
 
 
 def _get_first_if_any_and_asserting_unique(
-    iterable: Iterable,
-    default=_no_more_elements,
-    msg='Your iterator should have no more than one element',
+        iterable: Iterable,
+        default=_no_more_elements,
+        msg='Your iterator should have no more than one element',
 ):
     iterator = iter(iterable)
     first_element = next(iterator, default)
@@ -261,7 +273,7 @@ def group_kvs_into_dict(kvs):
 # TODO: Perhaps we should use FuncNode.name (id) instead of FuncNode itself as key of
 #   dag.graph. We'd have less such problems then.
 def _func_nodes_arg_and_return_names_to_crude(
-    var_nodes: Union[str, Iterable[str]], dag: DAG,
+        var_nodes: Union[str, Iterable[str]], dag: DAG,
 ):
     """Return a copy of a dag where ``var_nodes`` were crudified.
 
@@ -310,7 +322,7 @@ def _func_nodes_arg_and_return_names_to_crude(
 
 
 def _mk_param_to_mall_map_from_for_var_nodes(
-    var_nodes, bind, var_node_name_to_store_name
+        var_nodes, bind, var_node_name_to_store_name
 ):
     """Generate (param, store_name) pairs.
 
@@ -340,28 +352,36 @@ from i2.wrapper import rm_params
 
 
 def _crudified_func_nodes(
-    var_nodes: Union[str, Iterable[str]],
-    dag: DAG,
-    var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
-    *,
-    mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
-    include_stores_attribute: bool = False,
-    save_name_param: str = 'save_name',
+        var_nodes: Union[str, Iterable[str]],
+        dag: DAG,
+        var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
+        *,
+        mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
+        include_stores_attribute: bool = False,
+        save_name_param: str = 'save_name',
+        remove_save_name=True,  # TODO: should be False or not exist
 ):
     if isinstance(var_nodes, str):
         var_nodes = var_nodes.split()
-    # make a mall for all the var_names, giving them all empty dicts as stores if they are not there already.
-    mall = mall or dict()
+    # make a mall for all the var_names, giving them all empty dicts as stores
+    # if they are not there already.
+    if mall is None:
+        mall = defaultdict(dict)
+
+    # TODO: This overwrites the mall outside so user is surprised!
     mall = dict(
         {var_node_name_to_store_name(var_name): dict() for var_name in var_nodes},
         **mall,
     )
-    rm_save_name = partial(rm_params, params_to_remove=[save_name_param])
+    if remove_save_name:
+        rm_save_name = partial(rm_params, params_to_remove=[save_name_param])
+    else:
+        rm_save_name = lambda x: x
 
     for (
-        func_node,
-        argument_names,
-        return_name,
+            func_node,
+            argument_names,
+            return_name,
     ) in _func_nodes_arg_and_return_names_to_crude(var_nodes, dag):
         mk_param_mall_map = partial(
             _mk_param_to_mall_map_from_for_var_nodes,
@@ -371,7 +391,7 @@ def _crudified_func_nodes(
             yield func_node
         else:
             param_to_mall_map = (
-                dict(mk_param_mall_map(argument_names, func_node.bind)) or None
+                    dict(mk_param_mall_map(argument_names, func_node.bind)) or None
             )
             output_store = (
                 var_node_name_to_store_name(return_name)
@@ -392,6 +412,20 @@ def _crudified_func_nodes(
             )
 
             yield ch_func_node_attrs(func_node, func=rm_save_name(crudified_func))
+
+
+def _crudified_funcs(
+        var_nodes: Union[str, Iterable[str]],
+        dag: DAG,
+        var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
+        *,
+        mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
+        include_stores_attribute: bool = False,
+        save_name_param: str = 'save_name',
+):
+    kwargs = dict(locals(), remove_save_name=False)
+    func_nodes = _crudified_func_nodes(**kwargs)
+    yield from (fn.func for fn in func_nodes)
 
 
 # empty_name_callback: Callable[[], Any] = None,
