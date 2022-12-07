@@ -273,7 +273,7 @@ def _func_nodes_arg_and_return_names_to_crude(
     ...     y = bar(x, greeting)
     ...     z = confuser(a, w=x)  # note the w=x to test non-trivial binding
     >>>
-    >>> # Showing but skipping (because I can't get order to be stable (TODO: Make it so)
+    >>> # Showing but skipping (because can't get order to be stable (TODO: Make it so)
     >>> sorted(
     ... _func_nodes_arg_and_return_names_to_crude(['x', 'a'], dag)
     ... )  # doctest: +SKIP
