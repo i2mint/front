@@ -364,7 +364,6 @@ from typing import Callable
 #     output_trans: Callable[..., Any] = None,
 #     verbose: bool = True,
 def _crudified_func_nodes(
-<<<<<<< HEAD
         var_nodes: Union[str, Iterable[str]],
         dag: DAG,
         var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
@@ -373,19 +372,8 @@ def _crudified_func_nodes(
         include_stores_attribute: bool = False,
         save_name_param: str = 'save_name',
         auto_namer: Callable[[], Any] = None,
-        # TODO: Should default auto_namer be lambda: f'{func_node.out}_last_output'?
         remove_save_name=True,  # TODO: should be False or not exist
         store_factory=dict,
-=======
-    var_nodes: Union[str, Iterable[str]],
-    dag: DAG,
-    var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
-    *,
-    mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
-    include_stores_attribute: bool = False,
-    save_name_param: str = 'save_name',
-    remove_save_name=True,  # TODO: should be False or not exist
->>>>>>> eed1cfca7bb91bbde292b7d7ad25cf82793b40e4
 ):
     if isinstance(var_nodes, str):
         var_nodes = var_nodes.split()
@@ -440,7 +428,7 @@ def _crudified_func_nodes(
                 param_to_mall_map=param_to_mall_map,
                 output_store=output_store,
                 empty_name_callback=None,
-                auto_namer=auto_namer,
+                auto_namer=lambda: f'{func_node.out}_last_output',
                 output_trans=_return_save_name,
                 mall=mall,
                 include_stores_attribute=include_stores_attribute,
