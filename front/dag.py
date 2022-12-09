@@ -350,8 +350,19 @@ def _empty_name_callback():
 
 
 from i2.wrapper import rm_params
+from typing import Callable
 
-
+# TODO: Give control to ALL prepare_for_crude_dispatch arguments.
+#     param_to_mall_map: Optional[Union[dict, Iterable]] = None,
+#     mall: Optional[Mall] = None,
+#     include_stores_attribute: bool = False,
+#     output_store: Optional[Union[Mapping, str]] = None,
+#     # the arguments below only apply if output_store is given
+#     save_name_param: str = 'save_name',
+#     empty_name_callback: Callable[[], Any] = None,
+#     auto_namer: Callable[..., str] = None,
+#     output_trans: Callable[..., Any] = None,
+#     verbose: bool = True,
 def _crudified_func_nodes(
         var_nodes: Union[str, Iterable[str]],
         dag: DAG,
@@ -360,7 +371,10 @@ def _crudified_func_nodes(
         mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
         include_stores_attribute: bool = False,
         save_name_param: str = 'save_name',
+        auto_namer: Callable[[], Any] = None,
+        # TODO: Should default auto_namer be lambda: f'{func_node.out}_last_output'?
         remove_save_name=True,  # TODO: should be False or not exist
+        store_factory=dict,
 ):
     if isinstance(var_nodes, str):
         var_nodes = var_nodes.split()
@@ -415,7 +429,7 @@ def _crudified_func_nodes(
                 param_to_mall_map=param_to_mall_map,
                 output_store=output_store,
                 empty_name_callback=None,
-                auto_namer=lambda: f'{func_node.out}_last_output',
+                auto_namer=auto_namer,
                 output_trans=_return_save_name,
                 mall=mall,
                 include_stores_attribute=include_stores_attribute,
