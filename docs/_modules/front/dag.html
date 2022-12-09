@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.dag &mdash; front 0.1.80 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.dag &mdash; front 0.1.81 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -56,6 +56,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/kaggle_front.html">front.examples.kaggle_front</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/pos_key_args.html">front.examples.pos_key_args</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/simple.html">front.examples.simple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/simple_ml_1.html">front.examples.simple_ml_1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/tw_data_binding.html">front.examples.tw_data_binding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/wordle.html">front.examples.wordle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
@@ -477,10 +478,20 @@
         <span class="n">mall</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
 
     <span class="c1"># TODO: This overwrites the mall outside so user is surprised!</span>
-    <span class="n">mall</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="p">{</span><span class="n">var_node_name_to_store_name</span><span class="p">(</span><span class="n">var_name</span><span class="p">):</span> <span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="n">var_nodes</span><span class="p">},</span>
-        <span class="o">**</span><span class="n">mall</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="c1"># mall = dict(</span>
+    <span class="c1">#     {var_node_name_to_store_name(var_name): dict() for var_name in var_nodes},</span>
+    <span class="c1">#     **mall,</span>
+    <span class="c1"># )</span>
+    <span class="c1"># Possible solution:</span>
+    <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="n">var_nodes</span><span class="p">:</span>
+        <span class="n">store_name_for_var_name</span> <span class="o">=</span> <span class="n">var_node_name_to_store_name</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">store_name_for_var_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mall</span><span class="p">:</span>
+            <span class="c1"># TODO: store_factory has no args here. Maybe we want to use</span>
+            <span class="c1">#  call_forgivingly to allow user to specify how to make store according to</span>
+            <span class="c1">#  var_name or store_name_for_var_name (or not)</span>
+            <span class="c1">#  Other possibility: store_factory is a function or mapping</span>
+            <span class="n">mall</span><span class="p">[</span><span class="n">store_name_for_var_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">store_factory</span><span class="p">()</span>
+
     <span class="k">if</span> <span class="n">remove_save_name</span><span class="p">:</span>
         <span class="n">rm_save_name</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">rm_params</span><span class="p">,</span> <span class="n">params_to_remove</span><span class="o">=</span><span class="p">[</span><span class="n">save_name_param</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
@@ -534,6 +545,11 @@
     <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">locals</span><span class="p">(),</span> <span class="n">remove_save_name</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">func_nodes</span> <span class="o">=</span> <span class="n">_crudified_func_nodes</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="p">(</span><span class="n">fn</span><span class="o">.</span><span class="n">func</span> <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">func_nodes</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">fnodes_to_var_node_crude_specs</span><span class="p">(</span><span class="n">fnodes</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">fnode</span> <span class="ow">in</span> <span class="n">fnodes</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">fnode</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">fnode</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">fnode</span><span class="o">.</span><span class="n">bind</span>
 
 
 <span class="c1"># empty_name_callback: Callable[[], Any] = None,</span>

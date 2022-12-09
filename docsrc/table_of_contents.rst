@@ -18,6 +18,7 @@
    module_docs/front/examples/kaggle_front
    module_docs/front/examples/pos_key_args
    module_docs/front/examples/simple
+   module_docs/front/examples/simple_ml_1
    module_docs/front/examples/tw_data_binding
    module_docs/front/examples/wordle
    module_docs/front/py2pydantic
