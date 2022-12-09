@@ -159,6 +159,7 @@ def crudify_func_nodes(
         )
     )
 
+
 def crudify_funcs(
         var_nodes: Union[str, Iterable[str]],
         dag: DAG,  # TODO: Postelize. Accept func_nodes and funcs
@@ -352,14 +353,16 @@ from i2.wrapper import rm_params
 
 
 def _crudified_func_nodes(
+        # TODO: var_nodes -> var_names
         var_nodes: Union[str, Iterable[str]],
-        dag: DAG,
+        dag: DAG,  # Make it func_nodes not DAG
         var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
         *,
         mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
         include_stores_attribute: bool = False,
         save_name_param: str = 'save_name',
         remove_save_name=True,  # TODO: should be False or not exist
+        store_factory=dict
 ):
     if isinstance(var_nodes, str):
         var_nodes = var_nodes.split()
@@ -369,10 +372,20 @@ def _crudified_func_nodes(
         mall = defaultdict(dict)
 
     # TODO: This overwrites the mall outside so user is surprised!
-    mall = dict(
-        {var_node_name_to_store_name(var_name): dict() for var_name in var_nodes},
-        **mall,
-    )
+    # mall = dict(
+    #     {var_node_name_to_store_name(var_name): dict() for var_name in var_nodes},
+    #     **mall,
+    # )
+    # Possible solution:
+    for var_name in var_nodes:
+        store_name_for_var_name = var_node_name_to_store_name(var_name)
+        if store_name_for_var_name not in mall:
+            # TODO: store_factory has no args here. Maybe we want to use
+            #  call_forgivingly to allow user to specify how to make store according to
+            #  var_name or store_name_for_var_name (or not)
+            #  Other possibility: store_factory is a function or mapping
+            mall[store_name_for_var_name] = store_factory()
+
     if remove_save_name:
         rm_save_name = partial(rm_params, params_to_remove=[save_name_param])
     else:
@@ -426,6 +439,11 @@ def _crudified_funcs(
     kwargs = dict(locals(), remove_save_name=False)
     func_nodes = _crudified_func_nodes(**kwargs)
     yield from (fn.func for fn in func_nodes)
+
+
+def fnodes_to_var_node_crude_specs(fnodes):
+    for fnode in fnodes:
+        yield fnode.var, fnode.func, fnode.bind
 
 
 # empty_name_callback: Callable[[], Any] = None,

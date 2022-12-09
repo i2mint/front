@@ -184,6 +184,7 @@ def _store_on_output(*args, _store_on_ouput_args, **kwargs):
 
 
 # TODO: store_on_output not pickalable: extend i2.wrapper to be able to solve with it
+# TODO: Maybe empty_name_callback and auto_namer are mergeable?
 @double_up_as_factory
 def store_on_output(
     func=None,
