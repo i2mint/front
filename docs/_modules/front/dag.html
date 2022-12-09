@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.dag &mdash; front 0.1.81 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.dag &mdash; front 0.1.82 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -458,8 +458,19 @@
 
 
 <span class="kn">from</span> <span class="nn">i2.wrapper</span> <span class="kn">import</span> <span class="n">rm_params</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 
-
+<span class="c1"># TODO: Give control to ALL prepare_for_crude_dispatch arguments.</span>
+<span class="c1">#     param_to_mall_map: Optional[Union[dict, Iterable]] = None,</span>
+<span class="c1">#     mall: Optional[Mall] = None,</span>
+<span class="c1">#     include_stores_attribute: bool = False,</span>
+<span class="c1">#     output_store: Optional[Union[Mapping, str]] = None,</span>
+<span class="c1">#     # the arguments below only apply if output_store is given</span>
+<span class="c1">#     save_name_param: str = &#39;save_name&#39;,</span>
+<span class="c1">#     empty_name_callback: Callable[[], Any] = None,</span>
+<span class="c1">#     auto_namer: Callable[..., str] = None,</span>
+<span class="c1">#     output_trans: Callable[..., Any] = None,</span>
+<span class="c1">#     verbose: bool = True,</span>
 <span class="k">def</span> <span class="nf">_crudified_func_nodes</span><span class="p">(</span>
     <span class="n">var_nodes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
     <span class="n">dag</span><span class="p">:</span> <span class="n">DAG</span><span class="p">,</span>
@@ -468,7 +479,9 @@
     <span class="n">mall</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">include_stores_attribute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">save_name_param</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;save_name&#39;</span><span class="p">,</span>
+    <span class="n">auto_namer</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">remove_save_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># TODO: should be False or not exist</span>
+    <span class="n">store_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var_nodes</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">var_nodes</span> <span class="o">=</span> <span class="n">var_nodes</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>

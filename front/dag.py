@@ -364,16 +364,16 @@ from typing import Callable
 #     output_trans: Callable[..., Any] = None,
 #     verbose: bool = True,
 def _crudified_func_nodes(
-        var_nodes: Union[str, Iterable[str]],
-        dag: DAG,
-        var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
-        *,
-        mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
-        include_stores_attribute: bool = False,
-        save_name_param: str = 'save_name',
-        auto_namer: Callable[[], Any] = None,
-        remove_save_name=True,  # TODO: should be False or not exist
-        store_factory=dict,
+    var_nodes: Union[str, Iterable[str]],
+    dag: DAG,
+    var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
+    *,
+    mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
+    include_stores_attribute: bool = False,
+    save_name_param: str = 'save_name',
+    auto_namer: Callable[[], Any] = None,
+    remove_save_name=True,  # TODO: should be False or not exist
+    store_factory=dict,
 ):
     if isinstance(var_nodes, str):
         var_nodes = var_nodes.split()
