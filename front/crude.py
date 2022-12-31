@@ -493,9 +493,7 @@ def prepare_for_crude_dispatch(
     if param_to_mall_map is not None:
         if isinstance(param_to_mall_map, str):
             param_to_mall_map = param_to_mall_map.strip().split()
-        param_to_mall_map = keys_to_values_if_non_mapping_iterable(
-            param_to_mall_map
-        )
+        param_to_mall_map = keys_to_values_if_non_mapping_iterable(param_to_mall_map)
 
         sig = Sig(func)
 

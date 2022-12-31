@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.82 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.83 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -601,6 +601,7 @@
     <span class="k">if</span> <span class="n">param_to_mall_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param_to_mall_map</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">param_to_mall_map</span> <span class="o">=</span> <span class="n">param_to_mall_map</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">param_to_mall_map</span> <span class="o">=</span> <span class="n">keys_to_values_if_non_mapping_iterable</span><span class="p">(</span><span class="n">param_to_mall_map</span><span class="p">)</span>
 
         <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
 
@@ -652,6 +653,7 @@
     <span class="n">wrapped_f</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">ingress</span><span class="o">=</span><span class="n">ingress</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">include_stores_attribute</span><span class="p">:</span>
+        <span class="n">wrapped_f</span><span class="o">.</span><span class="n">param_to_mall_map</span> <span class="o">=</span> <span class="n">param_to_mall_map</span>
         <span class="n">wrapped_f</span><span class="o">.</span><span class="n">store_for_param</span> <span class="o">=</span> <span class="n">store_for_param</span>
 
     <span class="k">if</span> <span class="n">output_store</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -687,9 +689,6 @@
     <span class="sd">&quot;&quot;&quot;Make a {param: store,...} dict from a {param: mall_key,...} dict, a sig and a</span>
 <span class="sd">    mall, validating stuff on the way.&quot;&quot;&quot;</span>
     <span class="n">mall</span> <span class="o">=</span> <span class="n">mall</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">param_to_mall_key_dict</span> <span class="o">=</span> <span class="n">keys_to_values_if_non_mapping_iterable</span><span class="p">(</span>
-        <span class="n">param_to_mall_key_dict</span>
-    <span class="p">)</span>
     <span class="c1"># mall_keys_that_are_also_params_but_not_param_to_mall_key_dict_keys</span>
     <span class="n">unmentioned_mall_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">mall</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">param_to_mall_key_dict</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">unmentioned_mall_keys</span> <span class="ow">and</span> <span class="n">verbose</span><span class="p">:</span>
