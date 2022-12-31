@@ -493,6 +493,9 @@ def prepare_for_crude_dispatch(
     if param_to_mall_map is not None:
         if isinstance(param_to_mall_map, str):
             param_to_mall_map = param_to_mall_map.strip().split()
+        param_to_mall_map = keys_to_values_if_non_mapping_iterable(
+            param_to_mall_map
+        )
 
         sig = Sig(func)
 
@@ -544,6 +547,7 @@ def prepare_for_crude_dispatch(
     wrapped_f = wrap(func, ingress=ingress)
 
     if include_stores_attribute:
+        wrapped_f.param_to_mall_map = param_to_mall_map
         wrapped_f.store_for_param = store_for_param
 
     if output_store is not None:
@@ -579,9 +583,6 @@ def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=Tru
     """Make a {param: store,...} dict from a {param: mall_key,...} dict, a sig and a
     mall, validating stuff on the way."""
     mall = mall or dict()
-    param_to_mall_key_dict = keys_to_values_if_non_mapping_iterable(
-        param_to_mall_key_dict
-    )
     # mall_keys_that_are_also_params_but_not_param_to_mall_key_dict_keys
     unmentioned_mall_keys = set(mall) & set(sig.names) - set(param_to_mall_key_dict)
     if unmentioned_mall_keys and verbose:
