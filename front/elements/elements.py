@@ -392,8 +392,7 @@ SELECT_BOX_DFLT_INDEX = 0
 class SelectBoxBase(InputBase):
     options: Union[Sequence, Callable] = None
 
-    def __post_init__(self):
-        super().__post_init__()
+    def pre_render(self):
         self.options = self.options or []
         options = self._ensure_options()
         if not options:
