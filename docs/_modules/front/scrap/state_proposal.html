@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.scrap.state_proposal &mdash; front 0.1.83 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <title>front.scrap.state_proposal &mdash; front 0.1.84 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -112,23 +112,23 @@
 
 
 <div class="viewcode-block" id="Forbidden"><a class="viewcode-back" href="../../../module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.Forbidden">[docs]</a><span class="k">class</span> <span class="nc">Forbidden</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;To use to indicate that something is not allowed&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;To use to indicate that something is not allowed&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="ForbiddenWrite"><a class="viewcode-back" href="../../../module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.ForbiddenWrite">[docs]</a><span class="k">class</span> <span class="nc">ForbiddenWrite</span><span class="p">(</span><span class="n">Forbidden</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Error to raise when a write operation is not allowed&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error to raise when a write operation is not allowed&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="ForbiddenOverwrite"><a class="viewcode-back" href="../../../module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.ForbiddenOverwrite">[docs]</a><span class="k">class</span> <span class="nc">ForbiddenOverwrite</span><span class="p">(</span><span class="n">Forbidden</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Error to raise when a writes to existing keys are not allowed&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error to raise when a writes to existing keys are not allowed&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="ConditionNotMet"><a class="viewcode-back" href="../../../module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.ConditionNotMet">[docs]</a><span class="k">class</span> <span class="nc">ConditionNotMet</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Raised when a value doesn&#39;t meet some condition&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a value doesn&#39;t meet some condition&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="GetterSetter"><a class="viewcode-back" href="../../../module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.GetterSetter">[docs]</a><span class="k">class</span> <span class="nc">GetterSetter</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The type of an object ``obj`` that has the operations ``v = obj[k]`` and ``obj[</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The type of an object ``obj`` that has the operations ``v = obj[k]`` and ``obj[</span>
 <span class="sd">    k] = v``&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">KT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VT</span><span class="p">:</span>
