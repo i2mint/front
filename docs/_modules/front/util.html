@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.util &mdash; front 0.1.83 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.util &mdash; front 0.1.84 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -129,7 +129,7 @@
 
 
 <div class="viewcode-block" id="subdict"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.subdict">[docs]</a><span class="k">def</span> <span class="nf">subdict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Gets a sub-dict from a Mapping ``d``, extracting only those keys that are both in</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets a sub-dict from a Mapping ``d``, extracting only those keys that are both in</span>
 <span class="sd">    ``keys`` and ``d``.</span>
 <span class="sd">    Note that the dict will be ordered as ``keys`` are, so can be used for reordering</span>
 <span class="sd">    a Mapping.</span>
@@ -141,7 +141,7 @@
 
 
 <span class="k">def</span> <span class="nf">_get_value_attr</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">keys</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">val_trans</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a copy of ``d`` where ``val_trans`` applied to the values of ``keys``.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a copy of ``d`` where ``val_trans`` applied to the values of ``keys``.</span>
 
 <span class="sd">    Meant to be used with ``functools.partial`` to fix ``val_trans``, and possibly</span>
 <span class="sd">    ``transform_keys``.</span>
@@ -154,7 +154,7 @@
 
 <span class="nd">@double_up_as_factory</span>
 <span class="k">def</span> <span class="nf">inject_enum_annotations</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_enum_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">enum_list_for_arg</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    :param func: function to wrap</span>
 <span class="sd">    :param enum_list_for_arg: For every argument you want to enumify (i.e. annotate with</span>
@@ -246,7 +246,7 @@
     <span class="n">annot_for_dflt_type</span><span class="p">:</span> <span class="n">AnnotForType</span> <span class="o">=</span> <span class="p">(),</span>
     <span class="n">dflt_annot</span><span class="p">:</span> <span class="n">Annot</span> <span class="o">=</span> <span class="n">empty</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Annotate</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotate</span>
 
 <span class="sd">    :param func: The function whose args we want to annotate</span>
 <span class="sd">    :param ignore_existing_annot: Set to True to ignore existing annots.</span>
@@ -339,7 +339,7 @@
     <span class="n">dflt_annot</span><span class="p">:</span> <span class="n">Annot</span> <span class="o">=</span> <span class="n">empty</span><span class="p">,</span>
     <span class="n">ignore_existing_annot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Helper for annotate_func_arguments. Same inputs as the latter.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper for annotate_func_arguments. Same inputs as the latter.&quot;&quot;&quot;</span>
     <span class="n">annot_for_argname</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">annot_for_argname</span><span class="p">)</span>
     <span class="n">annot_for_dflt_type</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">annot_for_dflt_type</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span>
@@ -384,7 +384,7 @@
 
 
 <div class="viewcode-block" id="deep_merge"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.deep_merge">[docs]</a><span class="k">def</span> <span class="nf">deep_merge</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Merges b into a&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merges b into a&quot;&quot;&quot;</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value_b</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -397,7 +397,7 @@
 
 
 <div class="viewcode-block" id="incremental_str_maker"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.incremental_str_maker">[docs]</a><span class="k">def</span> <span class="nf">incremental_str_maker</span><span class="p">(</span><span class="n">str_format</span><span class="o">=</span><span class="s1">&#39;{:03.f}&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Make a function that will produce a (incrementally) new string at every call.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a function that will produce a (incrementally) new string at every call.&quot;&quot;&quot;</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">mk_next_str</span><span class="p">():</span>
@@ -412,7 +412,7 @@
 
 
 <div class="viewcode-block" id="obj_name"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.obj_name">[docs]</a><span class="k">def</span> <span class="nf">obj_name</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The func.__name__ of a callable func, or makes and returns one if that fails.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The func.__name__ of a callable func, or makes and returns one if that fails.</span>
 <span class="sd">    To make one, it calls unamed_func_name which produces incremental names to reduce the chances of clashing&quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">name_of_obj</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;&lt;lambda&gt;&#39;</span><span class="p">:</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.state &mdash; front 0.1.83 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.state &mdash; front 0.1.84 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -123,23 +123,23 @@
 
 
 <div class="viewcode-block" id="Forbidden"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.Forbidden">[docs]</a><span class="k">class</span> <span class="nc">Forbidden</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;To use to indicate that something is not allowed&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;To use to indicate that something is not allowed&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="ForbiddenWrite"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.ForbiddenWrite">[docs]</a><span class="k">class</span> <span class="nc">ForbiddenWrite</span><span class="p">(</span><span class="n">Forbidden</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Error to raise when a write operation is not allowed&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error to raise when a write operation is not allowed&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="ForbiddenOverwrite"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.ForbiddenOverwrite">[docs]</a><span class="k">class</span> <span class="nc">ForbiddenOverwrite</span><span class="p">(</span><span class="n">Forbidden</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Error to raise when a writes to existing keys are not allowed&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error to raise when a writes to existing keys are not allowed&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="ConditionNotMet"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.ConditionNotMet">[docs]</a><span class="k">class</span> <span class="nc">ConditionNotMet</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Raised when a value doesn&#39;t meet some condition&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a value doesn&#39;t meet some condition&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="GetterSetter"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.GetterSetter">[docs]</a><span class="k">class</span> <span class="nc">GetterSetter</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The type of an object ``obj`` that has the operations ``v = obj[k]`` and ``obj[</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The type of an object ``obj`` that has the operations ``v = obj[k]`` and ``obj[</span>
 <span class="sd">    k] = v``&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">KT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VT</span><span class="p">:</span>
@@ -297,7 +297,7 @@
 
 
 <span class="k">class</span> <span class="nc">_DynamicBindsMixin</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Intercepts attribute operations, using a binder descriptor as their values.</span>
 <span class="sd">    Uses ``_factory`` attribute to make the descriptors for a given attribute name.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -316,7 +316,7 @@
 
 
 <span class="k">class</span> <span class="nc">_ExclusiveBindsMixin</span><span class="p">(</span><span class="n">_DynamicBindsMixin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    To auto-creational functionalities of _DynamicBindsMixin, adds the restriction</span>
 <span class="sd">    that this can only be done for a given set of names (as specified by the</span>
 <span class="sd">    ``._allowed_ids`` attribute</span>
@@ -357,7 +357,7 @@
     <span class="n">allowed_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Identifiers</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">bound_val_factory</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">DFLT_BOUND_VAL_FACTORY</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    &gt;&gt;&gt; Binder = mk_binder()</span>
 <span class="sd">    &gt;&gt;&gt; d = dict()</span>
 <span class="sd">    &gt;&gt;&gt; b = Binder(d)</span>
@@ -430,14 +430,14 @@
     <span class="k">if</span> <span class="n">allowed_ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 
         <span class="k">class</span> <span class="nc">DynamicBinder</span><span class="p">(</span><span class="n">_Binder</span><span class="p">,</span> <span class="n">_DynamicBindsMixin</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;Specific Binder with dynamic on-the-fly identifiers&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Specific Binder with dynamic on-the-fly identifiers&quot;&quot;&quot;</span>
 
         <span class="n">Binder</span> <span class="o">=</span> <span class="n">DynamicBinder</span>
 
     <span class="k">else</span><span class="p">:</span>
 
         <span class="k">class</span> <span class="nc">ExclusiveBinder</span><span class="p">(</span><span class="n">_Binder</span><span class="p">,</span> <span class="n">_ExclusiveBindsMixin</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;Specific Binder with exclusive identifiers&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Specific Binder with exclusive identifiers&quot;&quot;&quot;</span>
 
             <span class="n">_allowed_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_ensure_allowed_ids</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">))</span>
 

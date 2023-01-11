@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.examples.wordle &mdash; front 0.1.83 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <title>front.examples.wordle &mdash; front 0.1.84 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -112,7 +112,7 @@
 
 
 <div class="viewcode-block" id="wordle_feedback"><a class="viewcode-back" href="../../../module_docs/front/examples/wordle.html#front.examples.wordle.wordle_feedback">[docs]</a><span class="k">def</span> <span class="nf">wordle_feedback</span><span class="p">(</span><span class="n">guess</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The wordle score of a guessed word.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The wordle score of a guessed word.</span>
 
 <span class="sd">    &gt;&gt;&gt; wordle_feedback(&#39;woopie&#39;, &#39;wordle&#39;)</span>
 <span class="sd">    [2, 2, 1, 0, 0, 2]</span>
@@ -149,7 +149,7 @@
         <span class="k">if</span> <span class="n">feedback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;--&gt; The word must have </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1"> letters!&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">char_for_score</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="n">feedback</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">char_for_score</span><span class="o">.</span><span class="n">get</span><span class="p">,</span><span class="w"> </span><span class="n">feedback</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">guess</span> <span class="o">!=</span> <span class="n">stop_word</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--&gt; Hurray!! The word was indeed </span><span class="si">{word}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--&gt; Bye!&#39;</span><span class="p">)</span>
@@ -172,7 +172,7 @@
 
 
 <div class="viewcode-block" id="wordle_corpus"><a class="viewcode-back" href="../../../module_docs/front/examples/wordle.html#front.examples.wordle.wordle_corpus">[docs]</a><span class="k">def</span> <span class="nf">wordle_corpus</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;A list of all wordle words (spoiler alert: past AND future)&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A list of all wordle words (spoiler alert: past AND future)&quot;&quot;&quot;</span>
     <span class="n">url</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s1">&#39;https://raw.githubusercontent.com/thorwhalen/content/master/tables/csv&#39;</span>
         <span class="s1">&#39;/wordle_words.txt&#39;</span>

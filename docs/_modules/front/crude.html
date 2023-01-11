@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.83 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.84 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -165,7 +165,7 @@
 
 
 <div class="viewcode-block" id="auto_key_from_arguments"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.auto_key_from_arguments">[docs]</a><span class="k">def</span> <span class="nf">auto_key_from_arguments</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KT</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Make a str key from arguments.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a str key from arguments.</span>
 
 <span class="sd">    &gt;&gt;&gt; auto_key_from_arguments(1,2,c=3,d=4)</span>
 <span class="sd">    &#39;1,2,c=3,d=4&#39;</span>
@@ -187,7 +187,7 @@
 <div class="viewcode-block" id="auto_key_from_time"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.auto_key_from_time">[docs]</a><span class="k">def</span> <span class="nf">auto_key_from_time</span><span class="p">(</span>
     <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">__format</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e6</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KT</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Make a str key with current timestamp (ignoring arguments)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a str key with current timestamp (ignoring arguments)</span>
 
 <span class="sd">    :param __format: When a number, will be used as a multiplier of current utc time</span>
 
@@ -212,7 +212,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">utc_seconds</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">__format</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">utc_seconds</span> <span class="o">*</span> <span class="n">__format</span><span class="p">)</span><span class="si">:</span><span class="s1">_</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">utc_seconds</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">__format</span><span class="p">)</span><span class="si">:</span><span class="s1">_</span><span class="si">}</span><span class="s1">&#39;</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">__format</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">__format</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">utc_seconds</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
@@ -224,13 +224,13 @@
 
 <div class="viewcode-block" id="DillFiles"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.DillFiles">[docs]</a><span class="nd">@wrap_kvs</span><span class="p">(</span><span class="n">data_of_obj</span><span class="o">=</span><span class="n">dill</span><span class="o">.</span><span class="n">dumps</span><span class="p">,</span> <span class="n">obj_of_data</span><span class="o">=</span><span class="n">dill</span><span class="o">.</span><span class="n">loads</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">DillFiles</span><span class="p">(</span><span class="n">Files</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Serializes and deserializes with dill&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serializes and deserializes with dill&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="mk_mall_of_dill_stores"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.mk_mall_of_dill_stores">[docs]</a><span class="k">def</span> <span class="nf">mk_mall_of_dill_stores</span><span class="p">(</span><span class="n">store_names</span><span class="o">=</span><span class="n">Iterable</span><span class="p">[</span><span class="n">StoreName</span><span class="p">],</span> <span class="n">rootdir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Make a mall of DillFiles stores&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a mall of DillFiles stores&quot;&quot;&quot;</span>
     <span class="n">rootdir</span> <span class="o">=</span> <span class="n">rootdir</span> <span class="ow">or</span> <span class="n">mk_tmp_dol_dir</span><span class="p">(</span><span class="s1">&#39;crude&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store_names</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">store_names</span> <span class="o">=</span> <span class="n">store_names</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -304,7 +304,7 @@
     <span class="n">auto_namer</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">output_trans</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Wrap func so it will have an extra save_name_param that can be used to</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrap func so it will have an extra save_name_param that can be used to</span>
 <span class="sd">    indicate whether to save the output of the function call to that key, in</span>
 <span class="sd">    that store.</span>
 
@@ -447,7 +447,7 @@
     <span class="n">output_trans</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wrap func into something that is ready for CRUDE dispatch.</span>
 <span class="sd">    It will be a function for whom specific arguments will be specified by strings,</span>
 <span class="sd">    via underlying stores containing the values.</span>
@@ -611,7 +611,7 @@
         <span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">kwargs_trans</span><span class="p">(</span><span class="n">outer_kw</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Let&#39;s say you have a function with three params: a, b, and c, whose arguments</span>
 <span class="sd">            should be ints. Let&#39;s say you want a and c to be cruded.</span>
 <span class="sd">            Then you need to specify a store for each one of these:</span>
@@ -686,7 +686,7 @@
 
 
 <span class="k">def</span> <span class="nf">_mk_store_for_param</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">param_to_mall_key_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Make a {param: store,...} dict from a {param: mall_key,...} dict, a sig and a</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a {param: store,...} dict from a {param: mall_key,...} dict, a sig and a</span>
 <span class="sd">    mall, validating stuff on the way.&quot;&quot;&quot;</span>
     <span class="n">mall</span> <span class="o">=</span> <span class="n">mall</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="c1"># mall_keys_that_are_also_params_but_not_param_to_mall_key_dict_keys</span>
@@ -751,7 +751,7 @@
 <div class="viewcode-block" id="simple_mall_dispatch_core_func"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.simple_mall_dispatch_core_func">[docs]</a><span class="k">def</span> <span class="nf">simple_mall_dispatch_core_func</span><span class="p">(</span>
     <span class="n">key</span><span class="p">:</span> <span class="n">KT</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_name</span><span class="p">:</span> <span class="n">StoreName</span><span class="p">,</span> <span class="n">mall</span><span class="p">:</span> <span class="n">Mall</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Helper function to dispatch a mall</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to dispatch a mall</span>
 
 <span class="sd">    This function is only meant to be a helper to give a UI (GUI,</span>
 <span class="sd">    CLI...) mall-exploration capabilities. Namely:</span>
@@ -842,7 +842,7 @@
 <span class="c1"># TODO: Should Crudifier be simply served by `i2.FuncFactory(prepare_for_crude_dispatch)` (without first arg)?</span>
 <span class="c1">#   Might want this issue solved first: https://github.com/i2mint/i2/issues/39</span>
 <div class="viewcode-block" id="Crudifier"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.Crudifier">[docs]</a><span class="k">class</span> <span class="nc">Crudifier</span><span class="p">(</span><span class="n">_Crudifier</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convenience class to make crudify (i.e. map/source inputs of) functions.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convenience class to make crudify (i.e. map/source inputs of) functions.</span>
 
 <span class="sd">    See https://github.com/i2mint/front/issues/21.</span>
 
@@ -983,7 +983,7 @@
 
 
 <span class="k">def</span> <span class="nf">_keys_to_search</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Function defining what forms of keys will be searched in the param_to_mall_map</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function defining what forms of keys will be searched in the param_to_mall_map</span>
 <span class="sd">    when using crudify_based_on_names on a function.</span>
 <span class="sd">    Note that since chain_get will be used on this, it&#39;s the first key found that will be used,</span>
 <span class="sd">    making, for example, a ``(func, arg_name)`` specification have precedence over an `arg_name` specification&quot;&quot;&quot;</span>
@@ -1003,7 +1003,7 @@
 <div class="viewcode-block" id="crudify_based_on_names"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.crudify_based_on_names">[docs]</a><span class="k">def</span> <span class="nf">crudify_based_on_names</span><span class="p">(</span>
     <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">param_to_mall_map</span><span class="o">=</span><span class="p">(),</span> <span class="n">output_store</span><span class="o">=</span><span class="p">(),</span> <span class="n">crudifier</span><span class="o">=</span><span class="n">Crudifier</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Crudify a function based on general</span>
 
 <span class="sd">    :param func:</span>
