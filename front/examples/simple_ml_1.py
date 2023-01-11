@@ -42,7 +42,7 @@ def mk_featurizer(chk_size=2048, chk_step=None, n_features=4, log_factor: float 
 DFLT_N_FEATURES = 11
 
 
-@FuncFactory.wrap(exclude='wf')
+@FuncFactory.wrap(exclude="wf")
 def mk_wf_to_fvs(
     wf, chk_size=2048, chk_step=None, n_features=DFLT_N_FEATURES, log_factor: float = 2
 ):
@@ -79,7 +79,8 @@ def auto_spectral_anomaly_learner(
         if callable(model_obj):
             return np.array(list(map(model_obj, fvs)))
         else:
-            return model_obj.predict(fvs)
+
+            return model_obj.score_samples(np.array(fvs))
 
     return model_runner
 
@@ -92,7 +93,7 @@ from pathlib import Path
 from operator import methodcaller, itemgetter
 import numpy as np
 
-file_to_bytes = Pipe(Path, methodcaller('read_bytes'))
+file_to_bytes = Pipe(Path, methodcaller("read_bytes"))
 wav_file_to_array = Pipe(
     file_to_bytes,
     decode_wav_bytes,
