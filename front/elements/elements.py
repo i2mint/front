@@ -12,6 +12,7 @@ from typing import (
     Union,
     get_args,
     get_origin,
+    Sequence,
 )
 from front.data_binding import BoundData, ValueNotSet
 from i2 import Sig
@@ -159,9 +160,12 @@ class InputBase(FrontComponentBase):
         self._init_none_value()
 
     def on_change(self):
-        value = self.value.get()
-        if self.on_value_change and value is not ValueNotSet:
-            call_forgivingly(self.on_value_change, self.value.get())
+        if (
+            self.on_value_change
+            and (view_value := self._create_bound_data(self.view_key).get())
+            is not ValueNotSet
+        ):
+            call_forgivingly(self.on_value_change, view_value)
 
     def post_render(self, render_result):
         self.value.set(render_result)
@@ -386,10 +390,9 @@ SELECT_BOX_DFLT_INDEX = 0
 
 @dataclass
 class SelectBoxBase(InputBase):
-    options: Union[Iterable, Callable] = None
+    options: Union[Sequence, Callable] = None
 
-    def __post_init__(self):
-        super().__post_init__()
+    def pre_render(self):
         self.options = self.options or []
         options = self._ensure_options()
         if not options:
@@ -412,7 +415,7 @@ class SelectBoxBase(InputBase):
         options = self._ensure_options()
         return options[SELECT_BOX_DFLT_INDEX] if options else None
 
-    def _ensure_options(self):
+    def _ensure_options(self) -> Sequence:
         return self.options() if callable(self.options) else self.options
 
 
