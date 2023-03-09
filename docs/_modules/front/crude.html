@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.85 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.86 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -28,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> front
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            front
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -94,7 +98,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
       <li class="breadcrumb-item active">front.crude</li>
       <li class="wy-breadcrumbs-aside">
@@ -625,6 +629,11 @@
 
 <span class="sd">            &gt;&gt;&gt; kwargs_trans({&#39;a&#39;: &#39;one&#39;, &#39;b&#39;: 2, &#39;c&#39;: &#39;three&#39;})</span>
 <span class="sd">            {&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3}</span>
+
+<span class="sd">            Now, let&#39;s say that &#39;a&#39; is a list of ints. You can do the following:</span>
+
+<span class="sd">            &gt;&gt;&gt; kwargs_trans({&#39;a&#39;: [&#39;one&#39;, &#39;two&#39;], &#39;b&#39;: 2, &#39;c&#39;: &#39;three&#39;})</span>
+<span class="sd">            {&#39;a&#39;: [1, 2], &#39;b&#39;: 2, &#39;c&#39;: 3}</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="c1"># outer_kw is going to be the new/wrapped/cruded interface of the function</span>
             <span class="c1"># That is, the one that takes strings to specify arguments</span>
@@ -636,9 +645,13 @@
                 <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">store</span> <span class="ow">in</span> <span class="n">store_for_param</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                     <span class="c1"># param&#39;s argument value is assumed to be a store_key</span>
                     <span class="n">store_key</span> <span class="o">=</span> <span class="n">outer_kw</span><span class="p">[</span><span class="n">param</span><span class="p">]</span>
-                    <span class="c1"># store_key points to the value the outer user wants the value for:</span>
-                    <span class="c1"># store is the store where to find it</span>
-                    <span class="k">yield</span> <span class="n">param</span><span class="p">,</span> <span class="n">store</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">store_key</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store_key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                        <span class="c1"># store_key points to the value the outer user wants the value for:</span>
+                        <span class="c1"># store is the store where to find it</span>
+                        <span class="k">yield</span> <span class="n">param</span><span class="p">,</span> <span class="n">store</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">store_key</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store_key</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+                        <span class="c1"># store_key is a list of keys, let&#39;s return the corresponding values</span>
+                        <span class="k">yield</span> <span class="n">param</span><span class="p">,</span> <span class="p">[</span><span class="n">store</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">store_key</span><span class="p">]</span>
 
             <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">get_values_from_stores</span><span class="p">())</span>
 

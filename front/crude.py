@@ -538,7 +538,7 @@ def prepare_for_crude_dispatch(
                         # store is the store where to find it
                         yield param, store.get(store_key)
                     elif isinstance(store_key, Iterable):
-                        # store_key is a list of keys, let's return the corresponding values 
+                        # store_key is a list of keys, let's return the corresponding values
                         yield param, [store.get(k) for k in store_key]
 
             return dict(get_values_from_stores())
