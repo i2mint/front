@@ -517,6 +517,11 @@ def prepare_for_crude_dispatch(
 
             >>> kwargs_trans({'a': 'one', 'b': 2, 'c': 'three'})
             {'a': 1, 'b': 2, 'c': 3}
+
+            Now, let's say that 'a' is a list of ints. You can do the following:
+
+            >>> kwargs_trans({'a': ['one', 'two'], 'b': 2, 'c': 'three'})
+            {'a': [1, 2], 'b': 2, 'c': 3}
             """
             # outer_kw is going to be the new/wrapped/cruded interface of the function
             # That is, the one that takes strings to specify arguments
@@ -528,9 +533,13 @@ def prepare_for_crude_dispatch(
                 for param, store in store_for_param.items():
                     # param's argument value is assumed to be a store_key
                     store_key = outer_kw[param]
-                    # store_key points to the value the outer user wants the value for:
-                    # store is the store where to find it
-                    yield param, store.get(store_key)
+                    if isinstance(store_key, str):
+                        # store_key points to the value the outer user wants the value for:
+                        # store is the store where to find it
+                        yield param, store.get(store_key)
+                    elif isinstance(store_key, Iterable):
+                        # store_key is a list of keys, let's return the corresponding values 
+                        yield param, [store.get(k) for k in store_key]
 
             return dict(get_values_from_stores())
 
