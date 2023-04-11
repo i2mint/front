@@ -53,3 +53,6 @@ class Binder:
             self.__dict__['_reserved_keys'] = Sig(self.__init__).names + [
                 '_reserved_keys'
             ]
+
+    __getitem__ = __getattr__
+    __setitem__ = __setattr__
