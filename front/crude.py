@@ -822,7 +822,7 @@ class Crudifier(_Crudifier):
 
     For example, say we had a mini-language where this
 
-    >>> configs = {
+    >>> config = {
     ...     foo: {
     ...         'preprocesses': Crudify('x y'),
     ...         'whatevs': 42
@@ -833,7 +833,7 @@ class Crudifier(_Crudifier):
     ... }
 
     should be preprocessed in such a way that adds a ``'func'`` key to each item of
-    ``configs`` which contains a transformed function if a ```preprocess`` function
+    ``config`` which contains a transformed function if a ```preprocess`` function
     or list of functions is specified, or the original function itself otherwise.
     The following would implement this:
 
@@ -845,8 +845,8 @@ class Crudifier(_Crudifier):
     ...         v = [v]
     ...     return v
     ...
-    >>> def prepare(configs):
-    ...     for func, specs in configs.items():
+    >>> def prepare(config):
+    ...     for func, specs in config.items():
     ...         if (processes := specs.get('preprocesses', None)) is not None:
     ...             preprocess = Pipe(*_ensure_iterable(processes))
     ...             _func = preprocess(func)
@@ -855,7 +855,7 @@ class Crudifier(_Crudifier):
     ...         specs = dict(specs, func=_func)
     ...         yield func, specs
 
-    >>> prepared_configs = dict(prepare(configs))
+    >>> prepared_configs = dict(prepare(config))
 
     Now get the ``func`` value under ``foo``, and see that it has been crudified:
 
