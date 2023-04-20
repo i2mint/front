@@ -372,7 +372,7 @@ def _crudified_func_nodes(
     include_stores_attribute: bool = False,
     save_name_param: str = 'save_name',
     auto_namer: Callable[[], Any] = None,
-    remove_save_name=True,  # TODO: should be False or not exist
+    remove_save_name=False,  # TODO: should be False or not exist
     store_factory=dict,
 ):
     if isinstance(var_nodes, str):

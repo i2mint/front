@@ -16,6 +16,10 @@ from front.types import Map
 ignore_import_problems = suppress(ImportError, ModuleNotFoundError)
 
 
+def identity(x):
+    return x
+
+
 def iterable_to_enum(iterable, name='CustomEnum'):
     return Enum(name, {str(kv): kv for kv in iterable})
 
