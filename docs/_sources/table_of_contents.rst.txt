@@ -39,5 +39,6 @@
    module_docs/front/tests/test_state
    module_docs/front/tests/test_use_case
    module_docs/front/tests/util
+   module_docs/front/tools
    module_docs/front/types
    module_docs/front/util

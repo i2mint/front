@@ -25,6 +25,7 @@ class ValuesStore(KvReader):
     False
 
     """
+
     seq: SizedIterableContainer
     # TODO: Should we generalize using val_to_key and key_to_val?
     # val_to_key: Callable[[VT], KT] = identity
@@ -46,7 +47,6 @@ class ValuesStore(KvReader):
         return k in self.seq
 
 
-
 @dataclass
 class FactoryFedSizedIterableContainer(SizedIterableContainer):
     iterable_factory: Callable[[], Iterable]
@@ -59,6 +59,3 @@ class FactoryFedSizedIterableContainer(SizedIterableContainer):
 
     def __contains__(self, k):
         return any(x == k for x in self.iterable_factory())
-
-
-

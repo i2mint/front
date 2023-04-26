@@ -308,7 +308,10 @@ def store_on_output(
     sig = Sig(func)
     if save_name_param:
         save_name_param_obj = Parameter(
-            name=save_name_param, kind=Parameter.KEYWORD_ONLY, default='', annotation=str,
+            name=save_name_param,
+            kind=Parameter.KEYWORD_ONLY,
+            default='',
+            annotation=str,
         )
         sig = sig + [save_name_param_obj]
     elif not auto_namer:

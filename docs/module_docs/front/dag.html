@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.dag &mdash; front 0.1.87 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.dag &mdash; front 0.1.88 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -84,6 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tests/test_state.html">front.tests.test_state</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_use_case.html">front.tests.test_use_case</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/util.html">front.tests.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">front.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="types.html">front.types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">front.util</a></li>
 </ul>
@@ -171,11 +172,11 @@ get the same outputs for the same inputs):</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">synopsis_string</span><span class="p">())</span>
 <span class="go">a,b -&gt; foo -&gt; foo_output</span>
 <span class="go">foo_output,x -&gt; bar_ -&gt; bar</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">dag</span><span class="o">.</span><span class="n">synopsis_string</span><span class="p">()</span> <span class="o">==</span> <span class="n">new_dag</span><span class="o">.</span><span class="n">synopsis_string</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">dag</span><span class="p">))</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">new_dag</span><span class="p">))</span> <span class="o">==</span> <span class="s1">&#39;(a, b, x)&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">dag</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="n">new_dag</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="mi">20</span>
 </pre></div>
 </div>
+<p># &gt;&gt;&gt; assert dag.synopsis_string() == new_dag.synopsis_string()
+# &gt;&gt;&gt; assert str(signature(dag)) == str(signature(new_dag)) == ‘(a, b, x)’
+&gt;&gt;&gt; assert dag(2, 3, 4) == new_dag(2, 3, 4) == 20</p>
 <p>But let’s have a closer look at the functions that <code class="docutils literal notranslate"><span class="pre">dag</span></code> and <code class="docutils literal notranslate"><span class="pre">new_dag</span></code> are
 using. The functions of the <code class="docutils literal notranslate"><span class="pre">dag</span></code> are the original functions we specified,
 behaving normally:</p>

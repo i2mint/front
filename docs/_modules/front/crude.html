@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.87 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.88 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -81,6 +81,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_state.html">front.tests.test_state</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_use_case.html">front.tests.test_use_case</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/util.html">front.tests.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tools.html">front.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/types.html">front.types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/util.html">front.util</a></li>
 </ul>
@@ -275,7 +276,7 @@
         <span class="n">output_trans</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">=</span> <span class="n">_store_on_ouput_args</span>
     <span class="n">arguments</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">kwargs_from_args_and_kwargs</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">apply_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">save_name</span> <span class="o">=</span> <span class="n">arguments</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">save_name_param</span><span class="p">)</span>
+    <span class="n">save_name</span> <span class="o">=</span> <span class="n">arguments</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">save_name_param</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">save_name</span> <span class="ow">and</span> <span class="n">empty_name_callback</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">callable</span><span class="p">(</span>
             <span class="n">empty_name_callback</span>
@@ -321,7 +322,8 @@
 <span class="sd">    :param store: Mapping (e.g. dict) where we&#39;d like the output to be stored in</span>
 <span class="sd">    :param save_name_param: Name of the extra param that will be added to the</span>
 <span class="sd">        function&#39;s interface, where the user will be able to specify the key where</span>
-<span class="sd">        they want to save the output.</span>
+<span class="sd">        they want to save the output. If None, the ``auto_namer`` needs to be set to </span>
+<span class="sd">        define the key.</span>
 <span class="sd">    :param add_store_to_func_attr: If not None, the wrapped function will have an</span>
 <span class="sd">        attribute of that name where the store will be stored</span>
 <span class="sd">    :param empty_name_callback: If not None, will be called if the user doesn&#39;t specify</span>
@@ -390,10 +392,22 @@
 <span class="sd">    &gt;&gt;&gt; my_store</span>
 <span class="sd">    {&#39;all&#39;: &#39;mine&#39;, &#39;test&#39;: 5, &#39;7_2&#39;: 9}</span>
 
+<span class="sd">    An example with no ``save_name_param``:</span>
+
+<span class="sd">    &gt;&gt;&gt; my_store = {&#39;all&#39;: &#39;mine&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; @store_on_output(</span>
+<span class="sd">    ...     store=my_store,</span>
+<span class="sd">    ...     save_name_param=None,</span>
+<span class="sd">    ...     add_store_to_func_attr=None,</span>
+<span class="sd">    ...     auto_namer=lambda *, arguments: &#39;_&#39;.join(map(str, arguments.values()))</span>
+<span class="sd">    ... )</span>
+<span class="sd">    ... def bar(a, b: int = 2):</span>
+<span class="sd">    ...     return a + b</span>
+<span class="sd">    &gt;&gt;&gt; bar(7)</span>
+<span class="sd">    9</span>
+<span class="sd">    &gt;&gt;&gt; my_store</span>
+<span class="sd">    {&#39;all&#39;: &#39;mine&#39;, &#39;7_2&#39;: 9}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">save_name_param_obj</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="n">save_name_param</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Parameter</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">annotation</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-    <span class="p">)</span>
     <span class="n">_validate_function_keyword_only_params</span><span class="p">(</span>
         <span class="n">auto_namer</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;arguments&#39;</span><span class="p">],</span> <span class="n">obj_name</span><span class="o">=</span><span class="s1">&#39;auto_namer&#39;</span>
     <span class="p">)</span>
@@ -404,7 +418,20 @@
         <span class="k">assert</span> <span class="nb">callable</span><span class="p">(</span><span class="n">output_trans</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">set</span><span class="p">(</span><span class="n">Sig</span><span class="p">(</span><span class="n">output_trans</span><span class="p">)</span><span class="o">.</span><span class="n">names</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span>
             <span class="p">[</span><span class="s1">&#39;save_name&#39;</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;arguments&#39;</span><span class="p">]</span>
         <span class="p">)</span>
-    <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">save_name_param_obj</span><span class="p">]</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">save_name_param</span><span class="p">:</span>
+        <span class="n">save_name_param_obj</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">save_name_param</span><span class="p">,</span>
+            <span class="n">kind</span><span class="o">=</span><span class="n">Parameter</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">annotation</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">sig</span> <span class="o">+</span> <span class="p">[</span><span class="n">save_name_param_obj</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">auto_namer</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s1">&#39;There is no way to determine the key under which to store the output. </span><span class="se">\</span>
+<span class="s1">                Set a value for the `save_name_param` or `auto_namer` parameters.&#39;</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">store</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">store</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -934,7 +961,7 @@
 
 <span class="sd">    For example, say we had a mini-language where this</span>
 
-<span class="sd">    &gt;&gt;&gt; configs = {</span>
+<span class="sd">    &gt;&gt;&gt; config = {</span>
 <span class="sd">    ...     foo: {</span>
 <span class="sd">    ...         &#39;preprocesses&#39;: Crudify(&#39;x y&#39;),</span>
 <span class="sd">    ...         &#39;whatevs&#39;: 42</span>
@@ -945,7 +972,7 @@
 <span class="sd">    ... }</span>
 
 <span class="sd">    should be preprocessed in such a way that adds a ``&#39;func&#39;`` key to each item of</span>
-<span class="sd">    ``configs`` which contains a transformed function if a ```preprocess`` function</span>
+<span class="sd">    ``config`` which contains a transformed function if a ```preprocess`` function</span>
 <span class="sd">    or list of functions is specified, or the original function itself otherwise.</span>
 <span class="sd">    The following would implement this:</span>
 
@@ -957,8 +984,8 @@
 <span class="sd">    ...         v = [v]</span>
 <span class="sd">    ...     return v</span>
 <span class="sd">    ...</span>
-<span class="sd">    &gt;&gt;&gt; def prepare(configs):</span>
-<span class="sd">    ...     for func, specs in configs.items():</span>
+<span class="sd">    &gt;&gt;&gt; def prepare(config):</span>
+<span class="sd">    ...     for func, specs in config.items():</span>
 <span class="sd">    ...         if (processes := specs.get(&#39;preprocesses&#39;, None)) is not None:</span>
 <span class="sd">    ...             preprocess = Pipe(*_ensure_iterable(processes))</span>
 <span class="sd">    ...             _func = preprocess(func)</span>
@@ -967,7 +994,7 @@
 <span class="sd">    ...         specs = dict(specs, func=_func)</span>
 <span class="sd">    ...         yield func, specs</span>
 
-<span class="sd">    &gt;&gt;&gt; prepared_configs = dict(prepare(configs))</span>
+<span class="sd">    &gt;&gt;&gt; prepared_configs = dict(prepare(config))</span>
 
 <span class="sd">    Now get the ``func`` value under ``foo``, and see that it has been crudified:</span>
 

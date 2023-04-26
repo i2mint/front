@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.87 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.crude &mdash; front 0.1.88 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -84,6 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tests/test_state.html">front.tests.test_state</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_use_case.html">front.tests.test_use_case</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/util.html">front.tests.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">front.tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="types.html">front.types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">front.util</a></li>
 </ul>
@@ -199,7 +200,7 @@ In the following, note the <code class="docutils literal notranslate"><span clas
 issue any warning when it sees we have keys in our <code class="docutils literal notranslate"><span class="pre">mall</span></code> that are not arguments
 of the function.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mall</span> <span class="o">=</span> <span class="p">{</span>
 <span class="gp">... </span>    <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;stored_two&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;three&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span> <span class="s1">&#39;fall_back_store&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;zebra&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span>
 <span class="gp">... </span><span class="p">}</span>
@@ -219,7 +220,7 @@ of the function.</p>
 transformer such a the front rendering process to indicate that a function should
 be crudified, and how.</p>
 <p>For example, say we had a mini-language where this</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">configs</span> <span class="o">=</span> <span class="p">{</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
 <span class="gp">... </span>    <span class="n">foo</span><span class="p">:</span> <span class="p">{</span>
 <span class="gp">... </span>        <span class="s1">&#39;preprocesses&#39;</span><span class="p">:</span> <span class="n">Crudify</span><span class="p">(</span><span class="s1">&#39;x y&#39;</span><span class="p">),</span>
 <span class="gp">... </span>        <span class="s1">&#39;whatevs&#39;</span><span class="p">:</span> <span class="mi">42</span>
@@ -231,19 +232,19 @@ be crudified, and how.</p>
 </pre></div>
 </div>
 <p>should be preprocessed in such a way that adds a <code class="docutils literal notranslate"><span class="pre">'func'</span></code> key to each item of
-<code class="docutils literal notranslate"><span class="pre">configs</span></code> which contains a transformed function if a <code class="docutils literal notranslate"><span class="pre">`preprocess</span></code> function
+<code class="docutils literal notranslate"><span class="pre">config</span></code> which contains a transformed function if a <code class="docutils literal notranslate"><span class="pre">`preprocess</span></code> function
 or list of functions is specified, or the original function itself otherwise.
 The following would implement this:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Pipe</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">_ensure_iterable</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span>
 <span class="gp">... </span>    <span class="k">return</span> <span class="n">v</span>
 <span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">configs</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">for</span> <span class="n">func</span><span class="p">,</span> <span class="n">specs</span> <span class="ow">in</span> <span class="n">configs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">func</span><span class="p">,</span> <span class="n">specs</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 <span class="gp">... </span>        <span class="k">if</span> <span class="p">(</span><span class="n">processes</span> <span class="o">:=</span> <span class="n">specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;preprocesses&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 <span class="gp">... </span>            <span class="n">preprocess</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span><span class="o">*</span><span class="n">_ensure_iterable</span><span class="p">(</span><span class="n">processes</span><span class="p">))</span>
 <span class="gp">... </span>            <span class="n">_func</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -253,7 +254,7 @@ The following would implement this:</p>
 <span class="gp">... </span>        <span class="k">yield</span> <span class="n">func</span><span class="p">,</span> <span class="n">specs</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">prepared_configs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">prepare</span><span class="p">(</span><span class="n">configs</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">prepared_configs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">prepare</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Now get the <code class="docutils literal notranslate"><span class="pre">func</span></code> value under <code class="docutils literal notranslate"><span class="pre">foo</span></code>, and see that it has been crudified:</p>
@@ -318,11 +319,11 @@ The following would implement this:</p>
 <p>But <cite>auto_key_from_time</cite> is really meant to be used with <code class="docutils literal notranslate"><span class="pre">functools.partial</span></code> to
 parametrize its <code class="docutils literal notranslate"><span class="pre">__format</span></code>, such as:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">time_in_ms</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">auto_key_from_time</span><span class="p">,</span> <span class="n">__format</span><span class="o">=</span><span class="mf">1e3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">normal_format</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">auto_key_from_time</span><span class="p">,</span> <span class="n">__format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">modulo_1000</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">auto_key_from_time</span><span class="p">,</span> <span class="n">__format</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">%</span> <span class="mi">1000</span><span class="p">))</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">time_in_ms</span><span class="p">()</span>  
 <span class="go">&#39;1_669_724_787_641&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">normal_format</span><span class="p">()</span>  
@@ -360,9 +361,9 @@ parametrize its <code class="docutils literal notranslate"><span class="pre">__f
 <span class="gp">... </span>    <span class="n">param_to_mall_map</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;x_store&#39;</span><span class="p">},</span>
 <span class="gp">... </span>    <span class="n">crudifier</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">prepare_for_crude_dispatch</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x_store&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;stored_two&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;stored_four&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}})</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="p">,</span> <span class="n">bar</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">general_crudifier</span><span class="p">,</span> <span class="p">[</span><span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="p">])</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="p">(</span><span class="s1">&#39;stored_two&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="go">12</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bar</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;stored_four&#39;</span><span class="p">)</span>
