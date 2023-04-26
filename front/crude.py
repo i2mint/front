@@ -163,7 +163,7 @@ def _store_on_output(*args, _store_on_ouput_args, **kwargs):
         output_trans,
     ) = _store_on_ouput_args
     arguments = sig.kwargs_from_args_and_kwargs(args, kwargs, apply_defaults=True)
-    save_name = arguments.pop(save_name_param)
+    save_name = arguments.pop(save_name_param, None)
     if not save_name and empty_name_callback:
         assert callable(
             empty_name_callback
@@ -209,7 +209,8 @@ def store_on_output(
     :param store: Mapping (e.g. dict) where we'd like the output to be stored in
     :param save_name_param: Name of the extra param that will be added to the
         function's interface, where the user will be able to specify the key where
-        they want to save the output.
+        they want to save the output. If None, the ``auto_namer`` needs to be set to 
+        define the key.
     :param add_store_to_func_attr: If not None, the wrapped function will have an
         attribute of that name where the store will be stored
     :param empty_name_callback: If not None, will be called if the user doesn't specify
@@ -278,10 +279,22 @@ def store_on_output(
     >>> my_store
     {'all': 'mine', 'test': 5, '7_2': 9}
 
+    An example with no ``save_name_param``:
+
+    >>> my_store = {'all': 'mine'}
+    >>> @store_on_output(
+    ...     store=my_store,
+    ...     save_name_param=None,
+    ...     add_store_to_func_attr=None,
+    ...     auto_namer=lambda *, arguments: '_'.join(map(str, arguments.values()))
+    ... )
+    ... def bar(a, b: int = 2):
+    ...     return a + b
+    >>> bar(7)
+    9
+    >>> my_store
+    {'all': 'mine', '7_2': 9}
     """
-    save_name_param_obj = Parameter(
-        name=save_name_param, kind=Parameter.KEYWORD_ONLY, default='', annotation=str,
-    )
     _validate_function_keyword_only_params(
         auto_namer, ['output', 'arguments'], obj_name='auto_namer'
     )
@@ -292,7 +305,17 @@ def store_on_output(
         assert callable(output_trans) and set(Sig(output_trans).names).issubset(
             ['save_name', 'output', 'arguments']
         )
-    sig = Sig(func) + [save_name_param_obj]
+    sig = Sig(func)
+    if save_name_param:
+        save_name_param_obj = Parameter(
+            name=save_name_param, kind=Parameter.KEYWORD_ONLY, default='', annotation=str,
+        )
+        sig = sig + [save_name_param_obj]
+    elif not auto_namer:
+        raise ValueError(
+            'There is no way to determine the key under which to store the output. \
+                Set a value for the `save_name_param` or `auto_namer` parameters.'
+        )
 
     if store is None:
         store = dict()
