@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.dag &mdash; front 0.1.88 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.dag &mdash; front 0.1.89 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -211,18 +211,25 @@
 <span class="sd">    &gt;&gt;&gt; mall = {&#39;foo_output_store&#39;: store}</span>
 <span class="sd">    &gt;&gt;&gt; new_dag = crudify_func_nodes([&#39;foo_output&#39;], dag, mall=mall)</span>
 
-<span class="sd">    The ``new_dag`` is the same in structure, signature, and global behavior (you</span>
-<span class="sd">    get the same outputs for the same inputs):</span>
+<span class="sd">    The ``new_dag`` will have the same global behavior:</span>
 
-<span class="sd">    &gt;&gt;&gt; print(dag.synopsis_string())</span>
-<span class="sd">    a,b -&gt; foo -&gt; foo_output</span>
-<span class="sd">    foo_output,x -&gt; bar_ -&gt; bar</span>
-<span class="sd">    </span>
-<span class="sd">    # &gt;&gt;&gt; assert dag.synopsis_string() == new_dag.synopsis_string()</span>
-<span class="sd">    # &gt;&gt;&gt; assert str(signature(dag)) == str(signature(new_dag)) == &#39;(a, b, x)&#39;</span>
 <span class="sd">    &gt;&gt;&gt; assert dag(2, 3, 4) == new_dag(2, 3, 4) == 20</span>
 
-<span class="sd">    But let&#39;s have a closer look at the functions that ``dag`` and ``new_dag`` are</span>
+<span class="sd">    Notice though, that the ``foo`` node will have an extra argument, ``save_name``,</span>
+<span class="sd">    which is the name of the store to save the output to:</span>
+
+<span class="sd">    &gt;&gt;&gt; print(new_dag.synopsis_string())</span>
+<span class="sd">    a,b,save_name -&gt; foo -&gt; foo_output</span>
+<span class="sd">    foo_output,x -&gt; bar_ -&gt; bar</span>
+
+<span class="sd">    This difference will be reflected in the signature of the ``new_dag``:</span>
+
+<span class="sd">    &gt;&gt;&gt; print(str(signature(dag)))</span>
+<span class="sd">    (a, b, x)</span>
+<span class="sd">    &gt;&gt;&gt; print(str(signature(new_dag)))</span>
+<span class="sd">    (a, b, x, save_name: str = &#39;&#39;)</span>
+
+<span class="sd">    Let&#39;s have a closer look at the functions that ``dag`` and ``new_dag`` are</span>
 <span class="sd">    using. The functions of the ``dag`` are the original functions we specified,</span>
 <span class="sd">    behaving normally:</span>
 
@@ -237,6 +244,7 @@
 <span class="sd">    &#39;bar_last_output&#39;</span>
 
 <span class="sd">    Where did the ``5`` go? In the mall!</span>
+
 <span class="sd">    &gt;&gt;&gt; mall</span>
 <span class="sd">    {&#39;foo_output_store&#39;: {&#39;bar_last_output&#39;: 5}}</span>
 
@@ -247,6 +255,15 @@
 
 <span class="sd">    &gt;&gt;&gt; new_dag.func_nodes[1].func(4, &#39;bar_last_output&#39;)</span>
 <span class="sd">    20</span>
+
+<span class="sd">    This ``&#39;bar_last_output&#39;`` was only the default value that is used if</span>
+<span class="sd">    ``save_name`` is not given. If we give it a different name, the value will be</span>
+<span class="sd">    stored under that name instead:</span>
+
+<span class="sd">    &gt;&gt;&gt; new_dag.func_nodes[0].func(20, 22, save_name=&#39;my_save_name&#39;)</span>
+<span class="sd">    &#39;my_save_name&#39;</span>
+<span class="sd">    &gt;&gt;&gt; mall</span>
+<span class="sd">    {&#39;foo_output_store&#39;: {&#39;bar_last_output&#39;: 5, &#39;my_save_name&#39;: 42}}</span>
 
 
 <span class="sd">    :param var_nodes: The ``VarNodes`` we want to crudify</span>

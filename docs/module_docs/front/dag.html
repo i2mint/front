@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.dag &mdash; front 0.1.88 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>front.dag &mdash; front 0.1.89 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -167,17 +167,25 @@ store name is controlled by the <code class="docutils literal notranslate"><span
 <span class="gp">&gt;&gt;&gt; </span><span class="n">new_dag</span> <span class="o">=</span> <span class="n">crudify_func_nodes</span><span class="p">([</span><span class="s1">&#39;foo_output&#39;</span><span class="p">],</span> <span class="n">dag</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="n">mall</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">new_dag</span></code> is the same in structure, signature, and global behavior (you
-get the same outputs for the same inputs):</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">synopsis_string</span><span class="p">())</span>
-<span class="go">a,b -&gt; foo -&gt; foo_output</span>
+<p>The <code class="docutils literal notranslate"><span class="pre">new_dag</span></code> will have the same global behavior:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">dag</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="n">new_dag</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<p>Notice though, that the <code class="docutils literal notranslate"><span class="pre">foo</span></code> node will have an extra argument, <code class="docutils literal notranslate"><span class="pre">save_name</span></code>,
+which is the name of the store to save the output to:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">new_dag</span><span class="o">.</span><span class="n">synopsis_string</span><span class="p">())</span>
+<span class="go">a,b,save_name -&gt; foo -&gt; foo_output</span>
 <span class="go">foo_output,x -&gt; bar_ -&gt; bar</span>
 </pre></div>
 </div>
-<p># &gt;&gt;&gt; assert dag.synopsis_string() == new_dag.synopsis_string()
-# &gt;&gt;&gt; assert str(signature(dag)) == str(signature(new_dag)) == ‘(a, b, x)’
-&gt;&gt;&gt; assert dag(2, 3, 4) == new_dag(2, 3, 4) == 20</p>
-<p>But let’s have a closer look at the functions that <code class="docutils literal notranslate"><span class="pre">dag</span></code> and <code class="docutils literal notranslate"><span class="pre">new_dag</span></code> are
+<p>This difference will be reflected in the signature of the <code class="docutils literal notranslate"><span class="pre">new_dag</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">dag</span><span class="p">)))</span>
+<span class="go">(a, b, x)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">new_dag</span><span class="p">)))</span>
+<span class="go">(a, b, x, save_name: str = &#39;&#39;)</span>
+</pre></div>
+</div>
+<p>Let’s have a closer look at the functions that <code class="docutils literal notranslate"><span class="pre">dag</span></code> and <code class="docutils literal notranslate"><span class="pre">new_dag</span></code> are
 using. The functions of the <code class="docutils literal notranslate"><span class="pre">dag</span></code> are the original functions we specified,
 behaving normally:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dag</span><span class="o">.</span><span class="n">func_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -191,15 +199,26 @@ behaving normally:</p>
 <span class="go">&#39;bar_last_output&#39;</span>
 </pre></div>
 </div>
-<p>Where did the <code class="docutils literal notranslate"><span class="pre">5</span></code> go? In the mall!
-&gt;&gt;&gt; mall
-{‘foo_output_store’: {‘bar_last_output’: 5}}</p>
+<p>Where did the <code class="docutils literal notranslate"><span class="pre">5</span></code> go? In the mall!</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mall</span>
+<span class="go">{&#39;foo_output_store&#39;: {&#39;bar_last_output&#39;: 5}}</span>
+</pre></div>
+</div>
 <p>So that <code class="docutils literal notranslate"><span class="pre">5</span></code> has been stored under the <code class="docutils literal notranslate"><span class="pre">'bar_last_output'</span></code> key.
 Further, the second function’s second argument will no longer work with numbers,
 but with string keys, and use that same store to retrieve the value it needs for
 the underlying function:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">new_dag</span><span class="o">.</span><span class="n">func_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;bar_last_output&#39;</span><span class="p">)</span>
 <span class="go">20</span>
+</pre></div>
+</div>
+<p>This <code class="docutils literal notranslate"><span class="pre">'bar_last_output'</span></code> was only the default value that is used if
+<code class="docutils literal notranslate"><span class="pre">save_name</span></code> is not given. If we give it a different name, the value will be
+stored under that name instead:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">new_dag</span><span class="o">.</span><span class="n">func_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="s1">&#39;my_save_name&#39;</span><span class="p">)</span>
+<span class="go">&#39;my_save_name&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mall</span>
+<span class="go">{&#39;foo_output_store&#39;: {&#39;bar_last_output&#39;: 5, &#39;my_save_name&#39;: 42}}</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
