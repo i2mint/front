@@ -98,18 +98,25 @@ def crudify_func_nodes(
     >>> mall = {'foo_output_store': store}
     >>> new_dag = crudify_func_nodes(['foo_output'], dag, mall=mall)
 
-    The ``new_dag`` is the same in structure, signature, and global behavior (you
-    get the same outputs for the same inputs):
+    The ``new_dag`` will have the same global behavior:
 
-    >>> print(dag.synopsis_string())
-    a,b -> foo -> foo_output
-    foo_output,x -> bar_ -> bar
-    
-    # >>> assert dag.synopsis_string() == new_dag.synopsis_string()
-    # >>> assert str(signature(dag)) == str(signature(new_dag)) == '(a, b, x)'
     >>> assert dag(2, 3, 4) == new_dag(2, 3, 4) == 20
 
-    But let's have a closer look at the functions that ``dag`` and ``new_dag`` are
+    Notice though, that the ``foo`` node will have an extra argument, ``save_name``,
+    which is the name of the store to save the output to:
+
+    >>> print(new_dag.synopsis_string())
+    a,b,save_name -> foo -> foo_output
+    foo_output,x -> bar_ -> bar
+
+    This difference will be reflected in the signature of the ``new_dag``:
+
+    >>> print(str(signature(dag)))
+    (a, b, x)
+    >>> print(str(signature(new_dag)))
+    (a, b, x, save_name: str = '')
+
+    Let's have a closer look at the functions that ``dag`` and ``new_dag`` are
     using. The functions of the ``dag`` are the original functions we specified,
     behaving normally:
 
@@ -124,6 +131,7 @@ def crudify_func_nodes(
     'bar_last_output'
 
     Where did the ``5`` go? In the mall!
+
     >>> mall
     {'foo_output_store': {'bar_last_output': 5}}
 
@@ -134,6 +142,15 @@ def crudify_func_nodes(
 
     >>> new_dag.func_nodes[1].func(4, 'bar_last_output')
     20
+
+    This ``'bar_last_output'`` was only the default value that is used if
+    ``save_name`` is not given. If we give it a different name, the value will be
+    stored under that name instead:
+
+    >>> new_dag.func_nodes[0].func(20, 22, save_name='my_save_name')
+    'my_save_name'
+    >>> mall
+    {'foo_output_store': {'bar_last_output': 5, 'my_save_name': 42}}
 
 
     :param var_nodes: The ``VarNodes`` we want to crudify
