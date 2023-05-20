@@ -157,6 +157,7 @@ def _store_on_output(*args, _store_on_ouput_args, **kwargs):
         func,
         sig,
         store,
+        store_multi_values,
         save_name_param,
         empty_name_callback,
         auto_namer,
@@ -171,10 +172,22 @@ def _store_on_output(*args, _store_on_ouput_args, **kwargs):
         empty_name_callback()
     args, kwargs = sig.args_and_kwargs_from_kwargs(arguments)
     output = func(*args, **kwargs)
-    if not save_name and auto_namer:
-        save_name = call_forgivingly(auto_namer, arguments=arguments, output=output)
-    if save_name:
-        store[save_name] = output
+    if store_multi_values:
+        if not isinstance(output, Iterable) or save_name or not auto_namer:
+            raise TypeError(
+                f'When store_multi_values is True, output must be Iterable, save_name \
+must be None and auto_namer must be defined. Got: {output}, {save_name}, {auto_namer}'
+            )
+        for output_item in output:
+            save_name = call_forgivingly(
+                auto_namer, arguments=arguments, output=output_item
+            )
+            store[save_name] = output_item
+    else:
+        if not save_name and auto_namer:
+            save_name = call_forgivingly(auto_namer, arguments=arguments, output=output)
+        if save_name:
+            store[save_name] = output
     if not output_trans:
         return output
     else:
@@ -190,6 +203,7 @@ def store_on_output(
     func=None,
     *,
     store=None,
+    store_multi_values=False,
     save_name_param='save_name',
     add_store_to_func_attr='output_store',
     empty_name_callback: Callable[[], Any] = None,
@@ -207,6 +221,9 @@ def store_on_output(
 
     :param func: Function that we're wrapping
     :param store: Mapping (e.g. dict) where we'd like the output to be stored in
+    :param store_multi_values: If True, store the items of an Iterable output one by 
+        one. The output needs to be an Iterable, ``save_name_param`` needs to be set to 
+        None, and the ``auto_namer`` needs to be set.
     :param save_name_param: Name of the extra param that will be added to the
         function's interface, where the user will be able to specify the key where
         they want to save the output. If None, the ``auto_namer`` needs to be set to 
@@ -294,6 +311,21 @@ def store_on_output(
     9
     >>> my_store
     {'all': 'mine', '7_2': 9}
+
+    >>> my_store = {'all': 'mine'}
+    >>> @store_on_output(
+    ...     store=my_store,
+    ...     store_multi_values=True,
+    ...     save_name_param=None,
+    ...     add_store_to_func_attr=None,
+    ...     auto_namer=lambda *, arguments, output: f"{'_'.join(map(str, arguments.values()))}_{output}"
+    ... )
+    ... def bar(a, b: int = 2):
+    ...     return list(range(a + b))
+    >>> bar(7)
+    9
+    >>> my_store
+    {'all': 'mine', '7_2_0': 0, '7_2_1': 1, '7_2_2': 2, '7_2_3': 3, '7_2_4': 4, '7_2_5': 5, '7_2_6': 6, '7_2_7': 7, '7_2_8': 8}
     """
     _validate_function_keyword_only_params(
         auto_namer, ['output', 'arguments'], obj_name='auto_namer'
@@ -329,6 +361,7 @@ def store_on_output(
             func,
             sig,
             store,
+            store_multi_values,
             save_name_param,
             empty_name_callback,
             auto_namer,
@@ -359,6 +392,7 @@ def prepare_for_crude_dispatch(
     include_stores_attribute: bool = False,
     output_store: Optional[Union[Mapping, str]] = None,
     # the arguments below only apply if output_store is given
+    store_multi_values: bool = False,
     save_name_param: str = 'save_name',
     empty_name_callback: Callable[[], Any] = None,
     auto_namer: Callable[..., str] = None,
@@ -601,6 +635,7 @@ def prepare_for_crude_dispatch(
         wrapped_f = store_on_output(
             wrapped_f,
             store=output_store,
+            store_multi_values=store_multi_values,
             save_name_param=save_name_param,
             add_store_to_func_attr='output_store' if include_stores_attribute else None,
             empty_name_callback=empty_name_callback,
