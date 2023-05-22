@@ -68,6 +68,7 @@ def mk_element_from_spec(spec: FrontElementSpec):
         return factory(**_spec)
     except Exception as e:
         from i2 import Sig
+
         print('COUCOU', Sig(factory))
         print(f'An error occurred when trying to build element {factory}')
         raise e
@@ -111,7 +112,11 @@ class FrontContainerBase(FrontElementBase):
     children: Iterable[FrontElementBase]
 
     def __init__(
-        self, obj=None, name: FrontElementName = None, display: FrontElementDisplay = True, **kwargs: FrontElementSpec
+        self,
+        obj=None,
+        name: FrontElementName = None,
+        display: FrontElementDisplay = True,
+        **kwargs: FrontElementSpec,
     ):
         super().__init__(obj=obj, name=name, display=display)
         specs = [dict(dict(name=k, obj=obj), **v) for k, v in kwargs.items()]
