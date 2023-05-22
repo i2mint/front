@@ -17,7 +17,7 @@ from typing import (
 from front.data_binding import BoundData, ValueNotSet
 from i2 import Sig
 from inspect import _empty
-from front.types import FrontElementName
+from front.types import FrontElementDisplay, FrontElementName
 from front.util import deep_merge, get_value
 from i2.signatures import call_forgivingly
 from pydantic import validate_arguments
@@ -28,9 +28,11 @@ from front.data_binding import Binder as b
 class FrontElementBase(ABC):
     obj: Any = None
     name: FrontElementName = None
+    display: FrontElementDisplay = True
 
     def __post_init__(self):
         self.name = get_value(self.name, self.obj) or ''
+        self.display = get_value(self.display, self.obj)
 
     def pre_render(self):
         pass
@@ -43,9 +45,10 @@ class FrontElementBase(ABC):
         return render_result
 
     def __call__(self):
-        self.pre_render()
-        r = self.render()
-        return self.post_render(r)
+        if self.display:
+            self.pre_render()
+            r = self.render()
+            return self.post_render(r)
 
 
 ELEMENT_KEY = '_front_element'
@@ -64,6 +67,8 @@ def mk_element_from_spec(spec: FrontElementSpec):
     try:
         return factory(**_spec)
     except Exception as e:
+        from i2 import Sig
+        print('COUCOU', Sig(factory))
         print(f'An error occurred when trying to build element {factory}')
         raise e
 
@@ -106,9 +111,9 @@ class FrontContainerBase(FrontElementBase):
     children: Iterable[FrontElementBase]
 
     def __init__(
-        self, obj=None, name: FrontElementName = None, **kwargs: FrontElementSpec
+        self, obj=None, name: FrontElementName = None, display: FrontElementDisplay = True, **kwargs: FrontElementSpec
     ):
-        super().__init__(obj=obj, name=name)
+        super().__init__(obj=obj, name=name, display=display)
         specs = [dict(dict(name=k, obj=obj), **v) for k, v in kwargs.items()]
         self.children = list(map(mk_element_from_spec, specs))
 
@@ -129,9 +134,10 @@ class TextSectionBase(FrontComponentBase):
         kind: str = 'text',
         obj: Any = None,
         name: FrontElementName = None,
+        display: FrontElementDisplay = True,
         **kwargs,
     ):
-        super().__init__(obj, name)
+        super().__init__(obj=obj, name=name, display=display)
         self.content = get_value(content, self.obj) or ''
         self.kind = get_value(kind, self.obj)
         self.kwargs = kwargs
@@ -227,13 +233,14 @@ class ExecContainerBase(FrontContainerBase):
         inputs: dict,
         output: dict,
         name: FrontElementName = None,
+        display: FrontElementDisplay = True,
         auto_submit: bool = False,
         on_submit: Callable[[Any], None] = None,
     ):
         self.inputs = inputs
         self._feed_kwargs_input_spec()
         element_specs = dict(mk_input_element_specs(obj, inputs), output=output)
-        super().__init__(obj=obj, name=name, **element_specs)
+        super().__init__(obj=obj, name=name, display=display, **element_specs)
         self.auto_submit = auto_submit
         self.on_submit = on_submit
 
@@ -278,6 +285,7 @@ class MultiSourceInputBase(InputBase):
         self,
         obj=None,
         name: FrontElementName = None,
+        display: FrontElementDisplay = True,
         input_key: str = None,
         value: Any = ValueNotSet,
         on_value_change: Callable[..., None] = None,
@@ -289,6 +297,7 @@ class MultiSourceInputBase(InputBase):
         super().__init__(
             obj=obj,
             name=name,
+            display=display,
             input_key=input_key,
             value=value,
             on_value_change=on_value_change,
