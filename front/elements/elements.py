@@ -67,9 +67,6 @@ def mk_element_from_spec(spec: FrontElementSpec):
     try:
         return factory(**_spec)
     except Exception as e:
-        from i2 import Sig
-
-        print('COUCOU', Sig(factory))
         print(f'An error occurred when trying to build element {factory}')
         raise e
 
