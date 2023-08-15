@@ -21,10 +21,10 @@
    module_docs/front/examples/simple_ml_1
    module_docs/front/examples/tw_data_binding
    module_docs/front/examples/wordle
-   module_docs/front/py2pydantic
    module_docs/front/scrap
    module_docs/front/scrap/binder_proposal
    module_docs/front/scrap/binder_proposal_no_desc
+   module_docs/front/scrap/py2pydantic
    module_docs/front/scrap/state_proposal
    module_docs/front/scrap/tw_simple_new_arch
    module_docs/front/spec_maker_base
