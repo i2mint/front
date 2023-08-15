@@ -117,7 +117,7 @@ class FrontContainerBase(FrontElementBase):
     ):
         super().__init__(obj=obj, name=name, display=display)
         specs = [dict(dict(name=k, obj=obj), **v) for k, v in kwargs.items()]
-        self.children = list(map(mk_element_from_spec, specs))
+        self.children = [mk_element_from_spec(spec) for spec in specs]
 
     def _render_children(self):
         for child in self.children:
@@ -250,7 +250,9 @@ class ExecContainerBase(FrontContainerBase):
         inputs_spec = dict(self.inputs)
         kwargs_spec = inputs_spec.pop('kwargs', None)
         if kwargs_spec:
-            self.inputs['kwargs']['inputs'] = inputs_spec
+            kwargs_inputs = kwargs_spec.get('inputs', {})
+            kwargs_inputs = deep_merge(inputs_spec, kwargs_inputs)
+            self.inputs['kwargs']['inputs'] = kwargs_inputs
 
     def _render_inputs(self):
         input_components = [
@@ -272,7 +274,12 @@ class ExecContainerBase(FrontContainerBase):
         # and make the app failing: https://github.com/pydantic/pydantic/issues/3581
         # pydantic_obj = validate_arguments(self.obj)
         # output = pydantic_obj(**inputs)
-        output = self.obj(**inputs)
+        sig = Sig(self.obj)
+        args, kwargs = sig.extract_args_and_kwargs(**inputs)
+        if sig.var_keyword_name:
+            var_keyword = kwargs.pop(sig.var_keyword_name, {})
+            kwargs = dict(kwargs, **var_keyword)
+        output = self.obj(*args, **kwargs)
         output_component = next(
             iter(child for child in self.children if isinstance(child, OutputBase))
         )
@@ -400,7 +407,7 @@ SELECT_BOX_DFLT_INDEX = 0
 
 
 @dataclass
-class SelectBoxBase(InputBase):
+class SelectorBase(InputBase):
     options: Union[Sequence, Callable] = None
 
     def pre_render(self):
@@ -420,6 +427,8 @@ class SelectBoxBase(InputBase):
             selected_value = self._options[self._preselected_index]
             if selected_value != self.view_value:
                 self.view_value = selected_value
+            if self.on_value_change:
+                self.on_value_change(selected_value)
 
     @property
     def _dflt_view_value(self):
