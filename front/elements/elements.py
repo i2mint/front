@@ -348,6 +348,8 @@ class MultiSourceInputBase(InputBase):
 
 @dataclass
 class TextInputBase(InputBase):
+    type: str = None
+
     @property
     def _dflt_view_value(self):
         return ''
