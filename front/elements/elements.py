@@ -95,7 +95,9 @@ def mk_input_element_specs(obj, inputs):
         type_spec = inputs_spec.get(param_type, {})
         input_spec = deep_merge(type_spec, input_spec)
         value = input_spec.get('value')
-        input_key = value.id if isinstance(value, BoundData) else f'{obj.__name__}_{p.name}'
+        input_key = (
+            value.id if isinstance(value, BoundData) else f'{obj.__name__}_{p.name}'
+        )
         return dict(input_spec, obj=p, input_key=input_key, is_noneable=is_noneable)
 
     inputs_spec = dict(inputs)
