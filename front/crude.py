@@ -42,7 +42,6 @@ import os
 from functools import partial
 import time
 from numbers import Number
-import dill  # pip install dill
 
 from i2 import Sig, double_up_as_factory
 from i2.wrapper import Ingress, wrap
@@ -112,28 +111,6 @@ def auto_key_from_time(
             __format
         ), f'__format should be callable, str or number. Was: {__format}'
         return str(__format(utc_seconds))
-
-
-@wrap_kvs(data_of_obj=dill.dumps, obj_of_data=dill.loads)
-class DillFiles(Files):
-    """Serializes and deserializes with dill"""
-
-    pass
-
-
-def mk_mall_of_dill_stores(store_names=Iterable[StoreName], rootdir=None):
-    """Make a mall of DillFiles stores"""
-    rootdir = rootdir or mk_tmp_dol_dir('crude')
-    if isinstance(store_names, str):
-        store_names = store_names.split()
-
-    def name_and_rootdir():
-        for name in store_names:
-            root = os.path.join(rootdir, name)
-            ensure_dir(root)
-            yield name, root
-
-    return {name: DillFiles(root) for name, root in name_and_rootdir()}
 
 
 from functools import wraps
@@ -221,12 +198,12 @@ def store_on_output(
 
     :param func: Function that we're wrapping
     :param store: Mapping (e.g. dict) where we'd like the output to be stored in
-    :param store_multi_values: If True, store the items of an Iterable output one by 
-        one. The output needs to be an Iterable, ``save_name_param`` needs to be set to 
+    :param store_multi_values: If True, store the items of an Iterable output one by
+        one. The output needs to be an Iterable, ``save_name_param`` needs to be set to
         None, and the ``auto_namer`` needs to be set.
     :param save_name_param: Name of the extra param that will be added to the
         function's interface, where the user will be able to specify the key where
-        they want to save the output. If None, the ``auto_namer`` needs to be set to 
+        they want to save the output. If None, the ``auto_namer`` needs to be set to
         define the key.
     :param add_store_to_func_attr: If not None, the wrapped function will have an
         attribute of that name where the store will be stored
@@ -583,6 +560,7 @@ def prepare_for_crude_dispatch(
             >>> kwargs_trans({'a': ['one', 'two'], 'b': 2, 'c': 'three'})
             {'a': [1, 2], 'b': 2, 'c': 3}
             """
+
             # outer_kw is going to be the new/wrapped/cruded interface of the function
             # That is, the one that takes strings to specify arguments
             # What we need to do now is transform the cruded argument values from strings
@@ -608,7 +586,9 @@ def prepare_for_crude_dispatch(
         )
 
         ingress = Ingress(
-            inner_sig=sig, kwargs_trans=kwargs_trans, outer_sig=outer_sig,
+            inner_sig=sig,
+            kwargs_trans=kwargs_trans,
+            outer_sig=outer_sig,
         )
 
     wrapped_f = wrap(func, ingress=ingress)
@@ -798,8 +778,11 @@ from i2 import Sig, Pipe
 from i2.signatures import sig_to_dataclass
 
 _Crudifier = sig_to_dataclass(
-    Sig(prepare_for_crude_dispatch).params[1:], cls_name='_Crudifier', module=__name__,
+    Sig(prepare_for_crude_dispatch).params[1:],
+    cls_name='_Crudifier',
+    module=__name__,
 )
+
 
 # TODO: Should Crudifier be simply served by `i2.FuncFactory(prepare_for_crude_dispatch)` (without first arg)?
 #   Might want this issue solved first: https://github.com/i2mint/i2/issues/39
@@ -948,7 +931,8 @@ def _keys_to_search(func):
     """Function defining what forms of keys will be searched in the param_to_mall_map
     when using crudify_based_on_names on a function.
     Note that since chain_get will be used on this, it's the first key found that will be used,
-    making, for example, a ``(func, arg_name)`` specification have precedence over an `arg_name` specification"""
+    making, for example, a ``(func, arg_name)`` specification have precedence over an `arg_name` specification
+    """
     func_name = name_of_obj(func)
     for arg_name in Sig(func).names:
         yield (
@@ -1015,3 +999,36 @@ def crudify_based_on_names(
 
 
 # ---------------------------------------------------------------------------------------
+# Extra helpers for using the mall
+
+try:
+    import dill as pickler  # pip install dill
+
+
+except ImportError:
+    import pickle as pickler
+    from warnings import warn
+
+    warn("""Could not import dill. The DillFiles with use pickle instead.""")
+
+
+@wrap_kvs(data_of_obj=pickler.dumps, obj_of_data=pickler.loads)
+class DillFiles(Files):
+    """Serializes and deserializes with dill (or pickle if dill not installed)"""
+
+    pass
+
+
+def mk_mall_of_dill_stores(store_names=Iterable[StoreName], rootdir=None):
+    """Make a mall of DillFiles (or PickleFiles if dill not installed) stores"""
+    rootdir = rootdir or mk_tmp_dol_dir('crude')
+    if isinstance(store_names, str):
+        store_names = store_names.split()
+
+    def name_and_rootdir():
+        for name in store_names:
+            root = os.path.join(rootdir, name)
+            ensure_dir(root)
+            yield name, root
+
+    return {name: DillFiles(root) for name, root in name_and_rootdir()}
