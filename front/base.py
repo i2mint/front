@@ -53,10 +53,10 @@ def prepare_for_dispatch(
     if defaults:
         # get only keys that are in wrapped_func signature as well as defaults
         wrapped_sig = Sig(wrapped_func)
-        _defaults = wrapped_sig.kwargs_from_args_and_kwargs(
+        _defaults = wrapped_sig.map_arguments(
             (), defaults or {}, allow_partial=True, allow_excess=True
         )
-        _defaults_args, _defaults_kwargs = wrapped_sig.args_and_kwargs_from_kwargs(
+        _defaults_args, _defaults_kwargs = wrapped_sig.mk_args_and_kwargs(
             _defaults, allow_partial=True, allow_excess=True
         )
         wrapped_func = partial(wrapped_func, *_defaults_args, **_defaults_kwargs)

@@ -33,7 +33,7 @@ from i2.wrapper import wrap, Ingress
 
 def pyd_func_ingress_template(input_model_instance, wrapped_func_sig: Sig):
     kwargs = dict(input_model_instance)
-    args, kwargs = wrapped_func_sig.args_and_kwargs_from_kwargs(kwargs)
+    args, kwargs = wrapped_func_sig.mk_args_and_kwargs(kwargs)
     return args, kwargs
 
 
