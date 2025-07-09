@@ -575,6 +575,10 @@ def prepare_for_crude_dispatch(
                         # store_key points to the value the outer user wants the value for:
                         # store is the store where to find it
                         yield param, store.get(store_key)
+                    elif isinstance(store_key, dict):
+                        # store_key is a dict (e.g., for partial function specs),
+                        # pass it directly to the store
+                        yield param, store.get(store_key)
                     elif isinstance(store_key, Iterable):
                         # store_key is a list of keys, let's return the corresponding values
                         yield param, [store.get(k) for k in store_key]
