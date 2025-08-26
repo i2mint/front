@@ -1,23 +1,25 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.state &mdash; front 0.1.96 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
-        <script src="../../_static/toggleprompt.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
+  <title>front.state &mdash; front 0.1.97 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -42,7 +44,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front.html">front</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/app_maker.html">front.app_maker</a></li>
@@ -111,8 +113,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for front.state</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Protocol</span><span class="p">,</span>
     <span class="n">KT</span><span class="p">,</span>
     <span class="n">VT</span><span class="p">,</span>
@@ -124,48 +126,66 @@
     <span class="n">Optional</span><span class="p">,</span>
     <span class="n">Container</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
 
 
-<div class="viewcode-block" id="Forbidden"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.Forbidden">[docs]</a><span class="k">class</span> <span class="nc">Forbidden</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="Forbidden">
+<a class="viewcode-back" href="../../module_docs/front/state.html#front.state.Forbidden">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Forbidden</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;To use to indicate that something is not allowed&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="ForbiddenWrite"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.ForbiddenWrite">[docs]</a><span class="k">class</span> <span class="nc">ForbiddenWrite</span><span class="p">(</span><span class="n">Forbidden</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ForbiddenWrite">
+<a class="viewcode-back" href="../../module_docs/front/state.html#front.state.ForbiddenWrite">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ForbiddenWrite</span><span class="p">(</span><span class="n">Forbidden</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Error to raise when a write operation is not allowed&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="ForbiddenOverwrite"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.ForbiddenOverwrite">[docs]</a><span class="k">class</span> <span class="nc">ForbiddenOverwrite</span><span class="p">(</span><span class="n">Forbidden</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ForbiddenOverwrite">
+<a class="viewcode-back" href="../../module_docs/front/state.html#front.state.ForbiddenOverwrite">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ForbiddenOverwrite</span><span class="p">(</span><span class="n">Forbidden</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Error to raise when a writes to existing keys are not allowed&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="ConditionNotMet"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.ConditionNotMet">[docs]</a><span class="k">class</span> <span class="nc">ConditionNotMet</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ConditionNotMet">
+<a class="viewcode-back" href="../../module_docs/front/state.html#front.state.ConditionNotMet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConditionNotMet</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a value doesn&#39;t meet some condition&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="GetterSetter"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.GetterSetter">[docs]</a><span class="k">class</span> <span class="nc">GetterSetter</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GetterSetter">
+<a class="viewcode-back" href="../../module_docs/front/state.html#front.state.GetterSetter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GetterSetter</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The type of an object ``obj`` that has the operations ``v = obj[k]`` and ``obj[</span>
 <span class="sd">    k] = v``&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">KT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VT</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">KT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VT</span><span class="p">:</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">KT</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">VT</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">KT</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">VT</span><span class="p">):</span>
         <span class="k">pass</span></div>
+
 
 
 <span class="n">KeyFilterFunc</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">KT</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="IsInstanceOf"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.IsInstanceOf">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">IsInstanceOf</span><span class="p">:</span>
+<div class="viewcode-block" id="IsInstanceOf">
+<a class="viewcode-back" href="../../module_docs/front/state.html#front.state.IsInstanceOf">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">IsInstanceOf</span><span class="p">:</span>
     <span class="n">class_or_tuple</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">type</span><span class="p">]]</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_or_tuple</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_if_type_mk_filter_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_if_type_mk_filter_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">IsInstanceOf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">x</span>
@@ -173,14 +193,16 @@
 
 <span class="c1"># TODO: forbidden_writes and forbidden_overwrites could be boolean functions instead (</span>
 <span class="c1">#  cast from iterable automatically for convenience)</span>
-<div class="viewcode-block" id="State"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.State">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">State</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
+<div class="viewcode-block" id="State">
+<a class="viewcode-back" href="../../module_docs/front/state.html#front.state.State">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">State</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
     <span class="n">state</span><span class="p">:</span> <span class="n">GetterSetter</span>
     <span class="n">condition_for_key</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">KT</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">KeyFilterFunc</span><span class="p">,</span> <span class="nb">type</span><span class="p">]]</span> <span class="o">=</span> <span class="p">()</span>
     <span class="n">forbidden_writes</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">KT</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
     <span class="n">forbidden_overwrites</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">KT</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">condition_for_key</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">k</span><span class="p">:</span> <span class="n">_if_type_mk_filter_func</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">condition_for_key</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
@@ -188,16 +210,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">forbidden_overwrites</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forbidden_overwrites</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">forbidden_writes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forbidden_writes</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
 
-<div class="viewcode-block" id="State.get"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.State.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="State.get">
+<a class="viewcode-back" href="../../module_docs/front/state.html#front.state.State.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">default</span></div>
 
-    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">forbidden_writes</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ForbiddenWrite</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Not allowed to write on </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">forbidden_overwrites</span> <span class="ow">and</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="n">v</span><span class="p">:</span>
@@ -211,37 +236,41 @@
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
     <span class="c1"># Adding other dunders that forward to self.state (so they&#39;ll work if state</span>
     <span class="c1"># dunders do)</span>
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span>
 
-    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">k</span><span class="p">]</span></div>
+
 
 
 <span class="c1">#########################################################################################</span>
 <span class="c1"># Binding (Proposals)</span>
 <span class="c1">#########################################################################################</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">MutableMapping</span><span class="p">,</span> <span class="n">runtime_checkable</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">MutableMapping</span><span class="p">,</span> <span class="n">runtime_checkable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
 
-<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">mk_sentinel</span><span class="p">,</span> <span class="n">ensure_identifiers</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">mk_sentinel</span><span class="p">,</span> <span class="n">ensure_identifiers</span>
 
 
-<div class="viewcode-block" id="HasState"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.HasState">[docs]</a><span class="nd">@runtime_checkable</span>
-<span class="k">class</span> <span class="nc">HasState</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<div class="viewcode-block" id="HasState">
+<a class="viewcode-back" href="../../module_docs/front/state.html#front.state.HasState">[docs]</a>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">HasState</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
     <span class="n">_state</span><span class="p">:</span> <span class="n">MutableMapping</span></div>
+
 
 
 <span class="n">_mk_sentinel</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
@@ -250,24 +279,24 @@
 <span class="n">ValueNotSet</span><span class="p">,</span> <span class="n">Empty</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">_mk_sentinel</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ValueNotSet&#39;</span><span class="p">,</span> <span class="s1">&#39;Empty&#39;</span><span class="p">])</span>
 
 
-<span class="k">class</span> <span class="nc">BoundVal</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">value_not_set</span><span class="o">=</span><span class="n">ValueNotSet</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BoundVal</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">value_not_set</span><span class="o">=</span><span class="n">ValueNotSet</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value_not_set</span> <span class="o">=</span> <span class="n">value_not_set</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">key_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">key_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="n">key_str</span><span class="si">}</span><span class="s1">)&#39;</span>
 
-    <span class="k">def</span> <span class="nf">_get_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">HasState</span><span class="p">,</span> <span class="n">objtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">HasState</span><span class="p">,</span> <span class="n">objtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
         <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_not_set</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_set_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">HasState</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">HasState</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">obj</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">something</span> <span class="o">=</span> <span class="n">value</span>
 
@@ -276,9 +305,9 @@
 
 
 <span class="c1"># from typing import Iterable, Callable, MutableMapping, Union</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NewType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NewType</span>
 
-<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">ensure_identifiers</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_identifiers</span>
 
 <span class="n">StateType</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s1">&#39;StateType&#39;</span><span class="p">,</span> <span class="n">MutableMapping</span><span class="p">)</span>
 <span class="n">Identifier</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s1">&#39;Identifier&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
@@ -288,31 +317,31 @@
 <span class="n">DFLT_BOUND_VAL_FACTORY</span> <span class="o">=</span> <span class="n">BoundVal</span>
 
 
-<span class="k">class</span> <span class="nc">_Binder</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_Binder</span><span class="p">:</span>
     <span class="n">_reserved_vars</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_state&#39;</span><span class="p">,</span> <span class="s1">&#39;_factory&#39;</span><span class="p">}</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">StateType</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">DFLT_BOUND_VAL_FACTORY</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">StateType</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">DFLT_BOUND_VAL_FACTORY</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">factory</span>
 
-    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span>
 
     <span class="fm">__dir__</span> <span class="o">=</span> <span class="fm">__iter__</span>
 
 
-<span class="k">class</span> <span class="nc">_DynamicBindsMixin</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_DynamicBindsMixin</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Intercepts attribute operations, using a binder descriptor as their values.</span>
 <span class="sd">    Uses ``_factory`` attribute to make the descriptors for a given attribute name.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
         <span class="c1"># Need this &quot;not in _reserved_vars&quot;, otherwise the __init__ won&#39;t be able to set</span>
         <span class="c1"># _state and _factory</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reserved_vars</span><span class="p">:</span>
@@ -320,7 +349,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>  <span class="c1"># put it in the __dict__ (so it becomes an attribute)</span>
 
 
-<span class="k">class</span> <span class="nc">_ExclusiveBindsMixin</span><span class="p">(</span><span class="n">_DynamicBindsMixin</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_ExclusiveBindsMixin</span><span class="p">(</span><span class="n">_DynamicBindsMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    To auto-creational functionalities of _DynamicBindsMixin, adds the restriction</span>
 <span class="sd">    that this can only be done for a given set of names (as specified by the</span>
@@ -329,7 +358,7 @@
 
     <span class="n">_allowed_ids</span><span class="p">:</span> <span class="n">Container</span> <span class="o">=</span> <span class="p">()</span>
 
-    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="ow">or</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allowed_ids</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -337,7 +366,7 @@
                 <span class="sa">f</span><span class="s1">&#39;That attribute is not in the self._allowed_ids collection: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reserved_vars</span> <span class="ow">or</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allowed_ids</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -347,7 +376,7 @@
             <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_ensure_allowed_ids</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_ensure_allowed_ids</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">allowed_ids</span> <span class="o">=</span> <span class="n">ensure_identifiers</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -357,7 +386,9 @@
     <span class="k">return</span> <span class="n">allowed_ids</span>
 
 
-<div class="viewcode-block" id="mk_binder"><a class="viewcode-back" href="../../module_docs/front/state.html#front.state.mk_binder">[docs]</a><span class="k">def</span> <span class="nf">mk_binder</span><span class="p">(</span>
+<div class="viewcode-block" id="mk_binder">
+<a class="viewcode-back" href="../../module_docs/front/state.html#front.state.mk_binder">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">mk_binder</span><span class="p">(</span>
     <span class="n">state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StateType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">allowed_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Identifiers</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">bound_val_factory</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">DFLT_BOUND_VAL_FACTORY</span><span class="p">,</span>
@@ -434,14 +465,14 @@
 
     <span class="k">if</span> <span class="n">allowed_ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 
-        <span class="k">class</span> <span class="nc">DynamicBinder</span><span class="p">(</span><span class="n">_Binder</span><span class="p">,</span> <span class="n">_DynamicBindsMixin</span><span class="p">):</span>
+        <span class="k">class</span><span class="w"> </span><span class="nc">DynamicBinder</span><span class="p">(</span><span class="n">_Binder</span><span class="p">,</span> <span class="n">_DynamicBindsMixin</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Specific Binder with dynamic on-the-fly identifiers&quot;&quot;&quot;</span>
 
         <span class="n">Binder</span> <span class="o">=</span> <span class="n">DynamicBinder</span>
 
     <span class="k">else</span><span class="p">:</span>
 
-        <span class="k">class</span> <span class="nc">ExclusiveBinder</span><span class="p">(</span><span class="n">_Binder</span><span class="p">,</span> <span class="n">_ExclusiveBindsMixin</span><span class="p">):</span>
+        <span class="k">class</span><span class="w"> </span><span class="nc">ExclusiveBinder</span><span class="p">(</span><span class="n">_Binder</span><span class="p">,</span> <span class="n">_ExclusiveBindsMixin</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Specific Binder with exclusive identifiers&quot;&quot;&quot;</span>
 
             <span class="n">_allowed_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_ensure_allowed_ids</span><span class="p">(</span><span class="n">allowed_ids</span><span class="p">))</span>
@@ -457,6 +488,7 @@
         <span class="k">return</span> <span class="n">Binder</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Binder</span></div>
+
 </pre></div>
 
            </div>

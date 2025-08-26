@@ -1,23 +1,25 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.crude &mdash; front 0.1.96 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
-        <script src="../../_static/toggleprompt.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
+  <title>front.crude &mdash; front 0.1.97 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -42,7 +44,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front.html">front</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/app_maker.html">front.app_maker</a></li>
@@ -149,18 +151,17 @@
 <span class="sd">persisted in some fashion).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span>
-<span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">Parameter</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
-<span class="kn">import</span> <span class="nn">dill</span>  <span class="c1"># pip install dill</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Number</span>
 
-<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span><span class="p">,</span> <span class="n">double_up_as_factory</span>
-<span class="kn">from</span> <span class="nn">i2.wrapper</span> <span class="kn">import</span> <span class="n">Ingress</span><span class="p">,</span> <span class="n">wrap</span>
-<span class="kn">from</span> <span class="nn">dol</span> <span class="kn">import</span> <span class="n">Files</span><span class="p">,</span> <span class="n">wrap_kvs</span>
-<span class="kn">from</span> <span class="nn">dol.filesys</span> <span class="kn">import</span> <span class="n">mk_tmp_dol_dir</span><span class="p">,</span> <span class="n">ensure_dir</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sig</span><span class="p">,</span> <span class="n">double_up_as_factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2.wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ingress</span><span class="p">,</span> <span class="n">wrap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol</span><span class="w"> </span><span class="kn">import</span> <span class="n">Files</span><span class="p">,</span> <span class="n">wrap_kvs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol.filesys</span><span class="w"> </span><span class="kn">import</span> <span class="n">mk_tmp_dol_dir</span><span class="p">,</span> <span class="n">ensure_dir</span>
 
 <span class="n">KT</span> <span class="o">=</span> <span class="nb">str</span>
 <span class="n">VT</span> <span class="o">=</span> <span class="n">Any</span>
@@ -169,7 +170,9 @@
 <span class="n">Mall</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">StoreName</span><span class="p">,</span> <span class="n">StoreType</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="auto_key_from_arguments"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.auto_key_from_arguments">[docs]</a><span class="k">def</span> <span class="nf">auto_key_from_arguments</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KT</span><span class="p">:</span>
+<div class="viewcode-block" id="auto_key_from_arguments">
+<a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.auto_key_from_arguments">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">auto_key_from_arguments</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KT</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a str key from arguments.</span>
 
 <span class="sd">    &gt;&gt;&gt; auto_key_from_arguments(1,2,c=3,d=4)</span>
@@ -186,10 +189,13 @@
     <span class="k">return</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="n">args_str</span><span class="p">,</span> <span class="n">kwargs_str</span><span class="p">]))</span></div>
 
 
+
 <span class="n">auto_key</span> <span class="o">=</span> <span class="n">auto_key_from_arguments</span>  <span class="c1"># TODO: Deprecate this backcompatibility alias?</span>
 
 
-<div class="viewcode-block" id="auto_key_from_time"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.auto_key_from_time">[docs]</a><span class="k">def</span> <span class="nf">auto_key_from_time</span><span class="p">(</span>
+<div class="viewcode-block" id="auto_key_from_time">
+<a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.auto_key_from_time">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">auto_key_from_time</span><span class="p">(</span>
     <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">__format</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e6</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KT</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a str key with current timestamp (ignoring arguments)</span>
@@ -227,33 +233,12 @@
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">__format</span><span class="p">(</span><span class="n">utc_seconds</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="DillFiles"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.DillFiles">[docs]</a><span class="nd">@wrap_kvs</span><span class="p">(</span><span class="n">data_of_obj</span><span class="o">=</span><span class="n">dill</span><span class="o">.</span><span class="n">dumps</span><span class="p">,</span> <span class="n">obj_of_data</span><span class="o">=</span><span class="n">dill</span><span class="o">.</span><span class="n">loads</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">DillFiles</span><span class="p">(</span><span class="n">Files</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serializes and deserializes with dill&quot;&quot;&quot;</span>
 
-    <span class="k">pass</span></div>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">call_forgivingly</span>
 
 
-<div class="viewcode-block" id="mk_mall_of_dill_stores"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.mk_mall_of_dill_stores">[docs]</a><span class="k">def</span> <span class="nf">mk_mall_of_dill_stores</span><span class="p">(</span><span class="n">store_names</span><span class="o">=</span><span class="n">Iterable</span><span class="p">[</span><span class="n">StoreName</span><span class="p">],</span> <span class="n">rootdir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a mall of DillFiles stores&quot;&quot;&quot;</span>
-    <span class="n">rootdir</span> <span class="o">=</span> <span class="n">rootdir</span> <span class="ow">or</span> <span class="n">mk_tmp_dol_dir</span><span class="p">(</span><span class="s1">&#39;crude&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store_names</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">store_names</span> <span class="o">=</span> <span class="n">store_names</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">name_and_rootdir</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">store_names</span><span class="p">:</span>
-            <span class="n">root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rootdir</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-            <span class="n">ensure_dir</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-            <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="n">root</span>
-
-    <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">DillFiles</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">name_and_rootdir</span><span class="p">()}</span></div>
-
-
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
-<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">call_forgivingly</span>
-
-
-<span class="k">def</span> <span class="nf">_validate_function_keyword_only_params</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">allowed_params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">obj_name</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_function_keyword_only_params</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">allowed_params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">obj_name</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s1"> should be callable: </span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -264,7 +249,7 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;All params of </span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s1"> must be in </span><span class="si">{</span><span class="n">allowed_params</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_store_on_output</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_store_on_ouput_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_store_on_output</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_store_on_ouput_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="c1"># TODO: Assuming order is dangerous. Add extra safety. E.g. extract from dict.</span>
     <span class="p">(</span>
         <span class="n">func</span><span class="p">,</span>
@@ -276,14 +261,14 @@
         <span class="n">auto_namer</span><span class="p">,</span>
         <span class="n">output_trans</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">=</span> <span class="n">_store_on_ouput_args</span>
-    <span class="n">arguments</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">kwargs_from_args_and_kwargs</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">apply_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">arguments</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">map_arguments</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">apply_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">save_name</span> <span class="o">=</span> <span class="n">arguments</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">save_name_param</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">save_name</span> <span class="ow">and</span> <span class="n">empty_name_callback</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">callable</span><span class="p">(</span>
             <span class="n">empty_name_callback</span>
         <span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;empty_name_callback must be callable: </span><span class="si">{</span><span class="n">empty_name_callback</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">empty_name_callback</span><span class="p">()</span>
-    <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">args_and_kwargs_from_kwargs</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
+    <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">mk_args_and_kwargs</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">store_multi_values</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="ow">or</span> <span class="n">save_name</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">auto_namer</span><span class="p">:</span>
@@ -312,7 +297,7 @@
 <span class="c1"># TODO: store_on_output not pickalable: extend i2.wrapper to be able to solve with it</span>
 <span class="c1"># TODO: Maybe empty_name_callback and auto_namer are mergeable?</span>
 <span class="nd">@double_up_as_factory</span>
-<span class="k">def</span> <span class="nf">store_on_output</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">store_on_output</span><span class="p">(</span>
     <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">store</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -334,12 +319,12 @@
 
 <span class="sd">    :param func: Function that we&#39;re wrapping</span>
 <span class="sd">    :param store: Mapping (e.g. dict) where we&#39;d like the output to be stored in</span>
-<span class="sd">    :param store_multi_values: If True, store the items of an Iterable output one by </span>
-<span class="sd">        one. The output needs to be an Iterable, ``save_name_param`` needs to be set to </span>
+<span class="sd">    :param store_multi_values: If True, store the items of an Iterable output one by</span>
+<span class="sd">        one. The output needs to be an Iterable, ``save_name_param`` needs to be set to</span>
 <span class="sd">        None, and the ``auto_namer`` needs to be set.</span>
 <span class="sd">    :param save_name_param: Name of the extra param that will be added to the</span>
 <span class="sd">        function&#39;s interface, where the user will be able to specify the key where</span>
-<span class="sd">        they want to save the output. If None, the ``auto_namer`` needs to be set to </span>
+<span class="sd">        they want to save the output. If None, the ``auto_namer`` needs to be set to</span>
 <span class="sd">        define the key.</span>
 <span class="sd">    :param add_store_to_func_attr: If not None, the wrapped function will have an</span>
 <span class="sd">        attribute of that name where the store will be stored</span>
@@ -497,7 +482,7 @@
 
 
 <span class="nd">@double_up_as_factory</span>
-<span class="k">def</span> <span class="nf">prepare_for_crude_dispatch</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">prepare_for_crude_dispatch</span><span class="p">(</span>
     <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">param_to_mall_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -675,7 +660,7 @@
             <span class="n">_mk_store_for_param</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">param_to_mall_map</span><span class="p">,</span> <span class="n">mall</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">kwargs_trans</span><span class="p">(</span><span class="n">outer_kw</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">kwargs_trans</span><span class="p">(</span><span class="n">outer_kw</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Let&#39;s say you have a function with three params: a, b, and c, whose arguments</span>
 <span class="sd">            should be ints. Let&#39;s say you want a and c to be cruded.</span>
@@ -696,12 +681,13 @@
 <span class="sd">            &gt;&gt;&gt; kwargs_trans({&#39;a&#39;: [&#39;one&#39;, &#39;two&#39;], &#39;b&#39;: 2, &#39;c&#39;: &#39;three&#39;})</span>
 <span class="sd">            {&#39;a&#39;: [1, 2], &#39;b&#39;: 2, &#39;c&#39;: 3}</span>
 <span class="sd">            &quot;&quot;&quot;</span>
+
             <span class="c1"># outer_kw is going to be the new/wrapped/cruded interface of the function</span>
             <span class="c1"># That is, the one that takes strings to specify arguments</span>
             <span class="c1"># What we need to do now is transform the cruded argument values from strings</span>
             <span class="c1"># to the values these strings are pointing to (via the store corresponding</span>
             <span class="c1"># to that argument).</span>
-            <span class="k">def</span> <span class="nf">get_values_from_stores</span><span class="p">():</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">get_values_from_stores</span><span class="p">():</span>
                 <span class="c1"># Note: only need to specify arguments that change</span>
                 <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">store</span> <span class="ow">in</span> <span class="n">store_for_param</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                     <span class="c1"># param&#39;s argument value is assumed to be a store_key</span>
@@ -709,6 +695,10 @@
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store_key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                         <span class="c1"># store_key points to the value the outer user wants the value for:</span>
                         <span class="c1"># store is the store where to find it</span>
+                        <span class="k">yield</span> <span class="n">param</span><span class="p">,</span> <span class="n">store</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">store_key</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store_key</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                        <span class="c1"># store_key is a dict (e.g., for partial function specs),</span>
+                        <span class="c1"># pass it directly to the store</span>
                         <span class="k">yield</span> <span class="n">param</span><span class="p">,</span> <span class="n">store</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">store_key</span><span class="p">)</span>
                     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store_key</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
                         <span class="c1"># store_key is a list of keys, let&#39;s return the corresponding values</span>
@@ -760,14 +750,14 @@
     <span class="k">return</span> <span class="n">wrapped_f</span>
 
 
-<span class="k">def</span> <span class="nf">_mk_store_for_param</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">param_to_mall_key_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_mk_store_for_param</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">param_to_mall_key_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mall</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a {param: store,...} dict from a {param: mall_key,...} dict, a sig and a</span>
 <span class="sd">    mall, validating stuff on the way.&quot;&quot;&quot;</span>
     <span class="n">mall</span> <span class="o">=</span> <span class="n">mall</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="c1"># mall_keys_that_are_also_params_but_not_param_to_mall_key_dict_keys</span>
     <span class="n">unmentioned_mall_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">mall</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">param_to_mall_key_dict</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">unmentioned_mall_keys</span> <span class="ow">and</span> <span class="n">verbose</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
 
         <span class="n">warn</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Some of your mall keys were also func arg names, but you didn&#39;t mention &quot;</span>
@@ -813,7 +803,7 @@
         <span class="k">return</span> <span class="n">store_for_param</span>
 
 
-<span class="k">def</span> <span class="nf">keys_to_values_if_non_mapping_iterable</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">keys_to_values_if_non_mapping_iterable</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
@@ -823,7 +813,9 @@
 
 <span class="c1"># Note: This is not meant to actually be used in real apps, but be a drop in helper to</span>
 <span class="c1">#   talk to the mall (or rather &quot;listen&quot; since it&#39;s read-only) from a UI.</span>
-<div class="viewcode-block" id="simple_mall_dispatch_core_func"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.simple_mall_dispatch_core_func">[docs]</a><span class="k">def</span> <span class="nf">simple_mall_dispatch_core_func</span><span class="p">(</span>
+<div class="viewcode-block" id="simple_mall_dispatch_core_func">
+<a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.simple_mall_dispatch_core_func">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simple_mall_dispatch_core_func</span><span class="p">(</span>
     <span class="n">key</span><span class="p">:</span> <span class="n">KT</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">store_name</span><span class="p">:</span> <span class="n">StoreName</span><span class="p">,</span> <span class="n">mall</span><span class="p">:</span> <span class="n">Mall</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to dispatch a mall</span>
@@ -903,20 +895,24 @@
         <span class="k">return</span> <span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
 
 
+
 <span class="c1"># ---------------------------------------------------------------------------------------</span>
 <span class="c1"># Tools to make crudifying easier</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
-<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span><span class="p">,</span> <span class="n">Pipe</span>
-<span class="kn">from</span> <span class="nn">i2.signatures</span> <span class="kn">import</span> <span class="n">sig_to_dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sig</span><span class="p">,</span> <span class="n">Pipe</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2.signatures</span><span class="w"> </span><span class="kn">import</span> <span class="n">sig_to_dataclass</span>
 
 <span class="n">_Crudifier</span> <span class="o">=</span> <span class="n">sig_to_dataclass</span><span class="p">(</span>
     <span class="n">Sig</span><span class="p">(</span><span class="n">prepare_for_crude_dispatch</span><span class="p">)</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">cls_name</span><span class="o">=</span><span class="s1">&#39;_Crudifier&#39;</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="vm">__name__</span><span class="p">,</span>
 <span class="p">)</span>
 
+
 <span class="c1"># TODO: Should Crudifier be simply served by `i2.FuncFactory(prepare_for_crude_dispatch)` (without first arg)?</span>
 <span class="c1">#   Might want this issue solved first: https://github.com/i2mint/i2/issues/39</span>
-<div class="viewcode-block" id="Crudifier"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.Crudifier">[docs]</a><span class="k">class</span> <span class="nc">Crudifier</span><span class="p">(</span><span class="n">_Crudifier</span><span class="p">):</span>
+<div class="viewcode-block" id="Crudifier">
+<a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.Crudifier">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Crudifier</span><span class="p">(</span><span class="n">_Crudifier</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convenience class to make crudify (i.e. map/source inputs of) functions.</span>
 
 <span class="sd">    See https://github.com/i2mint/front/issues/21.</span>
@@ -1039,13 +1035,14 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
         <span class="c1"># is there a safer way than vars to get the init fields (keys and values)?</span>
         <span class="k">return</span> <span class="n">prepare_for_crude_dispatch</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div>
 
 
-<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">name_of_obj</span><span class="p">,</span> <span class="n">Sig</span>
-<span class="kn">from</span> <span class="nn">dol</span> <span class="kn">import</span> <span class="n">chain_get</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">name_of_obj</span><span class="p">,</span> <span class="n">Sig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol</span><span class="w"> </span><span class="kn">import</span> <span class="n">chain_get</span>
 
 <span class="c1"># Note: Could use function objects themselves as keys instead of (or along with) function names. Pros/cons?</span>
 
@@ -1053,15 +1050,16 @@
 <span class="c1"># def crudify_based_on_names(func, *, input_store_for_arg=(), output_store_for_func_name=()):  pass</span>
 
 
-<span class="k">def</span> <span class="nf">_remove_non_valued_items</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_remove_non_valued_items</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
 
 
-<span class="k">def</span> <span class="nf">_keys_to_search</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_keys_to_search</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function defining what forms of keys will be searched in the param_to_mall_map</span>
 <span class="sd">    when using crudify_based_on_names on a function.</span>
 <span class="sd">    Note that since chain_get will be used on this, it&#39;s the first key found that will be used,</span>
-<span class="sd">    making, for example, a ``(func, arg_name)`` specification have precedence over an `arg_name` specification&quot;&quot;&quot;</span>
+<span class="sd">    making, for example, a ``(func, arg_name)`` specification have precedence over an `arg_name` specification</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">func_name</span> <span class="o">=</span> <span class="n">name_of_obj</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">arg_name</span> <span class="ow">in</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
         <span class="k">yield</span> <span class="p">(</span>
@@ -1075,7 +1073,9 @@
         <span class="p">)</span>
 
 
-<div class="viewcode-block" id="crudify_based_on_names"><a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.crudify_based_on_names">[docs]</a><span class="k">def</span> <span class="nf">crudify_based_on_names</span><span class="p">(</span>
+<div class="viewcode-block" id="crudify_based_on_names">
+<a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.crudify_based_on_names">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">crudify_based_on_names</span><span class="p">(</span>
     <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">param_to_mall_map</span><span class="o">=</span><span class="p">(),</span> <span class="n">output_store</span><span class="o">=</span><span class="p">(),</span> <span class="n">crudifier</span><span class="o">=</span><span class="n">Crudifier</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1127,7 +1127,47 @@
         <span class="k">return</span> <span class="n">func</span></div>
 
 
+
 <span class="c1"># ---------------------------------------------------------------------------------------</span>
+<span class="c1"># Extra helpers for using the mall</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">dill</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pickler</span>  <span class="c1"># pip install dill</span>
+
+
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pickler</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+
+    <span class="n">warn</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;Could not import dill. The DillFiles with use pickle instead.&#39;&#39;&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DillFiles">
+<a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.DillFiles">[docs]</a>
+<span class="nd">@wrap_kvs</span><span class="p">(</span><span class="n">data_of_obj</span><span class="o">=</span><span class="n">pickler</span><span class="o">.</span><span class="n">dumps</span><span class="p">,</span> <span class="n">obj_of_data</span><span class="o">=</span><span class="n">pickler</span><span class="o">.</span><span class="n">loads</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DillFiles</span><span class="p">(</span><span class="n">Files</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serializes and deserializes with dill (or pickle if dill not installed)&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="mk_mall_of_dill_stores">
+<a class="viewcode-back" href="../../module_docs/front/crude.html#front.crude.mk_mall_of_dill_stores">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">mk_mall_of_dill_stores</span><span class="p">(</span><span class="n">store_names</span><span class="o">=</span><span class="n">Iterable</span><span class="p">[</span><span class="n">StoreName</span><span class="p">],</span> <span class="n">rootdir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a mall of DillFiles (or PickleFiles if dill not installed) stores&quot;&quot;&quot;</span>
+    <span class="n">rootdir</span> <span class="o">=</span> <span class="n">rootdir</span> <span class="ow">or</span> <span class="n">mk_tmp_dol_dir</span><span class="p">(</span><span class="s1">&#39;crude&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store_names</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">store_names</span> <span class="o">=</span> <span class="n">store_names</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">name_and_rootdir</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">store_names</span><span class="p">:</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rootdir</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">ensure_dir</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="n">root</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">DillFiles</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">name_and_rootdir</span><span class="p">()}</span></div>
+
 </pre></div>
 
            </div>

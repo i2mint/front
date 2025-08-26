@@ -1,24 +1,26 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.data_binding &mdash; front 0.1.96 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
-        <script src="../../_static/toggleprompt.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
+  <title>front.data_binding &mdash; front 0.1.97 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -45,14 +47,17 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../front.html">front</a></li>
 <li class="toctree-l1"><a class="reference internal" href="app_maker.html">front.app_maker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="base.html">front.base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="crude.html">front.crude</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dag.html">front.dag</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">front.data_binding</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">front.data_binding</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#front.data_binding.Binder"><code class="docutils literal notranslate"><span class="pre">Binder</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="elements.html">front.elements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="elements/elements.html">front.elements.elements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="elements/implementation.html">front.elements.implementation</a></li>
@@ -114,10 +119,10 @@
            <div itemprop="articleBody">
              
   <section id="module-front.data_binding">
-<span id="front-data-binding"></span><h1>front.data_binding<a class="headerlink" href="#module-front.data_binding" title="Permalink to this headline">¶</a></h1>
+<span id="front-data-binding"></span><h1>front.data_binding<a class="headerlink" href="#module-front.data_binding" title="Link to this heading"></a></h1>
 <dl class="py class">
-<dt id="front.data_binding.Binder">
-<em class="property">class </em><code class="sig-prename descclassname">front.data_binding.</code><code class="sig-name descname">Binder</code><span class="sig-paren">(</span><em class="sig-param">front_state: &lt;function NewType.&lt;locals&gt;.new_type at 0x7f5820f82d30&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/data_binding.html#Binder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front.data_binding.Binder" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="front.data_binding.Binder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">front.data_binding.</span></span><span class="sig-name descname"><span class="pre">Binder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">front_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">front.state.StateType</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/data_binding.html#Binder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.data_binding.Binder" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>

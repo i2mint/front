@@ -1,23 +1,25 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.util &mdash; front 0.1.96 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
-        <script src="../../_static/toggleprompt.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
+  <title>front.util &mdash; front 0.1.97 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -42,7 +44,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front.html">front</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/app_maker.html">front.app_maker</a></li>
@@ -113,31 +115,33 @@
   <h1>Source code for front.util</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Utils&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
-<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">attrgetter</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Mapping</span>
-<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">suppress</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">attrgetter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Mapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">suppress</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
 
-<span class="kn">from</span> <span class="nn">i2</span> <span class="kn">import</span> <span class="n">Sig</span><span class="p">,</span> <span class="n">double_up_as_factory</span>
-<span class="kn">from</span> <span class="nn">i2.wrapper</span> <span class="kn">import</span> <span class="n">Ingress</span><span class="p">,</span> <span class="n">wrap</span>
-<span class="kn">from</span> <span class="nn">i2.signatures</span> <span class="kn">import</span> <span class="n">name_of_obj</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sig</span><span class="p">,</span> <span class="n">double_up_as_factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2.wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ingress</span><span class="p">,</span> <span class="n">wrap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2.signatures</span><span class="w"> </span><span class="kn">import</span> <span class="n">name_of_obj</span>
 
-<span class="kn">from</span> <span class="nn">front.types</span> <span class="kn">import</span> <span class="n">Map</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">front.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Map</span>
 
 <span class="n">ignore_import_problems</span> <span class="o">=</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">identity</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">x</span>
 
 
-<span class="k">def</span> <span class="nf">iterable_to_enum</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;CustomEnum&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">iterable_to_enum</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;CustomEnum&#39;</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">Enum</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">kv</span><span class="p">):</span> <span class="n">kv</span> <span class="k">for</span> <span class="n">kv</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">})</span>
 
 
-<div class="viewcode-block" id="subdict"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.subdict">[docs]</a><span class="k">def</span> <span class="nf">subdict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="subdict">
+<a class="viewcode-back" href="../../module_docs/front/util.html#front.util.subdict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">subdict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets a sub-dict from a Mapping ``d``, extracting only those keys that are both in</span>
 <span class="sd">    ``keys`` and ``d``.</span>
 <span class="sd">    Note that the dict will be ordered as ``keys`` are, so can be used for reordering</span>
@@ -149,7 +153,8 @@
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="n">keys</span> <span class="ow">or</span> <span class="p">())</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">}</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_value_attr</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">keys</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">val_trans</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_value_attr</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">keys</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">val_trans</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a copy of ``d`` where ``val_trans`` applied to the values of ``keys``.</span>
 
 <span class="sd">    Meant to be used with ``functools.partial`` to fix ``val_trans``, and possibly</span>
@@ -162,7 +167,7 @@
 
 
 <span class="nd">@double_up_as_factory</span>
-<span class="k">def</span> <span class="nf">inject_enum_annotations</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_enum_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">enum_list_for_arg</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inject_enum_annotations</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_enum_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">enum_list_for_arg</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    :param func: function to wrap</span>
@@ -236,9 +241,9 @@
         <span class="k">return</span> <span class="n">with_enumed_sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
 
 
-<span class="kn">from</span> <span class="nn">i2.signatures</span> <span class="kn">import</span> <span class="n">empty</span>
-<span class="kn">from</span> <span class="nn">i2.wrapper</span> <span class="kn">import</span> <span class="n">Wrap</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2.signatures</span><span class="w"> </span><span class="kn">import</span> <span class="n">empty</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2.wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">Wrap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span>
 
 <span class="n">Annot</span> <span class="o">=</span> <span class="n">Any</span>
 <span class="n">AnnotForArgname</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Annot</span><span class="p">],</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Annot</span><span class="p">]]]</span>
@@ -247,7 +252,9 @@
 <span class="c1"># TODO: Compare to and possibly use i2.io_trans and/or i2.routing_forest.</span>
 <span class="c1"># Note: A Parameter-&gt;annotation function would be more general</span>
 <span class="c1">#   A Parameter-&gt;Parameter function even more general</span>
-<div class="viewcode-block" id="annotate_func_arguments"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.annotate_func_arguments">[docs]</a><span class="k">def</span> <span class="nf">annotate_func_arguments</span><span class="p">(</span>
+<div class="viewcode-block" id="annotate_func_arguments">
+<a class="viewcode-back" href="../../module_docs/front/util.html#front.util.annotate_func_arguments">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">annotate_func_arguments</span><span class="p">(</span>
     <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">ignore_existing_annot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -340,7 +347,8 @@
         <span class="k">return</span> <span class="n">func</span></div>
 
 
-<span class="k">def</span> <span class="nf">_annotate_func_arguments</span><span class="p">(</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_annotate_func_arguments</span><span class="p">(</span>
     <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">annot_for_argname</span><span class="p">:</span> <span class="n">AnnotForArgname</span> <span class="o">=</span> <span class="p">(),</span>
@@ -384,15 +392,17 @@
 <span class="c1"># Sig(f)</span>
 
 
-<span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_value</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">obj</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Callable</span><span class="p">)</span> <span class="k">else</span> <span class="n">obj</span>
 
 
-<span class="k">def</span> <span class="nf">normalize_map</span><span class="p">(</span><span class="nb">map</span><span class="p">:</span> <span class="n">Map</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_map</span><span class="p">(</span><span class="nb">map</span><span class="p">:</span> <span class="n">Map</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">get_value</span><span class="p">(</span><span class="nb">map</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
 
 
-<div class="viewcode-block" id="deep_merge"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.deep_merge">[docs]</a><span class="k">def</span> <span class="nf">deep_merge</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">):</span>
+<div class="viewcode-block" id="deep_merge">
+<a class="viewcode-back" href="../../module_docs/front/util.html#front.util.deep_merge">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">deep_merge</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Merges b into a&quot;&quot;&quot;</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -405,11 +415,14 @@
     <span class="k">return</span> <span class="n">result</span></div>
 
 
-<div class="viewcode-block" id="incremental_str_maker"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.incremental_str_maker">[docs]</a><span class="k">def</span> <span class="nf">incremental_str_maker</span><span class="p">(</span><span class="n">str_format</span><span class="o">=</span><span class="s1">&#39;{:03.f}&#39;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="incremental_str_maker">
+<a class="viewcode-back" href="../../module_docs/front/util.html#front.util.incremental_str_maker">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">incremental_str_maker</span><span class="p">(</span><span class="n">str_format</span><span class="o">=</span><span class="s1">&#39;{:03.f}&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a function that will produce a (incrementally) new string at every call.&quot;&quot;&quot;</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="nf">mk_next_str</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mk_next_str</span><span class="p">():</span>
         <span class="k">nonlocal</span> <span class="n">i</span>
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">str_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
@@ -417,10 +430,13 @@
     <span class="k">return</span> <span class="n">mk_next_str</span></div>
 
 
+
 <span class="n">unnamed_obj</span> <span class="o">=</span> <span class="n">incremental_str_maker</span><span class="p">(</span><span class="n">str_format</span><span class="o">=</span><span class="s1">&#39;UnnamedObject</span><span class="si">{:03.0f}</span><span class="s1">&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="obj_name"><a class="viewcode-back" href="../../module_docs/front/util.html#front.util.obj_name">[docs]</a><span class="k">def</span> <span class="nf">obj_name</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<div class="viewcode-block" id="obj_name">
+<a class="viewcode-back" href="../../module_docs/front/util.html#front.util.obj_name">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">obj_name</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The func.__name__ of a callable func, or makes and returns one if that fails.</span>
 <span class="sd">    To make one, it calls unamed_func_name which produces incremental names to reduce the chances of clashing&quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">name_of_obj</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -429,13 +445,14 @@
     <span class="k">return</span> <span class="n">name</span></div>
 
 
-<span class="k">def</span> <span class="nf">dflt_name_trans</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">dflt_name_trans</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="n">obj_str</span> <span class="o">=</span> <span class="n">obj</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">obj_name</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">obj_str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">dflt_trans</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">trans</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dflt_trans</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">trans</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
         <span class="n">trans_obj</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="n">trans_obj</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">obj_name</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">trans_obj</span>

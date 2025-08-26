@@ -1,23 +1,25 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.tests.test_state &mdash; front 0.1.96 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/language_data.js"></script>
-        <script src="../../../_static/toggleprompt.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
+  <title>front.tests.test_state &mdash; front 0.1.97 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -42,7 +44,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front.html">front</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/front/app_maker.html">front.app_maker</a></li>
@@ -111,7 +113,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for front.tests.test_state</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">front.state</span> <span class="kn">import</span> <span class="p">(</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">front.state</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ConditionNotMet</span><span class="p">,</span>
     <span class="n">ForbiddenOverwrite</span><span class="p">,</span>
     <span class="n">ForbiddenWrite</span><span class="p">,</span>
@@ -119,10 +121,10 @@
     <span class="n">ValueNotSet</span><span class="p">,</span>
     <span class="n">mk_binder</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
 
 
-<span class="k">def</span> <span class="nf">test_state</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_state</span><span class="p">():</span>
 
     <span class="n">st_state</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
@@ -185,7 +187,9 @@
     <span class="k">assert</span> <span class="s1">&#39;kiwi&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">state</span>
 
 
-<div class="viewcode-block" id="test_binder_simple"><a class="viewcode-back" href="../../../module_docs/front/tests/test_state.html#front.tests.test_state.test_binder_simple">[docs]</a><span class="k">def</span> <span class="nf">test_binder_simple</span><span class="p">():</span>
+<div class="viewcode-block" id="test_binder_simple">
+<a class="viewcode-back" href="../../../module_docs/front/tests/test_state.html#front.tests.test_state.test_binder_simple">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_binder_simple</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This work is to try to add &#39;auto registering&#39; of bounded variables&quot;&quot;&quot;</span>
     <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">mk_binder</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
@@ -201,10 +205,13 @@
     <span class="k">assert</span> <span class="n">d</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">496</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">8128</span><span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="test_binder"><a class="viewcode-back" href="../../../module_docs/front/tests/test_state.html#front.tests.test_state.test_binder">[docs]</a><span class="k">def</span> <span class="nf">test_binder</span><span class="p">(</span><span class="n">mk_binder</span><span class="o">=</span><span class="n">mk_binder</span><span class="p">):</span>
+
+<div class="viewcode-block" id="test_binder">
+<a class="viewcode-back" href="../../../module_docs/front/tests/test_state.html#front.tests.test_state.test_binder">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_binder</span><span class="p">(</span><span class="n">mk_binder</span><span class="o">=</span><span class="n">mk_binder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This work is to try to add &#39;auto registering&#39; of bounded variables&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_test_fresh_state_with_foobar</span><span class="p">(</span><span class="n">binder</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_test_fresh_state_with_foobar</span><span class="p">(</span><span class="n">binder</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">binder</span><span class="o">.</span><span class="n">_state</span> <span class="o">==</span> <span class="n">state</span>
         <span class="k">assert</span> <span class="n">state</span> <span class="o">==</span> <span class="p">{}</span>
         <span class="k">assert</span> <span class="n">binder</span><span class="o">.</span><span class="n">foo</span> <span class="ow">is</span> <span class="n">ValueNotSet</span>
@@ -289,6 +296,7 @@
     <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span>
         <span class="s2">&quot;Can&#39;t write there. The id is not in the self._allowed_ids collection: gaga&quot;</span>
     <span class="p">)</span></div>
+
 
     <span class="c1">#</span>
     <span class="c1"># # give a state to a binder directly get a non-exclusive binder instance.</span>

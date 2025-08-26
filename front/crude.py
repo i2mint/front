@@ -590,9 +590,7 @@ def prepare_for_crude_dispatch(
         )
 
         ingress = Ingress(
-            inner_sig=sig,
-            kwargs_trans=kwargs_trans,
-            outer_sig=outer_sig,
+            inner_sig=sig, kwargs_trans=kwargs_trans, outer_sig=outer_sig,
         )
 
     wrapped_f = wrap(func, ingress=ingress)
@@ -782,9 +780,7 @@ from i2 import Sig, Pipe
 from i2.signatures import sig_to_dataclass
 
 _Crudifier = sig_to_dataclass(
-    Sig(prepare_for_crude_dispatch).params[1:],
-    cls_name='_Crudifier',
-    module=__name__,
+    Sig(prepare_for_crude_dispatch).params[1:], cls_name='_Crudifier', module=__name__,
 )
 
 
@@ -1013,7 +1009,7 @@ except ImportError:
     import pickle as pickler
     from warnings import warn
 
-    warn("""Could not import dill. The DillFiles with use pickle instead.""")
+    warn('''Could not import dill. The DillFiles with use pickle instead.''')
 
 
 @wrap_kvs(data_of_obj=pickler.dumps, obj_of_data=pickler.loads)

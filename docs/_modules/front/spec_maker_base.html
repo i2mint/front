@@ -1,23 +1,25 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.spec_maker_base &mdash; front 0.1.96 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
-        <script src="../../_static/toggleprompt.js"></script>
-        <script src="../../_static/clipboard.min.js"></script>
-        <script src="../../_static/copybutton.js"></script>
+  <title>front.spec_maker_base &mdash; front 0.1.97 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -42,7 +44,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front.html">front</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/app_maker.html">front.app_maker</a></li>
@@ -111,13 +113,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for front.spec_maker_base</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractclassmethod</span>
-<span class="kn">import</span> <span class="nn">collections.abc</span>
-<span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">isclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span>
-<span class="kn">from</span> <span class="nn">front.types</span> <span class="kn">import</span> <span class="n">FrontSpec</span><span class="p">,</span> <span class="n">Map</span>
-<span class="kn">from</span> <span class="nn">front.util</span> <span class="kn">import</span> <span class="n">deep_merge</span><span class="p">,</span> <span class="n">dflt_name_trans</span><span class="p">,</span> <span class="n">dflt_trans</span><span class="p">,</span> <span class="n">normalize_map</span>
-<span class="kn">from</span> <span class="nn">front.elements</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">abstractclassmethod</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">collections.abc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">isclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">front.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrontSpec</span><span class="p">,</span> <span class="n">Map</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">front.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">deep_merge</span><span class="p">,</span> <span class="n">dflt_name_trans</span><span class="p">,</span> <span class="n">dflt_trans</span><span class="p">,</span> <span class="n">normalize_map</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">front.elements</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
 <span class="n">APP_KEY</span> <span class="o">=</span> <span class="s1">&#39;app&#39;</span>
@@ -147,7 +149,9 @@
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="SpecMakerBase"><a class="viewcode-back" href="../../module_docs/front/spec_maker_base.html#front.spec_maker_base.SpecMakerBase">[docs]</a><span class="k">class</span> <span class="nc">SpecMakerBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="SpecMakerBase">
+<a class="viewcode-back" href="../../module_docs/front/spec_maker_base.html#front.spec_maker_base.SpecMakerBase">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SpecMakerBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This abstract class takes care of transforming the configuration given by the</span>
 <span class="sd">    user (short language) to a detailed specification to build the application (long</span>
 <span class="sd">    language).</span>
@@ -189,8 +193,8 @@
 <span class="sd">    the convention after injecting the concrete element factories in it.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">mk_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Map</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Map</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrontSpec</span><span class="p">:</span>
-        <span class="k">def</span> <span class="nf">get_inheritance_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mk_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Map</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Map</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrontSpec</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_inheritance_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
             <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">cls_key</span> <span class="ow">in</span> <span class="n">cls_keys</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">cls</span> <span class="o">!=</span> <span class="n">cls_key</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cls_key</span><span class="p">):</span>
@@ -224,10 +228,11 @@
 
     <span class="nd">@property</span>
     <span class="nd">@abstractclassmethod</span>
-    <span class="k">def</span> <span class="nf">_dflt_convention</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dflt_convention</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;IMPORTANT! This property needs to be overloaded in concrete subclasses.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
+
 </pre></div>
 
            </div>
