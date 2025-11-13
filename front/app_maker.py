@@ -1,5 +1,6 @@
 from abc import ABC
-from typing import Any, Callable, Iterable
+from typing import Any
+from collections.abc import Callable, Iterable
 from front.elements import ElementTreeMaker
 from front.elements.elements import FrontContainerBase
 from front.spec_maker_base import SpecMakerBase

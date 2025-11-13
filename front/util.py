@@ -3,7 +3,7 @@
 from copy import copy
 from operator import attrgetter
 from functools import partial
-from typing import Iterable, Callable, Mapping
+from collections.abc import Iterable, Callable, Mapping
 from contextlib import suppress
 from enum import Enum
 
@@ -125,11 +125,12 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
 
 from i2.signatures import empty
 from i2.wrapper import Wrap
-from typing import Union, Tuple, Callable, Any, Dict, Iterable
+from typing import Union, Tuple, Any, Dict
+from collections.abc import Callable, Iterable
 
 Annot = Any
-AnnotForArgname = Union[Dict[str, Annot], Iterable[Tuple[str, Annot]]]
-AnnotForType = Union[Dict[type, Annot], Iterable[Tuple[type, Annot]]]
+AnnotForArgname = Union[dict[str, Annot], Iterable[tuple[str, Annot]]]
+AnnotForType = Union[dict[type, Annot], Iterable[tuple[type, Annot]]]
 
 # TODO: Compare to and possibly use i2.io_trans and/or i2.routing_forest.
 # Note: A Parameter->annotation function would be more general

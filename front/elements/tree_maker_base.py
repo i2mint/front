@@ -1,5 +1,6 @@
 from abc import ABC, abstractclassmethod
-from typing import Any, Iterable
+from typing import Any
+from collections.abc import Iterable
 from front.elements.elements import (
     ELEMENT_KEY,
     FrontContainerBase,

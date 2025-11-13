@@ -22,7 +22,8 @@ formula1(w=1, x=2.0, z=1, y=1)
 
 """
 
-from typing import Callable, Any
+from typing import Any
+from collections.abc import Callable
 from functools import partial
 
 from pydantic import create_model, BaseModel

@@ -36,7 +36,8 @@ that points to the actual python object (which is stored in a session's memory o
 persisted in some fashion).
 """
 
-from typing import Any, Literal, Mapping, Optional, Callable, Union, Iterable, Iterator
+from typing import Any, Literal, Optional, Union
+from collections.abc import Mapping, Callable, Iterable, Iterator
 from inspect import Parameter
 import os
 from functools import partial
@@ -76,7 +77,7 @@ auto_key = auto_key_from_arguments  # TODO: Deprecate this backcompatibility ali
 
 
 def auto_key_from_time(
-    *args, __format: Union[Number, str, Callable] = 1e6, **kwargs
+    *args, __format: Number | str | Callable = 1e6, **kwargs
 ) -> KT:
     """Make a str key with current timestamp (ignoring arguments)
 
@@ -364,10 +365,10 @@ def store_on_output(
 def prepare_for_crude_dispatch(
     func: Callable = None,
     *,
-    param_to_mall_map: Optional[Union[dict, Iterable]] = None,
-    mall: Optional[Mall] = None,
+    param_to_mall_map: dict | Iterable | None = None,
+    mall: Mall | None = None,
     include_stores_attribute: bool = False,
-    output_store: Optional[Union[Mapping, str]] = None,
+    output_store: Mapping | str | None = None,
     # the arguments below only apply if output_store is given
     store_multi_values: bool = False,
     save_name_param: str = 'save_name',
@@ -682,7 +683,7 @@ def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=Tru
         return store_for_param
 
 
-def keys_to_values_if_non_mapping_iterable(d: Optional[Iterable]) -> dict:
+def keys_to_values_if_non_mapping_iterable(d: Iterable | None) -> dict:
     if d is None:
         return dict()
     elif not isinstance(d, Mapping) and isinstance(d, Iterable):
@@ -775,7 +776,7 @@ def simple_mall_dispatch_core_func(
 # ---------------------------------------------------------------------------------------
 # Tools to make crudifying easier
 
-from typing import Iterable
+from collections.abc import Iterable
 from i2 import Sig, Pipe
 from i2.signatures import sig_to_dataclass
 

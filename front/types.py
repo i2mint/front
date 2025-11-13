@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import Any, Callable, Mapping, Union
+from typing import Any, Union
+from collections.abc import Callable, Mapping
 
 Map = Union[None, Mapping, Callable[[], Mapping]]
 Configuration = Mapping

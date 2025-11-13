@@ -3,14 +3,10 @@ from typing import (
     Protocol,
     KT,
     VT,
-    Mapping,
     Union,
-    Callable,
-    Iterable,
-    MutableMapping,
     Optional,
-    Container,
 )
+from collections.abc import Mapping, Callable, Iterable, MutableMapping, Container
 from functools import partial
 
 
@@ -46,7 +42,7 @@ KeyFilterFunc = Callable[[KT], bool]
 
 @dataclass
 class IsInstanceOf:
-    class_or_tuple: Union[type, Iterable[type]]
+    class_or_tuple: type | Iterable[type]
 
     def __call__(self, obj):
         return isinstance(obj, self.class_or_tuple)
@@ -63,7 +59,7 @@ def _if_type_mk_filter_func(x):
 @dataclass
 class State(MutableMapping):
     state: GetterSetter
-    condition_for_key: Mapping[KT, Union[KeyFilterFunc, type]] = ()
+    condition_for_key: Mapping[KT, KeyFilterFunc | type] = ()
     forbidden_writes: Iterable[KT] = ()
     forbidden_overwrites: Iterable[KT] = ()
 
@@ -120,7 +116,8 @@ class State(MutableMapping):
 # Binding (Proposals)
 #########################################################################################
 
-from typing import Protocol, MutableMapping, runtime_checkable
+from typing import Protocol, runtime_checkable
+from collections.abc import MutableMapping
 from functools import partial
 
 from i2 import mk_sentinel, ensure_identifiers
@@ -245,8 +242,8 @@ def _ensure_allowed_ids(allowed_ids):
 
 
 def mk_binder(
-    state: Optional[StateType] = None,
-    allowed_ids: Optional[Identifiers] = None,
+    state: StateType | None = None,
+    allowed_ids: Identifiers | None = None,
     bound_val_factory: Callable = DFLT_BOUND_VAL_FACTORY,
 ):
     """

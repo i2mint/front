@@ -3,8 +3,6 @@ from dataclasses import dataclass
 from threading import Timer
 from typing import (
     Any,
-    Callable,
-    Iterable,
     List,
     Literal,
     Optional,
@@ -12,8 +10,8 @@ from typing import (
     Union,
     get_args,
     get_origin,
-    Sequence,
 )
+from collections.abc import Callable, Iterable, Sequence
 from front.data_binding import BoundData, ValueNotSet
 from i2 import Sig
 from inspect import _empty
@@ -404,7 +402,7 @@ class FloatInputBase(NumberInputBase):
 
 @dataclass
 class FileUploaderBase(InputBase):
-    type: Optional[Union[str, List[str]]] = None
+    type: str | list[str] | None = None
     accept_multiple_files: bool = False
 
 
@@ -413,7 +411,7 @@ SELECT_BOX_DFLT_INDEX = 0
 
 @dataclass
 class SelectorBase(InputBase):
-    options: Union[Sequence, Callable] = None
+    options: Sequence | Callable = None
 
     def pre_render(self):
         self.options = self.options or []
@@ -447,7 +445,7 @@ class SelectorBase(InputBase):
 @dataclass
 class KwargsInputBase(InputBase):
     inputs: dict = None
-    func_sig: Union[Sig, Callable] = None
+    func_sig: Sig | Callable = None
 
     def pre_render(self):
         super().pre_render()

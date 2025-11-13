@@ -42,7 +42,8 @@ See below one of the dags that will often be used in this module's doctests:
 
 """
 from collections import defaultdict
-from typing import Union, Iterable, Mapping, Any
+from typing import Union, Any
+from collections.abc import Iterable, Mapping
 from functools import partial
 from itertools import chain
 
@@ -62,11 +63,11 @@ def simple_namer(name, *, prefix='', suffix=''):
 
 
 def crudify_func_nodes(
-    var_nodes: Union[str, Iterable[str]],
+    var_nodes: str | Iterable[str],
     dag: DAG,
     var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
     *,
-    mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
+    mall: Mapping[str, Mapping[str, Any]] | None = None,
     include_stores_attribute: bool = False,
     save_name_param: str = 'save_name',
 ):
@@ -179,11 +180,11 @@ def crudify_func_nodes(
 
 
 def crudify_funcs(
-    var_nodes: Union[str, Iterable[str]],
+    var_nodes: str | Iterable[str],
     dag: DAG,  # TODO: Postelize. Accept func_nodes and funcs
     var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
     *,
-    mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
+    mall: Mapping[str, Mapping[str, Any]] | None = None,
     include_stores_attribute: bool = False,
     save_name_param: str = 'save_name',
 ):
@@ -292,7 +293,7 @@ def group_kvs_into_dict(kvs):
 # TODO: Perhaps we should use FuncNode.name (id) instead of FuncNode itself as key of
 #   dag.graph. We'd have less such problems then.
 def _func_nodes_arg_and_return_names_to_crude(
-    var_nodes: Union[str, Iterable[str]], dag: DAG,
+    var_nodes: str | Iterable[str], dag: DAG,
 ):
     """Return a copy of a dag where ``var_nodes`` were crudified.
 
@@ -368,7 +369,7 @@ def _empty_name_callback():
 
 
 from i2.wrapper import rm_params
-from typing import Callable
+from collections.abc import Callable
 
 # TODO: Give control to ALL prepare_for_crude_dispatch arguments.
 #     param_to_mall_map: Optional[Union[dict, Iterable]] = None,
@@ -382,11 +383,11 @@ from typing import Callable
 #     output_trans: Callable[..., Any] = None,
 #     verbose: bool = True,
 def _crudified_func_nodes(
-    var_nodes: Union[str, Iterable[str]],
+    var_nodes: str | Iterable[str],
     dag: DAG,
     var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
     *,
-    mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
+    mall: Mapping[str, Mapping[str, Any]] | None = None,
     include_stores_attribute: bool = False,
     save_name_param: str = 'save_name',
     auto_namer: Callable[[], Any] = None,
@@ -457,11 +458,11 @@ def _crudified_func_nodes(
 
 
 def _crudified_funcs(
-    var_nodes: Union[str, Iterable[str]],
+    var_nodes: str | Iterable[str],
     dag: DAG,
     var_node_name_to_store_name=partial(simple_namer, suffix='_store'),
     *,
-    mall: Union[Mapping[str, Mapping[str, Any]], None] = None,
+    mall: Mapping[str, Mapping[str, Any]] | None = None,
     include_stores_attribute: bool = False,
     save_name_param: str = 'save_name',
 ):

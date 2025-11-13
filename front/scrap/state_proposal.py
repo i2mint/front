@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import Protocol, KT, VT, Mapping, Union, Callable, Iterable, MutableMapping
+from typing import Protocol, KT, VT, Union
+from collections.abc import Mapping, Callable, Iterable, MutableMapping
 from functools import partial
 
 
@@ -35,7 +36,7 @@ KeyFilterFunc = Callable[[KT], bool]
 
 @dataclass
 class IsInstanceOf:
-    class_or_tuple: Union[type, Iterable[type]]
+    class_or_tuple: type | Iterable[type]
 
     def __call__(self, obj):
         return isinstance(obj, self.class_or_tuple)
@@ -52,7 +53,7 @@ def _if_type_mk_filter_func(x):
 @dataclass
 class State(MutableMapping):
     state: GetterSetter
-    condition_for_key: Mapping[KT, Union[KeyFilterFunc, type]] = ()
+    condition_for_key: Mapping[KT, KeyFilterFunc | type] = ()
     forbidden_writes: Iterable[KT] = ()
     forbidden_overwrites: Iterable[KT] = ()
 

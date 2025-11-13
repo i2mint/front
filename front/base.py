@@ -1,7 +1,8 @@
 """Base functions for front dispatching"""
 
 from functools import partial
-from typing import Mapping, Optional
+from typing import Optional
+from collections.abc import Mapping
 from i2 import double_up_as_factory
 
 from front.util import inject_enum_annotations, subdict
@@ -24,7 +25,7 @@ def prepare_for_dispatch(
     save_name_param: str = 'save_name',
     include_stores_attribute: bool = False,
     # for setting defaults
-    defaults: Optional[Mapping] = None,
+    defaults: Mapping | None = None,
 ):
     param_to_mall_map = keys_to_values_if_non_mapping_iterable(param_to_mall_map)
 

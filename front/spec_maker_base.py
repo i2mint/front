@@ -1,7 +1,8 @@
 from abc import abstractclassmethod
 import collections.abc
 from inspect import isclass
-from typing import Any, Mapping
+from typing import Any
+from collections.abc import Mapping
 from front.types import FrontSpec, Map
 from front.util import deep_merge, dflt_name_trans, dflt_trans, normalize_map
 from front.elements import *

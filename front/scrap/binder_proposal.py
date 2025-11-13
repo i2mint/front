@@ -5,13 +5,10 @@ from typing import (
     Protocol,
     KT,
     VT,
-    Mapping,
     Union,
-    Callable,
-    Iterable,
-    MutableMapping,
     Optional,
 )
+from collections.abc import Mapping, Callable, Iterable, MutableMapping
 from functools import partial
 
 
@@ -19,7 +16,8 @@ from functools import partial
 # Binding (Proposals)
 #########################################################################################
 
-from typing import Protocol, MutableMapping, runtime_checkable
+from typing import Protocol, runtime_checkable
+from collections.abc import MutableMapping
 from functools import partial
 
 from i2 import mk_sentinel, ensure_identifiers

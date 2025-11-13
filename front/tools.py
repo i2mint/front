@@ -1,6 +1,7 @@
 """Tools using front, or useful when using front"""
 
-from typing import Sequence, KT, VT, Callable, Iterable, Sized, Container
+from typing import KT, VT
+from collections.abc import Sequence, Callable, Iterable, Sized, Container
 from dol import KvReader
 from dataclasses import dataclass
 

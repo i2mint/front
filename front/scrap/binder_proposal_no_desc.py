@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from functools import partial
-from typing import MutableMapping, NewType, Protocol, runtime_checkable
+from typing import NewType, Protocol, runtime_checkable
+from collections.abc import MutableMapping
 
 from i2.util import mk_sentinel
 from i2 import Sig

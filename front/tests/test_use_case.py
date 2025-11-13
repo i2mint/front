@@ -1,5 +1,6 @@
 from itertools import chain
-from typing import Any, Callable, ContextManager, Iterable, Mapping
+from typing import Any, ContextManager
+from collections.abc import Callable, Iterable, Mapping
 from meshed.makers import code_to_dag
 from front.dag import crudify_func_nodes
 
