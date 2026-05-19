@@ -17,7 +17,7 @@ dependencies = [
     "dol",
     "i2",
     "meshed",
-    "pydantic==1.10.12",
+    "pydantic>=2",
 ]
 
 [project.license]
