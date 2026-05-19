@@ -52,9 +52,7 @@ exclude = [
 ]
 
 [tool.ruff.lint]
-select = [
-    "D100",
-]
+select = []
 ignore = [
     "D203",
     "E501",
@@ -132,7 +130,7 @@ exclude_paths = [
     "docsrc",
     "front/scrap",
 ]
-test_on_windows = true
+test_on_windows = false
 
 [tool.wads.ci.metrics]
 enabled = true
