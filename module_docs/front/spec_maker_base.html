@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.spec_maker_base &mdash; front 0.1.97 documentation</title>
+  <title>front.spec_maker_base &mdash; front 0.1.98 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../_static/documentation_options.js?v=09f5639d"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -120,6 +120,11 @@
              
   <section id="module-front.spec_maker_base">
 <span id="front-spec-maker-base"></span><h1>front.spec_maker_base<a class="headerlink" href="#module-front.spec_maker_base" title="Link to this heading"></a></h1>
+<p>Base classes and conventions for building a <a class="reference internal" href="types.html#front.types.FrontSpec" title="front.types.FrontSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrontSpec</span></code></a> from a configuration.</p>
+<p>A spec maker is the “short language → long language” compiler of front: it
+consumes a user configuration plus a convention (defaults) and emits the
+nested <code class="docutils literal notranslate"><span class="pre">app</span></code> / <code class="docutils literal notranslate"><span class="pre">obj</span></code> / <code class="docutils literal notranslate"><span class="pre">rendering</span></code> specification consumed by
+<a class="reference internal" href="app_maker.html#front.app_maker.AppMaker" title="front.app_maker.AppMaker"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppMaker</span></code></a>.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="front.spec_maker_base.SpecMakerBase">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.spec_maker_base.</span></span><span class="sig-name descname"><span class="pre">SpecMakerBase</span></span><a class="reference internal" href="../../_modules/front/spec_maker_base.html#SpecMakerBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.spec_maker_base.SpecMakerBase" title="Link to this definition"></a></dt>

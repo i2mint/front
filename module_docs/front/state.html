@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.state &mdash; front 0.1.97 documentation</title>
+  <title>front.state &mdash; front 0.1.98 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../_static/documentation_options.js?v=09f5639d"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -131,6 +131,10 @@
              
   <section id="module-front.state">
 <span id="front-state"></span><h1>front.state<a class="headerlink" href="#module-front.state" title="Link to this heading"></a></h1>
+<p>Stateful storage protocols and <code class="docutils literal notranslate"><span class="pre">Forbidden</span></code> errors used by front data bindings.</p>
+<p>Defines the <a class="reference internal" href="#front.state.State" title="front.state.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></a> wrapper and the <code class="docutils literal notranslate"><span class="pre">GetterSetter</span></code> / <code class="docutils literal notranslate"><span class="pre">StateType</span></code>
+protocols an app’s backing store must satisfy, plus a small hierarchy of
+<code class="docutils literal notranslate"><span class="pre">Forbidden*</span></code> exceptions raised when a write breaks the configured policy.</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="front.state.ConditionNotMet">
 <span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.state.</span></span><span class="sig-name descname"><span class="pre">ConditionNotMet</span></span><a class="reference internal" href="../../_modules/front/state.html#ConditionNotMet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.state.ConditionNotMet" title="Link to this definition"></a></dt>

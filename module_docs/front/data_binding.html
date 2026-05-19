@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.data_binding &mdash; front 0.1.97 documentation</title>
+  <title>front.data_binding &mdash; front 0.1.98 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../_static/documentation_options.js?v=09f5639d"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -120,6 +120,11 @@
              
   <section id="module-front.data_binding">
 <span id="front-data-binding"></span><h1>front.data_binding<a class="headerlink" href="#module-front.data_binding" title="Link to this heading"></a></h1>
+<p>Data-binding primitives that connect front element values to a backing state store.</p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">BoundData</span></code> wraps a keyed slot in a <a class="reference internal" href="state.html#front.state.State" title="front.state.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></a> so an
+element can read and write its current value through a single object. The
+<code class="docutils literal notranslate"><span class="pre">ValueNotSet</span></code> / <code class="docutils literal notranslate"><span class="pre">Empty</span></code> sentinels distinguish “no value yet” from a
+deliberate empty value.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="front.data_binding.Binder">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.data_binding.</span></span><span class="sig-name descname"><span class="pre">Binder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">front_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">front.state.StateType</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/data_binding.html#Binder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.data_binding.Binder" title="Link to this definition"></a></dt>

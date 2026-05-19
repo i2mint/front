@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.data_binding &mdash; front 0.1.97 documentation</title>
+  <title>front.data_binding &mdash; front 0.1.98 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../_static/documentation_options.js?v=09f5639d"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -113,7 +113,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for front.data_binding</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span></span><span class="sd">&quot;&quot;&quot;Data-binding primitives that connect front element values to a backing state store.</span>
+
+<span class="sd">A :class:`BoundData` wraps a keyed slot in a :class:`~front.state.State` so an</span>
+<span class="sd">element can read and write its current value through a single object. The</span>
+<span class="sd">``ValueNotSet`` / ``Empty`` sentinels distinguish &quot;no value yet&quot; from a</span>
+<span class="sd">deliberate empty value.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">front.state</span><span class="w"> </span><span class="kn">import</span> <span class="n">GetterSetter</span><span class="p">,</span> <span class="n">State</span><span class="p">,</span> <span class="n">StateType</span>
@@ -121,7 +129,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">i2.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">mk_sentinel</span>
 
 <span class="n">_mk_sentinel</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">mk_sentinel</span><span class="p">,</span> <span class="n">repr_</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="vm">__name__</span><span class="p">)</span>
-<span class="n">ValueNotSet</span><span class="p">,</span> <span class="n">Empty</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">_mk_sentinel</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;ValueNotSet&#39;</span><span class="p">,</span> <span class="s1">&#39;Empty&#39;</span><span class="p">])</span>
+<span class="n">ValueNotSet</span><span class="p">,</span> <span class="n">Empty</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">_mk_sentinel</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;ValueNotSet&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty&quot;</span><span class="p">])</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">BoundData</span><span class="p">:</span>
@@ -151,13 +159,13 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_reserved_keys</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_reserved_keys&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;_reserved_keys&quot;</span><span class="p">]:</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">Empty</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_reserved_keys</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_reserved_keys&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;_reserved_keys&quot;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">bound_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound_data_factory</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_state</span><span class="p">)</span>
@@ -166,9 +174,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">bound_data</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_ensure_reserved_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s1">&#39;_reserved_keys&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_reserved_keys&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span><span class="o">.</span><span class="n">names</span> <span class="o">+</span> <span class="p">[</span>
-                <span class="s1">&#39;_reserved_keys&#39;</span>
+        <span class="k">if</span> <span class="s2">&quot;_reserved_keys&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;_reserved_keys&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span><span class="o">.</span><span class="n">names</span> <span class="o">+</span> <span class="p">[</span>
+                <span class="s2">&quot;_reserved_keys&quot;</span>
             <span class="p">]</span>
 
     <span class="fm">__getitem__</span> <span class="o">=</span> <span class="fm">__getattr__</span>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.app_maker &mdash; front 0.1.97 documentation</title>
+  <title>front.app_maker &mdash; front 0.1.98 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../_static/documentation_options.js?v=09f5639d"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -113,7 +113,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for front.app_maker</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
+<span></span><span class="sd">&quot;&quot;&quot;The ``AppMaker`` orchestrator that turns a configuration into a front app.</span>
+
+<span class="sd">Consumes a short-language configuration plus a convention, compiles it into a</span>
+<span class="sd">nested :class:`~front.types.FrontSpec` (the long language) via a spec maker,</span>
+<span class="sd">builds the composite tree of front elements, and assembles the runnable app.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">front.elements</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElementTreeMaker</span>
@@ -175,17 +182,17 @@
         <span class="k">def</span><span class="w"> </span><span class="nf">validate_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Callable</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                    <span class="s1">&#39;Only objects of type Callable are supported for now.&#39;</span>
+                    <span class="s2">&quot;Only objects of type Callable are supported for now.&quot;</span>
                 <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">:</span>
             <span class="n">validate_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
-        <span class="n">trans_func</span> <span class="o">=</span> <span class="n">obj_spec</span><span class="p">[</span><span class="s1">&#39;trans&#39;</span><span class="p">]</span>
+        <span class="n">trans_func</span> <span class="o">=</span> <span class="n">obj_spec</span><span class="p">[</span><span class="s2">&quot;trans&quot;</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">trans_func</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_mk_app</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element_tree</span><span class="p">:</span> <span class="n">FrontContainerBase</span><span class="p">,</span> <span class="n">app_specs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrontApp</span><span class="p">:</span>
-        <span class="n">element_tree</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">app_specs</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+        <span class="n">element_tree</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">app_specs</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">element_tree</span></div>
 
 </pre></div>

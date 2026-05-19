@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.app_maker &mdash; front 0.1.97 documentation</title>
+  <title>front.app_maker &mdash; front 0.1.98 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../_static/documentation_options.js?v=09f5639d"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -123,6 +123,10 @@
              
   <section id="module-front.app_maker">
 <span id="front-app-maker"></span><h1>front.app_maker<a class="headerlink" href="#module-front.app_maker" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">AppMaker</span></code> orchestrator that turns a configuration into a front app.</p>
+<p>Consumes a short-language configuration plus a convention, compiles it into a
+nested <a class="reference internal" href="types.html#front.types.FrontSpec" title="front.types.FrontSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrontSpec</span></code></a> (the long language) via a spec maker,
+builds the composite tree of front elements, and assembles the runnable app.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="front.app_maker.AppMaker">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.app_maker.</span></span><span class="sig-name descname"><span class="pre">AppMaker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spec_maker_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_tree_maker_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;class</span> <span class="pre">'front.elements.tree_maker_base.ElementTreeMaker'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/app_maker.html#AppMaker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.app_maker.AppMaker" title="Link to this definition"></a></dt>

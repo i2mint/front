@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.py2pydantic &mdash; front 0.1.97 documentation</title>
+  <title>front.py2pydantic &mdash; front 0.1.98 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../_static/documentation_options.js?v=09f5639d"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -164,7 +164,7 @@
 
     <span class="n">input_model</span> <span class="o">=</span> <span class="n">func_to_pyd_input_model_cls</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">dflt_type</span><span class="p">)</span>
     <span class="n">output_model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span>
-        <span class="s1">&#39;output_model&#39;</span><span class="p">,</span> <span class="n">output_val</span><span class="o">=</span><span class="p">(</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+        <span class="s2">&quot;output_model&quot;</span><span class="p">,</span> <span class="n">output_val</span><span class="o">=</span><span class="p">(</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
     <span class="p">)</span>  <span class="c1"># TODO: Work on this</span>
     <span class="c1"># TODO: Inject annotations in pyd_func_ingress</span>
 
@@ -223,10 +223,10 @@
             <span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
 
             <span class="n">warn</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">conflicting_names</span><span class="p">)</span><span class="si">}</span><span class="s1"> argument name(s) conflicted with BaseModel.</span>
-<span class="s1">            They&#39;re being replaced with upper-case names to resolve conflict. old:new -&gt;</span>
-<span class="s1">            </span><span class="si">{</span><span class="n">old_to_new_names</span><span class="si">}</span>
-<span class="s1">            &#39;&#39;&#39;</span>
+                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">conflicting_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> argument name(s) conflicted with BaseModel.</span>
+<span class="s2">            They&#39;re being replaced with upper-case names to resolve conflict. old:new -&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">old_to_new_names</span><span class="si">}</span>
+<span class="s2">            &quot;&quot;&quot;</span>
             <span class="p">)</span>
         <span class="n">wrapped_func</span> <span class="o">=</span> <span class="n">Ingress</span><span class="o">.</span><span class="n">name_map</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">old_to_new_names</span><span class="p">)</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
@@ -255,12 +255,12 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">pydantic_egress</span><span class="p">(</span><span class="n">output</span><span class="p">):</span>
     <span class="n">return_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-    <span class="n">mod</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="s1">&#39;Output&#39;</span><span class="p">,</span> <span class="n">output_val</span><span class="o">=</span><span class="n">return_type</span><span class="p">)</span>
+    <span class="n">mod</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="s2">&quot;Output&quot;</span><span class="p">,</span> <span class="n">output_val</span><span class="o">=</span><span class="n">return_type</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">mod</span><span class="p">(</span><span class="n">output_val</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">pydantic_model_from_type</span><span class="p">(</span><span class="n">mytype</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Output&#39;</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s1">&#39;result&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pydantic_model_from_type</span><span class="p">(</span><span class="n">mytype</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Output&quot;</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">&quot;result&quot;</span><span class="p">):</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">field_name</span><span class="p">:</span> <span class="p">(</span><span class="n">mytype</span><span class="p">,</span> <span class="o">...</span><span class="p">)})</span>
 
     <span class="k">return</span> <span class="n">model</span>

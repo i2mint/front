@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.elements.implementation &mdash; front 0.1.97 documentation</title>
+  <title>front.elements.implementation &mdash; front 0.1.98 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=e1efc05f"></script>
+      <script src="../../../_static/documentation_options.js?v=09f5639d"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -117,6 +117,10 @@
              
   <section id="module-front.elements.implementation">
 <span id="front-elements-implementation"></span><h1>front.elements.implementation<a class="headerlink" href="#module-front.elements.implementation" title="Link to this heading"></a></h1>
+<p>Helpers for binding concrete UI component factories to front element classes.</p>
+<p><code class="docutils literal notranslate"><span class="pre">implement_component</span></code> is a small factory that produces a <code class="docutils literal notranslate"><span class="pre">render</span></code>-able
+front element class from any callable component factory (e.g. a Streamlit
+widget), wiring the factory’s keyword arguments to the element’s attributes.</p>
 </section>
 
 
