@@ -20,7 +20,7 @@ def identity(x):
     return x
 
 
-def iterable_to_enum(iterable, name='CustomEnum'):
+def iterable_to_enum(iterable, name="CustomEnum"):
     return Enum(name, {str(kv): kv for kv in iterable})
 
 
@@ -102,14 +102,14 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
     sig = Sig(func)
     with_enumed_sig = sig.ch_annotations(
         **{
-            param: iterable_to_enum(enum_list, name=f'{param}_enum')
+            param: iterable_to_enum(enum_list, name=f"{param}_enum")
             for param, enum_list in enum_list_for_arg.items()
         }
     )
 
     if extract_enum_value:
         get_values_of_enums = partial(
-            _get_value_attr, keys=list(enum_list_for_arg), val_trans=attrgetter('value')
+            _get_value_attr, keys=list(enum_list_for_arg), val_trans=attrgetter("value")
         )
 
         dispatched_enums_func = wrap(
@@ -131,6 +131,7 @@ from collections.abc import Callable, Iterable
 Annot = Any
 AnnotForArgname = Union[dict[str, Annot], Iterable[tuple[str, Annot]]]
 AnnotForType = Union[dict[type, Annot], Iterable[tuple[type, Annot]]]
+
 
 # TODO: Compare to and possibly use i2.io_trans and/or i2.routing_forest.
 # Note: A Parameter->annotation function would be more general
@@ -239,27 +240,27 @@ def _annotate_func_arguments(
     """Helper for annotate_func_arguments. Same inputs as the latter."""
     annot_for_argname = dict(annot_for_argname)
     annot_for_dflt_type = dict(annot_for_dflt_type)
-    assert all(
-        isinstance(t, str) and str.isidentifier(t) for t in annot_for_argname
-    ), f'All keys should be identifier strings. Some were not: {annot_for_argname=}'
-    assert all(
-        isinstance(t, type) for t in annot_for_dflt_type
-    ), f'All keys should be types. Some were not: {annot_for_dflt_type=}'
+    assert all(isinstance(t, str) and str.isidentifier(t) for t in annot_for_argname), (
+        f"All keys should be identifier strings. Some were not: {annot_for_argname=}"
+    )
+    assert all(isinstance(t, type) for t in annot_for_dflt_type), (
+        f"All keys should be types. Some were not: {annot_for_dflt_type=}"
+    )
     handled_types = tuple(annot_for_dflt_type)
 
     for name, param in Sig(func).parameters.items():
         if ignore_existing_annot or param.annotation is empty:
             if name in annot_for_argname:
-                yield name, {'annotation': annot_for_argname[name]}
+                yield name, {"annotation": annot_for_argname[name]}
             elif isinstance(default := param.default, handled_types):
                 # NOTE: will yield the first one found
                 for type_ in handled_types:
                     if isinstance(default, type_):
-                        yield name, {'annotation': annot_for_dflt_type[type_]}
+                        yield name, {"annotation": annot_for_dflt_type[type_]}
                         break
             else:
                 if dflt_annot is not empty:
-                    yield name, {'annotation': dflt_annot}
+                    yield name, {"annotation": dflt_annot}
 
 
 #
@@ -293,7 +294,7 @@ def deep_merge(a: Mapping, b: Mapping):
     return result
 
 
-def incremental_str_maker(str_format='{:03.f}'):
+def incremental_str_maker(str_format="{:03.f}"):
     """Make a function that will produce a (incrementally) new string at every call."""
     i = 0
 
@@ -305,21 +306,21 @@ def incremental_str_maker(str_format='{:03.f}'):
     return mk_next_str
 
 
-unnamed_obj = incremental_str_maker(str_format='UnnamedObject{:03.0f}')
+unnamed_obj = incremental_str_maker(str_format="UnnamedObject{:03.0f}")
 
 
 def obj_name(func):
     """The func.__name__ of a callable func, or makes and returns one if that fails.
     To make one, it calls unamed_func_name which produces incremental names to reduce the chances of clashing"""
     name = name_of_obj(func)
-    if name is None or name == '<lambda>':
+    if name is None or name == "<lambda>":
         return unnamed_obj()
     return name
 
 
 def dflt_name_trans(obj):
     obj_str = obj if isinstance(obj, str) else obj_name(obj)
-    return obj_str.replace('_', ' ').title()
+    return obj_str.replace("_", " ").title()
 
 
 def dflt_trans(objs):

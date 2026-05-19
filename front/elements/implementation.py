@@ -6,7 +6,7 @@ def implement_component(
     base_cls: type,
     component_factory: Callable,
     input_value_callback: Callable = None,
-    **input_mapping
+    **input_mapping,
 ):
     component_factory_sig = Sig(component_factory)
     keyword_names = component_factory_sig.keyword_names

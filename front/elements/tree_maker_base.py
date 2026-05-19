@@ -19,7 +19,7 @@ class ElementTreeMaker:
         self, front_objs: Iterable[Any], rendering_spec: dict
     ) -> FrontContainerBase:
         """Entrypoint of the ElementTreeMaker class. Builds the composite tree
-        
+
         :param front_objs: The objects to render after transformation (see AppMaker).
         :param rendering_spec: The rendering spec of the application, compiled from
             the given configuration.
@@ -42,7 +42,7 @@ class ElementTreeMaker:
         root_factory = self.rendering_spec.pop(ELEMENT_KEY)
         if not root_factory:
             raise RuntimeError(
-                'No app element has been defined for this front application.'
+                "No app element has been defined for this front application."
             )
         return root_factory
 
@@ -54,7 +54,7 @@ class ElementTreeMaker:
             )
             obj_rendering_spec = self.rendering_spec.get(obj.__name__, {})
             obj_rendering_spec = deep_merge(type_rendering_spec, obj_rendering_spec)
-            obj_rendering_spec['obj'] = obj
+            obj_rendering_spec["obj"] = obj
             yield (obj_name, obj_rendering_spec)
 
     def _get_type_rendering_spec(self, spec: dict, obj):
@@ -62,7 +62,7 @@ class ElementTreeMaker:
         obj_type_spec = spec.get(obj_type)
         if obj_type_spec:
             return obj_type_spec
-        if getattr(obj_type, 'mro'):
+        if getattr(obj_type, "mro"):
             for t in obj_type.mro():
                 type_spec = spec.get(t)
                 if type_spec:

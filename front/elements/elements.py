@@ -30,7 +30,7 @@ class FrontElementBase(ABC):
     display: FrontElementDisplay = True
 
     def __post_init__(self):
-        self.name = get_value(self.name, self.obj) or ''
+        self.name = get_value(self.name, self.obj) or ""
         self.display = get_value(self.display, self.obj)
 
     def pre_render(self):
@@ -50,9 +50,9 @@ class FrontElementBase(ABC):
             return self.post_render(r)
 
 
-ELEMENT_KEY = '_front_element'
-DEFAULT_INPUT_KEY = '_default'
-FrontElementSpec = TypedDict('FrontElementSpec', {ELEMENT_KEY: FrontElementBase})
+ELEMENT_KEY = "_front_element"
+DEFAULT_INPUT_KEY = "_default"
+FrontElementSpec = TypedDict("FrontElementSpec", {ELEMENT_KEY: FrontElementBase})
 
 
 def mk_element_from_spec(spec: FrontElementSpec):
@@ -66,7 +66,7 @@ def mk_element_from_spec(spec: FrontElementSpec):
     try:
         return factory(**_spec)
     except Exception as e:
-        print(f'An error occurred when trying to build element {factory}')
+        print(f"An error occurred when trying to build element {factory}")
         raise e
 
 
@@ -84,7 +84,7 @@ def mk_input_element_specs(obj, inputs):
                 types.remove(none_type)
                 is_noneable = True
             if len(types) > 1:
-                raise NotImplementedError('Union type is not supported yet.')
+                raise NotImplementedError("Union type is not supported yet.")
             param_type = types[0]
         else:
             param_type = param_origin_type or param_type
@@ -92,9 +92,9 @@ def mk_input_element_specs(obj, inputs):
             param_type = Any
         type_spec = inputs_spec.get(param_type, {})
         input_spec = deep_merge(type_spec, input_spec)
-        value = input_spec.get('value')
+        value = input_spec.get("value")
         input_key = (
-            value.id if isinstance(value, BoundData) else f'{obj.__name__}_{p.name}'
+            value.id if isinstance(value, BoundData) else f"{obj.__name__}_{p.name}"
         )
         return dict(input_spec, obj=p, input_key=input_key, is_noneable=is_noneable)
 
@@ -134,14 +134,14 @@ class TextSectionBase(FrontComponentBase):
     def __init__(
         self,
         content: str,
-        kind: str = 'text',
+        kind: str = "text",
         obj: Any = None,
         name: FrontElementName = None,
         display: FrontElementDisplay = True,
         **kwargs,
     ):
         super().__init__(obj=obj, name=name, display=display)
-        self.content = get_value(content, self.obj) or ''
+        self.content = get_value(content, self.obj) or ""
         self.kind = get_value(kind, self.obj)
         self.kwargs = kwargs
 
@@ -182,14 +182,14 @@ class InputBase(FrontComponentBase):
 
     @property
     def view_key(self) -> str:
-        return self._build_key('view')
+        return self._build_key("view")
 
     @property
     def none_key(self) -> str:
-        return self._build_key('none')
+        return self._build_key("none")
 
     def _build_key(self, suffix: str):
-        return f'{self.input_key}_{suffix}'
+        return f"{self.input_key}_{suffix}"
 
     @property
     def _type(self):
@@ -249,11 +249,11 @@ class ExecContainerBase(FrontContainerBase):
 
     def _feed_kwargs_input_spec(self):
         inputs_spec = dict(self.inputs)
-        kwargs_spec = inputs_spec.pop('kwargs', None)
+        kwargs_spec = inputs_spec.pop("kwargs", None)
         if kwargs_spec:
-            kwargs_inputs = kwargs_spec.get('inputs', {})
+            kwargs_inputs = kwargs_spec.get("inputs", {})
             kwargs_inputs = deep_merge(inputs_spec, kwargs_inputs)
-            self.inputs['kwargs']['inputs'] = kwargs_inputs
+            self.inputs["kwargs"]["inputs"] = kwargs_inputs
 
     def _render_inputs(self):
         input_components = [
@@ -352,7 +352,7 @@ class TextInputBase(InputBase):
 
     @property
     def _dflt_view_value(self):
-        return ''
+        return ""
 
 
 @dataclass

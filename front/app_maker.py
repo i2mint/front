@@ -55,15 +55,15 @@ class AppMaker:
         def validate_obj(obj):
             if not isinstance(obj, Callable):
                 raise NotImplementedError(
-                    'Only objects of type Callable are supported for now.'
+                    "Only objects of type Callable are supported for now."
                 )
 
         for obj in objs:
             validate_obj(obj)
 
-        trans_func = obj_spec['trans']
+        trans_func = obj_spec["trans"]
         return trans_func(objs)
 
     def _mk_app(self, element_tree: FrontContainerBase, app_specs: dict) -> FrontApp:
-        element_tree.name = app_specs['title']
+        element_tree.name = app_specs["title"]
         return element_tree

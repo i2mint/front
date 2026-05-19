@@ -6,7 +6,7 @@ from i2 import Sig
 from i2.util import mk_sentinel
 
 _mk_sentinel = partial(mk_sentinel, repr_=lambda x: x.__name__, module=__name__)
-ValueNotSet, Empty = map(_mk_sentinel, ['ValueNotSet', 'Empty'])
+ValueNotSet, Empty = map(_mk_sentinel, ["ValueNotSet", "Empty"])
 
 
 class BoundData:
@@ -34,13 +34,13 @@ class Binder:
 
     def __getattr__(self, k):
         self._ensure_reserved_keys()
-        if k not in self.__dict__['_reserved_keys']:
+        if k not in self.__dict__["_reserved_keys"]:
             setattr(self, k, Empty)
         return self.__dict__[k]
 
     def __setattr__(self, k, v):
         self._ensure_reserved_keys()
-        if k in self.__dict__['_reserved_keys']:
+        if k in self.__dict__["_reserved_keys"]:
             self.__dict__[k] = v
         else:
             bound_data = self.bound_data_factory(k, self.front_state)
@@ -49,9 +49,9 @@ class Binder:
             self.__dict__[k] = bound_data
 
     def _ensure_reserved_keys(self):
-        if '_reserved_keys' not in self.__dict__:
-            self.__dict__['_reserved_keys'] = Sig(self.__init__).names + [
-                '_reserved_keys'
+        if "_reserved_keys" not in self.__dict__:
+            self.__dict__["_reserved_keys"] = Sig(self.__init__).names + [
+                "_reserved_keys"
             ]
 
     __getitem__ = __getattr__

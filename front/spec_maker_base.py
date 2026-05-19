@@ -8,27 +8,35 @@ from front.util import deep_merge, dflt_name_trans, dflt_trans, normalize_map
 from front.elements import *
 
 
-APP_KEY = 'app'
-OBJ_KEY = 'obj'
-RENDERING_KEY = 'rendering'
-NAME_KEY = 'name'
+APP_KEY = "app"
+OBJ_KEY = "obj"
+RENDERING_KEY = "rendering"
+NAME_KEY = "name"
 
 BASE_DFLT_CONVENTION = {
-    APP_KEY: {'title': 'My Front Application'},
-    OBJ_KEY: {'trans': dflt_trans},
+    APP_KEY: {"title": "My Front Application"},
+    OBJ_KEY: {"trans": dflt_trans},
     RENDERING_KEY: {
         collections.abc.Callable: {
             NAME_KEY: dflt_name_trans,
-            'description': {NAME_KEY: 'Description', 'content': lambda o: o.__doc__,},
-            'execution': {
-                NAME_KEY: 'Execution',
-                'inputs': {
-                    float: {'format': '%.2f', 'step': 0.01,},
+            "description": {
+                NAME_KEY: "Description",
+                "content": lambda o: o.__doc__,
+            },
+            "execution": {
+                NAME_KEY: "Execution",
+                "inputs": {
+                    float: {
+                        "format": "%.2f",
+                        "step": 0.01,
+                    },
                     DEFAULT_INPUT_KEY: {
-                        NAME_KEY: lambda p: p.name.replace('_', ' ').title()
+                        NAME_KEY: lambda p: p.name.replace("_", " ").title()
                     },
                 },
-                'output': {NAME_KEY: 'Output',},
+                "output": {
+                    NAME_KEY: "Output",
+                },
             },
         }
     },
@@ -39,7 +47,7 @@ class SpecMakerBase(ABC):
     """This abstract class takes care of transforming the configuration given by the
     user (short language) to a detailed specification to build the application (long
     language).
-    
+
     To do so, the "mk_spec" method first merges the configuration with the convention,
     then does the following for the rendering specification:
     Let's consider we have three classes A, B and C with C extends B and B extends A
@@ -94,7 +102,7 @@ class SpecMakerBase(ABC):
         convention = normalize_map(convention)
         spec = deep_merge(convention, config)
 
-        rendering_spec = spec.get('rendering', {})
+        rendering_spec = spec.get("rendering", {})
         cls_keys = [k for k in rendering_spec if isclass(k)]
         inheritance_paths = {cls: get_inheritance_path(cls) for cls in cls_keys}
         for cls, path in inheritance_paths.items():
@@ -113,6 +121,5 @@ class SpecMakerBase(ABC):
     @property
     @abstractclassmethod
     def _dflt_convention(cls) -> Mapping:
-        """IMPORTANT! This property needs to be overloaded in concrete subclasses.
-        """
+        """IMPORTANT! This property needs to be overloaded in concrete subclasses."""
         pass

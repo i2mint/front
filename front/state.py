@@ -82,15 +82,15 @@ class State(MutableMapping):
 
     def __setitem__(self, k, v):
         if k in self.forbidden_writes:
-            raise ForbiddenWrite(f'Not allowed to write on {k}')
+            raise ForbiddenWrite(f"Not allowed to write on {k}")
         if k in self.forbidden_overwrites and k in self.state and self.state[k] != v:
             raise ForbiddenOverwrite(
-                f'Not allowed to write under this key more than once: {k}'
+                f"Not allowed to write under this key more than once: {k}"
             )
         if k in self.condition_for_key and not self.condition_for_key[k](v):
             raise ConditionNotMet(
-                f'The value for the {k} key must satisfy condition '
-                f'{self.condition_for_key[k]}'
+                f"The value for the {k} key must satisfy condition "
+                f"{self.condition_for_key[k]}"
             )
         self.state[k] = v
 
@@ -131,7 +131,7 @@ class HasState(Protocol):
 _mk_sentinel = partial(
     mk_sentinel, boolean_value=False, repr_=lambda x: x.__name__, module=__name__
 )
-ValueNotSet, Empty = map(_mk_sentinel, ['ValueNotSet', 'Empty'])
+ValueNotSet, Empty = map(_mk_sentinel, ["ValueNotSet", "Empty"])
 
 
 class BoundVal:
@@ -144,7 +144,7 @@ class BoundVal:
             key_str = f"'{self.key}'"
         else:
             key_str = self.key
-        return f'{type(self).__name__}({key_str})'
+        return f"{type(self).__name__}({key_str})"
 
     def _get_(self, obj: HasState, objtype=None):
         if obj is None:
@@ -164,8 +164,8 @@ from typing import NewType
 
 from i2 import ensure_identifiers
 
-StateType = NewType('StateType', MutableMapping)
-Identifier = NewType('Identifier', str)
+StateType = NewType("StateType", MutableMapping)
+Identifier = NewType("Identifier", str)
 Identifiers = Union[Iterable[Identifier], str]
 StateFactory = Callable[[Identifiers], StateType]
 
@@ -173,7 +173,7 @@ DFLT_BOUND_VAL_FACTORY = BoundVal
 
 
 class _Binder:
-    _reserved_vars = {'_state', '_factory'}
+    _reserved_vars = {"_state", "_factory"}
 
     def __init__(self, state: StateType, factory=DFLT_BOUND_VAL_FACTORY):
         self._state = state
@@ -200,7 +200,7 @@ class _DynamicBindsMixin:
         # Need this "not in _reserved_vars", otherwise the __init__ won't be able to set
         # _state and _factory
         if k not in self._reserved_vars:
-            self.__dict__['_state'][k] = v
+            self.__dict__["_state"][k] = v
         self.__dict__[k] = v  # put it in the __dict__ (so it becomes an attribute)
 
 
@@ -218,7 +218,7 @@ class _ExclusiveBindsMixin(_DynamicBindsMixin):
             return super().__getattr__(k)
         else:
             raise AttributeError(
-                f'That attribute is not in the self._allowed_ids collection: {k}'
+                f"That attribute is not in the self._allowed_ids collection: {k}"
             )
 
     def __setattr__(self, k, v):
@@ -227,7 +227,7 @@ class _ExclusiveBindsMixin(_DynamicBindsMixin):
         else:
             raise ForbiddenWrite(
                 "Can't write there. The id is not in the self._allowed_ids collection"
-                f': {k}'
+                f": {k}"
             )
 
 
