@@ -120,9 +120,7 @@ def func_to_pyd_input_model_cls(
         """
         )
     wrapped_func = Ingress.name_map(func, **old_to_new_names).wrap(func)
-    return create_model(
-        name, **dict(func_to_pyd_model_specs(wrapped_func, dflt_type))
-    )
+    return create_model(name, **dict(func_to_pyd_model_specs(wrapped_func, dflt_type)))
 
 
 def func_to_pyd_model_specs(func: Callable, dflt_type=Any):
