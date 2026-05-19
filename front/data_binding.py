@@ -1,3 +1,11 @@
+"""Data-binding primitives that connect front element values to a backing state store.
+
+A :class:`BoundData` wraps a keyed slot in a :class:`~front.state.State` so an
+element can read and write its current value through a single object. The
+``ValueNotSet`` / ``Empty`` sentinels distinguish "no value yet" from a
+deliberate empty value.
+"""
+
 from dataclasses import dataclass
 from functools import partial
 

@@ -1,3 +1,11 @@
+"""Base classes and conventions for building a :class:`~front.types.FrontSpec` from a configuration.
+
+A spec maker is the "short language → long language" compiler of front: it
+consumes a user configuration plus a convention (defaults) and emits the
+nested ``app`` / ``obj`` / ``rendering`` specification consumed by
+:class:`~front.app_maker.AppMaker`.
+"""
+
 from abc import abstractclassmethod
 import collections.abc
 from inspect import isclass

@@ -1,3 +1,11 @@
+"""Abstract base classes for the composite tree of front UI elements.
+
+Front elements (containers, inputs, outputs, etc.) are arranged in a tree
+mirroring the rendering specification. This module defines the base
+``FrontElementBase`` and ``FrontContainerBase`` classes that concrete frontends
+(e.g. streamlit) subclass to provide their own rendering.
+"""
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from threading import Timer

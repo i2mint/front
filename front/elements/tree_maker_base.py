@@ -1,3 +1,10 @@
+"""``ElementTreeMaker``: builds the composite tree of front elements from a rendering spec.
+
+The tree is then walked by :class:`~front.app_maker.AppMaker` to produce the
+runnable app. Concrete frontends typically don't override this — they supply
+their own element classes via the rendering specification.
+"""
+
 from abc import ABC, abstractclassmethod
 from typing import Any
 from collections.abc import Iterable

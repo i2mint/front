@@ -1,3 +1,10 @@
+"""Helpers for binding concrete UI component factories to front element classes.
+
+``implement_component`` is a small factory that produces a ``render``-able
+front element class from any callable component factory (e.g. a Streamlit
+widget), wiring the factory's keyword arguments to the element's attributes.
+"""
+
 from collections.abc import Callable
 from i2 import Sig
 

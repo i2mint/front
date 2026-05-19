@@ -1,3 +1,10 @@
+"""Type aliases and lightweight dataclasses shared across front modules.
+
+Centralizes the names used in spec compilation (``Configuration``,
+``Convention``, ``Map``) and the structured :class:`FrontSpec` consumed by
+:class:`~front.app_maker.AppMaker`.
+"""
+
 from dataclasses import dataclass
 from typing import Any, Union
 from collections.abc import Callable, Mapping

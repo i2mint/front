@@ -1,3 +1,10 @@
+"""The ``AppMaker`` orchestrator that turns a configuration into a front app.
+
+Consumes a short-language configuration plus a convention, compiles it into a
+nested :class:`~front.types.FrontSpec` (the long language) via a spec maker,
+builds the composite tree of front elements, and assembles the runnable app.
+"""
+
 from abc import ABC
 from typing import Any
 from collections.abc import Callable, Iterable

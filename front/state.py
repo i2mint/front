@@ -1,3 +1,10 @@
+"""Stateful storage protocols and ``Forbidden`` errors used by front data bindings.
+
+Defines the :class:`State` wrapper and the ``GetterSetter`` / ``StateType``
+protocols an app's backing store must satisfy, plus a small hierarchy of
+``Forbidden*`` exceptions raised when a write breaks the configured policy.
+"""
+
 from dataclasses import dataclass
 from typing import (
     Protocol,
