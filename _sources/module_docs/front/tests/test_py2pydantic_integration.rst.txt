@@ -1,0 +1,4 @@
+front.tests.test_py2pydantic_integration
+========================================
+.. automodule:: front.tests.test_py2pydantic_integration
+   :members:

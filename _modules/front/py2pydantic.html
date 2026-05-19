@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.py2pydantic &mdash; front 0.1.98 documentation</title>
+  <title>front.py2pydantic &mdash; front 0.1.99 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=09f5639d"></script>
+      <script src="../../_static/documentation_options.js?v=ad8de784"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -80,6 +80,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_crudify_based_on_names.html">front.tests.test_crudify_based_on_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_py2pydantic_integration.html">front.tests.test_py2pydantic_integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_state.html">front.tests.test_state</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_use_case.html">front.tests.test_use_case</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/util.html">front.tests.util</a></li>
@@ -113,23 +114,31 @@
            <div itemprop="articleBody">
              
   <h1>Source code for front.py2pydantic</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;How do we eliminate some of the boilerplate between having python functions</span>
-<span class="sd">and making them pydantic?</span>
+<span></span><span class="sd">&quot;&quot;&quot;Bridge between plain Python functions and pydantic v2 models.</span>
+
+<span class="sd">Given a Python function, produce a pydantic input model whose fields mirror</span>
+<span class="sd">the function&#39;s signature (names, annotations, defaults), and an &quot;opyrator&quot;-</span>
+<span class="sd">style wrapper that takes a single pydantic model instance and dispatches</span>
+<span class="sd">to the underlying function.</span>
+
+<span class="sd">Useful for auto-generating forms, validators, and JSON-schema descriptions</span>
+<span class="sd">of arbitrary callables — the core trick behind front&#39;s app-from-function</span>
+<span class="sd">dispatch.</span>
 
 <span class="sd">&gt;&gt;&gt; from i2.tests.objects_for_testing import formula1</span>
 <span class="sd">&gt;&gt;&gt; pyd_input_model = func_to_pyd_input_model_cls(formula1)</span>
-<span class="sd">&gt;&gt;&gt; pyd_input_model</span>
-<span class="sd">&lt;class &#39;pydantic.main.formula1&#39;&gt;</span>
+<span class="sd">&gt;&gt;&gt; pyd_input_model.__name__</span>
+<span class="sd">&#39;formula1&#39;</span>
 <span class="sd">&gt;&gt;&gt; from i2 import Sig</span>
 <span class="sd">&gt;&gt;&gt; Sig(formula1)</span>
 <span class="sd">&lt;Sig (w, /, x: float, y=1, *, z: int = 1)&gt;</span>
 <span class="sd">&gt;&gt;&gt; Sig(pyd_input_model)</span>
-<span class="sd">&lt;Sig (*, w: Any, x: float, z: int = 1, y: int = 1) -&gt; None&gt;</span>
+<span class="sd">&lt;Sig (*, w: Any, x: float, y: int = 1, z: int = 1) -&gt; None&gt;</span>
 
 <span class="sd">&gt;&gt;&gt; pyd_func = func_to_pyd_func(formula1)</span>
 <span class="sd">&gt;&gt;&gt; input_model_instance = pyd_input_model(w=1, x=2)</span>
 <span class="sd">&gt;&gt;&gt; input_model_instance</span>
-<span class="sd">formula1(w=1, x=2.0, z=1, y=1)</span>
+<span class="sd">formula1(w=1, x=2.0, y=1, z=1)</span>
 <span class="sd">&gt;&gt;&gt; pyd_func(input_model_instance)</span>
 <span class="sd">3.0</span>
 <span class="sd">&gt;&gt;&gt; formula1(1, x=2)  # can&#39;t say w=1 because w is position only</span>
@@ -182,8 +191,7 @@
 <span class="sd">    &gt;&gt;&gt; def foo(a, b: int, c: bool=False):</span>
 <span class="sd">    ...     ...</span>
 <span class="sd">    &gt;&gt;&gt; obj = func_to_pyd_input_model_cls(foo)</span>
-<span class="sd">    &gt;&gt;&gt; import json</span>
-<span class="sd">    &gt;&gt;&gt; assert json.loads(obj.schema_json()) == (</span>
+<span class="sd">    &gt;&gt;&gt; obj.model_json_schema() == (</span>
 <span class="sd">    ... {</span>
 <span class="sd">    ...     &#39;title&#39;: &#39;foo&#39;,</span>
 <span class="sd">    ...     &#39;type&#39;: &#39;object&#39;,</span>
@@ -194,6 +202,7 @@
 <span class="sd">    ...     },</span>
 <span class="sd">    ...     &#39;required&#39;: [&#39;a&#39;, &#39;b&#39;]</span>
 <span class="sd">    ... })</span>
+<span class="sd">    True</span>
 
 <span class="sd">    If some argument names of the function conflict with attribute names of BaseModel,</span>
 <span class="sd">    these will be capitalized to resolve the conflict.</span>
@@ -201,7 +210,7 @@
 <span class="sd">    &gt;&gt;&gt; def bar(x, copy, schema):</span>
 <span class="sd">    ...     ...</span>
 <span class="sd">    &gt;&gt;&gt; obj2 = func_to_pyd_input_model_cls(bar, warn_when_changing_names=False)</span>
-<span class="sd">    &gt;&gt;&gt; assert json.loads(obj2.schema_json()) == (</span>
+<span class="sd">    &gt;&gt;&gt; obj2.model_json_schema() == (</span>
 <span class="sd">    ... {</span>
 <span class="sd">    ...     &#39;title&#39;: &#39;bar&#39;,</span>
 <span class="sd">    ...     &#39;type&#39;: &#39;object&#39;,</span>
@@ -211,34 +220,43 @@
 <span class="sd">    ...         &#39;SCHEMA&#39;: {&#39;title&#39;: &#39;Schema&#39;}},</span>
 <span class="sd">    ...     &#39;required&#39;: [&#39;x&#39;, &#39;COPY&#39;, &#39;SCHEMA&#39;]</span>
 <span class="sd">    ... })</span>
+<span class="sd">    True</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">name_of_obj</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
+    <span class="n">conflicting_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">conflicting_names</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">func_to_pyd_model_specs</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">dflt_type</span><span class="p">)))</span>
-    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
-        <span class="n">conflicting_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">))</span>
-        <span class="n">old_to_new_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">conflicting_names</span><span class="p">}</span>
-        <span class="k">if</span> <span class="n">warn_when_changing_names</span><span class="p">:</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+    <span class="c1"># Pydantic v2 emits a UserWarning (rather than the v1 NameError) when a</span>
+    <span class="c1"># field shadows a BaseModel attribute. Detect upfront and rename so the</span>
+    <span class="c1"># resulting model is conflict-free either way.</span>
+    <span class="n">old_to_new_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">conflicting_names</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">warn_when_changing_names</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
 
-            <span class="n">warn</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">conflicting_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> argument name(s) conflicted with BaseModel.</span>
-<span class="s2">            They&#39;re being replaced with upper-case names to resolve conflict. old:new -&gt;</span>
-<span class="s2">            </span><span class="si">{</span><span class="n">old_to_new_names</span><span class="si">}</span>
-<span class="s2">            &quot;&quot;&quot;</span>
-            <span class="p">)</span>
-        <span class="n">wrapped_func</span> <span class="o">=</span> <span class="n">Ingress</span><span class="o">.</span><span class="n">name_map</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">old_to_new_names</span><span class="p">)</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
-            <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">func_to_pyd_model_specs</span><span class="p">(</span><span class="n">wrapped_func</span><span class="p">,</span> <span class="n">dflt_type</span><span class="p">))</span>
-        <span class="p">)</span></div>
+        <span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">conflicting_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> argument name(s) conflicted with BaseModel.</span>
+<span class="s2">        They&#39;re being replaced with upper-case names to resolve conflict. old:new -&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">old_to_new_names</span><span class="si">}</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="p">)</span>
+    <span class="n">wrapped_func</span> <span class="o">=</span> <span class="n">Ingress</span><span class="o">.</span><span class="n">name_map</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">old_to_new_names</span><span class="p">)</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">func_to_pyd_model_specs</span><span class="p">(</span><span class="n">wrapped_func</span><span class="p">,</span> <span class="n">dflt_type</span><span class="p">))</span>
+    <span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="func_to_pyd_model_specs">
 <a class="viewcode-back" href="../../module_docs/front/py2pydantic.html#front.py2pydantic.func_to_pyd_model_specs">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">func_to_pyd_model_specs</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">dflt_type</span><span class="o">=</span><span class="n">Any</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to get field info from python signature parameters&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to get field info from python signature parameters.</span>
+
+<span class="sd">    Each spec is a ``(type, default)`` tuple suitable for pydantic v2&#39;s</span>
+<span class="sd">    ``create_model``. For unannotated parameters the type is inferred from</span>
+<span class="sd">    the default value&#39;s type when a default is present, otherwise</span>
+<span class="sd">    ``dflt_type`` (``Any`` by default) is used with ``...`` (required).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">annotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">empty_param_attr</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">empty_param_attr</span><span class="p">:</span>
@@ -247,7 +265,8 @@
                 <span class="k">yield</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># no annotations</span>
             <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">empty_param_attr</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">default</span>
+                <span class="c1"># pydantic v2 needs an explicit type; infer from the default</span>
+                <span class="k">yield</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">default</span><span class="p">),</span> <span class="n">p</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">dflt_type</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span></div>
 

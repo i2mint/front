@@ -36,6 +36,7 @@
    module_docs/front/tests/test_crudify_based_on_names
    module_docs/front/tests/test_identity_write_output
    module_docs/front/tests/test_py2pydantic
+   module_docs/front/tests/test_py2pydantic_integration
    module_docs/front/tests/test_state
    module_docs/front/tests/test_use_case
    module_docs/front/tests/util

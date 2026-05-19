@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.py2pydantic &mdash; front 0.1.98 documentation</title>
+  <title>front.py2pydantic &mdash; front 0.1.99 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=09f5639d"></script>
+      <script src="../../_static/documentation_options.js?v=ad8de784"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tests/test_crudify_based_on_names.html">front.tests.test_crudify_based_on_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_py2pydantic_integration.html">front.tests.test_py2pydantic_integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_state.html">front.tests.test_state</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_use_case.html">front.tests.test_use_case</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/util.html">front.tests.util</a></li>
@@ -122,23 +123,29 @@
              
   <section id="module-front.py2pydantic">
 <span id="front-py2pydantic"></span><h1>front.py2pydantic<a class="headerlink" href="#module-front.py2pydantic" title="Link to this heading"></a></h1>
-<p>How do we eliminate some of the boilerplate between having python functions
-and making them pydantic?</p>
+<p>Bridge between plain Python functions and pydantic v2 models.</p>
+<p>Given a Python function, produce a pydantic input model whose fields mirror
+the function’s signature (names, annotations, defaults), and an “opyrator”-
+style wrapper that takes a single pydantic model instance and dispatches
+to the underlying function.</p>
+<p>Useful for auto-generating forms, validators, and JSON-schema descriptions
+of arbitrary callables — the core trick behind front’s app-from-function
+dispatch.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">i2.tests.objects_for_testing</span><span class="w"> </span><span class="kn">import</span> <span class="n">formula1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pyd_input_model</span> <span class="o">=</span> <span class="n">func_to_pyd_input_model_cls</span><span class="p">(</span><span class="n">formula1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pyd_input_model</span>
-<span class="go">&lt;class &#39;pydantic.main.formula1&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyd_input_model</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="go">&#39;formula1&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sig</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Sig</span><span class="p">(</span><span class="n">formula1</span><span class="p">)</span>
 <span class="go">&lt;Sig (w, /, x: float, y=1, *, z: int = 1)&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Sig</span><span class="p">(</span><span class="n">pyd_input_model</span><span class="p">)</span>
-<span class="go">&lt;Sig (*, w: Any, x: float, z: int = 1, y: int = 1) -&gt; None&gt;</span>
+<span class="go">&lt;Sig (*, w: Any, x: float, y: int = 1, z: int = 1) -&gt; None&gt;</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pyd_func</span> <span class="o">=</span> <span class="n">func_to_pyd_func</span><span class="p">(</span><span class="n">formula1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">input_model_instance</span> <span class="o">=</span> <span class="n">pyd_input_model</span><span class="p">(</span><span class="n">w</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">input_model_instance</span>
-<span class="go">formula1(w=1, x=2.0, z=1, y=1)</span>
+<span class="go">formula1(w=1, x=2.0, y=1, z=1)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pyd_func</span><span class="p">(</span><span class="n">input_model_instance</span><span class="p">)</span>
 <span class="go">3.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">formula1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># can&#39;t say w=1 because w is position only</span>
@@ -159,8 +166,7 @@ That is, a function that has a single pydantic model input and output.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="o">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">func_to_pyd_input_model_cls</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">schema_json</span><span class="p">())</span> <span class="o">==</span> <span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">.</span><span class="n">model_json_schema</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span>
 <span class="gp">... </span><span class="p">{</span>
 <span class="gp">... </span>    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span>
@@ -171,6 +177,7 @@ That is, a function that has a single pydantic model input and output.</p>
 <span class="gp">... </span>    <span class="p">},</span>
 <span class="gp">... </span>    <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]</span>
 <span class="gp">... </span><span class="p">})</span>
+<span class="go">True</span>
 </pre></div>
 </div>
 <p>If some argument names of the function conflict with attribute names of BaseModel,
@@ -178,7 +185,7 @@ these will be capitalized to resolve the conflict.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="o">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">obj2</span> <span class="o">=</span> <span class="n">func_to_pyd_input_model_cls</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="n">warn_when_changing_names</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">obj2</span><span class="o">.</span><span class="n">schema_json</span><span class="p">())</span> <span class="o">==</span> <span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj2</span><span class="o">.</span><span class="n">model_json_schema</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span>
 <span class="gp">... </span><span class="p">{</span>
 <span class="gp">... </span>    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span>
@@ -188,6 +195,7 @@ these will be capitalized to resolve the conflict.</p>
 <span class="gp">... </span>        <span class="s1">&#39;SCHEMA&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Schema&#39;</span><span class="p">}},</span>
 <span class="gp">... </span>    <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;COPY&#39;</span><span class="p">,</span> <span class="s1">&#39;SCHEMA&#39;</span><span class="p">]</span>
 <span class="gp">... </span><span class="p">})</span>
+<span class="go">True</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -195,7 +203,11 @@ these will be capitalized to resolve the conflict.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="front.py2pydantic.func_to_pyd_model_specs">
 <span class="sig-prename descclassname"><span class="pre">front.py2pydantic.</span></span><span class="sig-name descname"><span class="pre">func_to_pyd_model_specs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dflt_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">typing.Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/front/py2pydantic.html#func_to_pyd_model_specs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.py2pydantic.func_to_pyd_model_specs" title="Link to this definition"></a></dt>
-<dd><p>Helper function to get field info from python signature parameters</p>
+<dd><p>Helper function to get field info from python signature parameters.</p>
+<p>Each spec is a <code class="docutils literal notranslate"><span class="pre">(type,</span> <span class="pre">default)</span></code> tuple suitable for pydantic v2’s
+<code class="docutils literal notranslate"><span class="pre">create_model</span></code>. For unannotated parameters the type is inferred from
+the default value’s type when a default is present, otherwise
+<code class="docutils literal notranslate"><span class="pre">dflt_type</span></code> (<code class="docutils literal notranslate"><span class="pre">Any</span></code> by default) is used with <code class="docutils literal notranslate"><span class="pre">...</span></code> (required).</p>
 </dd></dl>
 
 </section>
