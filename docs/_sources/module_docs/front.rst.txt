@@ -1,4 +1,0 @@
-front
-=====
-.. automodule:: front
-   :members:
