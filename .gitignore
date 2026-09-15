@@ -1,4 +1,5 @@
 docs/*
+docsrc/
 wads_configs.json
 data/wads_configs.json
 wads/data/wads_configs.json
