@@ -1,4 +1,4 @@
-"""Tools using front, or useful when using front"""
+"""Tools using front, or useful when using front."""
 
 from typing import KT, VT
 from collections.abc import Sequence, Callable, Iterable, Sized, Container
@@ -7,13 +7,12 @@ from dataclasses import dataclass
 
 
 class SizedIterableContainer(Sized, Iterable, Container):
-    """An object with a __len__, __iter__, and __contains__ method"""
+    """An object with ``__len__``, ``__iter__`` and ``__contains__`` methods."""
 
 
 @dataclass
 class ValuesStore(KvReader):
-    """A mapping view of a sequence where the items of the sequence are both
-    keys and values of the mapping
+    """A mapping view of a sequence where the items of the sequence are both keys and values.
 
     >>> vs = ValuesStore([1, 2, 3])
     >>> list(vs)
@@ -50,6 +49,13 @@ class ValuesStore(KvReader):
 
 @dataclass
 class FactoryFedSizedIterableContainer(SizedIterableContainer):
+    """A sized iterable container over the items of ``iterable_factory()``, re-called on every use.
+
+    >>> c = FactoryFedSizedIterableContainer(lambda: range(3))
+    >>> list(c), len(c), 2 in c, 5 in c
+    ([0, 1, 2], 3, True, False)
+    """
+
     iterable_factory: Callable[[], Iterable]
 
     def __iter__(self):

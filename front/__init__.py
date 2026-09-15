@@ -1,4 +1,10 @@
-"""Dispatching python functions as webservices, docker containers, and GUIs
+"""Dispatching python functions as webservices, docker containers, and GUIs.
+
+``front`` is the core library that concrete UI frameworks (e.g. ``streamlitfront``)
+build on: it compiles a configuration into a specification (``SpecMakerBase``),
+builds a tree of UI elements from it (``ElementTreeMaker``) and assembles the app
+(``AppMaker``). ``Crudifier`` and ``prepare_for_crude_dispatch`` make functions
+with complex arguments operable through string keys into stores.
 
 Consider these three functions:
 
@@ -16,7 +22,7 @@ The objective here is to be able to do this:
 >>> app = dispatch_funcs([foo, bar, confuser], ...)  # doctest: +SKIP
 
 getting a deployable app that allows the user to operate with these three wonderful
-functions. The ellipses (`...`) are there to indicate that we may want to specify
+functions. The ellipses (``...``) are there to indicate that we may want to specify
 the kind of app we want (web-service, GUI, CLI...) as well as particular configurations
 for the latter.
 

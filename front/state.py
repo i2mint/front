@@ -18,24 +18,23 @@ from functools import partial
 
 
 class Forbidden(Exception):
-    """To use to indicate that something is not allowed"""
+    """Base of the errors raised when an operation is not allowed."""
 
 
 class ForbiddenWrite(Forbidden):
-    """Error to raise when a write operation is not allowed"""
+    """Raised when writing to a key is not allowed."""
 
 
 class ForbiddenOverwrite(Forbidden):
-    """Error to raise when a writes to existing keys are not allowed"""
+    """Raised when writing a different value to an existing key is not allowed."""
 
 
 class ConditionNotMet(ValueError):
-    """Raised when a value doesn't meet some condition"""
+    """Raised when a value doesn't meet the condition set for its key."""
 
 
 class GetterSetter(Protocol):
-    """The type of an object ``obj`` that has the operations ``v = obj[k]`` and ``obj[
-    k] = v``"""
+    """The type of an object ``obj`` supporting ``v = obj[k]`` and ``obj[k] = v``."""
 
     def __getitem__(self, k: KT) -> VT:
         pass
@@ -49,9 +48,12 @@ KeyFilterFunc = Callable[[KT], bool]
 
 @dataclass
 class IsInstanceOf:
+    """A picklable ``isinstance`` predicate: ``IsInstanceOf(int)(3)`` is True."""
+
     class_or_tuple: type | Iterable[type]
 
     def __call__(self, obj):
+        """Return ``isinstance(obj, self.class_or_tuple)``."""
         return isinstance(obj, self.class_or_tuple)
 
 
@@ -65,6 +67,44 @@ def _if_type_mk_filter_func(x):
 #  cast from iterable automatically for convenience)
 @dataclass
 class State(MutableMapping):
+    """A write-policing wrapper around a key-value ``state`` (any ``GetterSetter``).
+
+    Reads and the other ``MutableMapping`` operations forward to ``state``. Writes
+    are checked first: keys in ``forbidden_writes`` can never be written; keys in
+    ``forbidden_overwrites`` can be written once (re-writing the same value is
+    allowed); a key in ``condition_for_key`` only accepts values for which its
+    predicate is true (a type there means ``isinstance``).
+
+    >>> state = State(
+    ...     state={},
+    ...     forbidden_writes={'foo'},
+    ...     forbidden_overwrites={'apple'},
+    ...     condition_for_key={'apple': list, 'carrot': lambda x: x > 10},
+    ... )
+    >>> state['apple'] = [4, 2]
+    >>> state['apple'] = [4, 2]  # same value again: fine
+    >>> state['apple'] = [1]
+    Traceback (most recent call last):
+    ...
+    front.state.ForbiddenOverwrite: Not allowed to write under this key more than once: apple
+    >>> state['foo'] = 1
+    Traceback (most recent call last):
+    ...
+    front.state.ForbiddenWrite: Not allowed to write on foo
+    >>> state['carrot'] = 10
+    Traceback (most recent call last):
+    ...
+    front.state.ConditionNotMet: The value for the carrot key must satisfy condition <function <lambda> at 0x...>
+    >>> state['carrot'] = 11
+    >>> dict(state)
+    {'apple': [4, 2], 'carrot': 11}
+
+    :raises ForbiddenWrite: On writing a key of ``forbidden_writes``.
+    :raises ForbiddenOverwrite: On writing a different value to an existing key of
+        ``forbidden_overwrites``.
+    :raises ConditionNotMet: On writing a value that fails the key's condition.
+    """
+
     state: GetterSetter
     condition_for_key: Mapping[KT, KeyFilterFunc | type] = ()
     forbidden_writes: Iterable[KT] = ()
@@ -82,6 +122,7 @@ class State(MutableMapping):
         return self.state[k]
 
     def get(self, k, default=None):
+        """Return ``state[k]`` if ``k`` is in the state, else ``default``."""
         if k in self.state:
             return self.state[k]
         else:
@@ -132,6 +173,8 @@ from i2 import mk_sentinel, ensure_identifiers
 
 @runtime_checkable
 class HasState(Protocol):
+    """An object with a ``_state`` mutable mapping, as ``BoundVal`` descriptors expect."""
+
     _state: MutableMapping
 
 
@@ -142,6 +185,24 @@ ValueNotSet, Empty = map(_mk_sentinel, ["ValueNotSet", "Empty"])
 
 
 class BoundVal:
+    """Descriptor reading and writing ``key`` in the owner's ``_state`` mapping.
+
+    Reading returns ``value_not_set`` (``ValueNotSet`` by default) while the key
+    is absent.
+
+    >>> class Obj:
+    ...     _state = {}
+    ...     x = BoundVal('x')
+    >>> obj = Obj()
+    >>> obj.x
+    ValueNotSet
+    >>> obj.x = 5
+    >>> obj.x, Obj._state
+    (5, {'x': 5})
+    >>> Obj.x
+    BoundVal('x')
+    """
+
     def __init__(self, key, *, value_not_set=ValueNotSet):
         self.key = key
         self.value_not_set = value_not_set
@@ -193,8 +254,8 @@ class _Binder:
 
 
 class _DynamicBindsMixin:
-    """
-    Intercepts attribute operations, using a binder descriptor as their values.
+    """Intercepts attribute operations, using a binder descriptor as their values.
+
     Uses ``_factory`` attribute to make the descriptors for a given attribute name.
     """
 
@@ -212,10 +273,9 @@ class _DynamicBindsMixin:
 
 
 class _ExclusiveBindsMixin(_DynamicBindsMixin):
-    """
-    To auto-creational functionalities of _DynamicBindsMixin, adds the restriction
-    that this can only be done for a given set of names (as specified by the
-    ``._allowed_ids`` attribute
+    """Restricts the auto-created attributes of ``_DynamicBindsMixin`` to ``_allowed_ids``.
+
+    Reading another name raises ``AttributeError``; writing one raises ``ForbiddenWrite``.
     """
 
     _allowed_ids: Container = ()
@@ -253,7 +313,12 @@ def mk_binder(
     allowed_ids: Identifiers | None = None,
     bound_val_factory: Callable = DFLT_BOUND_VAL_FACTORY,
 ):
-    """
+    """Make a ``Binder`` class (or instance) whose attributes read and write a state mapping.
+
+    Returns a class when ``state`` is None, and an instance bound to ``state``
+    otherwise. With ``allowed_ids``, only those names are bound (as ``bound_val_factory``
+    descriptors); without, any identifier is bound on first access.
+
     >>> Binder = mk_binder()
     >>> d = dict()
     >>> b = Binder(d)
@@ -267,7 +332,7 @@ def mk_binder(
     >>> 'foo' in dir(Binder)
     True
 
-    Let's set the value of ``foo```:
+    Let's set the value of ``foo``:
 
     >>> b.foo = 42
     >>> b.foo
@@ -320,20 +385,19 @@ def mk_binder(
     False
 
     """
-
     # TODO: Make it pickalble! (add reduce? Make base outside function?)
 
     if allowed_ids is None:
 
         class DynamicBinder(_Binder, _DynamicBindsMixin):
-            """Specific Binder with dynamic on-the-fly identifiers"""
+            """Specific Binder with dynamic on-the-fly identifiers."""
 
         Binder = DynamicBinder
 
     else:
 
         class ExclusiveBinder(_Binder, _ExclusiveBindsMixin):
-            """Specific Binder with exclusive identifiers"""
+            """Specific Binder with exclusive identifiers."""
 
             _allowed_ids = set(_ensure_allowed_ids(allowed_ids))
 

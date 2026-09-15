@@ -16,16 +16,39 @@ from front.util import deep_merge
 
 
 class ElementTreeMaker:
-    """Takes care of generating the composite tree of elements based on the "rendering"
-    specification previously compiled from the configuration. This composite tree will
-    then be used to build the application by rendering each element recursively from
-    the root of the tree (the App container).
+    """Build the composite tree of front elements from a compiled rendering spec.
+
+    The rendering specification maps ``ELEMENT_KEY`` to the root container factory,
+    and types (or names) of the objects to render to their element specs. The
+    resulting tree is rendered by calling its root, which renders each element
+    recursively.
+
+    >>> from collections.abc import Callable
+    >>> from front.elements import FrontContainerBase, FrontComponentBase, ELEMENT_KEY
+    >>> class App(FrontContainerBase):
+    ...     def render(self):
+    ...         return {child.name: child() for child in self.children}
+    >>> class Doc(FrontComponentBase):
+    ...     def render(self):
+    ...         return self.obj.__doc__
+    >>> def foo(a, b):
+    ...     "Adds a and b."
+    ...     return a + b
+    >>> rendering_spec = {ELEMENT_KEY: App, Callable: {ELEMENT_KEY: Doc}}
+    >>> tree = ElementTreeMaker().mk_tree([foo], rendering_spec)
+    >>> type(tree).__name__, [type(child).__name__ for child in tree.children]
+    ('App', ['Doc'])
+    >>> tree()
+    {'foo': 'Adds a and b.'}
+
+    See Also:
+        ``front.app_maker.AppMaker``: calls ``mk_tree`` with the compiled spec.
     """
 
     def mk_tree(
         self, front_objs: Iterable[Any], rendering_spec: dict
     ) -> FrontContainerBase:
-        """Entrypoint of the ElementTreeMaker class. Builds the composite tree
+        """Build the composite tree: the entry point of ``ElementTreeMaker``.
 
         :param front_objs: The objects to render after transformation (see AppMaker).
         :param rendering_spec: The rendering spec of the application, compiled from
@@ -37,6 +60,8 @@ class ElementTreeMaker:
             will be a combination between those two specs (any value in the specific
             spec overwrites the value in the general spec for any key that they could
             have in common).
+        :return: The root container, with one child element per object.
+        :raises KeyError: If ``rendering_spec`` has no ``ELEMENT_KEY`` (root factory).
         """
         self.front_objs = front_objs
         self.rendering_spec = dict(rendering_spec)

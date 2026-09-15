@@ -18,14 +18,33 @@ ValueNotSet, Empty = map(_mk_sentinel, ["ValueNotSet", "Empty"])
 
 
 class BoundData:
+    """A read/write handle on one key (``id``) of a state mapping.
+
+    ``get`` returns ``ValueNotSet`` while the key is absent; ``set`` writes through
+    to the state. Calling the instance is the same as ``get``.
+
+    >>> state = {}
+    >>> bound = BoundData('x', state)
+    >>> bound.get()
+    ValueNotSet
+    >>> bound.set(3)
+    >>> bound(), state
+    (3, {'x': 3})
+
+    See Also:
+        ``Binder``: makes ``BoundData`` handles on demand, as attributes.
+    """
+
     def __init__(self, id: str, state: GetterSetter):
         self.id = id
         self.state = State(state=state, forbidden_writes={ValueNotSet})
 
     def get(self):
+        """Return the value stored under ``id``, or ``ValueNotSet``."""
         return self.state.get(self.id, ValueNotSet)
 
     def set(self, value):
+        """Write ``value`` under ``id`` in the state."""
         self.state[self.id] = value
 
     __call__ = get
@@ -33,6 +52,26 @@ class BoundData:
 
 @dataclass
 class Binder:
+    """Expose keys of ``front_state`` as attributes (or items) that are ``BoundData`` handles.
+
+    Reading an unknown attribute creates a handle for that key (without writing to
+    the state); assigning to it creates the handle and writes the value.
+
+    >>> state = {}
+    >>> b = Binder(state)
+    >>> b.foo.get()
+    ValueNotSet
+    >>> b.foo = 42
+    >>> b.foo(), state
+    (42, {'foo': 42})
+    >>> b['bar'] = 'hi'
+    >>> state
+    {'foo': 42, 'bar': 'hi'}
+
+    See Also:
+        ``front.state.mk_binder``: a descriptor-based variant with an allow-list of names.
+    """
+
     front_state: StateType
     bound_data_factory = BoundData
 

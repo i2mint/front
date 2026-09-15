@@ -1,4 +1,13 @@
-"""Utils"""
+"""Signature and mapping utilities shared by the front modules.
+
+Two families live here: signature rewriting (``inject_enum_annotations``,
+``annotate_func_arguments``) used to make functions dispatchable by a UI, and
+small mapping helpers (``deep_merge``, ``subdict``, ``normalize_map``) used by
+the spec compilation.
+
+>>> deep_merge({'a': {'x': 1, 'y': 2}, 'b': 1}, {'a': {'y': 20}, 'c': 3})
+{'a': {'x': 1, 'y': 20}, 'b': 1, 'c': 3}
+"""
 
 from copy import copy
 from operator import attrgetter
@@ -17,16 +26,25 @@ ignore_import_problems = suppress(ImportError, ModuleNotFoundError)
 
 
 def identity(x):
+    """Return ``x`` unchanged."""
     return x
 
 
 def iterable_to_enum(iterable, name="CustomEnum"):
+    """Make an ``Enum`` whose member names are ``str(value)`` for each value of ``iterable``.
+
+    >>> E = iterable_to_enum([1, 'two'])
+    >>> list(E)
+    [<CustomEnum.1: 1>, <CustomEnum.two: 'two'>]
+    >>> E['1'].value
+    1
+    """
     return Enum(name, {str(kv): kv for kv in iterable})
 
 
 def subdict(d: Mapping, keys=None):
-    """Gets a sub-dict from a Mapping ``d``, extracting only those keys that are both in
-    ``keys`` and ``d``.
+    """Get a sub-dict of Mapping ``d``, with only those keys that are both in ``keys`` and ``d``.
+
     Note that the dict will be ordered as ``keys`` are, so can be used for reordering
     a Mapping.
 
@@ -50,9 +68,12 @@ def _get_value_attr(d: dict, keys: Iterable, val_trans: Callable):
 
 @double_up_as_factory
 def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_for_arg):
-    """
+    """Annotate chosen arguments of ``func`` with Enums of their allowed values.
 
     :param func: function to wrap
+    :param extract_enum_value: If True (default), the wrapped function accepts Enum
+        members and hands their ``.value`` to ``func``. If False, only the
+        annotations change.
     :param enum_list_for_arg: For every argument you want to enumify (i.e. annotate with
         an Enum), the list of enum values you want.
     :return: A wrapped func.
@@ -78,9 +99,9 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
     'tittittittit'
 
     Again, note that the way we need to specify our ``b`` and ``c`` arguments are as
-    `enum` types, not as the number `2` and string `'tit'`.
+    ``enum`` types, not as the number ``2`` and string ``'tit'``.
 
-    In the following example, we ask for `extract_enum_value=False` so that we
+    In the following example, we ask for ``extract_enum_value=False`` so that we
     can still use normal inputs (no Enum objects, though ``b`` and ``c`` will
     still be annotated by the Enums.
 
@@ -98,7 +119,6 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
     'tittittittit'
 
     """
-
     sig = Sig(func)
     with_enumed_sig = sig.ch_annotations(
         **{
@@ -144,7 +164,7 @@ def annotate_func_arguments(
     annot_for_dflt_type: AnnotForType = (),
     dflt_annot: Annot = empty,
 ):
-    """Annotate
+    """Add annotations to the arguments of ``func``, by argument name or by default-value type.
 
     :param func: The function whose args we want to annotate
     :param ignore_existing_annot: Set to True to ignore existing annots.
@@ -153,7 +173,7 @@ def annotate_func_arguments(
         compared (with ``isinstance(dflt_val, types)``) to types and the annotation
         (value) of the the first matching type (key) will be injected
     :param dflt_annot: Default annotation to use if no match found earlier.
-        The default is `inspect.Parameter.empty`, which means "don't annotate".
+        The default is ``inspect.Parameter.empty``, which means "don't annotate".
         If you want all your params to be annotated no matter what, you might consider
         ``typing.Any``, or in the case of command line interfaces, ``str``.
     :return: A wrapped function with the desired signature changes, if any changes
@@ -179,10 +199,10 @@ def annotate_func_arguments(
     In the following:
 
     - ``b: str`` through the argname rule, but ``bb`` (as well as ``aa`` and ``bb``)
-    didn't change because ``ignore_existing_annot=False`` by default.
+      didn't change because ``ignore_existing_annot=False`` by default.
 
     - ``aaa: float`` (even though default is ``1``) and ``ccc: 'NoneAnnot'`` because of
-    the ``annot_for_dflt_type`` rules.
+      the ``annot_for_dflt_type`` rules.
 
     >>> annotator = partial(
     ...     annotate_func_arguments,
@@ -237,7 +257,7 @@ def _annotate_func_arguments(
     dflt_annot: Annot = empty,
     ignore_existing_annot=False,
 ):
-    """Helper for annotate_func_arguments. Same inputs as the latter."""
+    """Yield the ``(name, {'annotation': ...})`` changes for ``annotate_func_arguments``."""
     annot_for_argname = dict(annot_for_argname)
     annot_for_dflt_type = dict(annot_for_dflt_type)
     assert all(isinstance(t, str) and str.isidentifier(t) for t in annot_for_argname), (
@@ -274,16 +294,32 @@ def _annotate_func_arguments(
 
 
 def get_value(obj, *args, **kwargs):
+    """Return ``obj(*args, **kwargs)`` if ``obj`` is callable, else ``obj`` itself.
+
+    >>> get_value(lambda: 3), get_value(3), get_value(lambda a, b: a + b, 1, 2)
+    (3, 3, 3)
+    """
     return obj(*args, **kwargs) if isinstance(obj, Callable) else obj
 
 
 def normalize_map(map: Map) -> Mapping:
+    """Resolve a ``Map`` (mapping, callable returning one, or None) to a mapping; None gives ``{}``.
+
+    >>> normalize_map(None), normalize_map({'a': 1}), normalize_map(lambda: {'b': 2})
+    ({}, {'a': 1}, {'b': 2})
+    """
     return get_value(map) or {}
 
 
 def deep_merge(a: Mapping, b: Mapping):
-    """Merges b into a"""
+    """Merge ``b`` into ``a`` recursively (values of ``b`` win), returning a new dict.
 
+    Nested mappings present in both are merged; any other value in ``b`` replaces
+    the one in ``a``. Neither input is modified.
+
+    >>> deep_merge({'a': {'x': 1, 'y': 2}, 'b': 1}, {'a': {'y': 20, 'z': 30}, 'c': 3})
+    {'a': {'x': 1, 'y': 20, 'z': 30}, 'b': 1, 'c': 3}
+    """
     result = dict(a)
     for key, value_b in b.items():
         value_a = a.get(key)
@@ -310,8 +346,7 @@ unnamed_obj = incremental_str_maker(str_format="UnnamedObject{:03.0f}")
 
 
 def obj_name(func):
-    """The func.__name__ of a callable func, or makes and returns one if that fails.
-    To make one, it calls unamed_func_name which produces incremental names to reduce the chances of clashing"""
+    """Get the name of a callable, or make one (``UnnamedObjectNNN``) for lambdas and nameless objects."""
     name = name_of_obj(func)
     if name is None or name == "<lambda>":
         return unnamed_obj()
@@ -319,11 +354,23 @@ def obj_name(func):
 
 
 def dflt_name_trans(obj):
+    """Default display name: ``obj`` (or its name) with underscores as spaces, title-cased.
+
+    >>> dflt_name_trans('my_func_name')
+    'My Func Name'
+    """
     obj_str = obj if isinstance(obj, str) else obj_name(obj)
     return obj_str.replace("_", " ").title()
 
 
 def dflt_trans(objs):
+    """Default ``obj`` transformation: ensure every object has a ``__name__``, returning a list.
+
+    Objects are passed through ``copy.copy``, which returns functions unchanged, so
+    a lambda's ``__name__`` is set on the lambda itself (to an ``UnnamedObjectNNN``
+    name).
+    """
+
     def trans(obj):
         trans_obj = copy(obj)
         trans_obj.__name__ = obj_name(obj)

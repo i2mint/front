@@ -1,4 +1,4 @@
-"""Base functions for front dispatching"""
+"""Base functions for front dispatching: ``prepare_for_dispatch`` chains the wrappers a UI needs."""
 
 from functools import partial
 from typing import Optional
@@ -27,6 +27,31 @@ def prepare_for_dispatch(
     # for setting defaults
     defaults: Mapping | None = None,
 ):
+    """Prepare ``func`` for dispatch: crudify, annotate cruded params with Enums, fix defaults.
+
+    Chains ``prepare_for_crude_dispatch`` (with the first five keyword arguments),
+    then ``inject_enum_annotations`` (each cruded param gets an Enum of its store's
+    keys), then a ``functools.partial`` with those of ``defaults`` that are in the
+    resulting signature.
+
+    >>> def foo(a, b):
+    ...     return a * b
+    >>> mall = {'a_store': {'one': 1, 'two': 2}, 'saves': {}}
+    >>> bar = prepare_for_dispatch(
+    ...     foo, param_to_mall_map={'a': 'a_store'}, mall=mall, output_store=mall['saves']
+    ... )
+    >>> from i2 import Sig
+    >>> str(Sig(bar))
+    "(a: front.util.a_enum, b, save_name: str = '')"
+    >>> a_enum = Sig(bar).annotations['a']
+    >>> bar(a_enum.two, 'mice', save_name='save_here')
+    'micemice'
+    >>> mall['saves']
+    {'save_here': 'micemice'}
+
+    See Also:
+        ``front.crude.prepare_for_crude_dispatch``: the crudification step alone.
+    """
     param_to_mall_map = keys_to_values_if_non_mapping_iterable(param_to_mall_map)
 
     from i2 import Sig
