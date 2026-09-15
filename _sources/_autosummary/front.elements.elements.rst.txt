@@ -1,0 +1,35 @@
+front.elements.elements
+=======================
+
+.. automodule:: front.elements.elements
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      mk_element_from_spec
+      mk_input_element_specs
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      BooleanInputBase
+      ExecContainerBase
+      FileUploaderBase
+      FloatInputBase
+      FrontComponentBase
+      FrontContainerBase
+      FrontElementBase
+      FrontElementSpec
+      InputBase
+      IntInputBase
+      KwargsInputBase
+      MultiSourceInputBase
+      NumberInputBase
+      OutputBase
+      SelectorBase
+      TextInputBase
+      TextSectionBase
+   

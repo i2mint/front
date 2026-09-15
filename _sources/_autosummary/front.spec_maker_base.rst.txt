@@ -1,0 +1,12 @@
+front.spec\_maker\_base
+=======================
+
+.. automodule:: front.spec_maker_base
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      SpecMakerBase
+   

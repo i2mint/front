@@ -1,0 +1,24 @@
+front.util
+==========
+
+.. automodule:: front.util
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      annotate_func_arguments
+      deep_merge
+      dflt_name_trans
+      dflt_trans
+      get_value
+      identity
+      incremental_str_maker
+      inject_enum_annotations
+      iterable_to_enum
+      normalize_map
+      obj_name
+      subdict
+      unnamed_obj
+   

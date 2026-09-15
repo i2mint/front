@@ -1,0 +1,920 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="alternate" type="text/markdown" href="front.elements.elements.html.md">
+<link rel="describedby" href="../llms.txt" type="text/markdown">
+    <title>front.elements.elements &#8212; front</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/epythet.css?v=2771c659" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../_static/documentation_options.js?v=f9250636"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fd10adb8"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_autosummary/front.elements.elements';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="front.elements.implementation" href="front.elements.implementation.html" />
+    <link rel="prev" title="front.elements" href="front.elements.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.1.101" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">front</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../api.html">
+    API reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/i2mint/front" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../api.html">
+    API reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/i2mint/front" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="front.html">front</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="front.app_maker.html">front.app_maker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="front.base.html">front.base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="front.crude.html">front.crude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="front.dag.html">front.dag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="front.data_binding.html">front.data_binding</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="front.elements.html">front.elements</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">front.elements.elements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="front.elements.implementation.html">front.elements.implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="front.elements.tree_maker_base.html">front.elements.tree_maker_base</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="front.py2pydantic.html">front.py2pydantic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="front.spec_maker_base.html">front.spec_maker_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="front.state.html">front.state</a></li>
+<li class="toctree-l2"><a class="reference internal" href="front.tools.html">front.tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="front.types.html">front.types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="front.util.html">front.util</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="front.html" class="nav-link">front</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="front.elements.html" class="nav-link">front.elements</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">front.elements.elements</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-front.elements.elements">
+<span id="front-elements-elements"></span><h1>front.elements.elements<a class="headerlink" href="#module-front.elements.elements" title="Link to this heading">#</a></h1>
+<p>Abstract base classes for the composite tree of front UI elements.</p>
+<p>Front elements (containers, inputs, outputs, etc.) are arranged in a tree
+mirroring the rendering specification. This module defines the base
+<code class="docutils literal notranslate"><span class="pre">FrontElementBase</span></code> and <code class="docutils literal notranslate"><span class="pre">FrontContainerBase</span></code> classes that concrete frontends
+(e.g. streamlit) subclass to provide their own rendering.</p>
+<p class="rubric">Functions</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.elements.elements.mk_element_from_spec" title="front.elements.elements.mk_element_from_spec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mk_element_from_spec</span></code></a>(spec)</p></td>
+<td><p>Instantiate the element factory found under <code class="docutils literal notranslate"><span class="pre">ELEMENT_KEY</span></code> with the other keys.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.elements.elements.mk_input_element_specs" title="front.elements.elements.mk_input_element_specs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mk_input_element_specs</span></code></a>(obj, inputs)</p></td>
+<td><p>Make one input element spec per parameter of <code class="docutils literal notranslate"><span class="pre">obj</span></code>, from a type-keyed <code class="docutils literal notranslate"><span class="pre">inputs</span></code> spec.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Classes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.elements.elements.BooleanInputBase" title="front.elements.elements.BooleanInputBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BooleanInputBase</span></code></a>([obj, name, display, ...])</p></td>
+<td><p>Boolean input (checkbox-like); values are cast with <code class="docutils literal notranslate"><span class="pre">bool</span></code>, defaulting to False.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.elements.elements.ExecContainerBase" title="front.elements.elements.ExecContainerBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExecContainerBase</span></code></a>(obj, inputs, output[, ...])</p></td>
+<td><p>Container that executes <code class="docutils literal notranslate"><span class="pre">obj</span></code> with the values of its input children.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.elements.elements.FileUploaderBase" title="front.elements.elements.FileUploaderBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FileUploaderBase</span></code></a>([obj, name, display, ...])</p></td>
+<td><p>File upload input, restricted to the given file <code class="docutils literal notranslate"><span class="pre">type</span></code> (extension(s)) if any.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.elements.elements.FloatInputBase" title="front.elements.elements.FloatInputBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FloatInputBase</span></code></a>([obj, name, display, ...])</p></td>
+<td><p>Float input with optional bounds and <code class="docutils literal notranslate"><span class="pre">step</span></code>; values are cast with <code class="docutils literal notranslate"><span class="pre">float</span></code>, defaulting to 0.0.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.elements.elements.FrontComponentBase" title="front.elements.elements.FrontComponentBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrontComponentBase</span></code></a>([obj, name, display])</p></td>
+<td><p>A leaf element the user interacts with (an input, an output, a text section).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.elements.elements.FrontContainerBase" title="front.elements.elements.FrontContainerBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrontContainerBase</span></code></a>([obj, name, display])</p></td>
+<td><p>An element with children, each built from a keyword argument holding an element spec.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.elements.elements.FrontElementBase" title="front.elements.elements.FrontElementBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrontElementBase</span></code></a>([obj, name, display])</p></td>
+<td><p>Base of every front element: a renderable node of the element tree.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.elements.elements.FrontElementSpec" title="front.elements.elements.FrontElementSpec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrontElementSpec</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.elements.elements.InputBase" title="front.elements.elements.InputBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputBase</span></code></a>([obj, name, display, input_key, ...])</p></td>
+<td><p>Base of input components: a value bound to state under <code class="docutils literal notranslate"><span class="pre">input_key</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.elements.elements.IntInputBase" title="front.elements.elements.IntInputBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IntInputBase</span></code></a>([obj, name, display, ...])</p></td>
+<td><p>Integer input with optional bounds; values are cast with <code class="docutils literal notranslate"><span class="pre">int</span></code>, defaulting to 0.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.elements.elements.KwargsInputBase" title="front.elements.elements.KwargsInputBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KwargsInputBase</span></code></a>([obj, name, display, ...])</p></td>
+<td><p>Input for a <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> parameter, with one sub-input per name in <code class="docutils literal notranslate"><span class="pre">func_sig</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.elements.elements.MultiSourceInputBase" title="front.elements.elements.MultiSourceInputBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiSourceInputBase</span></code></a>([obj, name, display, ...])</p></td>
+<td><p>An input whose value can come from several child input components.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.elements.elements.NumberInputBase" title="front.elements.elements.NumberInputBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NumberInputBase</span></code></a>([obj, name, display, ...])</p></td>
+<td><p>Base of numeric inputs, with an optional display <code class="docutils literal notranslate"><span class="pre">format</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.elements.elements.OutputBase" title="front.elements.elements.OutputBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputBase</span></code></a>([obj, name, display])</p></td>
+<td><p>Base of output components; <code class="docutils literal notranslate"><span class="pre">output</span></code> is set by the executing container before render.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.elements.elements.SelectorBase" title="front.elements.elements.SelectorBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SelectorBase</span></code></a>([obj, name, display, ...])</p></td>
+<td><p>Input choosing one value among <code class="docutils literal notranslate"><span class="pre">options</span></code> (a sequence, or a callable returning one).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.elements.elements.TextInputBase" title="front.elements.elements.TextInputBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TextInputBase</span></code></a>([obj, name, display, ...])</p></td>
+<td><p>Text input; the view value defaults to the empty string.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.elements.elements.TextSectionBase" title="front.elements.elements.TextSectionBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TextSectionBase</span></code></a>(content[, kind, obj, name, ...])</p></td>
+<td><p>A component displaying text <code class="docutils literal notranslate"><span class="pre">content</span></code> of a given <code class="docutils literal notranslate"><span class="pre">kind</span></code> (e.g. &quot;text&quot;, &quot;markdown&quot;).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.BooleanInputBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">BooleanInputBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueNotSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_value_change</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_data_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_noneable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#BooleanInputBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.BooleanInputBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.InputBase" title="front.elements.elements.InputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputBase</span></code></a></p>
+<p>Boolean input (checkbox-like); values are cast with <code class="docutils literal notranslate"><span class="pre">bool</span></code>, defaulting to False.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.ExecContainerBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">ExecContainerBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_submit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_submit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#ExecContainerBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.ExecContainerBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.FrontContainerBase" title="front.elements.elements.FrontContainerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrontContainerBase</span></code></a></p>
+<p>Container that executes <code class="docutils literal notranslate"><span class="pre">obj</span></code> with the values of its input children.</p>
+<p>Builds one input child per parameter of <code class="docutils literal notranslate"><span class="pre">obj</span></code> (see <code class="docutils literal notranslate"><span class="pre">mk_input_element_specs</span></code>)
+plus an <code class="docutils literal notranslate"><span class="pre">output</span></code> child. <code class="docutils literal notranslate"><span class="pre">_submit</span></code> calls <code class="docutils literal notranslate"><span class="pre">obj</span></code> with the collected inputs,
+hands the result to the first <code class="docutils literal notranslate"><span class="pre">OutputBase</span></code> child and renders it, then calls
+<code class="docutils literal notranslate"><span class="pre">on_submit</span></code> with the result if given. Concrete subclasses implement <code class="docutils literal notranslate"><span class="pre">render</span></code>
+and <code class="docutils literal notranslate"><span class="pre">_noneable</span></code> (how an optional input is presented).</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.FileUploaderBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">FileUploaderBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueNotSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_value_change</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_data_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_noneable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accept_multiple_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#FileUploaderBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.FileUploaderBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.InputBase" title="front.elements.elements.InputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputBase</span></code></a></p>
+<p>File upload input, restricted to the given file <code class="docutils literal notranslate"><span class="pre">type</span></code> (extension(s)) if any.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.FloatInputBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">FloatInputBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueNotSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_value_change</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_data_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_noneable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#FloatInputBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.FloatInputBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.NumberInputBase" title="front.elements.elements.NumberInputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumberInputBase</span></code></a></p>
+<p>Float input with optional bounds and <code class="docutils literal notranslate"><span class="pre">step</span></code>; values are cast with <code class="docutils literal notranslate"><span class="pre">float</span></code>, defaulting to 0.0.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.FrontComponentBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">FrontComponentBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#FrontComponentBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.FrontComponentBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.FrontElementBase" title="front.elements.elements.FrontElementBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrontElementBase</span></code></a></p>
+<p>A leaf element the user interacts with (an input, an output, a text section).</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.FrontContainerBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">FrontContainerBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#FrontContainerBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.FrontContainerBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.FrontElementBase" title="front.elements.elements.FrontElementBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrontElementBase</span></code></a></p>
+<p>An element with children, each built from a keyword argument holding an element spec.</p>
+<p>Every extra keyword argument is a child spec: the key becomes the child’s
+<code class="docutils literal notranslate"><span class="pre">name</span></code> (unless the spec overrides it) and the container’s <code class="docutils literal notranslate"><span class="pre">obj</span></code> is passed
+down. Concrete containers define the layout in <code class="docutils literal notranslate"><span class="pre">render</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@dataclass</span>
+<span class="gp">... </span><span class="k">class</span><span class="w"> </span><span class="nc">Hello</span><span class="p">(</span><span class="n">FrontElementBase</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="sa">f</span><span class="s2">"hello </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">Box</span><span class="p">(</span><span class="n">FrontContainerBase</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="p">[</span><span class="n">child</span><span class="p">()</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">box</span> <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'box'</span><span class="p">,</span> <span class="n">greeting</span><span class="o">=</span><span class="p">{</span><span class="n">ELEMENT_KEY</span><span class="p">:</span> <span class="n">Hello</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">:</span> <span class="s1">'you'</span><span class="p">},</span> <span class="n">other</span><span class="o">=</span><span class="p">{</span><span class="n">ELEMENT_KEY</span><span class="p">:</span> <span class="n">Hello</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">box</span><span class="p">()</span>
+<span class="go">['hello you', 'hello other']</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.FrontElementBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">FrontElementBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#FrontElementBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.FrontElementBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Base of every front element: a renderable node of the element tree.</p>
+<p>Subclasses implement <code class="docutils literal notranslate"><span class="pre">render</span></code>. Calling the element runs the lifecycle
+<code class="docutils literal notranslate"><span class="pre">pre_render</span></code> → <code class="docutils literal notranslate"><span class="pre">render</span></code> → <code class="docutils literal notranslate"><span class="pre">post_render</span></code> when <code class="docutils literal notranslate"><span class="pre">display</span></code> is truthy, and
+does nothing (returns None) otherwise. <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">display</span></code> may be given
+as callables of <code class="docutils literal notranslate"><span class="pre">obj</span></code>; they are resolved at construction.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@dataclass</span>
+<span class="gp">... </span><span class="k">class</span><span class="w"> </span><span class="nc">Hello</span><span class="p">(</span><span class="n">FrontElementBase</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="sa">f</span><span class="s2">"hello </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Hello</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'world'</span><span class="p">)()</span>
+<span class="go">'hello world'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Hello</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="nb">len</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)()</span>
+<span class="go">'hello len'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Hello</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'hidden'</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)()</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="docutils literal notranslate"><span class="pre">FrontContainerBase</span></code>: an element with children.
+<code class="docutils literal notranslate"><span class="pre">FrontComponentBase</span></code>: a leaf element the user interacts with.</p>
+</div>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="front.elements.elements.FrontElementBase.post_render">
+<span class="sig-name descname"><span class="pre">post_render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">render_result</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#FrontElementBase.post_render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.FrontElementBase.post_render" title="Link to this definition">#</a></dt>
+<dd><p>Hook run on the result of <code class="docutils literal notranslate"><span class="pre">render</span></code>; returns it unchanged by default.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="front.elements.elements.FrontElementBase.pre_render">
+<span class="sig-name descname"><span class="pre">pre_render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#FrontElementBase.pre_render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.FrontElementBase.pre_render" title="Link to this definition">#</a></dt>
+<dd><p>Hook run before <code class="docutils literal notranslate"><span class="pre">render</span></code>; does nothing by default.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="front.elements.elements.FrontElementBase.render">
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#FrontElementBase.render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.FrontElementBase.render" title="Link to this definition">#</a></dt>
+<dd><p>Render the element with the concrete UI framework; must be overridden.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.FrontElementSpec">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">FrontElementSpec</span></span><a class="headerlink" href="#front.elements.elements.FrontElementSpec" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.TypedDict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.InputBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">InputBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueNotSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_value_change</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_data_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_noneable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#InputBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.InputBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.FrontComponentBase" title="front.elements.elements.FrontComponentBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrontComponentBase</span></code></a></p>
+<p>Base of input components: a value bound to state under <code class="docutils literal notranslate"><span class="pre">input_key</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">obj</span></code> is the <code class="docutils literal notranslate"><span class="pre">inspect.Parameter</span></code> the input feeds. At construction, <code class="docutils literal notranslate"><span class="pre">value</span></code>
+is wrapped in a <code class="docutils literal notranslate"><span class="pre">BoundData</span></code> made by <code class="docutils literal notranslate"><span class="pre">bound_data_factory</span></code> (unless it already
+is one), and seeded with the given value or the parameter’s default if nothing
+is set yet. Two companion keys, <code class="docutils literal notranslate"><span class="pre">view_key</span></code> and <code class="docutils literal notranslate"><span class="pre">none_key</span></code>, hold the widget’s
+displayed value and its “is None” toggle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">bound_data_factory</span></code> is None when a <code class="docutils literal notranslate"><span class="pre">BoundData</span></code> is needed.</p>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="front.elements.elements.InputBase.none_key">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">none_key</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#front.elements.elements.InputBase.none_key" title="Link to this definition">#</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">&quot;{input_key}_none&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>State key of the “value is None” toggle</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="front.elements.elements.InputBase.on_change">
+<span class="sig-name descname"><span class="pre">on_change</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#InputBase.on_change"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.InputBase.on_change" title="Link to this definition">#</a></dt>
+<dd><p>Call <code class="docutils literal notranslate"><span class="pre">on_value_change</span></code> with the current view value, if both are set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="front.elements.elements.InputBase.post_render">
+<span class="sig-name descname"><span class="pre">post_render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">render_result</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#InputBase.post_render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.InputBase.post_render" title="Link to this definition">#</a></dt>
+<dd><p>Store the rendered (widget) value in the bound state and return it.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="front.elements.elements.InputBase.view_key">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">view_key</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#front.elements.elements.InputBase.view_key" title="Link to this definition">#</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">&quot;{input_key}_view&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>State key of the widget’s displayed value</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.IntInputBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">IntInputBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueNotSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_value_change</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_data_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_noneable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#IntInputBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.IntInputBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.NumberInputBase" title="front.elements.elements.NumberInputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumberInputBase</span></code></a></p>
+<p>Integer input with optional bounds; values are cast with <code class="docutils literal notranslate"><span class="pre">int</span></code>, defaulting to 0.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.KwargsInputBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">KwargsInputBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueNotSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_value_change</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_data_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_noneable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_sig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#KwargsInputBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.KwargsInputBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.InputBase" title="front.elements.elements.InputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputBase</span></code></a></p>
+<p>Input for a <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> parameter, with one sub-input per name in <code class="docutils literal notranslate"><span class="pre">func_sig</span></code>.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="front.elements.elements.KwargsInputBase.pre_render">
+<span class="sig-name descname"><span class="pre">pre_render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#KwargsInputBase.pre_render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.KwargsInputBase.pre_render" title="Link to this definition">#</a></dt>
+<dd><p>Make <code class="docutils literal notranslate"><span class="pre">self.get_kwargs</span></code>, a function with signature <code class="docutils literal notranslate"><span class="pre">func_sig</span></code> returning its kwargs.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.MultiSourceInputBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">MultiSourceInputBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueNotSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_value_change</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_data_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_noneable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#MultiSourceInputBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.MultiSourceInputBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.InputBase" title="front.elements.elements.InputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputBase</span></code></a></p>
+<p>An input whose value can come from several child input components.</p>
+<p>Extra keyword arguments are child input specs; each child shares this input’s
+<code class="docutils literal notranslate"><span class="pre">input_key</span></code>, <code class="docutils literal notranslate"><span class="pre">value</span></code> and binding settings.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.NumberInputBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">NumberInputBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueNotSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_value_change</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_data_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_noneable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#NumberInputBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.NumberInputBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.InputBase" title="front.elements.elements.InputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputBase</span></code></a></p>
+<p>Base of numeric inputs, with an optional display <code class="docutils literal notranslate"><span class="pre">format</span></code>.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.OutputBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">OutputBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#OutputBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.OutputBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.FrontComponentBase" title="front.elements.elements.FrontComponentBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrontComponentBase</span></code></a></p>
+<p>Base of output components; <code class="docutils literal notranslate"><span class="pre">output</span></code> is set by the executing container before render.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.SelectorBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">SelectorBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueNotSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_value_change</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_data_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_noneable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#SelectorBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.SelectorBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.InputBase" title="front.elements.elements.InputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputBase</span></code></a></p>
+<p>Input choosing one value among <code class="docutils literal notranslate"><span class="pre">options</span></code> (a sequence, or a callable returning one).</p>
+<p>If no options are given and the parameter is annotated with a <code class="docutils literal notranslate"><span class="pre">Literal</span></code>, the
+literal’s values are the options.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="front.elements.elements.SelectorBase.pre_render">
+<span class="sig-name descname"><span class="pre">pre_render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#SelectorBase.pre_render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.SelectorBase.pre_render" title="Link to this definition">#</a></dt>
+<dd><p>Resolve the options and pre-select the current view value (or the first option).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.TextInputBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">TextInputBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueNotSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_value_change</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_data_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_noneable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#TextInputBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.TextInputBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.InputBase" title="front.elements.elements.InputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputBase</span></code></a></p>
+<p>Text input; the view value defaults to the empty string.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="front.elements.elements.TextSectionBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">TextSectionBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'text'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#TextSectionBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.TextSectionBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#front.elements.elements.FrontComponentBase" title="front.elements.elements.FrontComponentBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrontComponentBase</span></code></a></p>
+<p>A component displaying text <code class="docutils literal notranslate"><span class="pre">content</span></code> of a given <code class="docutils literal notranslate"><span class="pre">kind</span></code> (e.g. “text”, “markdown”).</p>
+<p><code class="docutils literal notranslate"><span class="pre">content</span></code> and <code class="docutils literal notranslate"><span class="pre">kind</span></code> may be callables of <code class="docutils literal notranslate"><span class="pre">obj</span></code>, resolved at construction.
+Extra keyword arguments are kept in <code class="docutils literal notranslate"><span class="pre">self.kwargs</span></code> for the concrete renderer.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="front.elements.elements.mk_element_from_spec">
+<span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">mk_element_from_spec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#mk_element_from_spec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.mk_element_from_spec" title="Link to this definition">#</a></dt>
+<dd><p>Instantiate the element factory found under <code class="docutils literal notranslate"><span class="pre">ELEMENT_KEY</span></code> with the other keys.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@dataclass</span>
+<span class="gp">... </span><span class="k">class</span><span class="w"> </span><span class="nc">Hello</span><span class="p">(</span><span class="n">FrontElementBase</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="sa">f</span><span class="s2">"hello </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mk_element_from_spec</span><span class="p">({</span><span class="n">ELEMENT_KEY</span><span class="p">:</span> <span class="n">Hello</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">:</span> <span class="s1">'x'</span><span class="p">})()</span>
+<span class="go">'hello x'</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#RuntimeError" title="(in Python v3.14)"><strong>RuntimeError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">spec</span></code> has no <code class="docutils literal notranslate"><span class="pre">ELEMENT_KEY</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="front.elements.elements.mk_input_element_specs">
+<span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">mk_input_element_specs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#mk_input_element_specs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.mk_input_element_specs" title="Link to this definition">#</a></dt>
+<dd><p>Make one input element spec per parameter of <code class="docutils literal notranslate"><span class="pre">obj</span></code>, from a type-keyed <code class="docutils literal notranslate"><span class="pre">inputs</span></code> spec.</p>
+<p><code class="docutils literal notranslate"><span class="pre">inputs</span></code> maps parameter types (and/or parameter names) to element specs; the
+<code class="docutils literal notranslate"><span class="pre">DEFAULT_INPUT_KEY</span></code> entry is merged under every type entry. Each parameter’s
+spec is looked up by its annotation (or the type of its default), with an
+<code class="docutils literal notranslate"><span class="pre">Optional[X]</span></code> annotation or a <code class="docutils literal notranslate"><span class="pre">None</span></code> default marking it as <code class="docutils literal notranslate"><span class="pre">is_noneable</span></code>.
+Unions of more than one non-None type are not supported.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s1">'hi'</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">specs</span> <span class="o">=</span> <span class="n">mk_input_element_specs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">foo</span><span class="p">,</span> <span class="p">{</span><span class="n">DEFAULT_INPUT_KEY</span><span class="p">:</span> <span class="p">{</span><span class="s1">'disabled'</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span> <span class="nb">int</span><span class="p">:</span> <span class="p">{</span><span class="s1">'min_value'</span><span class="p">:</span> <span class="mi">0</span><span class="p">}}</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span>
+<span class="go">['a', 'b', 'c']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">specs</span><span class="p">[</span><span class="s1">'a'</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">'obj'</span><span class="p">}</span>
+<span class="go">{'disabled': False, 'min_value': 0, 'input_key': 'foo_a', 'is_noneable': False}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">specs</span><span class="p">[</span><span class="s1">'c'</span><span class="p">][</span><span class="s1">'is_noneable'</span><span class="p">]</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#NotImplementedError" title="(in Python v3.14)"><strong>NotImplementedError</strong></a> – If a parameter is annotated with a Union of several
+non-None types.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="front.elements.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">front.elements</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="front.elements.implementation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">front.elements.implementation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.BooleanInputBase"><code class="docutils literal notranslate"><span class="pre">BooleanInputBase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.ExecContainerBase"><code class="docutils literal notranslate"><span class="pre">ExecContainerBase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.FileUploaderBase"><code class="docutils literal notranslate"><span class="pre">FileUploaderBase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.FloatInputBase"><code class="docutils literal notranslate"><span class="pre">FloatInputBase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.FrontComponentBase"><code class="docutils literal notranslate"><span class="pre">FrontComponentBase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.FrontContainerBase"><code class="docutils literal notranslate"><span class="pre">FrontContainerBase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.FrontElementBase"><code class="docutils literal notranslate"><span class="pre">FrontElementBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.FrontElementBase.post_render"><code class="docutils literal notranslate"><span class="pre">FrontElementBase.post_render()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.FrontElementBase.pre_render"><code class="docutils literal notranslate"><span class="pre">FrontElementBase.pre_render()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.FrontElementBase.render"><code class="docutils literal notranslate"><span class="pre">FrontElementBase.render()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.FrontElementSpec"><code class="docutils literal notranslate"><span class="pre">FrontElementSpec</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.InputBase"><code class="docutils literal notranslate"><span class="pre">InputBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.InputBase.none_key"><code class="docutils literal notranslate"><span class="pre">InputBase.none_key</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.InputBase.on_change"><code class="docutils literal notranslate"><span class="pre">InputBase.on_change()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.InputBase.post_render"><code class="docutils literal notranslate"><span class="pre">InputBase.post_render()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.InputBase.view_key"><code class="docutils literal notranslate"><span class="pre">InputBase.view_key</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.IntInputBase"><code class="docutils literal notranslate"><span class="pre">IntInputBase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.KwargsInputBase"><code class="docutils literal notranslate"><span class="pre">KwargsInputBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.KwargsInputBase.pre_render"><code class="docutils literal notranslate"><span class="pre">KwargsInputBase.pre_render()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.MultiSourceInputBase"><code class="docutils literal notranslate"><span class="pre">MultiSourceInputBase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.NumberInputBase"><code class="docutils literal notranslate"><span class="pre">NumberInputBase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.OutputBase"><code class="docutils literal notranslate"><span class="pre">OutputBase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.SelectorBase"><code class="docutils literal notranslate"><span class="pre">SelectorBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.SelectorBase.pre_render"><code class="docutils literal notranslate"><span class="pre">SelectorBase.pre_render()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.TextInputBase"><code class="docutils literal notranslate"><span class="pre">TextInputBase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.TextSectionBase"><code class="docutils literal notranslate"><span class="pre">TextSectionBase</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.mk_element_from_spec"><code class="docutils literal notranslate"><span class="pre">mk_element_from_spec()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.elements.elements.mk_input_element_specs"><code class="docutils literal notranslate"><span class="pre">mk_input_element_specs()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/_autosummary/front.elements.elements.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+front.elements.implementation
+=============================
+
+.. automodule:: front.elements.implementation
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      implement_component
+   

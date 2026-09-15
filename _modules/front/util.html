@@ -1,120 +1,712 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>front.util &mdash; front 0.1.100 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="alternate" type="text/markdown" href="util.html.md">
+<link rel="describedby" href="../../llms.txt" type="text/markdown">
+    <title>front.util &#8212; front</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/epythet.css?v=2771c659" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../_static/documentation_options.js?v=f9250636"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fd10adb8"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/front/util';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.1.101" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
-      <script src="../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=5d5d822f"></script>
-      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
-      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
-</head>
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../../index.html" class="icon icon-home">
-            front
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front.html">front</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/app_maker.html">front.app_maker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/base.html">front.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/crude.html">front.crude</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/dag.html">front.dag</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/data_binding.html">front.data_binding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/elements.html">front.elements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/elements/elements.html">front.elements.elements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/elements/implementation.html">front.elements.implementation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/elements/tree_maker_base.html">front.elements.tree_maker_base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/data_binding.html">front.examples.data_binding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/experimentation.html">front.examples.experimentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/issues.html">front.examples.issues</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/kaggle_front.html">front.examples.kaggle_front</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/pos_key_args.html">front.examples.pos_key_args</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/simple.html">front.examples.simple</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/simple_ml_1.html">front.examples.simple_ml_1</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/tw_data_binding.html">front.examples.tw_data_binding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/examples/wordle.html">front.examples.wordle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap.html">front.scrap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap/binder_proposal.html">front.scrap.binder_proposal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap/binder_proposal_no_desc.html">front.scrap.binder_proposal_no_desc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap/state_proposal.html">front.scrap.state_proposal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/scrap/tw_simple_new_arch.html">front.scrap.tw_simple_new_arch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/spec_maker_base.html">front.spec_maker_base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/state.html">front.state</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_crude.html">front.tests.test_crude</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_crudify_based_on_names.html">front.tests.test_crudify_based_on_names</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_py2pydantic_integration.html">front.tests.test_py2pydantic_integration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_state.html">front.tests.test_state</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/test_use_case.html">front.tests.test_use_case</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tests/util.html">front.tests.util</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/tools.html">front.tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/types.html">front.types</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/front/util.html">front.util</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">front</a>
-      </nav>
+  
+    
+  
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">front.util</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">front</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
   </ul>
-  <hr/>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/i2mint/front" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/i2mint/front" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">front.util</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <h1>Source code for front.util</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Utils&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Signature and mapping utilities shared by the front modules.</span>
+
+<span class="sd">Two families live here: signature rewriting (``inject_enum_annotations``,</span>
+<span class="sd">``annotate_func_arguments``) used to make functions dispatchable by a UI, and</span>
+<span class="sd">small mapping helpers (``deep_merge``, ``subdict``, ``normalize_map``) used by</span>
+<span class="sd">the spec compilation.</span>
+
+<span class="sd">&gt;&gt;&gt; deep_merge({'a': {'x': 1, 'y': 2}, 'b': 1}, {'a': {'y': 20}, 'c': 3})</span>
+<span class="sd">{'a': {'x': 1, 'y': 20}, 'b': 1, 'c': 3}</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">copy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">attrgetter</span>
@@ -132,74 +724,92 @@
 <span class="n">ignore_import_problems</span> <span class="o">=</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="identity">
+<a class="viewcode-back" href="../../_autosummary/front.util.html#front.util.identity">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">identity</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span>
+<span class="w">    </span><span class="sd">"""Return ``x`` unchanged."""</span>
+    <span class="k">return</span> <span class="n">x</span></div>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">iterable_to_enum</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;CustomEnum&quot;</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">Enum</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">kv</span><span class="p">):</span> <span class="n">kv</span> <span class="k">for</span> <span class="n">kv</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">})</span>
+
+<div class="viewcode-block" id="iterable_to_enum">
+<a class="viewcode-back" href="../../_autosummary/front.util.html#front.util.iterable_to_enum">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">iterable_to_enum</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"CustomEnum"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Make an ``Enum`` whose member names are ``str(value)`` for each value of ``iterable``.</span>
+
+<span class="sd">    &gt;&gt;&gt; E = iterable_to_enum([1, 'two'])</span>
+<span class="sd">    &gt;&gt;&gt; list(E)</span>
+<span class="sd">    [&lt;CustomEnum.1: 1&gt;, &lt;CustomEnum.two: 'two'&gt;]</span>
+<span class="sd">    &gt;&gt;&gt; E['1'].value</span>
+<span class="sd">    1</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">Enum</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">kv</span><span class="p">):</span> <span class="n">kv</span> <span class="k">for</span> <span class="n">kv</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">})</span></div>
+
 
 
 <div class="viewcode-block" id="subdict">
-<a class="viewcode-back" href="../../module_docs/front/util.html#front.util.subdict">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/front.util.html#front.util.subdict">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">subdict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets a sub-dict from a Mapping ``d``, extracting only those keys that are both in</span>
-<span class="sd">    ``keys`` and ``d``.</span>
+<span class="w">    </span><span class="sd">"""Get a sub-dict of Mapping ``d``, with only those keys that are both in ``keys`` and ``d``.</span>
+
 <span class="sd">    Note that the dict will be ordered as ``keys`` are, so can be used for reordering</span>
 <span class="sd">    a Mapping.</span>
 
-<span class="sd">    &gt;&gt;&gt; subdict({&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3, &#39;d&#39;: 4}, keys=[&#39;b&#39;, &#39;a&#39;, &#39;d&#39;])</span>
-<span class="sd">    {&#39;b&#39;: 2, &#39;a&#39;: 1, &#39;d&#39;: 4}</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; subdict({'a': 1, 'b': 2, 'c': 3, 'd': 4}, keys=['b', 'a', 'd'])</span>
+<span class="sd">    {'b': 2, 'a': 1, 'd': 4}</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="n">keys</span> <span class="ow">or</span> <span class="p">())</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">}</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_value_attr</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">keys</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">val_trans</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a copy of ``d`` where ``val_trans`` applied to the values of ``keys``.</span>
+<span class="w">    </span><span class="sd">"""Return a copy of ``d`` where ``val_trans`` applied to the values of ``keys``.</span>
 
 <span class="sd">    Meant to be used with ``functools.partial`` to fix ``val_trans``, and possibly</span>
 <span class="sd">    ``transform_keys``.</span>
 
-<span class="sd">    &gt;&gt;&gt; _get_value_attr({&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3}, [&#39;a&#39;, &#39;c&#39;], lambda x: x * 10)</span>
-<span class="sd">    {&#39;a&#39;: 10, &#39;b&#39;: 2, &#39;c&#39;: 30}</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; _get_value_attr({'a': 1, 'b': 2, 'c': 3}, ['a', 'c'], lambda x: x * 10)</span>
+<span class="sd">    {'a': 10, 'b': 2, 'c': 30}</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">val_trans</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">})</span>
 
 
 <span class="nd">@double_up_as_factory</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">inject_enum_annotations</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extract_enum_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">enum_list_for_arg</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Annotate chosen arguments of ``func`` with Enums of their allowed values.</span>
 
 <span class="sd">    :param func: function to wrap</span>
+<span class="sd">    :param extract_enum_value: If True (default), the wrapped function accepts Enum</span>
+<span class="sd">        members and hands their ``.value`` to ``func``. If False, only the</span>
+<span class="sd">        annotations change.</span>
 <span class="sd">    :param enum_list_for_arg: For every argument you want to enumify (i.e. annotate with</span>
 <span class="sd">        an Enum), the list of enum values you want.</span>
 <span class="sd">    :return: A wrapped func.</span>
 
 <span class="sd">    &gt;&gt;&gt; from inspect import signature</span>
-<span class="sd">    &gt;&gt;&gt; def foo(a, b: int, c=&#39;tat&#39;):</span>
+<span class="sd">    &gt;&gt;&gt; def foo(a, b: int, c='tat'):</span>
 <span class="sd">    ...     return (a + b) * c</span>
-<span class="sd">    &gt;&gt;&gt; bar = inject_enum_annotations(foo, b=[1, 2], c=&#39;tit for tat&#39;.split())</span>
+<span class="sd">    &gt;&gt;&gt; bar = inject_enum_annotations(foo, b=[1, 2], c='tit for tat'.split())</span>
 <span class="sd">    &gt;&gt;&gt; str(signature(bar))  # doctest: +SKIP</span>
-<span class="sd">    &#39;(a, b: front.util.b_enum, c: front.util.c_enum = &#39;tat&#39;)&#39;</span>
-<span class="sd">    &gt;&gt;&gt; b_enum = Sig(bar).annotations[&#39;b&#39;]</span>
+<span class="sd">    '(a, b: front.util.b_enum, c: front.util.c_enum = 'tat')'</span>
+<span class="sd">    &gt;&gt;&gt; b_enum = Sig(bar).annotations['b']</span>
 <span class="sd">    &gt;&gt;&gt; list(b_enum)</span>
 <span class="sd">    [&lt;b_enum.1: 1&gt;, &lt;b_enum.2: 2&gt;]</span>
 <span class="sd">    &gt;&gt;&gt;</span>
-<span class="sd">    &gt;&gt;&gt; c_enum = Sig(bar).annotations[&#39;c&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; c_enum = Sig(bar).annotations['c']</span>
 <span class="sd">    &gt;&gt;&gt; list(c_enum)</span>
-<span class="sd">    [&lt;c_enum.tit: &#39;tit&#39;&gt;, &lt;c_enum.for: &#39;for&#39;&gt;, &lt;c_enum.tat: &#39;tat&#39;&gt;]</span>
+<span class="sd">    [&lt;c_enum.tit: 'tit'&gt;, &lt;c_enum.for: 'for'&gt;, &lt;c_enum.tat: 'tat'&gt;]</span>
 
 <span class="sd">    The wrapped bar now accepts enum objects (whose .values will be extracted and</span>
 <span class="sd">    handed to foo for computation).</span>
 
-<span class="sd">    &gt;&gt;&gt; bar(a=2, b=b_enum[&#39;2&#39;], c=c_enum.tit)</span>
-<span class="sd">    &#39;tittittittit&#39;</span>
+<span class="sd">    &gt;&gt;&gt; bar(a=2, b=b_enum['2'], c=c_enum.tit)</span>
+<span class="sd">    'tittittittit'</span>
 
 <span class="sd">    Again, note that the way we need to specify our ``b`` and ``c`` arguments are as</span>
-<span class="sd">    `enum` types, not as the number `2` and string `&#39;tit&#39;`.</span>
+<span class="sd">    ``enum`` types, not as the number ``2`` and string ``'tit'``.</span>
 
-<span class="sd">    In the following example, we ask for `extract_enum_value=False` so that we</span>
+<span class="sd">    In the following example, we ask for ``extract_enum_value=False`` so that we</span>
 <span class="sd">    can still use normal inputs (no Enum objects, though ``b`` and ``c`` will</span>
 <span class="sd">    still be annotated by the Enums.</span>
 
@@ -208,27 +818,26 @@
 
 
 <span class="sd">    &gt;&gt;&gt; @inject_enum_annotations(</span>
-<span class="sd">    ...     b=[1, 2], c=&#39;tit for tat&#39;.split(), extract_enum_value=False</span>
+<span class="sd">    ...     b=[1, 2], c='tit for tat'.split(), extract_enum_value=False</span>
 <span class="sd">    ... )</span>
-<span class="sd">    ... def foo(a, b: int, c=&#39;tat&#39;):</span>
+<span class="sd">    ... def foo(a, b: int, c='tat'):</span>
 <span class="sd">    ...     return (a + b) * c</span>
 <span class="sd">    &gt;&gt;&gt;</span>
-<span class="sd">    &gt;&gt;&gt; foo(2, 2, &#39;tit&#39;)</span>
-<span class="sd">    &#39;tittittittit&#39;</span>
+<span class="sd">    &gt;&gt;&gt; foo(2, 2, 'tit')</span>
+<span class="sd">    'tittittittit'</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
-
+<span class="sd">    """</span>
     <span class="n">sig</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="n">with_enumed_sig</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">ch_annotations</span><span class="p">(</span>
         <span class="o">**</span><span class="p">{</span>
-            <span class="n">param</span><span class="p">:</span> <span class="n">iterable_to_enum</span><span class="p">(</span><span class="n">enum_list</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">_enum&quot;</span><span class="p">)</span>
+            <span class="n">param</span><span class="p">:</span> <span class="n">iterable_to_enum</span><span class="p">(</span><span class="n">enum_list</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">_enum"</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">enum_list</span> <span class="ow">in</span> <span class="n">enum_list_for_arg</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">}</span>
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">extract_enum_value</span><span class="p">:</span>
         <span class="n">get_values_of_enums</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
-            <span class="n">_get_value_attr</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">enum_list_for_arg</span><span class="p">),</span> <span class="n">val_trans</span><span class="o">=</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
+            <span class="n">_get_value_attr</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">enum_list_for_arg</span><span class="p">),</span> <span class="n">val_trans</span><span class="o">=</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">"value"</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="n">dispatched_enums_func</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span>
@@ -256,7 +865,7 @@
 <span class="c1"># Note: A Parameter-&gt;annotation function would be more general</span>
 <span class="c1">#   A Parameter-&gt;Parameter function even more general</span>
 <div class="viewcode-block" id="annotate_func_arguments">
-<a class="viewcode-back" href="../../module_docs/front/util.html#front.util.annotate_func_arguments">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/front.util.html#front.util.annotate_func_arguments">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">annotate_func_arguments</span><span class="p">(</span>
     <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -265,7 +874,7 @@
     <span class="n">annot_for_dflt_type</span><span class="p">:</span> <span class="n">AnnotForType</span> <span class="o">=</span> <span class="p">(),</span>
     <span class="n">dflt_annot</span><span class="p">:</span> <span class="n">Annot</span> <span class="o">=</span> <span class="n">empty</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotate</span>
+<span class="w">    </span><span class="sd">"""Add annotations to the arguments of ``func``, by argument name or by default-value type.</span>
 
 <span class="sd">    :param func: The function whose args we want to annotate</span>
 <span class="sd">    :param ignore_existing_annot: Set to True to ignore existing annots.</span>
@@ -274,7 +883,7 @@
 <span class="sd">        compared (with ``isinstance(dflt_val, types)``) to types and the annotation</span>
 <span class="sd">        (value) of the the first matching type (key) will be injected</span>
 <span class="sd">    :param dflt_annot: Default annotation to use if no match found earlier.</span>
-<span class="sd">        The default is `inspect.Parameter.empty`, which means &quot;don&#39;t annotate&quot;.</span>
+<span class="sd">        The default is ``inspect.Parameter.empty``, which means "don't annotate".</span>
 <span class="sd">        If you want all your params to be annotated no matter what, you might consider</span>
 <span class="sd">        ``typing.Any``, or in the case of command line interfaces, ``str``.</span>
 <span class="sd">    :return: A wrapped function with the desired signature changes, if any changes</span>
@@ -292,31 +901,31 @@
 <span class="sd">    If nothing changes, you just get back the same function:</span>
 
 <span class="sd">    &gt;&gt;&gt; assert str(signature(annotate_func_arguments(foo))) == (</span>
-<span class="sd">    ...     &quot;(a, b, c, &quot;</span>
-<span class="sd">    ...     &quot;aa: int = 1, bb: int = 1.0, cc: int = None, &quot;</span>
-<span class="sd">    ...     &quot;aaa=1, bbb=1.0, ccc=None)&quot;</span>
+<span class="sd">    ...     "(a, b, c, "</span>
+<span class="sd">    ...     "aa: int = 1, bb: int = 1.0, cc: int = None, "</span>
+<span class="sd">    ...     "aaa=1, bbb=1.0, ccc=None)"</span>
 <span class="sd">    ... )</span>
 
 <span class="sd">    In the following:</span>
 
 <span class="sd">    - ``b: str`` through the argname rule, but ``bb`` (as well as ``aa`` and ``bb``)</span>
-<span class="sd">    didn&#39;t change because ``ignore_existing_annot=False`` by default.</span>
+<span class="sd">      didn't change because ``ignore_existing_annot=False`` by default.</span>
 
-<span class="sd">    - ``aaa: float`` (even though default is ``1``) and ``ccc: &#39;NoneAnnot&#39;`` because of</span>
-<span class="sd">    the ``annot_for_dflt_type`` rules.</span>
+<span class="sd">    - ``aaa: float`` (even though default is ``1``) and ``ccc: 'NoneAnnot'`` because of</span>
+<span class="sd">      the ``annot_for_dflt_type`` rules.</span>
 
 <span class="sd">    &gt;&gt;&gt; annotator = partial(</span>
 <span class="sd">    ...     annotate_func_arguments,</span>
-<span class="sd">    ...     annot_for_argname = {&#39;b&#39;: str, &#39;bb&#39;: str},</span>
-<span class="sd">    ...     # don&#39;t confuse following with dict(int=float), which means {&#39;int&#39;: float}</span>
-<span class="sd">    ...     annot_for_dflt_type = {int: float, type(None): &#39;NoneAnnot&#39;},</span>
+<span class="sd">    ...     annot_for_argname = {'b': str, 'bb': str},</span>
+<span class="sd">    ...     # don't confuse following with dict(int=float), which means {'int': float}</span>
+<span class="sd">    ...     annot_for_dflt_type = {int: float, type(None): 'NoneAnnot'},</span>
 <span class="sd">    ... )</span>
 <span class="sd">    &gt;&gt;&gt;</span>
 <span class="sd">    &gt;&gt;&gt; wrapped_func = annotator(foo)</span>
 <span class="sd">    &gt;&gt;&gt; assert str(signature(wrapped_func)) == (</span>
-<span class="sd">    ... &quot;(a, b: str, c, &quot;</span>
-<span class="sd">    ... &quot;aa: int = 1, bb: int = 1.0, cc: int = None, &quot;</span>
-<span class="sd">    ... &quot;aaa: float = 1, bbb=1.0, ccc: &#39;NoneAnnot&#39; = None)&quot;</span>
+<span class="sd">    ... "(a, b: str, c, "</span>
+<span class="sd">    ... "aa: int = 1, bb: int = 1.0, cc: int = None, "</span>
+<span class="sd">    ... "aaa: float = 1, bbb=1.0, ccc: 'NoneAnnot' = None)"</span>
 <span class="sd">    ... )</span>
 
 <span class="sd">    See in the following what happens if we ask the default annotation to be ``Any`` and</span>
@@ -330,11 +939,11 @@
 <span class="sd">    &gt;&gt;&gt;</span>
 <span class="sd">    &gt;&gt;&gt; wrapped_func = another_annotator(foo)</span>
 <span class="sd">    &gt;&gt;&gt; assert str(signature(wrapped_func)) == (</span>
-<span class="sd">    ... &quot;(a: Any, b: str, c: Any, &quot;</span>
-<span class="sd">    ... &quot;aa: float = 1, bb: str = 1.0, cc: &#39;NoneAnnot&#39; = None, &quot;</span>
-<span class="sd">    ... &quot;aaa: float = 1, bbb: Any = 1.0, ccc: &#39;NoneAnnot&#39; = None)&quot;</span>
+<span class="sd">    ... "(a: Any, b: str, c: Any, "</span>
+<span class="sd">    ... "aa: float = 1, bb: str = 1.0, cc: 'NoneAnnot' = None, "</span>
+<span class="sd">    ... "aaa: float = 1, bbb: Any = 1.0, ccc: 'NoneAnnot' = None)"</span>
 <span class="sd">    ... )</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">annot_changes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
         <span class="n">_annotate_func_arguments</span><span class="p">(</span>
             <span class="n">func</span><span class="p">,</span>
@@ -359,30 +968,30 @@
     <span class="n">dflt_annot</span><span class="p">:</span> <span class="n">Annot</span> <span class="o">=</span> <span class="n">empty</span><span class="p">,</span>
     <span class="n">ignore_existing_annot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper for annotate_func_arguments. Same inputs as the latter.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Yield the ``(name, {'annotation': ...})`` changes for ``annotate_func_arguments``."""</span>
     <span class="n">annot_for_argname</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">annot_for_argname</span><span class="p">)</span>
     <span class="n">annot_for_dflt_type</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">annot_for_dflt_type</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">str</span><span class="o">.</span><span class="n">isidentifier</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">annot_for_argname</span><span class="p">),</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;All keys should be identifier strings. Some were not: </span><span class="si">{</span><span class="n">annot_for_argname</span><span class="si">=}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">"All keys should be identifier strings. Some were not: </span><span class="si">{</span><span class="n">annot_for_argname</span><span class="si">=}</span><span class="s2">"</span>
     <span class="p">)</span>
     <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">annot_for_dflt_type</span><span class="p">),</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;All keys should be types. Some were not: </span><span class="si">{</span><span class="n">annot_for_dflt_type</span><span class="si">=}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">"All keys should be types. Some were not: </span><span class="si">{</span><span class="n">annot_for_dflt_type</span><span class="si">=}</span><span class="s2">"</span>
     <span class="p">)</span>
     <span class="n">handled_types</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">annot_for_dflt_type</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">Sig</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">ignore_existing_annot</span> <span class="ow">or</span> <span class="n">param</span><span class="o">.</span><span class="n">annotation</span> <span class="ow">is</span> <span class="n">empty</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">annot_for_argname</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;annotation&quot;</span><span class="p">:</span> <span class="n">annot_for_argname</span><span class="p">[</span><span class="n">name</span><span class="p">]}</span>
+                <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="s2">"annotation"</span><span class="p">:</span> <span class="n">annot_for_argname</span><span class="p">[</span><span class="n">name</span><span class="p">]}</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span> <span class="o">:=</span> <span class="n">param</span><span class="o">.</span><span class="n">default</span><span class="p">,</span> <span class="n">handled_types</span><span class="p">):</span>
                 <span class="c1"># NOTE: will yield the first one found</span>
                 <span class="k">for</span> <span class="n">type_</span> <span class="ow">in</span> <span class="n">handled_types</span><span class="p">:</span>
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">type_</span><span class="p">):</span>
-                        <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;annotation&quot;</span><span class="p">:</span> <span class="n">annot_for_dflt_type</span><span class="p">[</span><span class="n">type_</span><span class="p">]}</span>
+                        <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="s2">"annotation"</span><span class="p">:</span> <span class="n">annot_for_dflt_type</span><span class="p">[</span><span class="n">type_</span><span class="p">]}</span>
                         <span class="k">break</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">dflt_annot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">empty</span><span class="p">:</span>
-                    <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;annotation&quot;</span><span class="p">:</span> <span class="n">dflt_annot</span><span class="p">}</span>
+                    <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="p">{</span><span class="s2">"annotation"</span><span class="p">:</span> <span class="n">dflt_annot</span><span class="p">}</span>
 
 
 <span class="c1">#</span>
@@ -395,19 +1004,41 @@
 <span class="c1"># Sig(f)</span>
 
 
+<div class="viewcode-block" id="get_value">
+<a class="viewcode-back" href="../../_autosummary/front.util.html#front.util.get_value">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_value</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">obj</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Callable</span><span class="p">)</span> <span class="k">else</span> <span class="n">obj</span>
+<span class="w">    </span><span class="sd">"""Return ``obj(*args, **kwargs)`` if ``obj`` is callable, else ``obj`` itself.</span>
+
+<span class="sd">    &gt;&gt;&gt; get_value(lambda: 3), get_value(3), get_value(lambda a, b: a + b, 1, 2)</span>
+<span class="sd">    (3, 3, 3)</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">obj</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Callable</span><span class="p">)</span> <span class="k">else</span> <span class="n">obj</span></div>
 
 
+
+<div class="viewcode-block" id="normalize_map">
+<a class="viewcode-back" href="../../_autosummary/front.util.html#front.util.normalize_map">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">normalize_map</span><span class="p">(</span><span class="nb">map</span><span class="p">:</span> <span class="n">Map</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">get_value</span><span class="p">(</span><span class="nb">map</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+<span class="w">    </span><span class="sd">"""Resolve a ``Map`` (mapping, callable returning one, or None) to a mapping; None gives ``{}``.</span>
+
+<span class="sd">    &gt;&gt;&gt; normalize_map(None), normalize_map({'a': 1}), normalize_map(lambda: {'b': 2})</span>
+<span class="sd">    ({}, {'a': 1}, {'b': 2})</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">get_value</span><span class="p">(</span><span class="nb">map</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span></div>
+
 
 
 <div class="viewcode-block" id="deep_merge">
-<a class="viewcode-back" href="../../module_docs/front/util.html#front.util.deep_merge">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/front.util.html#front.util.deep_merge">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">deep_merge</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merges b into a&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Merge ``b`` into ``a`` recursively (values of ``b`` win), returning a new dict.</span>
 
+<span class="sd">    Nested mappings present in both are merged; any other value in ``b`` replaces</span>
+<span class="sd">    the one in ``a``. Neither input is modified.</span>
+
+<span class="sd">    &gt;&gt;&gt; deep_merge({'a': {'x': 1, 'y': 2}, 'b': 1}, {'a': {'y': 20, 'z': 30}, 'c': 3})</span>
+<span class="sd">    {'a': {'x': 1, 'y': 20, 'z': 30}, 'b': 1, 'c': 3}</span>
+<span class="sd">    """</span>
     <span class="n">result</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value_b</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">value_a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
@@ -420,9 +1051,9 @@
 
 
 <div class="viewcode-block" id="incremental_str_maker">
-<a class="viewcode-back" href="../../module_docs/front/util.html#front.util.incremental_str_maker">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">incremental_str_maker</span><span class="p">(</span><span class="n">str_format</span><span class="o">=</span><span class="s2">&quot;{:03.f}&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a function that will produce a (incrementally) new string at every call.&quot;&quot;&quot;</span>
+<a class="viewcode-back" href="../../_autosummary/front.util.html#front.util.incremental_str_maker">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">incremental_str_maker</span><span class="p">(</span><span class="n">str_format</span><span class="o">=</span><span class="s2">"{:03.f}"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Make a function that will produce a (incrementally) new string at every call."""</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">mk_next_str</span><span class="p">():</span>
@@ -434,60 +1065,99 @@
 
 
 
-<span class="n">unnamed_obj</span> <span class="o">=</span> <span class="n">incremental_str_maker</span><span class="p">(</span><span class="n">str_format</span><span class="o">=</span><span class="s2">&quot;UnnamedObject</span><span class="si">{:03.0f}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">unnamed_obj</span> <span class="o">=</span> <span class="n">incremental_str_maker</span><span class="p">(</span><span class="n">str_format</span><span class="o">=</span><span class="s2">"UnnamedObject</span><span class="si">{:03.0f}</span><span class="s2">"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="obj_name">
-<a class="viewcode-back" href="../../module_docs/front/util.html#front.util.obj_name">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/front.util.html#front.util.obj_name">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">obj_name</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The func.__name__ of a callable func, or makes and returns one if that fails.</span>
-<span class="sd">    To make one, it calls unamed_func_name which produces incremental names to reduce the chances of clashing&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get the name of a callable, or make one (``UnnamedObjectNNN``) for lambdas and nameless objects."""</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">name_of_obj</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;&lt;lambda&gt;&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"&lt;lambda&gt;"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">unnamed_obj</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">name</span></div>
 
 
 
+<div class="viewcode-block" id="dflt_name_trans">
+<a class="viewcode-back" href="../../_autosummary/front.util.html#front.util.dflt_name_trans">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dflt_name_trans</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Default display name: ``obj`` (or its name) with underscores as spaces, title-cased.</span>
+
+<span class="sd">    &gt;&gt;&gt; dflt_name_trans('my_func_name')</span>
+<span class="sd">    'My Func Name'</span>
+<span class="sd">    """</span>
     <span class="n">obj_str</span> <span class="o">=</span> <span class="n">obj</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">obj_name</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">obj_str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">obj_str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span></div>
 
 
+
+<div class="viewcode-block" id="dflt_trans">
+<a class="viewcode-back" href="../../_autosummary/front.util.html#front.util.dflt_trans">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dflt_trans</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Default ``obj`` transformation: ensure every object has a ``__name__``, returning a list.</span>
+
+<span class="sd">    Objects are passed through ``copy.copy``, which returns functions unchanged, so</span>
+<span class="sd">    a lambda's ``__name__`` is set on the lambda itself (to an ``UnnamedObjectNNN``</span>
+<span class="sd">    name).</span>
+<span class="sd">    """</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">trans</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
         <span class="n">trans_obj</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="n">trans_obj</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">obj_name</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">trans_obj</span>
 
-    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="n">objs</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="n">objs</span><span class="p">))</span></div>
+
 </pre></div>
 
-           </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
           </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
   </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
 
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+  </footer>
+  </body>
 </html>

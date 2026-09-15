@@ -1,0 +1,12 @@
+front.types
+===========
+
+.. automodule:: front.types
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      FrontSpec
+   

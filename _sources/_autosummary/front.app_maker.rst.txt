@@ -1,0 +1,12 @@
+front.app\_maker
+================
+
+.. automodule:: front.app_maker
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      AppMaker
+   

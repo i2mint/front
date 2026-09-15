@@ -1,0 +1,32 @@
+front.state
+===========
+
+.. automodule:: front.state
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      mk_binder
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      BoundVal
+      DFLT_BOUND_VAL_FACTORY
+      GetterSetter
+      HasState
+      IsInstanceOf
+      State
+   
+   .. rubric:: Exceptions
+
+   .. autosummary::
+   
+      ConditionNotMet
+      Forbidden
+      ForbiddenOverwrite
+      ForbiddenWrite
+   

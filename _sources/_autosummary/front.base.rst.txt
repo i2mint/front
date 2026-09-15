@@ -1,0 +1,12 @@
+front.base
+==========
+
+.. automodule:: front.base
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      prepare_for_dispatch
+   

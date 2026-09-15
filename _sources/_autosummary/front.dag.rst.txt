@@ -1,0 +1,22 @@
+front.dag
+=========
+
+.. automodule:: front.dag
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      crudify_func_nodes
+      crudify_funcs
+      fnodes_to_var_node_crude_specs
+      group_kvs_into_dict
+      simple_namer
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      VarNodeRole
+   

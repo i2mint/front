@@ -1,0 +1,17 @@
+front.py2pydantic
+=================
+
+.. automodule:: front.py2pydantic
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      func_to_pyd_func
+      func_to_pyd_input_model_cls
+      func_to_pyd_model_specs
+      pyd_func_ingress_template
+      pydantic_egress
+      pydantic_model_from_type
+   

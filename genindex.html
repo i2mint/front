@@ -1,117 +1,674 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="./">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; front 0.1.100 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="alternate" type="text/markdown" href="genindex.html.md">
+<link rel="describedby" href="llms.txt" type="text/markdown">
+    <title>Index &#8212; front</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/epythet.css?v=2771c659" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="_static/documentation_options.js?v=f9250636"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=fd10adb8"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.1.101" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
-      <script src="_static/jquery.js?v=5d32c60e"></script>
-      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=5d5d822f"></script>
-      <script src="_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
-      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" /> 
-</head>
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="index.html" class="icon icon-home">
-            front
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front.html">front</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/app_maker.html">front.app_maker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/base.html">front.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/crude.html">front.crude</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/dag.html">front.dag</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/data_binding.html">front.data_binding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements.html">front.elements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements/elements.html">front.elements.elements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements/implementation.html">front.elements.implementation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements/tree_maker_base.html">front.elements.tree_maker_base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/data_binding.html">front.examples.data_binding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/experimentation.html">front.examples.experimentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/issues.html">front.examples.issues</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/kaggle_front.html">front.examples.kaggle_front</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/pos_key_args.html">front.examples.pos_key_args</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/simple.html">front.examples.simple</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/simple_ml_1.html">front.examples.simple_ml_1</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/tw_data_binding.html">front.examples.tw_data_binding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/wordle.html">front.examples.wordle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap.html">front.scrap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap/binder_proposal.html">front.scrap.binder_proposal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap/binder_proposal_no_desc.html">front.scrap.binder_proposal_no_desc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap/state_proposal.html">front.scrap.state_proposal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap/tw_simple_new_arch.html">front.scrap.tw_simple_new_arch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/spec_maker_base.html">front.spec_maker_base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/state.html">front.state</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_crude.html">front.tests.test_crude</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_crudify_based_on_names.html">front.tests.test_crudify_based_on_names</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_py2pydantic_integration.html">front.tests.test_py2pydantic_integration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_state.html">front.tests.test_state</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_use_case.html">front.tests.test_use_case</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/util.html">front.tests.util</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tools.html">front.tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/types.html">front.types</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/util.html">front.util</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">front</a>
-      </nav>
+  
+    
+  
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Index</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">front</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
   </ul>
-  <hr/>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/i2mint/front" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/i2mint/front" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
 
 <h1 id="index">Index</h1>
 
@@ -129,26 +686,27 @@
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#V"><strong>V</strong></a>
- | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/util.html#front.util.annotate_func_arguments">annotate_func_arguments() (in module front.util)</a>
+      <li><a href="_autosummary/front.util.html#front.util.annotate_func_arguments">annotate_func_arguments() (in module front.util)</a>
 </li>
-      <li><a href="module_docs/front/app_maker.html#front.app_maker.AppMaker">AppMaker (class in front.app_maker)</a>
+      <li><a href="_autosummary/front.app_maker.html#front.app_maker.AppMaker">AppMaker (class in front.app_maker)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/crude.html#front.crude.auto_key">auto_key() (in module front.crude)</a>
+      <li><a href="_autosummary/front.crude.html#front.crude.auto_key">auto_key() (in module front.crude)</a>
 </li>
-      <li><a href="module_docs/front/crude.html#front.crude.auto_key_from_arguments">auto_key_from_arguments() (in module front.crude)</a>
+      <li><a href="_autosummary/front.crude.html#front.crude.auto_key_from_arguments">auto_key_from_arguments() (in module front.crude)</a>
 </li>
-      <li><a href="module_docs/front/crude.html#front.crude.auto_key_from_time">auto_key_from_time() (in module front.crude)</a>
+      <li><a href="_autosummary/front.crude.html#front.crude.auto_key_from_time">auto_key_from_time() (in module front.crude)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -156,25 +714,17 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/examples/experimentation.html#front.examples.experimentation.bar">bar() (in module front.examples.experimentation)</a>
-
-      <ul>
-        <li><a href="module_docs/front/examples/simple.html#front.examples.simple.bar">(in module front.examples.simple)</a>
+      <li><a href="_autosummary/front.data_binding.html#front.data_binding.Binder">Binder (class in front.data_binding)</a>
 </li>
-      </ul></li>
-      <li><a href="module_docs/front/tests/test_use_case.html#front.tests.test_use_case.bar_func">bar_func() (in module front.tests.test_use_case)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.BooleanInputBase">BooleanInputBase (class in front.elements.elements)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/data_binding.html#front.data_binding.Binder">Binder (class in front.data_binding)</a>
-
-      <ul>
-        <li><a href="module_docs/front/scrap/binder_proposal.html#front.scrap.binder_proposal.Binder">(class in front.scrap.binder_proposal)</a>
+      <li><a href="_autosummary/front.data_binding.html#front.data_binding.Binder.bound_data_factory">bound_data_factory (front.data_binding.Binder attribute)</a>
 </li>
-        <li><a href="module_docs/front/scrap/binder_proposal_no_desc.html#front.scrap.binder_proposal_no_desc.Binder">(class in front.scrap.binder_proposal_no_desc)</a>
+      <li><a href="_autosummary/front.data_binding.html#front.data_binding.BoundData">BoundData (class in front.data_binding)</a>
 </li>
-      </ul></li>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.BooleanInputBase">BooleanInputBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.state.html#front.state.BoundVal">BoundVal (class in front.state)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -182,15 +732,17 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.ConditionNotMet">ConditionNotMet</a>, <a href="module_docs/front/state.html#front.state.ConditionNotMet">[1]</a>
+      <li><a href="_autosummary/front.state.html#front.state.ConditionNotMet">ConditionNotMet</a>
 </li>
-      <li><a href="module_docs/front/crude.html#front.crude.Crudifier">Crudifier (class in front.crude)</a>
+      <li><a href="_autosummary/front.crude.html#front.crude.Crudifier">Crudifier (class in front.crude)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/crude.html#front.crude.crudify_based_on_names">crudify_based_on_names() (in module front.crude)</a>
+      <li><a href="_autosummary/front.crude.html#front.crude.crudify_based_on_names">crudify_based_on_names() (in module front.crude)</a>
 </li>
-      <li><a href="module_docs/front/dag.html#front.dag.crudify_func_nodes">crudify_func_nodes() (in module front.dag)</a>
+      <li><a href="_autosummary/front.dag.html#front.dag.crudify_func_nodes">crudify_func_nodes() (in module front.dag)</a>
+</li>
+      <li><a href="_autosummary/front.dag.html#front.dag.crudify_funcs">crudify_funcs() (in module front.dag)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -198,11 +750,17 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/util.html#front.util.deep_merge">deep_merge() (in module front.util)</a>
+      <li><a href="_autosummary/front.util.html#front.util.deep_merge">deep_merge() (in module front.util)</a>
+</li>
+      <li><a href="_autosummary/front.state.html#front.state.DFLT_BOUND_VAL_FACTORY">DFLT_BOUND_VAL_FACTORY (in module front.state)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/crude.html#front.crude.DillFiles">DillFiles (class in front.crude)</a>
+      <li><a href="_autosummary/front.util.html#front.util.dflt_name_trans">dflt_name_trans() (in module front.util)</a>
+</li>
+      <li><a href="_autosummary/front.util.html#front.util.dflt_trans">dflt_trans() (in module front.util)</a>
+</li>
+      <li><a href="_autosummary/front.crude.html#front.crude.DillFiles">DillFiles (class in front.crude)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -210,11 +768,11 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/elements/tree_maker_base.html#front.elements.tree_maker_base.ElementTreeMaker">ElementTreeMaker (class in front.elements.tree_maker_base)</a>
+      <li><a href="_autosummary/front.elements.tree_maker_base.html#front.elements.tree_maker_base.ElementTreeMaker">ElementTreeMaker (class in front.elements.tree_maker_base)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.ExecContainerBase">ExecContainerBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.ExecContainerBase">ExecContainerBase (class in front.elements.elements)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -222,267 +780,149 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/tools.html#front.tools.FactoryFedSizedIterableContainer">FactoryFedSizedIterableContainer (class in front.tools)</a>
+      <li><a href="_autosummary/front.tools.html#front.tools.FactoryFedSizedIterableContainer">FactoryFedSizedIterableContainer (class in front.tools)</a>
 </li>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.FileUploaderBase">FileUploaderBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.FileUploaderBase">FileUploaderBase (class in front.elements.elements)</a>
 </li>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.FloatInputBase">FloatInputBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.FloatInputBase">FloatInputBase (class in front.elements.elements)</a>
 </li>
-      <li><a href="module_docs/front/examples/experimentation.html#front.examples.experimentation.foo">foo() (in module front.examples.experimentation)</a>
-
-      <ul>
-        <li><a href="module_docs/front/examples/simple.html#front.examples.simple.foo">(in module front.examples.simple)</a>
+      <li><a href="_autosummary/front.dag.html#front.dag.fnodes_to_var_node_crude_specs">fnodes_to_var_node_crude_specs() (in module front.dag)</a>
 </li>
-      </ul></li>
-      <li><a href="module_docs/front/tests/test_use_case.html#front.tests.test_use_case.foo_func">foo_func() (in module front.tests.test_use_case)</a>
+      <li><a href="_autosummary/front.state.html#front.state.Forbidden">Forbidden</a>
 </li>
-      <li><a href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.Forbidden">Forbidden</a>, <a href="module_docs/front/state.html#front.state.Forbidden">[1]</a>
+      <li><a href="_autosummary/front.state.html#front.state.ForbiddenOverwrite">ForbiddenOverwrite</a>
 </li>
-      <li><a href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.ForbiddenOverwrite">ForbiddenOverwrite</a>, <a href="module_docs/front/state.html#front.state.ForbiddenOverwrite">[1]</a>
-</li>
-      <li><a href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.ForbiddenWrite">ForbiddenWrite</a>, <a href="module_docs/front/state.html#front.state.ForbiddenWrite">[1]</a>
+      <li><a href="_autosummary/front.state.html#front.state.ForbiddenWrite">ForbiddenWrite</a>
 </li>
       <li>
     front
 
       <ul>
-        <li><a href="module_docs/front.html#module-front">module</a>
+        <li><a href="_autosummary/front.html#module-front">module</a>
 </li>
       </ul></li>
       <li>
     front.app_maker
 
       <ul>
-        <li><a href="module_docs/front/app_maker.html#module-front.app_maker">module</a>
+        <li><a href="_autosummary/front.app_maker.html#module-front.app_maker">module</a>
 </li>
       </ul></li>
       <li>
     front.base
 
       <ul>
-        <li><a href="module_docs/front/base.html#module-front.base">module</a>
+        <li><a href="_autosummary/front.base.html#module-front.base">module</a>
 </li>
       </ul></li>
       <li>
     front.crude
 
       <ul>
-        <li><a href="module_docs/front/crude.html#module-front.crude">module</a>
+        <li><a href="_autosummary/front.crude.html#module-front.crude">module</a>
 </li>
       </ul></li>
       <li>
     front.dag
 
       <ul>
-        <li><a href="module_docs/front/dag.html#module-front.dag">module</a>
+        <li><a href="_autosummary/front.dag.html#module-front.dag">module</a>
 </li>
       </ul></li>
       <li>
     front.data_binding
 
       <ul>
-        <li><a href="module_docs/front/data_binding.html#module-front.data_binding">module</a>
+        <li><a href="_autosummary/front.data_binding.html#module-front.data_binding">module</a>
 </li>
       </ul></li>
       <li>
     front.elements
 
       <ul>
-        <li><a href="module_docs/front/elements.html#module-front.elements">module</a>
+        <li><a href="_autosummary/front.elements.html#module-front.elements">module</a>
 </li>
       </ul></li>
       <li>
     front.elements.elements
 
       <ul>
-        <li><a href="module_docs/front/elements/elements.html#module-front.elements.elements">module</a>
+        <li><a href="_autosummary/front.elements.elements.html#module-front.elements.elements">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     front.elements.implementation
 
       <ul>
-        <li><a href="module_docs/front/elements/implementation.html#module-front.elements.implementation">module</a>
+        <li><a href="_autosummary/front.elements.implementation.html#module-front.elements.implementation">module</a>
 </li>
       </ul></li>
       <li>
     front.elements.tree_maker_base
 
       <ul>
-        <li><a href="module_docs/front/elements/tree_maker_base.html#module-front.elements.tree_maker_base">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.examples.data_binding
-
-      <ul>
-        <li><a href="module_docs/front/examples/data_binding.html#module-front.examples.data_binding">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.examples.experimentation
-
-      <ul>
-        <li><a href="module_docs/front/examples/experimentation.html#module-front.examples.experimentation">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.examples.simple
-
-      <ul>
-        <li><a href="module_docs/front/examples/simple.html#module-front.examples.simple">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.examples.wordle
-
-      <ul>
-        <li><a href="module_docs/front/examples/wordle.html#module-front.examples.wordle">module</a>
+        <li><a href="_autosummary/front.elements.tree_maker_base.html#module-front.elements.tree_maker_base">module</a>
 </li>
       </ul></li>
       <li>
     front.py2pydantic
 
       <ul>
-        <li><a href="module_docs/front/py2pydantic.html#module-front.py2pydantic">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.scrap
-
-      <ul>
-        <li><a href="module_docs/front/scrap.html#module-front.scrap">module</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    front.scrap.binder_proposal
-
-      <ul>
-        <li><a href="module_docs/front/scrap/binder_proposal.html#module-front.scrap.binder_proposal">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.scrap.binder_proposal_no_desc
-
-      <ul>
-        <li><a href="module_docs/front/scrap/binder_proposal_no_desc.html#module-front.scrap.binder_proposal_no_desc">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.scrap.state_proposal
-
-      <ul>
-        <li><a href="module_docs/front/scrap/state_proposal.html#module-front.scrap.state_proposal">module</a>
+        <li><a href="_autosummary/front.py2pydantic.html#module-front.py2pydantic">module</a>
 </li>
       </ul></li>
       <li>
     front.spec_maker_base
 
       <ul>
-        <li><a href="module_docs/front/spec_maker_base.html#module-front.spec_maker_base">module</a>
+        <li><a href="_autosummary/front.spec_maker_base.html#module-front.spec_maker_base">module</a>
 </li>
       </ul></li>
       <li>
     front.state
 
       <ul>
-        <li><a href="module_docs/front/state.html#module-front.state">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.tests.app_identity_pydantic_output
-
-      <ul>
-        <li><a href="module_docs/front/tests/app_identity_pydantic_output.html#module-front.tests.app_identity_pydantic_output">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.tests.app_identity_write_output
-
-      <ul>
-        <li><a href="module_docs/front/tests/app_identity_write_output.html#module-front.tests.app_identity_write_output">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.tests.test_combos
-
-      <ul>
-        <li><a href="module_docs/front/tests/test_combos.html#module-front.tests.test_combos">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.tests.test_crude
-
-      <ul>
-        <li><a href="module_docs/front/tests/test_crude.html#module-front.tests.test_crude">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.tests.test_identity_write_output
-
-      <ul>
-        <li><a href="module_docs/front/tests/test_identity_write_output.html#module-front.tests.test_identity_write_output">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.tests.test_py2pydantic
-
-      <ul>
-        <li><a href="module_docs/front/tests/test_py2pydantic.html#module-front.tests.test_py2pydantic">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.tests.test_use_case
-
-      <ul>
-        <li><a href="module_docs/front/tests/test_use_case.html#module-front.tests.test_use_case">module</a>
-</li>
-      </ul></li>
-      <li>
-    front.tests.util
-
-      <ul>
-        <li><a href="module_docs/front/tests/util.html#module-front.tests.util">module</a>
+        <li><a href="_autosummary/front.state.html#module-front.state">module</a>
 </li>
       </ul></li>
       <li>
     front.tools
 
       <ul>
-        <li><a href="module_docs/front/tools.html#module-front.tools">module</a>
+        <li><a href="_autosummary/front.tools.html#module-front.tools">module</a>
 </li>
       </ul></li>
       <li>
     front.types
 
       <ul>
-        <li><a href="module_docs/front/types.html#module-front.types">module</a>
+        <li><a href="_autosummary/front.types.html#module-front.types">module</a>
 </li>
       </ul></li>
       <li>
     front.util
 
       <ul>
-        <li><a href="module_docs/front/util.html#module-front.util">module</a>
+        <li><a href="_autosummary/front.util.html#module-front.util">module</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.FrontComponentBase">FrontComponentBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.FrontComponentBase">FrontComponentBase (class in front.elements.elements)</a>
 </li>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.FrontContainerBase">FrontContainerBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.FrontContainerBase">FrontContainerBase (class in front.elements.elements)</a>
 </li>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.FrontElementBase">FrontElementBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.FrontElementBase">FrontElementBase (class in front.elements.elements)</a>
 </li>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.FrontElementSpec">FrontElementSpec (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.FrontElementSpec">FrontElementSpec (class in front.elements.elements)</a>
 </li>
-      <li><a href="module_docs/front/types.html#front.types.FrontSpec">FrontSpec (class in front.types)</a>
+      <li><a href="_autosummary/front.types.html#front.types.FrontSpec">FrontSpec (class in front.types)</a>
 </li>
-      <li><a href="module_docs/front/py2pydantic.html#front.py2pydantic.func_to_pyd_func">func_to_pyd_func() (in module front.py2pydantic)</a>
+      <li><a href="_autosummary/front.py2pydantic.html#front.py2pydantic.func_to_pyd_func">func_to_pyd_func() (in module front.py2pydantic)</a>
 </li>
-      <li><a href="module_docs/front/py2pydantic.html#front.py2pydantic.func_to_pyd_input_model_cls">func_to_pyd_input_model_cls() (in module front.py2pydantic)</a>
+      <li><a href="_autosummary/front.py2pydantic.html#front.py2pydantic.func_to_pyd_input_model_cls">func_to_pyd_input_model_cls() (in module front.py2pydantic)</a>
 </li>
-      <li><a href="module_docs/front/py2pydantic.html#front.py2pydantic.func_to_pyd_model_specs">func_to_pyd_model_specs() (in module front.py2pydantic)</a>
+      <li><a href="_autosummary/front.py2pydantic.html#front.py2pydantic.func_to_pyd_model_specs">func_to_pyd_model_specs() (in module front.py2pydantic)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -490,61 +930,63 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.State.get">get() (front.scrap.state_proposal.State method)</a>
+      <li><a href="_autosummary/front.data_binding.html#front.data_binding.BoundData.get">get() (front.data_binding.BoundData method)</a>
 
       <ul>
-        <li><a href="module_docs/front/state.html#front.state.State.get">(front.state.State method)</a>
+        <li><a href="_autosummary/front.state.html#front.state.State.get">(front.state.State method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.GetterSetter">GetterSetter (class in front.scrap.state_proposal)</a>
-
-      <ul>
-        <li><a href="module_docs/front/state.html#front.state.GetterSetter">(class in front.state)</a>
+      <li><a href="_autosummary/front.util.html#front.util.get_value">get_value() (in module front.util)</a>
 </li>
-      </ul></li>
+      <li><a href="_autosummary/front.state.html#front.state.GetterSetter">GetterSetter (class in front.state)</a>
+</li>
+      <li><a href="_autosummary/front.dag.html#front.dag.group_kvs_into_dict">group_kvs_into_dict() (in module front.dag)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/scrap/binder_proposal.html#front.scrap.binder_proposal.HasState">HasState (class in front.scrap.binder_proposal)</a>
-
-      <ul>
-        <li><a href="module_docs/front/scrap/binder_proposal_no_desc.html#front.scrap.binder_proposal_no_desc.HasState">(class in front.scrap.binder_proposal_no_desc)</a>
+      <li><a href="_autosummary/front.state.html#front.state.HasState">HasState (class in front.state)</a>
 </li>
-        <li><a href="module_docs/front/state.html#front.state.HasState">(class in front.state)</a>
-</li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/util.html#front.util.incremental_str_maker">incremental_str_maker() (in module front.util)</a>
+      <li><a href="_autosummary/front.util.html#front.util.identity">identity() (in module front.util)</a>
 </li>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.InputBase">InputBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.implementation.html#front.elements.implementation.implement_component">implement_component() (in module front.elements.implementation)</a>
+</li>
+      <li><a href="_autosummary/front.util.html#front.util.incremental_str_maker">incremental_str_maker() (in module front.util)</a>
+</li>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.InputBase">InputBase (class in front.elements.elements)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.IntInputBase">IntInputBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.IntInputBase">IntInputBase (class in front.elements.elements)</a>
 </li>
-      <li><a href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.IsInstanceOf">IsInstanceOf (class in front.scrap.state_proposal)</a>
-
-      <ul>
-        <li><a href="module_docs/front/state.html#front.state.IsInstanceOf">(class in front.state)</a>
+      <li><a href="_autosummary/front.crude.html#front.crude.DillFiles.is_valid_key">is_valid_key() (front.crude.DillFiles method)</a>
 </li>
-      </ul></li>
+      <li><a href="_autosummary/front.state.html#front.state.IsInstanceOf">IsInstanceOf (class in front.state)</a>
+</li>
+      <li><a href="_autosummary/front.util.html#front.util.iterable_to_enum">iterable_to_enum() (in module front.util)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.KwargsInputBase">KwargsInputBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.crude.html#front.crude.keys_to_values_if_non_mapping_iterable">keys_to_values_if_non_mapping_iterable() (in module front.crude)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.KwargsInputBase">KwargsInputBase (class in front.elements.elements)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -552,90 +994,60 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/app_maker.html#front.app_maker.AppMaker.mk_app">mk_app() (front.app_maker.AppMaker method)</a>
+      <li><a href="_autosummary/front.app_maker.html#front.app_maker.AppMaker.mk_app">mk_app() (front.app_maker.AppMaker method)</a>
 </li>
-      <li><a href="module_docs/front/scrap/binder_proposal.html#front.scrap.binder_proposal.mk_binder">mk_binder() (in module front.scrap.binder_proposal)</a>
-
-      <ul>
-        <li><a href="module_docs/front/state.html#front.state.mk_binder">(in module front.state)</a>
+      <li><a href="_autosummary/front.state.html#front.state.mk_binder">mk_binder() (in module front.state)</a>
 </li>
-      </ul></li>
-      <li><a href="module_docs/front/crude.html#front.crude.mk_mall_of_dill_stores">mk_mall_of_dill_stores() (in module front.crude)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.mk_element_from_spec">mk_element_from_spec() (in module front.elements.elements)</a>
 </li>
-      <li><a href="module_docs/front/elements/tree_maker_base.html#front.elements.tree_maker_base.ElementTreeMaker.mk_tree">mk_tree() (front.elements.tree_maker_base.ElementTreeMaker method)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.mk_input_element_specs">mk_input_element_specs() (in module front.elements.elements)</a>
+</li>
+      <li><a href="_autosummary/front.crude.html#front.crude.mk_mall_of_dill_stores">mk_mall_of_dill_stores() (in module front.crude)</a>
+</li>
+      <li><a href="_autosummary/front.spec_maker_base.html#front.spec_maker_base.SpecMakerBase.mk_spec">mk_spec() (front.spec_maker_base.SpecMakerBase method)</a>
+</li>
+      <li><a href="_autosummary/front.elements.tree_maker_base.html#front.elements.tree_maker_base.ElementTreeMaker.mk_tree">mk_tree() (front.elements.tree_maker_base.ElementTreeMaker method)</a>
 </li>
       <li>
     module
 
       <ul>
-        <li><a href="module_docs/front.html#module-front">front</a>
+        <li><a href="_autosummary/front.html#module-front">front</a>
 </li>
-        <li><a href="module_docs/front/app_maker.html#module-front.app_maker">front.app_maker</a>
+        <li><a href="_autosummary/front.app_maker.html#module-front.app_maker">front.app_maker</a>
 </li>
-        <li><a href="module_docs/front/base.html#module-front.base">front.base</a>
+        <li><a href="_autosummary/front.base.html#module-front.base">front.base</a>
 </li>
-        <li><a href="module_docs/front/crude.html#module-front.crude">front.crude</a>
+        <li><a href="_autosummary/front.crude.html#module-front.crude">front.crude</a>
 </li>
-        <li><a href="module_docs/front/dag.html#module-front.dag">front.dag</a>
+        <li><a href="_autosummary/front.dag.html#module-front.dag">front.dag</a>
 </li>
-        <li><a href="module_docs/front/data_binding.html#module-front.data_binding">front.data_binding</a>
+        <li><a href="_autosummary/front.data_binding.html#module-front.data_binding">front.data_binding</a>
 </li>
-        <li><a href="module_docs/front/elements.html#module-front.elements">front.elements</a>
+        <li><a href="_autosummary/front.elements.html#module-front.elements">front.elements</a>
 </li>
-        <li><a href="module_docs/front/elements/elements.html#module-front.elements.elements">front.elements.elements</a>
+        <li><a href="_autosummary/front.elements.elements.html#module-front.elements.elements">front.elements.elements</a>
 </li>
-        <li><a href="module_docs/front/elements/implementation.html#module-front.elements.implementation">front.elements.implementation</a>
+        <li><a href="_autosummary/front.elements.implementation.html#module-front.elements.implementation">front.elements.implementation</a>
 </li>
-        <li><a href="module_docs/front/elements/tree_maker_base.html#module-front.elements.tree_maker_base">front.elements.tree_maker_base</a>
+        <li><a href="_autosummary/front.elements.tree_maker_base.html#module-front.elements.tree_maker_base">front.elements.tree_maker_base</a>
 </li>
-        <li><a href="module_docs/front/examples/data_binding.html#module-front.examples.data_binding">front.examples.data_binding</a>
+        <li><a href="_autosummary/front.py2pydantic.html#module-front.py2pydantic">front.py2pydantic</a>
 </li>
-        <li><a href="module_docs/front/examples/experimentation.html#module-front.examples.experimentation">front.examples.experimentation</a>
+        <li><a href="_autosummary/front.spec_maker_base.html#module-front.spec_maker_base">front.spec_maker_base</a>
 </li>
-        <li><a href="module_docs/front/examples/simple.html#module-front.examples.simple">front.examples.simple</a>
+        <li><a href="_autosummary/front.state.html#module-front.state">front.state</a>
 </li>
-        <li><a href="module_docs/front/examples/wordle.html#module-front.examples.wordle">front.examples.wordle</a>
+        <li><a href="_autosummary/front.tools.html#module-front.tools">front.tools</a>
 </li>
-        <li><a href="module_docs/front/py2pydantic.html#module-front.py2pydantic">front.py2pydantic</a>
+        <li><a href="_autosummary/front.types.html#module-front.types">front.types</a>
 </li>
-        <li><a href="module_docs/front/scrap.html#module-front.scrap">front.scrap</a>
-</li>
-        <li><a href="module_docs/front/scrap/binder_proposal.html#module-front.scrap.binder_proposal">front.scrap.binder_proposal</a>
-</li>
-        <li><a href="module_docs/front/scrap/binder_proposal_no_desc.html#module-front.scrap.binder_proposal_no_desc">front.scrap.binder_proposal_no_desc</a>
-</li>
-        <li><a href="module_docs/front/scrap/state_proposal.html#module-front.scrap.state_proposal">front.scrap.state_proposal</a>
-</li>
-        <li><a href="module_docs/front/spec_maker_base.html#module-front.spec_maker_base">front.spec_maker_base</a>
-</li>
-        <li><a href="module_docs/front/state.html#module-front.state">front.state</a>
-</li>
-        <li><a href="module_docs/front/tests/app_identity_pydantic_output.html#module-front.tests.app_identity_pydantic_output">front.tests.app_identity_pydantic_output</a>
-</li>
-        <li><a href="module_docs/front/tests/app_identity_write_output.html#module-front.tests.app_identity_write_output">front.tests.app_identity_write_output</a>
-</li>
-        <li><a href="module_docs/front/tests/test_combos.html#module-front.tests.test_combos">front.tests.test_combos</a>
-</li>
-        <li><a href="module_docs/front/tests/test_crude.html#module-front.tests.test_crude">front.tests.test_crude</a>
-</li>
-        <li><a href="module_docs/front/tests/test_identity_write_output.html#module-front.tests.test_identity_write_output">front.tests.test_identity_write_output</a>
-</li>
-        <li><a href="module_docs/front/tests/test_py2pydantic.html#module-front.tests.test_py2pydantic">front.tests.test_py2pydantic</a>
-</li>
-        <li><a href="module_docs/front/tests/test_use_case.html#module-front.tests.test_use_case">front.tests.test_use_case</a>
-</li>
-        <li><a href="module_docs/front/tests/util.html#module-front.tests.util">front.tests.util</a>
-</li>
-        <li><a href="module_docs/front/tools.html#module-front.tools">front.tools</a>
-</li>
-        <li><a href="module_docs/front/types.html#module-front.types">front.types</a>
-</li>
-        <li><a href="module_docs/front/util.html#module-front.util">front.util</a>
+        <li><a href="_autosummary/front.util.html#module-front.util">front.util</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.MultiSourceInputBase">MultiSourceInputBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.MultiSourceInputBase">MultiSourceInputBase (class in front.elements.elements)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -643,7 +1055,13 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.NumberInputBase">NumberInputBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.InputBase.none_key">none_key (front.elements.elements.InputBase property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/front.util.html#front.util.normalize_map">normalize_map() (in module front.util)</a>
+</li>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.NumberInputBase">NumberInputBase (class in front.elements.elements)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -651,11 +1069,49 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/util.html#front.util.obj_name">obj_name() (in module front.util)</a>
+      <li><a href="_autosummary/front.util.html#front.util.obj_name">obj_name() (in module front.util)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.OutputBase">OutputBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.InputBase.on_change">on_change() (front.elements.elements.InputBase method)</a>
+</li>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.OutputBase">OutputBase (class in front.elements.elements)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.FrontElementBase.post_render">post_render() (front.elements.elements.FrontElementBase method)</a>
+
+      <ul>
+        <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.InputBase.post_render">(front.elements.elements.InputBase method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.FrontElementBase.pre_render">pre_render() (front.elements.elements.FrontElementBase method)</a>
+
+      <ul>
+        <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.KwargsInputBase.pre_render">(front.elements.elements.KwargsInputBase method)</a>
+</li>
+        <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.SelectorBase.pre_render">(front.elements.elements.SelectorBase method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/front.py2pydantic.html#front.py2pydantic.pyd_func_ingress_template">pyd_func_ingress_template() (in module front.py2pydantic)</a>
+</li>
+      <li><a href="_autosummary/front.py2pydantic.html#front.py2pydantic.pydantic_egress">pydantic_egress() (in module front.py2pydantic)</a>
+</li>
+      <li><a href="_autosummary/front.py2pydantic.html#front.py2pydantic.pydantic_model_from_type">pydantic_model_from_type() (in module front.py2pydantic)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.FrontElementBase.render">render() (front.elements.elements.FrontElementBase method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -663,23 +1119,23 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.SelectorBase">SelectorBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.SelectorBase">SelectorBase (class in front.elements.elements)</a>
 </li>
-      <li><a href="module_docs/front/crude.html#front.crude.simple_mall_dispatch_core_func">simple_mall_dispatch_core_func() (in module front.crude)</a>
+      <li><a href="_autosummary/front.data_binding.html#front.data_binding.BoundData.set">set() (front.data_binding.BoundData method)</a>
 </li>
-      <li><a href="module_docs/front/tools.html#front.tools.SizedIterableContainer">SizedIterableContainer (class in front.tools)</a>
+      <li><a href="_autosummary/front.crude.html#front.crude.simple_mall_dispatch_core_func">simple_mall_dispatch_core_func() (in module front.crude)</a>
+</li>
+      <li><a href="_autosummary/front.dag.html#front.dag.simple_namer">simple_namer() (in module front.dag)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/spec_maker_base.html#front.spec_maker_base.SpecMakerBase">SpecMakerBase (class in front.spec_maker_base)</a>
+      <li><a href="_autosummary/front.tools.html#front.tools.SizedIterableContainer">SizedIterableContainer (class in front.tools)</a>
 </li>
-      <li><a href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.State">State (class in front.scrap.state_proposal)</a>
-
-      <ul>
-        <li><a href="module_docs/front/state.html#front.state.State">(class in front.state)</a>
+      <li><a href="_autosummary/front.spec_maker_base.html#front.spec_maker_base.SpecMakerBase">SpecMakerBase (class in front.spec_maker_base)</a>
 </li>
-      </ul></li>
-      <li><a href="module_docs/front/util.html#front.util.subdict">subdict() (in module front.util)</a>
+      <li><a href="_autosummary/front.state.html#front.state.State">State (class in front.state)</a>
+</li>
+      <li><a href="_autosummary/front.util.html#front.util.subdict">subdict() (in module front.util)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -687,13 +1143,11 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/scrap/binder_proposal_no_desc.html#front.scrap.binder_proposal_no_desc.test_binder_simple">test_binder_simple() (in module front.scrap.binder_proposal_no_desc)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.TextInputBase">TextInputBase (class in front.elements.elements)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.TextInputBase">TextInputBase (class in front.elements.elements)</a>
-</li>
-      <li><a href="module_docs/front/elements/elements.html#front.elements.elements.TextSectionBase">TextSectionBase (class in front.elements.elements)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.TextSectionBase">TextSectionBase (class in front.elements.elements)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -701,54 +1155,68 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/tools.html#front.tools.ValuesStore">ValuesStore (class in front.tools)</a>
+      <li><a href="_autosummary/front.crude.html#front.crude.DillFiles.validate_key">validate_key() (front.crude.DillFiles method)</a>
+</li>
+      <li><a href="_autosummary/front.tools.html#front.tools.ValuesStore">ValuesStore (class in front.tools)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/dag.html#front.dag.VarNodeRole">VarNodeRole (class in front.dag)</a>
+      <li><a href="_autosummary/front.dag.html#front.dag.VarNodeRole">VarNodeRole (class in front.dag)</a>
 </li>
-  </ul></td>
-</tr></table>
-
-<h2 id="W">W</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/examples/wordle.html#front.examples.wordle.wordle_corpus">wordle_corpus() (in module front.examples.wordle)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/front/examples/wordle.html#front.examples.wordle.wordle_feedback">wordle_feedback() (in module front.examples.wordle)</a>
+      <li><a href="_autosummary/front.elements.elements.html#front.elements.elements.InputBase.view_key">view_key (front.elements.elements.InputBase property)</a>
 </li>
   </ul></td>
 </tr></table>
 
 
 
-           </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
           </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
   </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
 
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+  </footer>
+  </body>
 </html>

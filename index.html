@@ -1,319 +1,489 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="./">
-<head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to front’s documentation! &mdash; front 0.1.100 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
 
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="alternate" type="text/markdown" href="index.html.md">
+<link rel="describedby" href="llms.txt" type="text/markdown">
+    <title>front &#8212; front</title>
   
-      <script src="_static/jquery.js?v=5d32c60e"></script>
-      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=5d5d822f"></script>
-      <script src="_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
-      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/js/theme.js"></script>
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/epythet.css?v=2771c659" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="_static/documentation_options.js?v=f9250636"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=fd10adb8"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="front" href="module_docs/front.html" /> 
-</head>
+    <link rel="next" title="API reference" href="api.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.1.101" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-          
-          
-          <a href="#" class="icon icon-home">
-            front
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front.html">front</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/app_maker.html">front.app_maker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/base.html">front.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/crude.html">front.crude</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/dag.html">front.dag</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/data_binding.html">front.data_binding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements.html">front.elements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements/elements.html">front.elements.elements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements/implementation.html">front.elements.implementation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements/tree_maker_base.html">front.elements.tree_maker_base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/data_binding.html">front.examples.data_binding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/experimentation.html">front.examples.experimentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/issues.html">front.examples.issues</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/kaggle_front.html">front.examples.kaggle_front</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/pos_key_args.html">front.examples.pos_key_args</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/simple.html">front.examples.simple</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/simple_ml_1.html">front.examples.simple_ml_1</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/tw_data_binding.html">front.examples.tw_data_binding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/wordle.html">front.examples.wordle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/py2pydantic.html">front.py2pydantic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap.html">front.scrap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap/binder_proposal.html">front.scrap.binder_proposal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap/binder_proposal_no_desc.html">front.scrap.binder_proposal_no_desc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap/state_proposal.html">front.scrap.state_proposal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap/tw_simple_new_arch.html">front.scrap.tw_simple_new_arch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/spec_maker_base.html">front.spec_maker_base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/state.html">front.state</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_crude.html">front.tests.test_crude</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_crudify_based_on_names.html">front.tests.test_crudify_based_on_names</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_py2pydantic_integration.html">front.tests.test_py2pydantic_integration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_state.html">front.tests.test_state</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_use_case.html">front.tests.test_use_case</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/util.html">front.tests.util</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tools.html">front.tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/types.html">front.types</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/util.html">front.util</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">front</a>
-      </nav>
+  
+    
+  
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Welcome to front’s documentation!</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
-      </li>
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">front</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
   </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="welcome-to-front-s-documentation">
-<h1>Welcome to front’s documentation!<a class="headerlink" href="#welcome-to-front-s-documentation" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front.html">front</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/app_maker.html">front.app_maker</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/app_maker.html#front.app_maker.AppMaker"><code class="docutils literal notranslate"><span class="pre">AppMaker</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/base.html">front.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/crude.html">front.crude</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/crude.html#front.crude.Crudifier"><code class="docutils literal notranslate"><span class="pre">Crudifier</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/crude.html#front.crude.DillFiles"><code class="docutils literal notranslate"><span class="pre">DillFiles</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/crude.html#front.crude.auto_key"><code class="docutils literal notranslate"><span class="pre">auto_key()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/crude.html#front.crude.auto_key_from_arguments"><code class="docutils literal notranslate"><span class="pre">auto_key_from_arguments()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/crude.html#front.crude.auto_key_from_time"><code class="docutils literal notranslate"><span class="pre">auto_key_from_time()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/crude.html#front.crude.crudify_based_on_names"><code class="docutils literal notranslate"><span class="pre">crudify_based_on_names()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/crude.html#front.crude.mk_mall_of_dill_stores"><code class="docutils literal notranslate"><span class="pre">mk_mall_of_dill_stores()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/crude.html#front.crude.simple_mall_dispatch_core_func"><code class="docutils literal notranslate"><span class="pre">simple_mall_dispatch_core_func()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/dag.html">front.dag</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/dag.html#front.dag.VarNodeRole"><code class="docutils literal notranslate"><span class="pre">VarNodeRole</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/dag.html#front.dag.crudify_func_nodes"><code class="docutils literal notranslate"><span class="pre">crudify_func_nodes()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/data_binding.html">front.data_binding</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/data_binding.html#front.data_binding.Binder"><code class="docutils literal notranslate"><span class="pre">Binder</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements.html">front.elements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements/elements.html">front.elements.elements</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.BooleanInputBase"><code class="docutils literal notranslate"><span class="pre">BooleanInputBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.ExecContainerBase"><code class="docutils literal notranslate"><span class="pre">ExecContainerBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.FileUploaderBase"><code class="docutils literal notranslate"><span class="pre">FileUploaderBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.FloatInputBase"><code class="docutils literal notranslate"><span class="pre">FloatInputBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.FrontComponentBase"><code class="docutils literal notranslate"><span class="pre">FrontComponentBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.FrontContainerBase"><code class="docutils literal notranslate"><span class="pre">FrontContainerBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.FrontElementBase"><code class="docutils literal notranslate"><span class="pre">FrontElementBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.FrontElementSpec"><code class="docutils literal notranslate"><span class="pre">FrontElementSpec</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.InputBase"><code class="docutils literal notranslate"><span class="pre">InputBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.IntInputBase"><code class="docutils literal notranslate"><span class="pre">IntInputBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.KwargsInputBase"><code class="docutils literal notranslate"><span class="pre">KwargsInputBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.MultiSourceInputBase"><code class="docutils literal notranslate"><span class="pre">MultiSourceInputBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.NumberInputBase"><code class="docutils literal notranslate"><span class="pre">NumberInputBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.OutputBase"><code class="docutils literal notranslate"><span class="pre">OutputBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.SelectorBase"><code class="docutils literal notranslate"><span class="pre">SelectorBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.TextInputBase"><code class="docutils literal notranslate"><span class="pre">TextInputBase</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/elements.html#front.elements.elements.TextSectionBase"><code class="docutils literal notranslate"><span class="pre">TextSectionBase</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements/implementation.html">front.elements.implementation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/elements/tree_maker_base.html">front.elements.tree_maker_base</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/elements/tree_maker_base.html#front.elements.tree_maker_base.ElementTreeMaker"><code class="docutils literal notranslate"><span class="pre">ElementTreeMaker</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/data_binding.html">front.examples.data_binding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/experimentation.html">front.examples.experimentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/examples/experimentation.html#front.examples.experimentation.bar"><code class="docutils literal notranslate"><span class="pre">bar()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/examples/experimentation.html#front.examples.experimentation.foo"><code class="docutils literal notranslate"><span class="pre">foo()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/issues.html">front.examples.issues</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/kaggle_front.html">front.examples.kaggle_front</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/pos_key_args.html">front.examples.pos_key_args</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/simple.html">front.examples.simple</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/examples/simple.html#front.examples.simple.bar"><code class="docutils literal notranslate"><span class="pre">bar()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/examples/simple.html#front.examples.simple.foo"><code class="docutils literal notranslate"><span class="pre">foo()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/simple_ml_1.html">front.examples.simple_ml_1</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/tw_data_binding.html">front.examples.tw_data_binding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/examples/wordle.html">front.examples.wordle</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/examples/wordle.html#front.examples.wordle.wordle_corpus"><code class="docutils literal notranslate"><span class="pre">wordle_corpus()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/examples/wordle.html#front.examples.wordle.wordle_feedback"><code class="docutils literal notranslate"><span class="pre">wordle_feedback()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/py2pydantic.html">front.py2pydantic</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/py2pydantic.html#front.py2pydantic.func_to_pyd_func"><code class="docutils literal notranslate"><span class="pre">func_to_pyd_func()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/py2pydantic.html#front.py2pydantic.func_to_pyd_input_model_cls"><code class="docutils literal notranslate"><span class="pre">func_to_pyd_input_model_cls()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/py2pydantic.html#front.py2pydantic.func_to_pyd_model_specs"><code class="docutils literal notranslate"><span class="pre">func_to_pyd_model_specs()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap.html">front.scrap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap/binder_proposal.html">front.scrap.binder_proposal</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/binder_proposal.html#front.scrap.binder_proposal.Binder"><code class="docutils literal notranslate"><span class="pre">Binder</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/binder_proposal.html#front.scrap.binder_proposal.HasState"><code class="docutils literal notranslate"><span class="pre">HasState</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/binder_proposal.html#front.scrap.binder_proposal.mk_binder"><code class="docutils literal notranslate"><span class="pre">mk_binder()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap/binder_proposal_no_desc.html">front.scrap.binder_proposal_no_desc</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/binder_proposal_no_desc.html#front.scrap.binder_proposal_no_desc.Binder"><code class="docutils literal notranslate"><span class="pre">Binder</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/binder_proposal_no_desc.html#front.scrap.binder_proposal_no_desc.HasState"><code class="docutils literal notranslate"><span class="pre">HasState</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/binder_proposal_no_desc.html#front.scrap.binder_proposal_no_desc.test_binder_simple"><code class="docutils literal notranslate"><span class="pre">test_binder_simple()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap/state_proposal.html">front.scrap.state_proposal</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.ConditionNotMet"><code class="docutils literal notranslate"><span class="pre">ConditionNotMet</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.Forbidden"><code class="docutils literal notranslate"><span class="pre">Forbidden</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.ForbiddenOverwrite"><code class="docutils literal notranslate"><span class="pre">ForbiddenOverwrite</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.ForbiddenWrite"><code class="docutils literal notranslate"><span class="pre">ForbiddenWrite</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.GetterSetter"><code class="docutils literal notranslate"><span class="pre">GetterSetter</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.IsInstanceOf"><code class="docutils literal notranslate"><span class="pre">IsInstanceOf</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/scrap/state_proposal.html#front.scrap.state_proposal.State"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/scrap/tw_simple_new_arch.html">front.scrap.tw_simple_new_arch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/spec_maker_base.html">front.spec_maker_base</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/spec_maker_base.html#front.spec_maker_base.SpecMakerBase"><code class="docutils literal notranslate"><span class="pre">SpecMakerBase</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/state.html">front.state</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/state.html#front.state.ConditionNotMet"><code class="docutils literal notranslate"><span class="pre">ConditionNotMet</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/state.html#front.state.Forbidden"><code class="docutils literal notranslate"><span class="pre">Forbidden</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/state.html#front.state.ForbiddenOverwrite"><code class="docutils literal notranslate"><span class="pre">ForbiddenOverwrite</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/state.html#front.state.ForbiddenWrite"><code class="docutils literal notranslate"><span class="pre">ForbiddenWrite</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/state.html#front.state.GetterSetter"><code class="docutils literal notranslate"><span class="pre">GetterSetter</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/state.html#front.state.HasState"><code class="docutils literal notranslate"><span class="pre">HasState</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/state.html#front.state.IsInstanceOf"><code class="docutils literal notranslate"><span class="pre">IsInstanceOf</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/state.html#front.state.State"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/state.html#front.state.mk_binder"><code class="docutils literal notranslate"><span class="pre">mk_binder()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/app_identity_pydantic_output.html">front.tests.app_identity_pydantic_output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/app_identity_write_output.html">front.tests.app_identity_write_output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_combos.html">front.tests.test_combos</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_crude.html">front.tests.test_crude</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_crudify_based_on_names.html">front.tests.test_crudify_based_on_names</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_identity_write_output.html">front.tests.test_identity_write_output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_py2pydantic.html">front.tests.test_py2pydantic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_py2pydantic_integration.html">front.tests.test_py2pydantic_integration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_state.html">front.tests.test_state</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/test_use_case.html">front.tests.test_use_case</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/tests/test_use_case.html#front.tests.test_use_case.bar_func"><code class="docutils literal notranslate"><span class="pre">bar_func()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/tests/test_use_case.html#front.tests.test_use_case.foo_func"><code class="docutils literal notranslate"><span class="pre">foo_func()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tests/util.html">front.tests.util</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/tools.html">front.tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/tools.html#front.tools.FactoryFedSizedIterableContainer"><code class="docutils literal notranslate"><span class="pre">FactoryFedSizedIterableContainer</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/tools.html#front.tools.SizedIterableContainer"><code class="docutils literal notranslate"><span class="pre">SizedIterableContainer</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/tools.html#front.tools.ValuesStore"><code class="docutils literal notranslate"><span class="pre">ValuesStore</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/types.html">front.types</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/types.html#front.types.FrontSpec"><code class="docutils literal notranslate"><span class="pre">FrontSpec</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/front/util.html">front.util</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/util.html#front.util.annotate_func_arguments"><code class="docutils literal notranslate"><span class="pre">annotate_func_arguments()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/util.html#front.util.deep_merge"><code class="docutils literal notranslate"><span class="pre">deep_merge()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/util.html#front.util.incremental_str_maker"><code class="docutils literal notranslate"><span class="pre">incremental_str_maker()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/util.html#front.util.obj_name"><code class="docutils literal notranslate"><span class="pre">obj_name()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/front/util.html#front.util.subdict"><code class="docutils literal notranslate"><span class="pre">subdict()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</div>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
-<p>Release: 0.1.100</p>
-<p>Last change: May 27, 2026</p>
-</section>
-
-
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="module_docs/front.html" class="btn btn-neutral float-right" title="front" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+</nav></div>
+      
     </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
 
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright NO COPYRIGHT.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+      
+      
+        <div class="navbar-item">
 
-</body>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/i2mint/front" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/i2mint/front" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <!-- generated by epythet -->
+<section id="front">
+<h1>front<a class="headerlink" href="#front" title="Link to this heading">#</a></h1>
+<p>Compile a Python function’s configuration into a runnable UI (web app, CLI, GUI…) without writing framework glue by hand.</p>
+<p>To install: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">front</span></code></p>
+<section id="quick-example">
+<h2>Quick example<a class="headerlink" href="#quick-example" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">front</span></code> itself is not a UI framework: it’s the core library concrete <code class="docutils literal notranslate"><span class="pre">front</span></code> frameworks (e.g. <a class="reference external" href="https://github.com/i2mint/streamlitfront/">streamlitfront</a>) build on. A minimal in-memory framework, whose “app” is a container rendering each function’s docstring:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">front</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpecMakerBase</span><span class="p">,</span> <span class="n">APP_KEY</span><span class="p">,</span> <span class="n">OBJ_KEY</span><span class="p">,</span> <span class="n">RENDERING_KEY</span><span class="p">,</span> <span class="n">ELEMENT_KEY</span><span class="p">,</span> <span class="n">AppMaker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">front.elements</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrontContainerBase</span><span class="p">,</span> <span class="n">FrontComponentBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">front.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">dflt_trans</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">App</span><span class="p">(</span><span class="n">FrontContainerBase</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">child</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">child</span><span class="p">()</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">}</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Doc</span><span class="p">(</span><span class="n">FrontComponentBase</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="vm">__doc__</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SpecMaker</span><span class="p">(</span><span class="n">SpecMakerBase</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dflt_convention</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">APP_KEY</span><span class="p">:</span> <span class="p">{</span><span class="s1">'title'</span><span class="p">:</span> <span class="s1">'Untitled'</span><span class="p">},</span>
+            <span class="n">OBJ_KEY</span><span class="p">:</span> <span class="p">{</span><span class="s1">'trans'</span><span class="p">:</span> <span class="n">dflt_trans</span><span class="p">},</span>
+            <span class="n">RENDERING_KEY</span><span class="p">:</span> <span class="p">{</span><span class="n">ELEMENT_KEY</span><span class="p">:</span> <span class="n">App</span><span class="p">,</span> <span class="n">Callable</span><span class="p">:</span> <span class="p">{</span><span class="n">ELEMENT_KEY</span><span class="p">:</span> <span class="n">Doc</span><span class="p">}},</span>
+        <span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="s2">"Adds a and b."</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+
+<span class="n">app_maker</span> <span class="o">=</span> <span class="n">AppMaker</span><span class="p">(</span><span class="n">spec_maker_factory</span><span class="o">=</span><span class="n">SpecMaker</span><span class="p">)</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">app_maker</span><span class="o">.</span><span class="n">mk_app</span><span class="p">([</span><span class="n">foo</span><span class="p">],</span> <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="n">APP_KEY</span><span class="p">:</span> <span class="p">{</span><span class="s1">'title'</span><span class="p">:</span> <span class="s1">'My App'</span><span class="p">}})</span>
+<span class="n">app</span><span class="o">.</span><span class="n">name</span>
+<span class="c1"># 'My App'</span>
+<span class="n">app</span><span class="p">()</span>
+<span class="c1"># {'foo': 'Adds a and b.'}</span>
+</pre></div>
+</div>
+</section>
+<section id="the-three-step-workflow">
+<h2>The three-step workflow<a class="headerlink" href="#the-three-step-workflow" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SpecMakerBase.mk_spec</span></code> compiles a short-language configuration (plus a convention of defaults) into a long-language <code class="docutils literal notranslate"><span class="pre">FrontSpec</span></code> (<code class="docutils literal notranslate"><span class="pre">app_spec</span></code>, <code class="docutils literal notranslate"><span class="pre">obj_spec</span></code>, <code class="docutils literal notranslate"><span class="pre">rendering_spec</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ElementTreeMaker.mk_tree</span></code> builds a composite tree of <code class="docutils literal notranslate"><span class="pre">FrontElementBase</span></code> elements from the rendering spec: a root container (e.g. <code class="docutils literal notranslate"><span class="pre">FrontContainerBase</span></code>) with one child per object, built from <code class="docutils literal notranslate"><span class="pre">FrontComponentBase</span></code>/<code class="docutils literal notranslate"><span class="pre">InputBase</span></code>/<code class="docutils literal notranslate"><span class="pre">OutputBase</span></code> subclasses.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AppMaker.mk_app</span></code> chains the two and returns the root element, callable as the app.</p></li>
+</ol>
+<p>To implement a concrete <code class="docutils literal notranslate"><span class="pre">front</span></code> framework, subclass <code class="docutils literal notranslate"><span class="pre">SpecMakerBase</span></code> to supply the concrete element classes as the default convention, and hand it to <code class="docutils literal notranslate"><span class="pre">AppMaker</span></code> (see the example above, and <a class="reference external" href="https://github.com/i2mint/streamlitfront/">streamlitfront</a> for a real one).</p>
+</section>
+<section id="crudifying-functions">
+<h2>Crudifying functions<a class="headerlink" href="#crudifying-functions" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Crudifier</span></code>/<code class="docutils literal notranslate"><span class="pre">prepare_for_crude_dispatch</span></code> (in <code class="docutils literal notranslate"><span class="pre">front.crude</span></code>) let functions with complex arguments (objects that don’t fit in a text box or URL) be dispatched through string keys into stores instead — the “CRUD-Execution” pattern. <code class="docutils literal notranslate"><span class="pre">front.dag</span></code> applies the same crudification to the variable nodes of a <code class="docutils literal notranslate"><span class="pre">meshed</span></code> DAG.</p>
+</section>
+<section id="docs">
+<h2>Docs<a class="headerlink" href="#docs" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://i2mint.github.io/front/">Rendered documentation</a> · <a class="reference external" href="https://i2mint.github.io/front/front.md">flat <code class="docutils literal notranslate"><span class="pre">front.md</span></code></a> for a single-file view.</p>
+<!-- epythet:agentic-readme:start -->
+</section>
+<section id="for-ai-agents">
+<h2>For AI agents<a class="headerlink" href="#for-ai-agents" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">front</span></code> publishes its documentation in forms made for coding agents. If you are one, start here.</p>
+<p><strong>The documentation, machine-readable</strong>: <a class="reference external" href="https://i2mint.github.io/front/llms.txt"><code class="docutils literal notranslate"><span class="pre">llms.txt</span></code></a> indexes every page; <a class="reference external" href="https://i2mint.github.io/front/front.md"><code class="docutils literal notranslate"><span class="pre">front.md</span></code></a> is the whole documentation in one file; every page has a <code class="docutils literal notranslate"><span class="pre">.md</span></code> twin; <a class="reference external" href="https://i2mint.github.io/front/objects.inv"><code class="docutils literal notranslate"><span class="pre">objects.inv</span></code></a> maps symbols to URLs.</p>
+<p>If you are a control freak, the rest of this README is written for you, starting at the top of the page.</p>
+<!-- epythet:agentic-readme:end -->
+<p class="epythet-aggregates">This documentation as a single file: <a href="front.md">front.md</a> (Markdown, for agents).</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-09-15 11:46 UTC from <a href="https://github.com/i2mint/front/commit/4ad3b6fe9223519bd4f1b5f95959a90a38d12c10">4ad3b6f</a> (master) · front 0.1.101 · <a href="about-this-build.html">about this build</a></p>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="api.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-example">Quick example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-three-step-workflow">The three-step workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crudifying-functions">Crudifying functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#docs">Docs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#for-ai-agents">For AI agents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="_sources/index.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
 </html>

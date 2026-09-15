@@ -1,0 +1,27 @@
+front.crude
+===========
+
+.. automodule:: front.crude
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      auto_key
+      auto_key_from_arguments
+      auto_key_from_time
+      crudify_based_on_names
+      keys_to_values_if_non_mapping_iterable
+      mk_mall_of_dill_stores
+      prepare_for_crude_dispatch
+      simple_mall_dispatch_core_func
+      store_on_output
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Crudifier
+      DillFiles
+   

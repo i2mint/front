@@ -1,0 +1,13 @@
+front.data\_binding
+===================
+
+.. automodule:: front.data_binding
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Binder
+      BoundData
+   
