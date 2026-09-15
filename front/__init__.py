@@ -16,7 +16,7 @@ The objective here is to be able to do this:
 >>> app = dispatch_funcs([foo, bar, confuser], ...)  # doctest: +SKIP
 
 getting a deployable app that allows the user to operate with these three wonderful
-functions. The ellipses (`...`) are there to indicate that we may want to specify
+functions. The ellipses (``...``) are there to indicate that we may want to specify
 the kind of app we want (web-service, GUI, CLI...) as well as particular configurations
 for the latter.
 

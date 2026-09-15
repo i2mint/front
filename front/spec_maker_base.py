@@ -59,34 +59,36 @@ class SpecMakerBase(ABC):
     To do so, the "mk_spec" method first merges the configuration with the convention,
     then does the following for the rendering specification:
     Let's consider we have three classes A, B and C with C extends B and B extends A
-    A <- B <- C.
-    If the rendering configuration contains the following:
-    {
-        A: {
-            'a': {...}
-        },
-        B: {
-            'b': {...}
-        },
-        C: {
-            'c': {...}
-        },
-    }
-    The resulting rendering specification will be:
-    {
-        A: {
-            'a': {...}
-        },
-        B: {
-            'a': {...},
-            'b': {...}
-        },
-        C: {
-            'a': {...},
-            'b': {...},
-            'c': {...}
-        },
-    }
+    (A <- B <- C). If the rendering configuration contains the following::
+
+        {
+            A: {
+                'a': {...}
+            },
+            B: {
+                'b': {...}
+            },
+            C: {
+                'c': {...}
+            },
+        }
+
+    The resulting rendering specification will be::
+
+        {
+            A: {
+                'a': {...}
+            },
+            B: {
+                'a': {...},
+                'b': {...}
+            },
+            C: {
+                'a': {...},
+                'b': {...},
+                'c': {...}
+            },
+        }
 
     This abstract class needs to be overloaded in every concrete front framework with
     a concrete implementation for the "_dflt_convention" property, which will return

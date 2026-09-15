@@ -78,9 +78,9 @@ def inject_enum_annotations(func=None, *, extract_enum_value=True, **enum_list_f
     'tittittittit'
 
     Again, note that the way we need to specify our ``b`` and ``c`` arguments are as
-    `enum` types, not as the number `2` and string `'tit'`.
+    ``enum`` types, not as the number ``2`` and string ``'tit'``.
 
-    In the following example, we ask for `extract_enum_value=False` so that we
+    In the following example, we ask for ``extract_enum_value=False`` so that we
     can still use normal inputs (no Enum objects, though ``b`` and ``c`` will
     still be annotated by the Enums.
 
@@ -153,7 +153,7 @@ def annotate_func_arguments(
         compared (with ``isinstance(dflt_val, types)``) to types and the annotation
         (value) of the the first matching type (key) will be injected
     :param dflt_annot: Default annotation to use if no match found earlier.
-        The default is `inspect.Parameter.empty`, which means "don't annotate".
+        The default is ``inspect.Parameter.empty``, which means "don't annotate".
         If you want all your params to be annotated no matter what, you might consider
         ``typing.Any``, or in the case of command line interfaces, ``str``.
     :return: A wrapped function with the desired signature changes, if any changes
@@ -179,10 +179,10 @@ def annotate_func_arguments(
     In the following:
 
     - ``b: str`` through the argname rule, but ``bb`` (as well as ``aa`` and ``bb``)
-    didn't change because ``ignore_existing_annot=False`` by default.
+      didn't change because ``ignore_existing_annot=False`` by default.
 
     - ``aaa: float`` (even though default is ``1``) and ``ccc: 'NoneAnnot'`` because of
-    the ``annot_for_dflt_type`` rules.
+      the ``annot_for_dflt_type`` rules.
 
     >>> annotator = partial(
     ...     annotate_func_arguments,

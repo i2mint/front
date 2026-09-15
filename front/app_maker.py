@@ -16,11 +16,12 @@ from front.types import FrontApp, Map
 
 class AppMaker:
     """Main class of front, doing the following:
+
     1. Consume the configuration (short language) to produce a specification object
-    (long language) using the provided spec maker. The specification is a nested
-    structure which contains 3 sub-specification objects: "obj", "rendering" and "app".
+       (long language) using the provided spec maker. The specification is a nested
+       structure which contains 3 sub-specification objects: "obj", "rendering" and "app".
     2. Transform the input objects using the "trans" function from the "obj"
-    specification (uses front.util.dflt_trans by default).
+       specification (uses front.util.dflt_trans by default).
     3. Build a composite tree of Front elements based on the "rendering" specification.
     4. Build an app from the composite tree and "app" specification.
     """

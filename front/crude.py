@@ -7,7 +7,7 @@ The method's trick is to allow the complex object's that we "crudified" to be co
 via a string key that references the complex object, via a "store" which maps
 these string keys to the actual physical object.
 This store could be a python dictionary (so in RAM) or any persisting storage system
-(files, DB) that is given a `typing.Mapping` interface
+(files, DB) that is given a ``typing.Mapping`` interface
 (see https://i2mint.github.io/dol/ or https://i2mint.github.io/py2store for
 tools to do so).
 
@@ -84,7 +84,7 @@ def auto_key_from_time(*args, __format: Number | str | Callable = 1e6, **kwargs)
     >>> auto_key_from_time()  # doctest: +SKIP
     '1_669_724_787_630_906'
 
-    But `auto_key_from_time` is really meant to be used with ``functools.partial`` to
+    But ``auto_key_from_time`` is really meant to be used with ``functools.partial`` to
     parametrize its ``__format``, such as:
 
     >>> from functools import partial
@@ -389,7 +389,7 @@ def prepare_for_crude_dispatch(
         for names in that iterable.
     :param mall: A store of stores. A Mapping whose keys are what the values of
         ``param_to_mall_map`` point to and whose values are mapping interfaces (called
-         "stores" of a storage backend (local or remote, persisted or in-memory).
+        "stores") to a storage backend (local or remote, persisted or in-memory).
     :param include_stores_attribute: bool, whether to add an attribute to the function
         containing the ``output_store``
     :param output_store: a store used to record the output of the function
@@ -455,7 +455,7 @@ def prepare_for_crude_dispatch(
     >>> func(mall['a']['one'], mall['b_store']['three'], 10)
     31
 
-    The signature of ``a`` and ``b`` also changed to be `str`:
+    The annotations of ``a`` and ``b`` also changed, to a ``Literal`` of the store keys:
 
     >>> from inspect import signature
     >>> str(signature(crude_func))
@@ -702,16 +702,16 @@ def simple_mall_dispatch_core_func(
     CLI...) mall-exploration capabilities. Namely:
 
     - ``list(mall)``: list the keys of a mall. This is achieved with args:
-        ``(key=None, action=None, store_name=None, mall=mall)``
-    - ``mall[store_name]``: get a store. Acheived by:
-        ``(key=None, action=None, store_name=store_name, mall=mall)``
-    - ``list(mall[store_name])``: list keys of a store (of the mall). Acheived by:
-        ``(key=None, action='list', store_name=store_name, mall=mall)``
+      ``(key=None, action=None, store_name=None, mall=mall)``
+    - ``mall[store_name]``: get a store. Achieved by:
+      ``(key=None, action=None, store_name=store_name, mall=mall)``
+    - ``list(mall[store_name])``: list keys of a store (of the mall). Achieved by:
+      ``(key=None, action='list', store_name=store_name, mall=mall)``
     - ``list(filter(key, mall[store_name]))``: list keys of a store (of the mall)
-        according to a substring filter. (only keys that have ``key`` as substring)
-        ``(key=key, action='list', store_name=store_name, mall=mall)``
+      according to a substring filter. (only keys that have ``key`` as substring)
+      ``(key=key, action='list', store_name=store_name, mall=mall)``
     - ``mall[store_name][key]``:  get the value/data of a store for ``key``
-        ``(key=key, action='get', store_name=store_name, mall=mall)``
+      ``(key=key, action='get', store_name=store_name, mall=mall)``
 
     :param key: The key
     :param action: 'list' (to list keys of a store) or 'get' (to get the value of
@@ -880,7 +880,7 @@ class Crudifier(_Crudifier):
     ... }
 
     should be preprocessed in such a way that adds a ``'func'`` key to each item of
-    ``config`` which contains a transformed function if a ```preprocess`` function
+    ``config`` which contains a transformed function if a ``preprocesses`` function
     or list of functions is specified, or the original function itself otherwise.
     The following would implement this:
 
@@ -934,7 +934,7 @@ def _keys_to_search(func):
     """Function defining what forms of keys will be searched in the param_to_mall_map
     when using crudify_based_on_names on a function.
     Note that since chain_get will be used on this, it's the first key found that will be used,
-    making, for example, a ``(func, arg_name)`` specification have precedence over an `arg_name` specification
+    making, for example, a ``(func, arg_name)`` specification have precedence over an ``arg_name`` specification
     """
     func_name = name_of_obj(func)
     for arg_name in Sig(func).names:

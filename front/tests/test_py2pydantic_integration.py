@@ -81,7 +81,7 @@ def test_input_model_json_schema_shape():
 
 
 def test_output_model_round_trip():
-    """`pydantic_model_from_type` produces a model that wraps the chosen type."""
+    """``pydantic_model_from_type`` produces a model that wraps the chosen type."""
     OutputModel = pydantic_model_from_type(int, name="MyOutput", field_name="value")
     inst = OutputModel(value=42)
     assert inst.value == 42

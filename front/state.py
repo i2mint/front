@@ -253,7 +253,8 @@ def mk_binder(
     allowed_ids: Identifiers | None = None,
     bound_val_factory: Callable = DFLT_BOUND_VAL_FACTORY,
 ):
-    """
+    """Make a ``Binder`` class (or instance) whose attributes read and write a state mapping.
+
     >>> Binder = mk_binder()
     >>> d = dict()
     >>> b = Binder(d)
@@ -267,7 +268,7 @@ def mk_binder(
     >>> 'foo' in dir(Binder)
     True
 
-    Let's set the value of ``foo```:
+    Let's set the value of ``foo``:
 
     >>> b.foo = 42
     >>> b.foo
