@@ -79,6 +79,7 @@ class FrontElementBase(ABC):
         return render_result
 
     def __call__(self):
+        """Run ``pre_render`` → ``render`` → ``post_render`` if ``display``, else return None."""
         if self.display:
             self.pre_render()
             r = self.render()

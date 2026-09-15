@@ -53,6 +53,7 @@ class IsInstanceOf:
     class_or_tuple: type | Iterable[type]
 
     def __call__(self, obj):
+        """Return ``isinstance(obj, self.class_or_tuple)``."""
         return isinstance(obj, self.class_or_tuple)
 
 
@@ -384,7 +385,6 @@ def mk_binder(
     False
 
     """
-
     # TODO: Make it pickalble! (add reduce? Make base outside function?)
 
     if allowed_ids is None:

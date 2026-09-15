@@ -921,6 +921,7 @@ class Crudifier(_Crudifier):
     """
 
     def __call__(self, func):
+        """Crudify ``func`` with this instance's fields as ``prepare_for_crude_dispatch`` arguments."""
         # is there a safer way than vars to get the init fields (keys and values)?
         return prepare_for_crude_dispatch(func, **vars(self))
 
