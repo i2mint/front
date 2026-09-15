@@ -29,8 +29,8 @@ class SpecMaker(SpecMakerBase):
     @property
     def _dflt_convention(self):
         return {
-            APP_KEY: {'title': 'Untitled'},
-            OBJ_KEY: {'trans': dflt_trans},
+            APP_KEY: {"title": "Untitled"},
+            OBJ_KEY: {"trans": dflt_trans},
             RENDERING_KEY: {ELEMENT_KEY: App, Callable: {ELEMENT_KEY: Doc}},
         }
 
@@ -41,7 +41,7 @@ def foo(a, b):
 
 
 app_maker = AppMaker(spec_maker_factory=SpecMaker)
-app = app_maker.mk_app([foo], config={APP_KEY: {'title': 'My App'}})
+app = app_maker.mk_app([foo], config={APP_KEY: {"title": "My App"}})
 app.name
 # 'My App'
 app()
