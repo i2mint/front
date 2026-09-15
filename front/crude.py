@@ -1039,8 +1039,9 @@ class DillFiles(Files):
 def mk_mall_of_dill_stores(store_names=Iterable[StoreName], rootdir=None):
     """Make a mall of ``DillFiles`` stores, one sub-directory of ``rootdir`` per store name.
 
-    ``store_names`` can be a space-separated string. ``rootdir`` defaults to a fresh
-    temporary directory.
+    ``store_names`` can be a space-separated string. ``rootdir`` defaults to a
+    stable ``"crude"`` subdirectory of the system temp directory (the same path
+    on every call, not a fresh one).
     """
     rootdir = rootdir or mk_tmp_dol_dir("crude")
     if isinstance(store_names, str):
