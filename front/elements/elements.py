@@ -33,6 +33,30 @@ from front.data_binding import Binder as b
 
 @dataclass
 class FrontElementBase(ABC):
+    """Base of every front element: a renderable node of the element tree.
+
+    Subclasses implement ``render``. Calling the element runs the lifecycle
+    ``pre_render`` → ``render`` → ``post_render`` when ``display`` is truthy, and
+    does nothing (returns None) otherwise. ``name`` and ``display`` may be given
+    as callables of ``obj``; they are resolved at construction.
+
+    >>> from dataclasses import dataclass
+    >>> @dataclass
+    ... class Hello(FrontElementBase):
+    ...     def render(self):
+    ...         return f"hello {self.name}"
+    >>> Hello(name='world')()
+    'hello world'
+    >>> Hello(obj=len, name=lambda obj: obj.__name__)()
+    'hello len'
+    >>> Hello(name='hidden', display=False)() is None
+    True
+
+    See Also:
+        ``FrontContainerBase``: an element with children.
+        ``FrontComponentBase``: a leaf element the user interacts with.
+    """
+
     obj: Any = None
     name: FrontElementName = None
     display: FrontElementDisplay = True
@@ -42,13 +66,16 @@ class FrontElementBase(ABC):
         self.display = get_value(self.display, self.obj)
 
     def pre_render(self):
+        """Hook run before ``render``; does nothing by default."""
         pass
 
     @abstractmethod
     def render(self):
+        """Render the element with the concrete UI framework; must be overridden."""
         pass
 
     def post_render(self, render_result):
+        """Hook run on the result of ``render``; returns it unchanged by default."""
         return render_result
 
     def __call__(self):
@@ -64,6 +91,18 @@ FrontElementSpec = TypedDict("FrontElementSpec", {ELEMENT_KEY: FrontElementBase}
 
 
 def mk_element_from_spec(spec: FrontElementSpec):
+    """Instantiate the element factory found under ``ELEMENT_KEY`` with the other keys.
+
+    >>> from dataclasses import dataclass
+    >>> @dataclass
+    ... class Hello(FrontElementBase):
+    ...     def render(self):
+    ...         return f"hello {self.name}"
+    >>> mk_element_from_spec({ELEMENT_KEY: Hello, 'name': 'x'})()
+    'hello x'
+
+    :raises RuntimeError: If ``spec`` has no ``ELEMENT_KEY``.
+    """
     _spec = dict(spec)
     try:
         factory = _spec.pop(ELEMENT_KEY)
@@ -79,6 +118,30 @@ def mk_element_from_spec(spec: FrontElementSpec):
 
 
 def mk_input_element_specs(obj, inputs):
+    """Make one input element spec per parameter of ``obj``, from a type-keyed ``inputs`` spec.
+
+    ``inputs`` maps parameter types (and/or parameter names) to element specs; the
+    ``DEFAULT_INPUT_KEY`` entry is merged under every type entry. Each parameter's
+    spec is looked up by its annotation (or the type of its default), with an
+    ``Optional[X]`` annotation or a ``None`` default marking it as ``is_noneable``.
+    Unions of more than one non-None type are not supported.
+
+    >>> def foo(a: int, b='hi', c: float = None):
+    ...     pass
+    >>> specs = mk_input_element_specs(
+    ...     foo, {DEFAULT_INPUT_KEY: {'disabled': False}, int: {'min_value': 0}}
+    ... )
+    >>> list(specs)
+    ['a', 'b', 'c']
+    >>> {k: v for k, v in specs['a'].items() if k != 'obj'}
+    {'disabled': False, 'min_value': 0, 'input_key': 'foo_a', 'is_noneable': False}
+    >>> specs['c']['is_noneable']
+    True
+
+    :raises NotImplementedError: If a parameter is annotated with a Union of several
+        non-None types.
+    """
+
     def mk_input_spec(p):
         input_spec = inputs_spec.get(p.name, {})
         annot = p.annotation if p.annotation != _empty else None
@@ -115,6 +178,25 @@ def mk_input_element_specs(obj, inputs):
 
 
 class FrontContainerBase(FrontElementBase):
+    """An element with children, each built from a keyword argument holding an element spec.
+
+    Every extra keyword argument is a child spec: the key becomes the child's
+    ``name`` (unless the spec overrides it) and the container's ``obj`` is passed
+    down. Concrete containers define the layout in ``render``.
+
+    >>> from dataclasses import dataclass
+    >>> @dataclass
+    ... class Hello(FrontElementBase):
+    ...     def render(self):
+    ...         return f"hello {self.name}"
+    >>> class Box(FrontContainerBase):
+    ...     def render(self):
+    ...         return [child() for child in self.children]
+    >>> box = Box(name='box', greeting={ELEMENT_KEY: Hello, 'name': 'you'}, other={ELEMENT_KEY: Hello})
+    >>> box()
+    ['hello you', 'hello other']
+    """
+
     children: Iterable[FrontElementBase]
 
     def __init__(
@@ -135,10 +217,18 @@ class FrontContainerBase(FrontElementBase):
 
 @dataclass
 class FrontComponentBase(FrontElementBase):
+    """A leaf element the user interacts with (an input, an output, a text section)."""
+
     pass
 
 
 class TextSectionBase(FrontComponentBase):
+    """A component displaying text ``content`` of a given ``kind`` (e.g. "text", "markdown").
+
+    ``content`` and ``kind`` may be callables of ``obj``, resolved at construction.
+    Extra keyword arguments are kept in ``self.kwargs`` for the concrete renderer.
+    """
+
     def __init__(
         self,
         content: str,
@@ -156,6 +246,17 @@ class TextSectionBase(FrontComponentBase):
 
 @dataclass
 class InputBase(FrontComponentBase):
+    """Base of input components: a value bound to state under ``input_key``.
+
+    ``obj`` is the ``inspect.Parameter`` the input feeds. At construction, ``value``
+    is wrapped in a ``BoundData`` made by ``bound_data_factory`` (unless it already
+    is one), and seeded with the given value or the parameter's default if nothing
+    is set yet. Two companion keys, ``view_key`` and ``none_key``, hold the widget's
+    displayed value and its "is None" toggle.
+
+    :raises ValueError: If ``bound_data_factory`` is None when a ``BoundData`` is needed.
+    """
+
     input_key: str = None
     value: Any = ValueNotSet
     on_value_change: Callable[..., None] = None
@@ -177,6 +278,7 @@ class InputBase(FrontComponentBase):
         self._init_none_value()
 
     def on_change(self):
+        """Call ``on_value_change`` with the current view value, if both are set."""
         if (
             self.on_value_change
             and (view_value := self._create_bound_data(self.view_key).get())
@@ -185,15 +287,18 @@ class InputBase(FrontComponentBase):
             call_forgivingly(self.on_value_change, view_value)
 
     def post_render(self, render_result):
+        """Store the rendered (widget) value in the bound state and return it."""
         self.value.set(render_result)
         return render_result
 
     @property
     def view_key(self) -> str:
+        """State key of the widget's displayed value: ``"{input_key}_view"``."""
         return self._build_key("view")
 
     @property
     def none_key(self) -> str:
+        """State key of the "value is None" toggle: ``"{input_key}_none"``."""
         return self._build_key("none")
 
     def _build_key(self, suffix: str):
@@ -234,10 +339,21 @@ class InputBase(FrontComponentBase):
 
 
 class OutputBase(FrontComponentBase):
+    """Base of output components; ``output`` is set by the executing container before render."""
+
     output: Any = None
 
 
 class ExecContainerBase(FrontContainerBase):
+    """Container that executes ``obj`` with the values of its input children.
+
+    Builds one input child per parameter of ``obj`` (see ``mk_input_element_specs``)
+    plus an ``output`` child. ``_submit`` calls ``obj`` with the collected inputs,
+    hands the result to the first ``OutputBase`` child and renders it, then calls
+    ``on_submit`` with the result if given. Concrete subclasses implement ``render``
+    and ``_noneable`` (how an optional input is presented).
+    """
+
     def __init__(
         self,
         obj: Callable,
@@ -299,6 +415,12 @@ class ExecContainerBase(FrontContainerBase):
 
 
 class MultiSourceInputBase(InputBase):
+    """An input whose value can come from several child input components.
+
+    Extra keyword arguments are child input specs; each child shares this input's
+    ``input_key``, ``value`` and binding settings.
+    """
+
     def __init__(
         self,
         obj=None,
@@ -356,6 +478,8 @@ class MultiSourceInputBase(InputBase):
 
 @dataclass
 class TextInputBase(InputBase):
+    """Text input; the view value defaults to the empty string."""
+
     type: str = None
 
     @property
@@ -365,6 +489,8 @@ class TextInputBase(InputBase):
 
 @dataclass
 class BooleanInputBase(InputBase):
+    """Boolean input (checkbox-like); values are cast with ``bool``, defaulting to False."""
+
     @property
     def _type(self):
         return bool
@@ -376,11 +502,15 @@ class BooleanInputBase(InputBase):
 
 @dataclass
 class NumberInputBase(InputBase):
+    """Base of numeric inputs, with an optional display ``format``."""
+
     format: str = None
 
 
 @dataclass
 class IntInputBase(NumberInputBase):
+    """Integer input with optional bounds; values are cast with ``int``, defaulting to 0."""
+
     min_value: int = None
     max_value: int = None
 
@@ -395,6 +525,8 @@ class IntInputBase(NumberInputBase):
 
 @dataclass
 class FloatInputBase(NumberInputBase):
+    """Float input with optional bounds and ``step``; values are cast with ``float``, defaulting to 0.0."""
+
     min_value: float = None
     max_value: float = None
     step: float = None
@@ -410,6 +542,8 @@ class FloatInputBase(NumberInputBase):
 
 @dataclass
 class FileUploaderBase(InputBase):
+    """File upload input, restricted to the given file ``type`` (extension(s)) if any."""
+
     type: str | list[str] | None = None
     accept_multiple_files: bool = False
 
@@ -419,9 +553,16 @@ SELECT_BOX_DFLT_INDEX = 0
 
 @dataclass
 class SelectorBase(InputBase):
+    """Input choosing one value among ``options`` (a sequence, or a callable returning one).
+
+    If no options are given and the parameter is annotated with a ``Literal``, the
+    literal's values are the options.
+    """
+
     options: Sequence | Callable = None
 
     def pre_render(self):
+        """Resolve the options and pre-select the current view value (or the first option)."""
         self.options = self.options or []
         options = self._ensure_options()
         if not options:
@@ -452,10 +593,13 @@ class SelectorBase(InputBase):
 
 @dataclass
 class KwargsInputBase(InputBase):
+    """Input for a ``**kwargs`` parameter, with one sub-input per name in ``func_sig``."""
+
     inputs: dict = None
     func_sig: Sig | Callable = None
 
     def pre_render(self):
+        """Make ``self.get_kwargs``, a function with signature ``func_sig`` returning its kwargs."""
         super().pre_render()
         func_sig = self.func_sig if isinstance(self.func_sig, Sig) else self.func_sig()
         func_sig = func_sig or Sig()

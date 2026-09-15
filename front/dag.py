@@ -1,4 +1,14 @@
-"""Tools to dispatch dags
+"""Crudify the variable nodes of a ``meshed`` DAG.
+
+Crudifying a var node of a DAG means: the function producing it stores its
+output in a store and returns the key, and the functions consuming it take that
+key and fetch the value from the same store. The stores live in a mall (a
+mapping of store names to stores).
+
+Main entry points:
+
+- ``crudify_func_nodes``: a copy of the DAG whose func nodes are crudified.
+- ``crudify_funcs``: just the (crudified) functions of those func nodes.
 
 See below one of the dags that will often be used in this module's doctests:
 
@@ -61,6 +71,11 @@ from meshed.itools import parents, children
 
 # TODO: Lot's of cleaning and simplification needed in this module!!!
 def simple_namer(name, *, prefix="", suffix=""):
+    """Wrap ``name`` with a ``prefix`` and ``suffix``; the default store namer uses ``suffix='_store'``.
+
+    >>> simple_namer('x', suffix='_store')
+    'x_store'
+    """
     return f"{prefix}{name}{suffix}"
 
 
@@ -190,6 +205,10 @@ def crudify_funcs(
     include_stores_attribute: bool = False,
     save_name_param: str = "save_name",
 ):
+    """Like ``crudify_func_nodes``, but return the list of (crudified) functions, not a DAG.
+
+    See ``crudify_func_nodes`` for the meaning of the arguments.
+    """
     return list(_crudified_funcs(**locals()))
 
 
@@ -228,8 +247,7 @@ def _validate_is_func_node(node, var_node, relationship):
 
 
 def _node_replacements_for_var_node_crudification(var_node: str, dag: DAG):
-    """Helper function that generates the (node_id, (VarNodeRole, var_node)) instructions
-    needed to crudify the input ``var_node`` in ``dag``.
+    """Generate the ``(node_id, (VarNodeRole, var_node))`` instructions to crudify ``var_node`` in ``dag``.
 
     In the ``dag`` below, the ``var_node`` named ``x`` is the output of ``foo``
     and is used for the input of both ``bar`` (bound to the parameter of the same name)
@@ -288,6 +306,11 @@ def _get_first_if_any_and_asserting_unique(
 
 
 def group_kvs_into_dict(kvs):
+    """Group ``(key, value)`` pairs into a ``{key: [values]}`` dict, keeping order.
+
+    >>> group_kvs_into_dict([('a', 1), ('b', 2), ('a', 3)])
+    {'a': [1, 3], 'b': [2]}
+    """
     return groupby(kvs, key=itemgetter(0), val=itemgetter(1))
 
 
@@ -476,6 +499,7 @@ def _crudified_funcs(
 
 
 def fnodes_to_var_node_crude_specs(fnodes):
+    """Yield ``(var, func, bind)`` triples of the given func nodes."""
     for fnode in fnodes:
         yield fnode.var, fnode.func, fnode.bind
 

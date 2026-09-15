@@ -1,4 +1,5 @@
-"""
+"""Crudify functions: let complex arguments be specified by string keys into stores.
+
 CRUDE stands for CRUD-Execution.
 It is a method to solve the problem of dealing with complex python objects in an
 environment that doesn't natively support these.
@@ -77,7 +78,7 @@ auto_key = auto_key_from_arguments  # TODO: Deprecate this backcompatibility ali
 
 
 def auto_key_from_time(*args, __format: Number | str | Callable = 1e6, **kwargs) -> KT:
-    """Make a str key with current timestamp (ignoring arguments)
+    """Make a str key with current timestamp (ignoring arguments).
 
     :param __format: When a number, will be used as a multiplier of current utc time
 
@@ -186,9 +187,7 @@ def store_on_output(
     auto_namer: Callable[..., str] = None,
     output_trans: Callable[..., Any] = None,
 ):
-    """Wrap func so it will have an extra save_name_param that can be used to
-    indicate whether to save the output of the function call to that key, in
-    that store.
+    """Wrap ``func`` with an extra ``save_name_param`` argument that saves the output under that key in a store.
 
     The store can be specified, but an empty dict will be made for it by default.
 
@@ -375,8 +374,8 @@ def prepare_for_crude_dispatch(
     output_trans: Callable[..., Any] = None,
     verbose: bool = True,
 ):
-    """
-    Wrap func into something that is ready for CRUDE dispatch.
+    """Wrap ``func`` into something that is ready for CRUDE dispatch.
+
     It will be a function for whom specific arguments will be specified by strings,
     via underlying stores containing the values.
     We say that those arguments were crude-dispatched.
@@ -539,7 +538,8 @@ def prepare_for_crude_dispatch(
         )
 
         def kwargs_trans(outer_kw):
-            """
+            """Replace the cruded arguments (store keys) of ``outer_kw`` by the values they point to.
+
             Let's say you have a function with three params: a, b, and c, whose arguments
             should be ints. Let's say you want a and c to be cruded.
             Then you need to specify a store for each one of these:
@@ -631,8 +631,7 @@ def prepare_for_crude_dispatch(
 
 
 def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=True):
-    """Make a {param: store,...} dict from a {param: mall_key,...} dict, a sig and a
-    mall, validating stuff on the way."""
+    """Make a ``{param: store}`` dict from a ``{param: mall_key}`` dict, a sig and a mall, validating on the way."""
     mall = mall or dict()
     # mall_keys_that_are_also_params_but_not_param_to_mall_key_dict_keys
     unmentioned_mall_keys = set(mall) & set(sig.names) - set(param_to_mall_key_dict)
@@ -684,6 +683,15 @@ def _mk_store_for_param(sig, param_to_mall_key_dict=None, mall=None, verbose=Tru
 
 
 def keys_to_values_if_non_mapping_iterable(d: Iterable | None) -> dict:
+    """Turn a non-mapping iterable into an identity dict; pass mappings through; None gives ``{}``.
+
+    >>> keys_to_values_if_non_mapping_iterable(['a', 'b'])
+    {'a': 'a', 'b': 'b'}
+    >>> keys_to_values_if_non_mapping_iterable({'a': 's'})
+    {'a': 's'}
+    >>> keys_to_values_if_non_mapping_iterable(None)
+    {}
+    """
     if d is None:
         return dict()
     elif not isinstance(d, Mapping) and isinstance(d, Iterable):
@@ -696,7 +704,7 @@ def keys_to_values_if_non_mapping_iterable(d: Iterable | None) -> dict:
 def simple_mall_dispatch_core_func(
     key: KT, action: str, store_name: StoreName, mall: Mall
 ):
-    """Helper function to dispatch a mall
+    """Explore a mall from a UI: list its stores, list a store's keys, or get a value.
 
     This function is only meant to be a helper to give a UI (GUI,
     CLI...) mall-exploration capabilities. Namely:
@@ -931,8 +939,8 @@ def _remove_non_valued_items(d: dict):
 
 
 def _keys_to_search(func):
-    """Function defining what forms of keys will be searched in the param_to_mall_map
-    when using crudify_based_on_names on a function.
+    """Yield, for each argument of ``func``, the keys ``crudify_based_on_names`` looks up in ``param_to_mall_map``.
+
     Note that since chain_get will be used on this, it's the first key found that will be used,
     making, for example, a ``(func, arg_name)`` specification have precedence over an ``arg_name`` specification
     """
@@ -952,14 +960,19 @@ def _keys_to_search(func):
 def crudify_based_on_names(
     func, *, param_to_mall_map=(), output_store=(), crudifier=Crudifier
 ):
-    """
-    Crudify a function based on general
+    """Crudify ``func`` from general, name-keyed ``param_to_mall_map`` and ``output_store`` specs.
 
-    :param func:
-    :param param_to_mall_map:
-    :param output_store:
-    :param crudifier:
-    :return:
+    Meant to apply one crudification convention to many functions: the specs are
+    looked up per argument by ``(func, arg_name)``, ``(func_name, arg_name)``,
+    ``"func_name.arg_name"`` then ``arg_name`` (first match wins), and the output
+    store by ``func`` then ``func_name``.
+
+    :param func: The function to crudify.
+    :param param_to_mall_map: Mapping from those argument keys to mall keys.
+    :param output_store: Mapping from ``func`` or its name to an output store.
+    :param crudifier: The callable doing the crudification, given
+        ``(func, param_to_mall_map=..., output_store=...)``.
+    :return: The crudified function, or ``func`` itself if no spec matched.
 
     >>> from functools import partial
     >>> def foo(x, y):
@@ -1017,13 +1030,17 @@ except ImportError:
 
 @wrap_kvs(data_of_obj=pickler.dumps, obj_of_data=pickler.loads)
 class DillFiles(Files):
-    """Serializes and deserializes with dill (or pickle if dill not installed)"""
+    """Local files store that serializes values with dill (or pickle if dill is not installed)."""
 
     pass
 
 
 def mk_mall_of_dill_stores(store_names=Iterable[StoreName], rootdir=None):
-    """Make a mall of DillFiles (or PickleFiles if dill not installed) stores"""
+    """Make a mall of ``DillFiles`` stores, one sub-directory of ``rootdir`` per store name.
+
+    ``store_names`` can be a space-separated string. ``rootdir`` defaults to a fresh
+    temporary directory.
+    """
     rootdir = rootdir or mk_tmp_dol_dir("crude")
     if isinstance(store_names, str):
         store_names = store_names.split()

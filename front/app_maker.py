@@ -15,7 +15,9 @@ from front.types import FrontApp, Map
 
 
 class AppMaker:
-    """Main class of front, doing the following:
+    """Orchestrator that turns objects plus a configuration into a runnable front app.
+
+    Main class of front, doing the following:
 
     1. Consume the configuration (short language) to produce a specification object
        (long language) using the provided spec maker. The specification is a nested
@@ -24,6 +26,49 @@ class AppMaker:
        specification (uses front.util.dflt_trans by default).
     3. Build a composite tree of Front elements based on the "rendering" specification.
     4. Build an app from the composite tree and "app" specification.
+
+    A concrete front framework subclasses ``SpecMakerBase`` (to supply its default
+    convention, including the concrete element classes) and hands that class to
+    ``AppMaker``. Below, a minimal in-memory framework whose "app" is a container
+    that renders each function's docstring:
+
+    >>> from collections.abc import Callable
+    >>> from front import SpecMakerBase, APP_KEY, OBJ_KEY, RENDERING_KEY, ELEMENT_KEY
+    >>> from front.elements import FrontContainerBase, FrontComponentBase
+    >>> from front.util import dflt_trans
+    >>>
+    >>> class App(FrontContainerBase):
+    ...     def render(self):
+    ...         return {child.name: child() for child in self.children}
+    >>> class Doc(FrontComponentBase):
+    ...     def render(self):
+    ...         return self.obj.__doc__
+    >>> class SpecMaker(SpecMakerBase):
+    ...     @property
+    ...     def _dflt_convention(self):
+    ...         return {
+    ...             APP_KEY: {'title': 'Untitled'},
+    ...             OBJ_KEY: {'trans': dflt_trans},
+    ...             RENDERING_KEY: {ELEMENT_KEY: App, Callable: {ELEMENT_KEY: Doc}},
+    ...         }
+    >>> def foo(a, b):
+    ...     "Adds a and b."
+    ...     return a + b
+    >>> app_maker = AppMaker(spec_maker_factory=SpecMaker)
+    >>> app = app_maker.mk_app([foo], config={APP_KEY: {'title': 'My App'}})
+    >>> app.name
+    'My App'
+    >>> app()
+    {'foo': 'Adds a and b.'}
+
+    Anything the config doesn't say comes from the convention:
+
+    >>> app_maker.mk_app([foo]).name
+    'Untitled'
+
+    See Also:
+        ``front.spec_maker_base.SpecMakerBase``: compiles config + convention into the spec.
+        ``front.elements.ElementTreeMaker``: builds the element tree from the rendering spec.
     """
 
     def __init__(
@@ -37,14 +82,16 @@ class AppMaker:
     def mk_app(
         self, objs: Iterable[Any], config: Map = None, convention: Map = None
     ) -> FrontApp:
-        """Entry point of the AppMaker class to make a Front application.
+        """Make a front application exposing ``objs``: the entry point of ``AppMaker``.
 
         :param objs: The objects that the user of the resulting
-            application will be interacting with.
+            application will be interacting with. Only callables are supported for now.
         :param config: The configuration of the resulting application.
         :param convention: The convention used to complete the configuration by
             providing default values for everything that is not specified in the
-            configuration.
+            configuration. Defaults to the spec maker's ``_dflt_convention``.
+        :return: The root element of the app tree, named after the app's title.
+        :raises NotImplementedError: If an object in ``objs`` is not callable.
         """
         element_tree, app_spec = self._element_tree_and_spec(objs, config, convention)
         return self._mk_app(element_tree, app_spec)

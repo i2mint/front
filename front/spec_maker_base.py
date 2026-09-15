@@ -52,9 +52,11 @@ BASE_DFLT_CONVENTION = {
 
 
 class SpecMakerBase(ABC):
-    """This abstract class takes care of transforming the configuration given by the
-    user (short language) to a detailed specification to build the application (long
-    language).
+    """Compile a user configuration (short language) into a ``FrontSpec`` (long language).
+
+    The configuration is merged over a convention (the defaults), then the
+    class-keyed entries of the rendering specification are completed along the
+    class hierarchy, so that a spec for a subclass inherits the spec of its bases.
 
     To do so, the "mk_spec" method first merges the configuration with the convention,
     then does the following for the rendering specification:
@@ -93,9 +95,42 @@ class SpecMakerBase(ABC):
     This abstract class needs to be overloaded in every concrete front framework with
     a concrete implementation for the "_dflt_convention" property, which will return
     the convention after injecting the concrete element factories in it.
+
+    >>> from front import APP_KEY, OBJ_KEY, RENDERING_KEY
+    >>> from front.util import dflt_trans
+    >>> class A: pass
+    >>> class B(A): pass
+    >>> class C(B): pass
+    >>> class SpecMaker(SpecMakerBase):
+    ...     @property
+    ...     def _dflt_convention(self):
+    ...         return {
+    ...             APP_KEY: {'title': 'Untitled'},
+    ...             OBJ_KEY: {'trans': dflt_trans},
+    ...             RENDERING_KEY: {A: {'a': 1}, B: {'b': 2}, C: {'c': 3}},
+    ...         }
+    >>> spec = SpecMaker().mk_spec({APP_KEY: {'title': 'Demo'}})
+    >>> spec.app_spec
+    {'title': 'Demo'}
+    >>> spec.rendering_spec[C]
+    {'a': 1, 'b': 2, 'c': 3}
+    >>> spec.rendering_spec[B]
+    {'a': 1, 'b': 2}
+
+    See Also:
+        ``front.app_maker.AppMaker``: consumes the spec this class produces.
+        ``front.util.deep_merge``: the merge used for config over convention.
     """
 
     def mk_spec(self, config: Map, convention: Map = None) -> FrontSpec:
+        """Merge ``config`` over ``convention`` and complete class-keyed rendering specs.
+
+        :param config: The user configuration: a mapping, a callable returning one,
+            or None (empty).
+        :param convention: The defaults. If None, ``self._dflt_convention`` is used.
+        :return: A ``FrontSpec`` with ``app_spec``, ``obj_spec`` and ``rendering_spec``.
+        """
+
         def get_inheritance_path(cls):
             path = []
             for cls_key in cls_keys:

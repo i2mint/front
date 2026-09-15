@@ -41,6 +41,14 @@ from i2.wrapper import wrap, Ingress
 
 
 def pyd_func_ingress_template(input_model_instance, wrapped_func_sig: Sig):
+    """Turn a pydantic model instance into the ``(args, kwargs)`` of ``wrapped_func_sig``.
+
+    >>> from i2 import Sig
+    >>> from i2.tests.objects_for_testing import formula1
+    >>> model = func_to_pyd_input_model_cls(formula1)(w=1, x=2)
+    >>> pyd_func_ingress_template(model, Sig(formula1))
+    ((1,), {'x': 2.0, 'y': 1, 'z': 1})
+    """
     kwargs = dict(input_model_instance)
     args, kwargs = wrapped_func_sig.mk_args_and_kwargs(kwargs)
     return args, kwargs
@@ -48,8 +56,9 @@ def pyd_func_ingress_template(input_model_instance, wrapped_func_sig: Sig):
 
 # TODO: Add the output model annotation
 def func_to_pyd_func(func: Callable, dflt_type=Any):
-    """Get a 'opyrator' function from a python function.
-    That is, a function that has a single pydantic model input and output.
+    """Get an 'opyrator' function from a python function: one taking a single pydantic model input.
+
+    The output model is not yet applied: the wrapped function returns what ``func`` returns.
     """
     pyd_func_ingress = partial(pyd_func_ingress_template, wrapped_func_sig=Sig(func))
 
@@ -65,7 +74,7 @@ def func_to_pyd_func(func: Callable, dflt_type=Any):
 def func_to_pyd_input_model_cls(
     func: Callable, dflt_type=Any, *, name=None, warn_when_changing_names=True
 ):
-    """Get a pydantic model of the arguments of a python function
+    """Get a pydantic model of the arguments of a python function.
 
     >>> def foo(a, b: int, c: bool=False):
     ...     ...
@@ -146,6 +155,11 @@ def func_to_pyd_model_specs(func: Callable, dflt_type=Any):
 
 
 def pydantic_egress(output):
+    """Wrap ``output`` in an ``Output`` model with a single ``output_val`` field of its type.
+
+    >>> pydantic_egress(3)
+    Output(output_val=3)
+    """
     return_type = type(output)
     mod = create_model("Output", output_val=return_type)
 
@@ -153,6 +167,12 @@ def pydantic_egress(output):
 
 
 def pydantic_model_from_type(mytype, name="Output", field_name="result"):
+    """Make a pydantic model with one required field ``field_name`` of type ``mytype``.
+
+    >>> Model = pydantic_model_from_type(int)
+    >>> Model(result=2)
+    Output(result=2)
+    """
     model = create_model(name, **{field_name: (mytype, ...)})
 
     return model

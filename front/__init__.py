@@ -1,4 +1,10 @@
-"""Dispatching python functions as webservices, docker containers, and GUIs
+"""Dispatching python functions as webservices, docker containers, and GUIs.
+
+``front`` is the core library that concrete UI frameworks (e.g. ``streamlitfront``)
+build on: it compiles a configuration into a specification (``SpecMakerBase``),
+builds a tree of UI elements from it (``ElementTreeMaker``) and assembles the app
+(``AppMaker``). ``Crudifier`` and ``prepare_for_crude_dispatch`` make functions
+with complex arguments operable through string keys into stores.
 
 Consider these three functions:
 

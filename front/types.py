@@ -18,6 +18,8 @@ FrontElementDisplay = Union[bool, Callable[..., bool]]
 
 @dataclass
 class FrontSpec:
+    """The compiled specification: ``app_spec``, ``obj_spec`` and ``rendering_spec`` dicts."""
+
     app_spec: dict
     obj_spec: dict
     rendering_spec: dict
