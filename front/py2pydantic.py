@@ -39,6 +39,8 @@ from pydantic import create_model, BaseModel
 from i2 import Sig, name_of_obj, empty_param_attr
 from i2.wrapper import wrap, Ingress
 
+from front.util import param_default
+
 
 def pyd_func_ingress_template(input_model_instance, wrapped_func_sig: Sig):
     """Turn a pydantic model instance into the ``(args, kwargs)`` of ``wrapped_func_sig``.
@@ -141,15 +143,16 @@ def func_to_pyd_model_specs(func: Callable, dflt_type=Any):
     ``dflt_type`` (``Any`` by default) is used with ``...`` (required).
     """
     for p in Sig(func).params:
+        default = param_default(p)  # i2's NotSet sentinel counts as "no default"
         if p.annotation is not empty_param_attr:
-            if p.default is not empty_param_attr:
-                yield p.name, (p.annotation, p.default)
+            if default is not empty_param_attr:
+                yield p.name, (p.annotation, default)
             else:
                 yield p.name, (p.annotation, ...)
         else:  # no annotations
-            if p.default is not empty_param_attr:
+            if default is not empty_param_attr:
                 # pydantic v2 needs an explicit type; infer from the default
-                yield p.name, (type(p.default), p.default)
+                yield p.name, (type(default), default)
             else:
                 yield p.name, (dflt_type, ...)
 

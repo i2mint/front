@@ -15,12 +15,43 @@ from functools import partial
 from collections.abc import Iterable, Callable, Mapping
 from contextlib import suppress
 from enum import Enum
+from inspect import Parameter
 
 from i2 import Sig, double_up_as_factory
 from i2.wrapper import Ingress, wrap
 from i2.signatures import name_of_obj
 
 from front.types import Map
+
+try:
+    from i2 import is_not_set
+except ImportError:  # older i2: same sentinel, not exported from the root yet
+    from i2.deco import NotSet as _NotSet
+
+    def is_not_set(x) -> bool:
+        """Return True iff ``x`` is ``i2``'s ``NotSet`` sentinel."""
+        return x is _NotSet
+
+
+def param_default(param):
+    """Return ``param.default``, or ``Parameter.empty`` if it is ``i2``'s ``NotSet``.
+
+    ``NotSet`` in a signature means "no value given", not a real default, so UI and
+    schema builders must treat that param as required (no prefill, no type inference
+    from the default).
+
+    >>> from inspect import Parameter
+    >>> from i2.deco import NotSet
+    >>> param_default(Parameter('x', Parameter.KEYWORD_ONLY, default=3))
+    3
+    >>> param_default(Parameter('x', Parameter.KEYWORD_ONLY, default=NotSet))
+    <class 'inspect._empty'>
+    >>> param_default(Parameter('x', Parameter.KEYWORD_ONLY))
+    <class 'inspect._empty'>
+    """
+    default = param.default
+    return Parameter.empty if is_not_set(default) else default
+
 
 ignore_import_problems = suppress(ImportError, ModuleNotFoundError)
 
@@ -272,7 +303,7 @@ def _annotate_func_arguments(
         if ignore_existing_annot or param.annotation is empty:
             if name in annot_for_argname:
                 yield name, {"annotation": annot_for_argname[name]}
-            elif isinstance(default := param.default, handled_types):
+            elif isinstance(default := param_default(param), handled_types):
                 # NOTE: will yield the first one found
                 for type_ in handled_types:
                     if isinstance(default, type_):
