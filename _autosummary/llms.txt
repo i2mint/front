@@ -1,0 +1,27 @@
+# front
+
+> Getting from python objects to UIs exposing them
+
+
+## Pages in this subsection
+
+- [front](front.html.md): Dispatching python functions as webservices, docker containers, and GUIs.
+- [front.app_maker](front.app_maker.html.md): The &#96;AppMaker&#96; orchestrator that turns a configuration into a front app.
+- [front.base](front.base.html.md): Base functions for front dispatching: &#96;prepare_for_dispatch&#96; chains the wrappers a UI needs.
+- [front.crude](front.crude.html.md): Crudify functions: let complex arguments be specified by string keys into stores.
+- [front.dag](front.dag.html.md): Crudify the variable nodes of a &#96;meshed&#96; DAG.
+- [front.data_binding](front.data_binding.html.md): Data-binding primitives that connect front element values to a backing state store.
+- [front.elements](front.elements.html.md): Front UI elements: bases, tree maker, and component implementer helpers.
+- [front.elements.elements](front.elements.elements.html.md): Abstract base classes for the composite tree of front UI elements.
+- [front.elements.implementation](front.elements.implementation.html.md): Helpers for binding concrete UI component factories to front element classes.
+- [front.elements.tree_maker_base](front.elements.tree_maker_base.html.md): &#96;ElementTreeMaker&#96;: builds the composite tree of front elements from a rendering spec.
+- [front.py2pydantic](front.py2pydantic.html.md): Bridge between plain Python functions and pydantic v2 models.
+- [front.spec_maker_base](front.spec_maker_base.html.md): Base classes and conventions for building a &#96;FrontSpec&#96; from a configuration.
+- [front.state](front.state.html.md): Stateful storage protocols and &#96;Forbidden&#96; errors used by front data bindings.
+- [front.tools](front.tools.html.md): Tools using front, or useful when using front.
+- [front.types](front.types.html.md): Type aliases and lightweight dataclasses shared across front modules.
+- [front.util](front.util.html.md): Signature and mapping utilities shared by the front modules.
+
+## Optional
+
+- [Top-level llms.txt](../llms.txt): Complete documentation index.

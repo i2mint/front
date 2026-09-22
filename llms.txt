@@ -6,28 +6,29 @@
 ## Pages
 
 - [front](index.html.md): Compile a Python function’s configuration into a runnable UI (web app, CLI, GUI…) without writing fr...
-- [API reference](api.html.md): | [`front`](_autosummary/front.html.md#module-front)   | Dispatching python functions as webservices...
+- [API reference](api.html.md): | &#96;front&#96;   | Dispatching python functions as webservices, docker containers, and GUIs.   |
 - [front](_autosummary/front.html.md): Dispatching python functions as webservices, docker containers, and GUIs.
-- [front.app_maker](_autosummary/front.app_maker.html.md): The `AppMaker` orchestrator that turns a configuration into a front app.
-- [front.base](_autosummary/front.base.html.md): Base functions for front dispatching: `prepare_for_dispatch` chains the wrappers a UI needs.
+- [front.app_maker](_autosummary/front.app_maker.html.md): The &#96;AppMaker&#96; orchestrator that turns a configuration into a front app.
+- [front.base](_autosummary/front.base.html.md): Base functions for front dispatching: &#96;prepare_for_dispatch&#96; chains the wrappers a UI needs.
 - [front.crude](_autosummary/front.crude.html.md): Crudify functions: let complex arguments be specified by string keys into stores.
-- [front.dag](_autosummary/front.dag.html.md): Crudify the variable nodes of a `meshed` DAG.
+- [front.dag](_autosummary/front.dag.html.md): Crudify the variable nodes of a &#96;meshed&#96; DAG.
 - [front.data_binding](_autosummary/front.data_binding.html.md): Data-binding primitives that connect front element values to a backing state store.
 - [front.elements](_autosummary/front.elements.html.md): Front UI elements: bases, tree maker, and component implementer helpers.
 - [front.elements.elements](_autosummary/front.elements.elements.html.md): Abstract base classes for the composite tree of front UI elements.
 - [front.elements.implementation](_autosummary/front.elements.implementation.html.md): Helpers for binding concrete UI component factories to front element classes.
-- [front.elements.tree_maker_base](_autosummary/front.elements.tree_maker_base.html.md): `ElementTreeMaker`: builds the composite tree of front elements from a rendering spec.
+- [front.elements.tree_maker_base](_autosummary/front.elements.tree_maker_base.html.md): &#96;ElementTreeMaker&#96;: builds the composite tree of front elements from a rendering spec.
 - [front.py2pydantic](_autosummary/front.py2pydantic.html.md): Bridge between plain Python functions and pydantic v2 models.
-- [front.spec_maker_base](_autosummary/front.spec_maker_base.html.md): Base classes and conventions for building a [`FrontSpec`](front.types.html.md#front.types.FrontSpec)...
-- [front.state](_autosummary/front.state.html.md): Stateful storage protocols and `Forbidden` errors used by front data bindings.
+- [front.spec_maker_base](_autosummary/front.spec_maker_base.html.md): Base classes and conventions for building a &#96;FrontSpec&#96; from a configuration.
+- [front.state](_autosummary/front.state.html.md): Stateful storage protocols and &#96;Forbidden&#96; errors used by front data bindings.
 - [front.tools](_autosummary/front.tools.html.md): Tools using front, or useful when using front.
 - [front.types](_autosummary/front.types.html.md): Type aliases and lightweight dataclasses shared across front modules.
 - [front.util](_autosummary/front.util.html.md): Signature and mapping utilities shared by the front modules.
-- [About this build](about-this-build.html.md): This documentation was built on **2026-09-15 11:46 UTC** from commit <a href="https://github.com/i2m...
+- [For AI agents](ai-agents.html.md): &#96;front&#96; ships artifacts for coding agents alongside its code. This page lists
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-09-22 14:55 UTC&#42;&#42; from commit &lt;a href="https://github.com/i2m...
 
----
+## Optional
 
-For more comprehensive documentation, see [front.md](front.md)
+- [front.md](front.md): Complete documentation in a single file.
 
 ## Build
 

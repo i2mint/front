@@ -1,4 +1,4 @@
-> built 2026-09-15 11:46 UTC from 4ad3b6f (master) · front 0.1.101. Details: build_info.json
+> built 2026-09-22 14:55 UTC from e95b0ce (master) · front 0.1.102. Details: build_info.json
 
 # index.html.md
 
@@ -35,8 +35,8 @@ class SpecMaker(SpecMakerBase):
     @property
     def _dflt_convention(self):
         return {
-            APP_KEY: {'title': 'Untitled'},
-            OBJ_KEY: {'trans': dflt_trans},
+            APP_KEY: {"title": "Untitled"},
+            OBJ_KEY: {"trans": dflt_trans},
             RENDERING_KEY: {ELEMENT_KEY: App, Callable: {ELEMENT_KEY: Doc}},
         }
 
@@ -47,7 +47,7 @@ def foo(a, b):
 
 
 app_maker = AppMaker(spec_maker_factory=SpecMaker)
-app = app_maker.mk_app([foo], config={APP_KEY: {'title': 'My App'}})
+app = app_maker.mk_app([foo], config={APP_KEY: {"title": "My App"}})
 app.name
 # 'My App'
 app()
@@ -2168,18 +2168,16 @@ a Mapping.
 
 # About this build
 
-This documentation was built on **2026-09-15 11:46 UTC** from commit <a href="https://github.com/i2mint/front/commit/4ad3b6fe9223519bd4f1b5f95959a90a38d12c10"><code>4ad3b6f</code></a> on branch <code>master</code>, for **front 0.1.101** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-09-22 14:55 UTC** from commit <a href="https://github.com/i2mint/front/commit/e95b0ce3a64b0cc4015655788a5088bd8af7fe9a"><code>e95b0ce</code></a> on branch <code>master</code>, for **front 0.1.102** (from <code>pyproject.toml</code>).
 
-#### WARNING
-The documentation and the package may be misaligned:
-
-- The documented version (0.1.101) is behind the latest release on PyPI (0.1.102): `pip install front` gives newer code than these docs describe.
+#### NOTE
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 
 ## Source
 
 |                     |                                                                                                                                                     |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/front/commit/4ad3b6fe9223519bd4f1b5f95959a90a38d12c10"><code>4ad3b6fe9223519bd4f1b5f95959a90a38d12c10</code></a> |
+| Commit              | <a href="https://github.com/i2mint/front/commit/e95b0ce3a64b0cc4015655788a5088bd8af7fe9a"><code>e95b0ce3a64b0cc4015655788a5088bd8af7fe9a</code></a> |
 | Branch              | <code>master</code>                                                                                                                                 |
 | Tags at this commit | none                                                                                                                                                |
 | Working tree        | clean                                                                                                                                               |
@@ -2190,15 +2188,15 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/front</code>                                                                  |
-| Run          | <a href="https://github.com/i2mint/front/actions/runs/34964962336">34964962336</a>         |
+| Run          | <a href="https://github.com/i2mint/front/actions/runs/35743589661">35743589661</a>         |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>4ad3b6fe9223519bd4f1b5f95959a90a38d12c10</code> (in the history of the built commit) |
+| Event commit | <code>e95b0ce3a64b0cc4015655788a5088bd8af7fe9a</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.11  |
+| epythet  | 0.2.12  |
 | Sphinx   | 9.1.0   |
 | docutils | 0.22.4  |
 | Python   | 3.12.14 |
@@ -2217,18 +2215,44 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/front/0.1.102/">0.1.102</a>, newer than the documented version (0.1.101).
+Latest release: <a href="https://pypi.org/project/front/0.1.102/">0.1.102</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/front && cd front
-git checkout 4ad3b6fe9223519bd4f1b5f95959a90a38d12c10
-pip install "epythet==0.2.11"
+git checkout e95b0ce3a64b0cc4015655788a5088bd8af7fe9a
+pip install "epythet==0.2.12"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 
 The same data, for machines: <a href="build_info.json"><code>build_info.json</code></a> (schema version 1).
+
+
+# ai-agents.html.md
+
+<!-- generated by epythet -->
+
+# For AI agents
+
+`front` ships artifacts for coding agents alongside its code. This page lists
+them, says where each lives in the repository, and points at the
+machine-readable copies of this documentation.
+
+## Instruction files
+
+Files agents read before working in this repository.
+
+- [`.claude/CLAUDE.md`](https://github.com/i2mint/front/tree/HEAD/.claude/CLAUDE.md): read by Claude Code
+
+## Machine-readable documentation
+
+This site publishes the same documentation in forms that fit an agent’s context window:
+
+- [`llms.txt`](https://i2mint.github.io/front/llms.txt): an index of every page with a one-line description ([llms.txt](https://llmstxt.org) format)
+- [`front.md`](https://i2mint.github.io/front/front.md): the whole documentation as one Markdown file
+- `<page>.html.md`: a rendered Markdown twin of every page, advertised from each page’s `<head>` with `<link rel="alternate" type="text/markdown">`
+- [`objects.inv`](https://i2mint.github.io/front/objects.inv): the Sphinx inventory: a symbol-to-URL index (`sphobjinv convert plain objects.inv -`)
 
 
 # api.html.md
