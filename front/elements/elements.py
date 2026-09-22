@@ -24,7 +24,7 @@ from front.data_binding import BoundData, ValueNotSet
 from i2 import Sig
 from inspect import _empty
 from front.types import FrontElementDisplay, FrontElementName
-from front.util import deep_merge, get_value
+from front.util import deep_merge, get_value, param_default
 from i2.signatures import call_forgivingly
 
 # from pydantic import validate_arguments
@@ -146,9 +146,10 @@ def mk_input_element_specs(obj, inputs):
     def mk_input_spec(p):
         input_spec = inputs_spec.get(p.name, {})
         annot = p.annotation if p.annotation != _empty else None
-        param_type = annot or (type(p.default) if p.default != _empty else Any)
+        default = param_default(p)
+        param_type = annot or (type(default) if default != _empty else Any)
         param_origin_type = get_origin(param_type)
-        is_noneable = p.default is None
+        is_noneable = default is None
         if param_origin_type == Union:
             types = list(get_args(param_type))
             none_type = type(None)
@@ -272,7 +273,7 @@ class InputBase(FrontComponentBase):
             self.value = self._create_bound_data(self.input_key)
             if self.value.get() is ValueNotSet and value is not ValueNotSet:
                 self.value.set(value)
-        dflt_value = self.obj.default
+        dflt_value = param_default(self.obj)
         if self.value.get() is ValueNotSet and dflt_value != _empty:
             self.value.set(dflt_value)
         self._init_view_value()
