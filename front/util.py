@@ -26,12 +26,11 @@ from front.types import Map
 try:
     from i2 import is_not_set
 except ImportError:  # older i2: same sentinel, not exported from the root yet
+    from i2.deco import NotSet as _NotSet
 
     def is_not_set(x) -> bool:
         """Return True iff ``x`` is ``i2``'s ``NotSet`` sentinel."""
-        from i2.deco import NotSet
-
-        return x is NotSet
+        return x is _NotSet
 
 
 def param_default(param):
