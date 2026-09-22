@@ -1,4 +1,4 @@
-> built 2026-09-22 14:55 UTC from e95b0ce (master) · front 0.1.102. Details: build_info.json
+> built 2026-09-22 15:28 UTC from ba74100 (master) · front 0.1.103. Details: build_info.json
 
 # index.html.md
 
@@ -1991,6 +1991,7 @@ the spec compilation.
 | [`iterable_to_enum`](_autosummary/front.util.html.md#front.util.iterable_to_enum)(iterable[, name])         | Make an `Enum` whose member names are `str(value)` for each value of `iterable`.               |
 | [`normalize_map`](_autosummary/front.util.html.md#front.util.normalize_map)(map)                         | Resolve a `Map` (mapping, callable returning one, or None) to a mapping; None gives `{}`.      |
 | [`obj_name`](_autosummary/front.util.html.md#front.util.obj_name)(func)                             | Get the name of a callable, or make one (`UnnamedObjectNNN`) for lambdas and nameless objects. |
+| [`param_default`](_autosummary/front.util.html.md#front.util.param_default)(param)                       | Return `param.default`, or `Parameter.empty` if it is `i2`'s `NotSet`.                         |
 | [`subdict`](_autosummary/front.util.html.md#front.util.subdict)(d[, keys])                         | Get a sub-dict of Mapping `d`, with only those keys that are both in `keys` and `d`.           |
 | `unnamed_obj`()                                                                             |                                                                                                |
 
@@ -2149,6 +2150,25 @@ Resolve a `Map` (mapping, callable returning one, or None) to a mapping; None gi
 
 Get the name of a callable, or make one (`UnnamedObjectNNN`) for lambdas and nameless objects.
 
+### front.util.param_default(param)
+
+Return `param.default`, or `Parameter.empty` if it is `i2`’s `NotSet`.
+
+`NotSet` in a signature means “no value given”, not a real default, so UI and
+schema builders must treat that param as required (no prefill, no type inference
+from the default).
+
+```pycon
+>>> from inspect import Parameter
+>>> from i2.deco import NotSet
+>>> param_default(Parameter('x', Parameter.KEYWORD_ONLY, default=3))
+3
+>>> param_default(Parameter('x', Parameter.KEYWORD_ONLY, default=NotSet))
+<class 'inspect._empty'>
+>>> param_default(Parameter('x', Parameter.KEYWORD_ONLY))
+<class 'inspect._empty'>
+```
+
 ### front.util.subdict(d, keys=None)
 
 Get a sub-dict of Mapping `d`, with only those keys that are both in `keys` and `d`.
@@ -2168,16 +2188,18 @@ a Mapping.
 
 # About this build
 
-This documentation was built on **2026-09-22 14:55 UTC** from commit <a href="https://github.com/i2mint/front/commit/e95b0ce3a64b0cc4015655788a5088bd8af7fe9a"><code>e95b0ce</code></a> on branch <code>master</code>, for **front 0.1.102** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-09-22 15:28 UTC** from commit <a href="https://github.com/i2mint/front/commit/ba741009773cb8a332c2874744b37954e8ecda71"><code>ba74100</code></a> on branch <code>master</code>, for **front 0.1.103** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.1.103) is behind the latest release on PyPI (0.1.104): `pip install front` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                     |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/front/commit/e95b0ce3a64b0cc4015655788a5088bd8af7fe9a"><code>e95b0ce3a64b0cc4015655788a5088bd8af7fe9a</code></a> |
+| Commit              | <a href="https://github.com/i2mint/front/commit/ba741009773cb8a332c2874744b37954e8ecda71"><code>ba741009773cb8a332c2874744b37954e8ecda71</code></a> |
 | Branch              | <code>master</code>                                                                                                                                 |
 | Tags at this commit | none                                                                                                                                                |
 | Working tree        | clean                                                                                                                                               |
@@ -2188,9 +2210,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/front</code>                                                                  |
-| Run          | <a href="https://github.com/i2mint/front/actions/runs/35743589661">35743589661</a>         |
+| Run          | <a href="https://github.com/i2mint/front/actions/runs/35747443655">35747443655</a>         |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>e95b0ce3a64b0cc4015655788a5088bd8af7fe9a</code> (in the history of the built commit) |
+| Event commit | <code>ba741009773cb8a332c2874744b37954e8ecda71</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -2215,13 +2237,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/front/0.1.102/">0.1.102</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/front/0.1.104/">0.1.104</a>, newer than the documented version (0.1.103).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/front && cd front
-git checkout e95b0ce3a64b0cc4015655788a5088bd8af7fe9a
+git checkout ba741009773cb8a332c2874744b37954e8ecda71
 pip install "epythet==0.2.12"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

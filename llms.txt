@@ -24,7 +24,7 @@
 - [front.types](_autosummary/front.types.html.md): Type aliases and lightweight dataclasses shared across front modules.
 - [front.util](_autosummary/front.util.html.md): Signature and mapping utilities shared by the front modules.
 - [For AI agents](ai-agents.html.md): &#96;front&#96; ships artifacts for coding agents alongside its code. This page lists
-- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-09-22 14:55 UTC&#42;&#42; from commit &lt;a href="https://github.com/i2m...
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-09-22 15:28 UTC&#42;&#42; from commit &lt;a href="https://github.com/i2m...
 
 ## Optional
 

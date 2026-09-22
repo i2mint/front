@@ -26,6 +26,7 @@ the spec compilation.
 | [`iterable_to_enum`](#front.util.iterable_to_enum)(iterable[, name])         | Make an `Enum` whose member names are `str(value)` for each value of `iterable`.               |
 | [`normalize_map`](#front.util.normalize_map)(map)                         | Resolve a `Map` (mapping, callable returning one, or None) to a mapping; None gives `{}`.      |
 | [`obj_name`](#front.util.obj_name)(func)                             | Get the name of a callable, or make one (`UnnamedObjectNNN`) for lambdas and nameless objects. |
+| [`param_default`](#front.util.param_default)(param)                       | Return `param.default`, or `Parameter.empty` if it is `i2`'s `NotSet`.                         |
 | [`subdict`](#front.util.subdict)(d[, keys])                         | Get a sub-dict of Mapping `d`, with only those keys that are both in `keys` and `d`.           |
 | `unnamed_obj`()                                                                             |                                                                                                |
 
@@ -183,6 +184,25 @@ Resolve a `Map` (mapping, callable returning one, or None) to a mapping; None gi
 ### front.util.obj_name(func)
 
 Get the name of a callable, or make one (`UnnamedObjectNNN`) for lambdas and nameless objects.
+
+### front.util.param_default(param)
+
+Return `param.default`, or `Parameter.empty` if it is `i2`’s `NotSet`.
+
+`NotSet` in a signature means “no value given”, not a real default, so UI and
+schema builders must treat that param as required (no prefill, no type inference
+from the default).
+
+```pycon
+>>> from inspect import Parameter
+>>> from i2.deco import NotSet
+>>> param_default(Parameter('x', Parameter.KEYWORD_ONLY, default=3))
+3
+>>> param_default(Parameter('x', Parameter.KEYWORD_ONLY, default=NotSet))
+<class 'inspect._empty'>
+>>> param_default(Parameter('x', Parameter.KEYWORD_ONLY))
+<class 'inspect._empty'>
+```
 
 ### front.util.subdict(d, keys=None)
 

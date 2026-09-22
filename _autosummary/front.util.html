@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../_static/documentation_options.js?v=cedd8c5c"></script>
+    <script src="../_static/documentation_options.js?v=6aa50845"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -57,7 +57,7 @@
     <link rel="prev" title="front.types" href="front.types.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.102" />
+  <meta name="docsearch:version" content="0.1.103" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -448,10 +448,13 @@ the spec compilation.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#front.util.obj_name" title="front.util.obj_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">obj_name</span></code></a>(func)</p></td>
 <td><p>Get the name of a callable, or make one (<code class="docutils literal notranslate"><span class="pre">UnnamedObjectNNN</span></code>) for lambdas and nameless objects.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#front.util.subdict" title="front.util.subdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subdict</span></code></a>(d[, keys])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.util.param_default" title="front.util.param_default"><code class="xref py py-obj docutils literal notranslate"><span class="pre">param_default</span></code></a>(param)</p></td>
+<td><p>Return <code class="docutils literal notranslate"><span class="pre">param.default</span></code>, or <code class="docutils literal notranslate"><span class="pre">Parameter.empty</span></code> if it is <code class="docutils literal notranslate"><span class="pre">i2</span></code>'s <code class="docutils literal notranslate"><span class="pre">NotSet</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.util.subdict" title="front.util.subdict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subdict</span></code></a>(d[, keys])</p></td>
 <td><p>Get a sub-dict of Mapping <code class="docutils literal notranslate"><span class="pre">d</span></code>, with only those keys that are both in <code class="docutils literal notranslate"><span class="pre">keys</span></code> and <code class="docutils literal notranslate"><span class="pre">d</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">unnamed_obj</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">unnamed_obj</span></code>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -629,6 +632,25 @@ name).</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="front.util.param_default">
+<span class="sig-prename descclassname"><span class="pre">front.util.</span></span><span class="sig-name descname"><span class="pre">param_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/util.html#param_default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.util.param_default" title="Link to this definition">#</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">param.default</span></code>, or <code class="docutils literal notranslate"><span class="pre">Parameter.empty</span></code> if it is <code class="docutils literal notranslate"><span class="pre">i2</span></code>’s <code class="docutils literal notranslate"><span class="pre">NotSet</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">NotSet</span></code> in a signature means “no value given”, not a real default, so UI and
+schema builders must treat that param as required (no prefill, no type inference
+from the default).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">i2.deco</span><span class="w"> </span><span class="kn">import</span> <span class="n">NotSet</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">param_default</span><span class="p">(</span><span class="n">Parameter</span><span class="p">(</span><span class="s1">'x'</span><span class="p">,</span> <span class="n">Parameter</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">param_default</span><span class="p">(</span><span class="n">Parameter</span><span class="p">(</span><span class="s1">'x'</span><span class="p">,</span> <span class="n">Parameter</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">NotSet</span><span class="p">))</span>
+<span class="go">&lt;class 'inspect._empty'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">param_default</span><span class="p">(</span><span class="n">Parameter</span><span class="p">(</span><span class="s1">'x'</span><span class="p">,</span> <span class="n">Parameter</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span><span class="p">))</span>
+<span class="go">&lt;class 'inspect._empty'&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="front.util.subdict">
 <span class="sig-prename descclassname"><span class="pre">front.util.</span></span><span class="sig-name descname"><span class="pre">subdict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/util.html#subdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.util.subdict" title="Link to this definition">#</a></dt>
 <dd><p>Get a sub-dict of Mapping <code class="docutils literal notranslate"><span class="pre">d</span></code>, with only those keys that are both in <code class="docutils literal notranslate"><span class="pre">keys</span></code> and <code class="docutils literal notranslate"><span class="pre">d</span></code>.</p>
@@ -701,6 +723,7 @@ a Mapping.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.util.iterable_to_enum"><code class="docutils literal notranslate"><span class="pre">iterable_to_enum()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.util.normalize_map"><code class="docutils literal notranslate"><span class="pre">normalize_map()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.util.obj_name"><code class="docutils literal notranslate"><span class="pre">obj_name()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.util.param_default"><code class="docutils literal notranslate"><span class="pre">param_default()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.util.subdict"><code class="docutils literal notranslate"><span class="pre">subdict()</span></code></a></li>
 </ul>
   </nav></div>

@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
-  "built_at": "2026-09-22T14:55:57Z",
+  "built_at": "2026-09-22T15:28:46Z",
   "package": {
     "name": "front",
-    "version": "0.1.102",
+    "version": "0.1.103",
     "display_name": "front",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "e95b0ce3a64b0cc4015655788a5088bd8af7fe9a",
-    "short_commit": "e95b0ce",
+    "commit": "ba741009773cb8a332c2874744b37954e8ecda71",
+    "short_commit": "ba74100",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/i2mint/front",
-    "commit_url": "https://github.com/i2mint/front/commit/e95b0ce3a64b0cc4015655788a5088bd8af7fe9a",
+    "commit_url": "https://github.com/i2mint/front/commit/ba741009773cb8a332c2874744b37954e8ecda71",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "i2mint/front",
-    "sha": "e95b0ce3a64b0cc4015655788a5088bd8af7fe9a",
+    "sha": "ba741009773cb8a332c2874744b37954e8ecda71",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "35743589661",
-    "run_url": "https://github.com/i2mint/front/actions/runs/35743589661",
+    "run_id": "35747443655",
+    "run_url": "https://github.com/i2mint/front/actions/runs/35747443655",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -56,18 +56,20 @@
   },
   "site": {
     "modules_documented": 16,
-    "objects_documented": 90
+    "objects_documented": 91
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.102",
-    "relation": "same",
+    "latest": "0.1.104",
+    "relation": "behind",
     "error": null
   },
-  "reproduce": "git clone https://github.com/i2mint/front && cd front\ngit checkout e95b0ce3a64b0cc4015655788a5088bd8af7fe9a\npip install \"epythet==0.2.12\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/i2mint/front && cd front\ngit checkout ba741009773cb8a332c2874744b37954e8ecda71\npip install \"epythet==0.2.12\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": true,
-    "notes": []
+    "aligned": false,
+    "notes": [
+      "The documented version (0.1.103) is behind the latest release on PyPI (0.1.104): `pip install front` gives newer code than these docs describe."
+    ]
   }
 }
