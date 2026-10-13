@@ -544,10 +544,17 @@ class FloatInputBase(NumberInputBase):
 
 @dataclass
 class FileUploaderBase(InputBase):
-    """File upload input, restricted to the given file ``type`` (extension(s)) if any."""
+    """File upload input, restricted to the given file ``type`` (extension(s)) if any.
+
+    With ``clear_after_submit`` (the default), a front implementation should empty the
+    uploader once its container has successfully submitted, so the next upload starts
+    from a clean selection instead of the previous one sticking. Set it to False to keep
+    the selection (e.g. to resubmit the same files with other parameters).
+    """
 
     type: str | list[str] | None = None
     accept_multiple_files: bool = False
+    clear_after_submit: bool = True
 
 
 SELECT_BOX_DFLT_INDEX = 0
