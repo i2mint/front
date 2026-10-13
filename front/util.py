@@ -376,10 +376,19 @@ def incremental_str_maker(str_format="{:03.f}"):
 unnamed_obj = incremental_str_maker(str_format="UnnamedObject{:03.0f}")
 
 
+def _is_nameless(name):
+    return name is None or name == "<lambda>"
+
+
 def obj_name(func):
-    """Get the name of a callable, or make one (``UnnamedObjectNNN``) for lambdas and nameless objects."""
+    """Get the name of a callable, or make one (``UnnamedObjectNNN``) for lambdas and nameless objects.
+
+    The made-up name comes from a process-wide counter, so it is different at every
+    call: use ``dflt_trans`` (which names by position in a list) when the names must
+    be the same on every rerun of the app.
+    """
     name = name_of_obj(func)
-    if name is None or name == "<lambda>":
+    if _is_nameless(name):
         return unnamed_obj()
     return name
 
@@ -394,17 +403,43 @@ def dflt_name_trans(obj):
     return obj_str.replace("_", " ").title()
 
 
-def dflt_trans(objs):
+def dflt_trans(objs, *, unnamed_format="UnnamedObject{:03d}"):
     """Default ``obj`` transformation: ensure every object has a ``__name__``, returning a list.
 
     Objects are passed through ``copy.copy``, which returns functions unchanged, so
-    a lambda's ``__name__`` is set on the lambda itself (to an ``UnnamedObjectNNN``
-    name).
-    """
+    a lambda's ``__name__`` is set on the lambda itself.
 
-    def trans(obj):
+    A lambda or nameless object is named after its rank among the nameless objects of
+    ``objs``, so the names are the same each time the same list is built again
+    (a frontend that reruns the app script, like Streamlit, loses its state keys
+    when names change). Names already in use are skipped. (So the names are stable
+    for a given list, but inserting a nameless object early in the list renames the
+    ones after it, and two separate calls both start at ``001``.)
+
+    >>> def h(c): return c
+    >>> def mk_objs():  # (what a rerun of the script does)
+    ...     return [lambda a: a, h, lambda b: b]
+    >>> [o.__name__ for o in dflt_trans(mk_objs())]
+    ['UnnamedObject001', 'h', 'UnnamedObject002']
+    >>> [o.__name__ for o in dflt_trans(mk_objs())]
+    ['UnnamedObject001', 'h', 'UnnamedObject002']
+    """
+    objs = list(objs)
+    names = [name_of_obj(obj) for obj in objs]
+    taken = {name for name in names if isinstance(name, str) and name != "<lambda>"}
+    rank = 0
+
+    def next_unnamed():
+        nonlocal rank
+        while True:
+            rank += 1
+            if (name := unnamed_format.format(rank)) not in taken:
+                taken.add(name)
+                return name
+
+    def trans(obj, name):
         trans_obj = copy(obj)
-        trans_obj.__name__ = obj_name(obj)
+        trans_obj.__name__ = next_unnamed() if _is_nameless(name) else name
         return trans_obj
 
-    return list(map(trans, objs))
+    return list(map(trans, objs, names))
