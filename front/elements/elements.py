@@ -19,7 +19,7 @@ from typing import (
     get_args,
     get_origin,
 )
-from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Callable, Iterable, Iterator, Mapping, Sequence
 from front.data_binding import BoundData, ValueNotSet
 from i2 import Sig
 from inspect import _empty
@@ -562,23 +562,24 @@ SELECT_BOX_DFLT_INDEX = 0
 
 @dataclass
 class SelectorBase(InputBase):
-    """Input choosing one value among ``options`` (a sequence, or a callable returning one).
+    """Input choosing one value among ``options`` (a sequence, a mapping -- its keys --, or a
+    callable returning one).
 
     If no options are given and the parameter is annotated with a ``Literal``, the
     literal's values are the options.
     """
 
-    options: Sequence | Callable = None
+    options: Sequence | Mapping | Callable = None
 
     def pre_render(self):
         """Resolve the options and pre-select the current view value (or the first option)."""
-        self.options = self.options or []
-        options = self._ensure_options()
-        if not options:
+        if self.options is None:
+            self.options = []
+        self._options = list(self._ensure_options())
+        if not self._options:
             annot = self.obj.annotation
             if get_origin(annot) == Literal:
-                options = list(get_args(annot))
-        self._options = list(options)
+                self._options = list(get_args(annot))
         if self._options:
             self._preselected_index = (
                 self._options.index(self.view_value)
@@ -593,11 +594,17 @@ class SelectorBase(InputBase):
 
     @property
     def _dflt_view_value(self):
-        options = self._ensure_options()
-        return options[SELECT_BOX_DFLT_INDEX] if options else None
+        # ``next(iter(...))``: the options may be a mapping (e.g. a mall), whose options
+        # are its keys, and a big one: don't list it all for its first key.
+        return next(iter(self._ensure_options()), None)
 
-    def _ensure_options(self) -> Sequence:
-        return self.options() if callable(self.options) else self.options
+    def _ensure_options(self) -> Iterable:
+        options = self.options() if callable(self.options) else self.options
+        if options is None:
+            return ()
+        if isinstance(options, Iterator):  # single-use: keep what we consume
+            options = self.options = list(options)
+        return options
 
 
 @dataclass
