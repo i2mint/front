@@ -412,7 +412,9 @@ def dflt_trans(objs, *, unnamed_format="UnnamedObject{:03d}"):
     A lambda or nameless object is named after its rank among the nameless objects of
     ``objs``, so the names are the same each time the same list is built again
     (a frontend that reruns the app script, like Streamlit, loses its state keys
-    when names change). Names already in use are skipped.
+    when names change). Names already in use are skipped. (So the names are stable
+    for a given list, but inserting a nameless object early in the list renames the
+    ones after it, and two separate calls both start at ``001``.)
 
     >>> def h(c): return c
     >>> def mk_objs():  # (what a rerun of the script does)
@@ -424,7 +426,7 @@ def dflt_trans(objs, *, unnamed_format="UnnamedObject{:03d}"):
     """
     objs = list(objs)
     names = [name_of_obj(obj) for obj in objs]
-    taken = {name for name in names if not _is_nameless(name)}
+    taken = {name for name in names if isinstance(name, str) and name != "<lambda>"}
     rank = 0
 
     def next_unnamed():
