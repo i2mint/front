@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
-  "built_at": "2026-10-13T05:51:02Z",
+  "built_at": "2026-10-13T06:08:25Z",
   "package": {
     "name": "front",
-    "version": "0.1.104",
+    "version": "0.1.105",
     "display_name": "front",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "4166355a8aee548c85ee4fe03a1a2d2e52dc3b2c",
-    "short_commit": "4166355",
+    "commit": "97402b08da3c0af2e7b945119a54d0985d1cc811",
+    "short_commit": "97402b0",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/i2mint/front",
-    "commit_url": "https://github.com/i2mint/front/commit/4166355a8aee548c85ee4fe03a1a2d2e52dc3b2c",
+    "commit_url": "https://github.com/i2mint/front/commit/97402b08da3c0af2e7b945119a54d0985d1cc811",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "i2mint/front",
-    "sha": "4166355a8aee548c85ee4fe03a1a2d2e52dc3b2c",
+    "sha": "97402b08da3c0af2e7b945119a54d0985d1cc811",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "38353380355",
-    "run_url": "https://github.com/i2mint/front/actions/runs/38353380355",
+    "run_id": "38354919589",
+    "run_url": "https://github.com/i2mint/front/actions/runs/38354919589",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -60,16 +60,16 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.105",
+    "latest": "0.1.106",
     "relation": "behind",
     "error": null
   },
-  "reproduce": "git clone https://github.com/i2mint/front && cd front\ngit checkout 4166355a8aee548c85ee4fe03a1a2d2e52dc3b2c\npip install \"epythet==0.2.14\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/i2mint/front && cd front\ngit checkout 97402b08da3c0af2e7b945119a54d0985d1cc811\npip install \"epythet==0.2.14\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
     "aligned": false,
     "notes": [
-      "The documented version (0.1.104) is behind the latest release on PyPI (0.1.105): `pip install front` gives newer code than these docs describe."
+      "The documented version (0.1.105) is behind the latest release on PyPI (0.1.106): `pip install front` gives newer code than these docs describe."
     ]
   }
 }

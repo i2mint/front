@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../_static/documentation_options.js?v=a12c9888"></script>
+    <script src="../../../_static/documentation_options.js?v=05541c91"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -410,7 +410,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.104" />
+  <meta name="docsearch:version" content="0.1.105" />
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -732,7 +732,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">get_args</span><span class="p">,</span>
     <span class="n">get_origin</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">front.data_binding</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoundData</span><span class="p">,</span> <span class="n">ValueNotSet</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">_empty</span>
@@ -1340,25 +1340,26 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../_autosummary/front.elements.elements.html#front.elements.elements.SelectorBase">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SelectorBase</span><span class="p">(</span><span class="n">InputBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Input choosing one value among ``options`` (a sequence, or a callable returning one).</span>
+<span class="w">    </span><span class="sd">"""Input choosing one value among ``options`` (a sequence, a mapping -- its keys --, or a</span>
+<span class="sd">    callable returning one).</span>
 
 <span class="sd">    If no options are given and the parameter is annotated with a ``Literal``, the</span>
 <span class="sd">    literal's values are the options.</span>
 <span class="sd">    """</span>
 
-    <span class="n">options</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="n">Mapping</span> <span class="o">|</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="SelectorBase.pre_render">
 <a class="viewcode-back" href="../../../_autosummary/front.elements.elements.html#front.elements.elements.SelectorBase.pre_render">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pre_render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Resolve the options and pre-select the current view value (or the first option)."""</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="ow">or</span> <span class="p">[]</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_options</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">options</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ensure_options</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">:</span>
             <span class="n">annot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">annotation</span>
             <span class="k">if</span> <span class="n">get_origin</span><span class="p">(</span><span class="n">annot</span><span class="p">)</span> <span class="o">==</span> <span class="n">Literal</span><span class="p">:</span>
-                <span class="n">options</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">get_args</span><span class="p">(</span><span class="n">annot</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_options</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">get_args</span><span class="p">(</span><span class="n">annot</span><span class="p">))</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_preselected_index</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view_value</span><span class="p">)</span>
@@ -1374,11 +1375,17 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_dflt_view_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_options</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">options</span><span class="p">[</span><span class="n">SELECT_BOX_DFLT_INDEX</span><span class="p">]</span> <span class="k">if</span> <span class="n">options</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="c1"># ``next(iter(...))``: the options may be a mapping (e.g. a mall), whose options</span>
+        <span class="c1"># are its keys, and a big one: don't list it all for its first key.</span>
+        <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ensure_options</span><span class="p">()),</span> <span class="kc">None</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_ensure_options</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">()</span> <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span></div>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_ensure_options</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">:</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">()</span> <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span>
+        <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">):</span>  <span class="c1"># single-use: keep what we consume</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">options</span></div>
 
 
 

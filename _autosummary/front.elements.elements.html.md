@@ -15,24 +15,24 @@ mirroring the rendering specification. This module defines the base
 
 ### Classes
 
-| [`BooleanInputBase`](#front.elements.elements.BooleanInputBase)([obj, name, display, ...])      | Boolean input (checkbox-like); values are cast with `bool`, defaulting to False.              |
-|---------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| [`ExecContainerBase`](#front.elements.elements.ExecContainerBase)(obj, inputs, output[, ...])    | Container that executes `obj` with the values of its input children.                          |
-| [`FileUploaderBase`](#front.elements.elements.FileUploaderBase)([obj, name, display, ...])      | File upload input, restricted to the given file `type` (extension(s)) if any.                 |
-| [`FloatInputBase`](#front.elements.elements.FloatInputBase)([obj, name, display, ...])        | Float input with optional bounds and `step`; values are cast with `float`, defaulting to 0.0. |
-| [`FrontComponentBase`](#front.elements.elements.FrontComponentBase)([obj, name, display])         | A leaf element the user interacts with (an input, an output, a text section).                 |
-| [`FrontContainerBase`](#front.elements.elements.FrontContainerBase)([obj, name, display])         | An element with children, each built from a keyword argument holding an element spec.         |
-| [`FrontElementBase`](#front.elements.elements.FrontElementBase)([obj, name, display])           | Base of every front element: a renderable node of the element tree.                           |
-| [`FrontElementSpec`](#front.elements.elements.FrontElementSpec)                                 |                                                                                               |
-| [`InputBase`](#front.elements.elements.InputBase)([obj, name, display, input_key, ...])  | Base of input components: a value bound to state under `input_key`.                           |
-| [`IntInputBase`](#front.elements.elements.IntInputBase)([obj, name, display, ...])          | Integer input with optional bounds; values are cast with `int`, defaulting to 0.              |
-| [`KwargsInputBase`](#front.elements.elements.KwargsInputBase)([obj, name, display, ...])       | Input for a `**kwargs` parameter, with one sub-input per name in `func_sig`.                  |
-| [`MultiSourceInputBase`](#front.elements.elements.MultiSourceInputBase)([obj, name, display, ...])  | An input whose value can come from several child input components.                            |
-| [`NumberInputBase`](#front.elements.elements.NumberInputBase)([obj, name, display, ...])       | Base of numeric inputs, with an optional display `format`.                                    |
-| [`OutputBase`](#front.elements.elements.OutputBase)([obj, name, display])                 | Base of output components; `output` is set by the executing container before render.          |
-| [`SelectorBase`](#front.elements.elements.SelectorBase)([obj, name, display, ...])          | Input choosing one value among `options` (a sequence, or a callable returning one).           |
-| [`TextInputBase`](#front.elements.elements.TextInputBase)([obj, name, display, ...])         | Text input; the view value defaults to the empty string.                                      |
-| [`TextSectionBase`](#front.elements.elements.TextSectionBase)(content[, kind, obj, name, ...]) | A component displaying text `content` of a given `kind` (e.g. "text", "markdown").            |
+| [`BooleanInputBase`](#front.elements.elements.BooleanInputBase)([obj, name, display, ...])      | Boolean input (checkbox-like); values are cast with `bool`, defaulting to False.                              |
+|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| [`ExecContainerBase`](#front.elements.elements.ExecContainerBase)(obj, inputs, output[, ...])    | Container that executes `obj` with the values of its input children.                                          |
+| [`FileUploaderBase`](#front.elements.elements.FileUploaderBase)([obj, name, display, ...])      | File upload input, restricted to the given file `type` (extension(s)) if any.                                 |
+| [`FloatInputBase`](#front.elements.elements.FloatInputBase)([obj, name, display, ...])        | Float input with optional bounds and `step`; values are cast with `float`, defaulting to 0.0.                 |
+| [`FrontComponentBase`](#front.elements.elements.FrontComponentBase)([obj, name, display])         | A leaf element the user interacts with (an input, an output, a text section).                                 |
+| [`FrontContainerBase`](#front.elements.elements.FrontContainerBase)([obj, name, display])         | An element with children, each built from a keyword argument holding an element spec.                         |
+| [`FrontElementBase`](#front.elements.elements.FrontElementBase)([obj, name, display])           | Base of every front element: a renderable node of the element tree.                                           |
+| [`FrontElementSpec`](#front.elements.elements.FrontElementSpec)                                 |                                                                                                               |
+| [`InputBase`](#front.elements.elements.InputBase)([obj, name, display, input_key, ...])  | Base of input components: a value bound to state under `input_key`.                                           |
+| [`IntInputBase`](#front.elements.elements.IntInputBase)([obj, name, display, ...])          | Integer input with optional bounds; values are cast with `int`, defaulting to 0.                              |
+| [`KwargsInputBase`](#front.elements.elements.KwargsInputBase)([obj, name, display, ...])       | Input for a `**kwargs` parameter, with one sub-input per name in `func_sig`.                                  |
+| [`MultiSourceInputBase`](#front.elements.elements.MultiSourceInputBase)([obj, name, display, ...])  | An input whose value can come from several child input components.                                            |
+| [`NumberInputBase`](#front.elements.elements.NumberInputBase)([obj, name, display, ...])       | Base of numeric inputs, with an optional display `format`.                                                    |
+| [`OutputBase`](#front.elements.elements.OutputBase)([obj, name, display])                 | Base of output components; `output` is set by the executing container before render.                          |
+| [`SelectorBase`](#front.elements.elements.SelectorBase)([obj, name, display, ...])          | Input choosing one value among `options` (a sequence, a mapping -- its keys --, or a callable returning one). |
+| [`TextInputBase`](#front.elements.elements.TextInputBase)([obj, name, display, ...])         | Text input; the view value defaults to the empty string.                                                      |
+| [`TextSectionBase`](#front.elements.elements.TextSectionBase)(content[, kind, obj, name, ...]) | A component displaying text `content` of a given `kind` (e.g. "text", "markdown").                            |
 
 ### *class* front.elements.elements.BooleanInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False)
 
@@ -222,7 +222,8 @@ Base of output components; `output` is set by the executing container before ren
 
 Bases: [`InputBase`](#front.elements.elements.InputBase)
 
-Input choosing one value among `options` (a sequence, or a callable returning one).
+Input choosing one value among `options` (a sequence, a mapping – its keys –, or a
+callable returning one).
 
 If no options are given and the parameter is annotated with a `Literal`, the
 literal’s values are the options.

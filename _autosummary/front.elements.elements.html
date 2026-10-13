@@ -43,7 +43,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=a12c9888"></script>
+    <script src="../_static/documentation_options.js?v=05541c91"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -57,7 +57,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.104" />
+  <meta name="docsearch:version" content="0.1.105" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -469,7 +469,7 @@ mirroring the rendering specification. This module defines the base
 <td><p>Base of output components; <code class="docutils literal notranslate"><span class="pre">output</span></code> is set by the executing container before render.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#front.elements.elements.SelectorBase" title="front.elements.elements.SelectorBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SelectorBase</span></code></a>([obj, name, display, ...])</p></td>
-<td><p>Input choosing one value among <code class="docutils literal notranslate"><span class="pre">options</span></code> (a sequence, or a callable returning one).</p></td>
+<td><p>Input choosing one value among <code class="docutils literal notranslate"><span class="pre">options</span></code> (a sequence, a mapping -- its keys --, or a callable returning one).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#front.elements.elements.TextInputBase" title="front.elements.elements.TextInputBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TextInputBase</span></code></a>([obj, name, display, ...])</p></td>
 <td><p>Text input; the view value defaults to the empty string.</p></td>
@@ -722,7 +722,8 @@ displayed value and its “is None” toggle.</p>
 <dt class="sig sig-object py" id="front.elements.elements.SelectorBase">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.elements.elements.</span></span><span class="sig-name descname"><span class="pre">SelectorBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ValueNotSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_value_change</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_data_factory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_noneable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/elements/elements.html#SelectorBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.elements.elements.SelectorBase" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#front.elements.elements.InputBase" title="front.elements.elements.InputBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputBase</span></code></a></p>
-<p>Input choosing one value among <code class="docutils literal notranslate"><span class="pre">options</span></code> (a sequence, or a callable returning one).</p>
+<p>Input choosing one value among <code class="docutils literal notranslate"><span class="pre">options</span></code> (a sequence, a mapping – its keys –, or a
+callable returning one).</p>
 <p>If no options are given and the parameter is annotated with a <code class="docutils literal notranslate"><span class="pre">Literal</span></code>, the
 literal’s values are the options.</p>
 <dl class="field-list simple">
