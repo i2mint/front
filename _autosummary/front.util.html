@@ -43,7 +43,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=05541c91"></script>
+    <script src="../_static/documentation_options.js?v=32ac96fb"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -57,7 +57,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.105" />
+  <meta name="docsearch:version" content="0.1.106" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -424,7 +424,7 @@ the spec compilation.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#front.util.dflt_name_trans" title="front.util.dflt_name_trans"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dflt_name_trans</span></code></a>(obj)</p></td>
 <td><p>Default display name: <code class="docutils literal notranslate"><span class="pre">obj</span></code> (or its name) with underscores as spaces, title-cased.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#front.util.dflt_trans" title="front.util.dflt_trans"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dflt_trans</span></code></a>(objs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.util.dflt_trans" title="front.util.dflt_trans"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dflt_trans</span></code></a>(objs, *[, unnamed_format])</p></td>
 <td><p>Default <code class="docutils literal notranslate"><span class="pre">obj</span></code> transformation: ensure every object has a <code class="docutils literal notranslate"><span class="pre">__name__</span></code>, returning a list.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#front.util.get_value" title="front.util.get_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_value</span></code></a>(obj, *args, **kwargs)</p></td>
@@ -568,11 +568,25 @@ the one in <code class="docutils literal notranslate"><span class="pre">a</span>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="front.util.dflt_trans">
-<span class="sig-prename descclassname"><span class="pre">front.util.</span></span><span class="sig-name descname"><span class="pre">dflt_trans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/util.html#dflt_trans"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.util.dflt_trans" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">front.util.</span></span><span class="sig-name descname"><span class="pre">dflt_trans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objs</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">unnamed_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UnnamedObject{:03d}'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/util.html#dflt_trans"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.util.dflt_trans" title="Link to this definition">#</a></dt>
 <dd><p>Default <code class="docutils literal notranslate"><span class="pre">obj</span></code> transformation: ensure every object has a <code class="docutils literal notranslate"><span class="pre">__name__</span></code>, returning a list.</p>
 <p>Objects are passed through <code class="docutils literal notranslate"><span class="pre">copy.copy</span></code>, which returns functions unchanged, so
-a lambda’s <code class="docutils literal notranslate"><span class="pre">__name__</span></code> is set on the lambda itself (to an <code class="docutils literal notranslate"><span class="pre">UnnamedObjectNNN</span></code>
-name).</p>
+a lambda’s <code class="docutils literal notranslate"><span class="pre">__name__</span></code> is set on the lambda itself.</p>
+<p>A lambda or nameless object is named after its rank among the nameless objects of
+<code class="docutils literal notranslate"><span class="pre">objs</span></code>, so the names are the same each time the same list is built again
+(a frontend that reruns the app script, like Streamlit, loses its state keys
+when names change). Names already in use are skipped. (So the names are stable
+for a given list, but inserting a nameless object early in the list renames the
+ones after it, and two separate calls both start at <code class="docutils literal notranslate"><span class="pre">001</span></code>.)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">h</span><span class="p">(</span><span class="n">c</span><span class="p">):</span> <span class="k">return</span> <span class="n">c</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">mk_objs</span><span class="p">():</span>  <span class="c1"># (what a rerun of the script does)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">b</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">dflt_trans</span><span class="p">(</span><span class="n">mk_objs</span><span class="p">())]</span>
+<span class="go">['UnnamedObject001', 'h', 'UnnamedObject002']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">dflt_trans</span><span class="p">(</span><span class="n">mk_objs</span><span class="p">())]</span>
+<span class="go">['UnnamedObject001', 'h', 'UnnamedObject002']</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -629,6 +643,9 @@ name).</p>
 <dt class="sig sig-object py" id="front.util.obj_name">
 <span class="sig-prename descclassname"><span class="pre">front.util.</span></span><span class="sig-name descname"><span class="pre">obj_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/util.html#obj_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.util.obj_name" title="Link to this definition">#</a></dt>
 <dd><p>Get the name of a callable, or make one (<code class="docutils literal notranslate"><span class="pre">UnnamedObjectNNN</span></code>) for lambdas and nameless objects.</p>
+<p>The made-up name comes from a process-wide counter, so it is different at every
+call: use <code class="docutils literal notranslate"><span class="pre">dflt_trans</span></code> (which names by position in a list) when the names must
+be the same on every rerun of the app.</p>
 </dd></dl>
 
 <dl class="py function">

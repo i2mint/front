@@ -18,7 +18,7 @@ the spec compilation.
 |---------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
 | [`deep_merge`](#front.util.deep_merge)(a, b)                           | Merge `b` into `a` recursively (values of `b` win), returning a new dict.                      |
 | [`dflt_name_trans`](#front.util.dflt_name_trans)(obj)                       | Default display name: `obj` (or its name) with underscores as spaces, title-cased.             |
-| [`dflt_trans`](#front.util.dflt_trans)(objs)                           | Default `obj` transformation: ensure every object has a `__name__`, returning a list.          |
+| [`dflt_trans`](#front.util.dflt_trans)(objs, \*[, unnamed_format])     | Default `obj` transformation: ensure every object has a `__name__`, returning a list.          |
 | [`get_value`](#front.util.get_value)(obj, \*args, \*\*kwargs)         | Return `obj(*args, **kwargs)` if `obj` is callable, else `obj` itself.                         |
 | [`identity`](#front.util.identity)(x)                                | Return `x` unchanged.                                                                          |
 | [`incremental_str_maker`](#front.util.incremental_str_maker)([str_format])        | Make a function that will produce a (incrementally) new string at every call.                  |
@@ -132,13 +132,29 @@ Default display name: `obj` (or its name) with underscores as spaces, title-case
 'My Func Name'
 ```
 
-### front.util.dflt_trans(objs)
+### front.util.dflt_trans(objs, , unnamed_format='UnnamedObject{:03d}')
 
 Default `obj` transformation: ensure every object has a `__name__`, returning a list.
 
 Objects are passed through `copy.copy`, which returns functions unchanged, so
-a lambda’s `__name__` is set on the lambda itself (to an `UnnamedObjectNNN`
-name).
+a lambda’s `__name__` is set on the lambda itself.
+
+A lambda or nameless object is named after its rank among the nameless objects of
+`objs`, so the names are the same each time the same list is built again
+(a frontend that reruns the app script, like Streamlit, loses its state keys
+when names change). Names already in use are skipped. (So the names are stable
+for a given list, but inserting a nameless object early in the list renames the
+ones after it, and two separate calls both start at `001`.)
+
+```pycon
+>>> def h(c): return c
+>>> def mk_objs():  # (what a rerun of the script does)
+...     return [lambda a: a, h, lambda b: b]
+>>> [o.__name__ for o in dflt_trans(mk_objs())]
+['UnnamedObject001', 'h', 'UnnamedObject002']
+>>> [o.__name__ for o in dflt_trans(mk_objs())]
+['UnnamedObject001', 'h', 'UnnamedObject002']
+```
 
 ### front.util.get_value(obj, \*args, \*\*kwargs)
 
@@ -184,6 +200,10 @@ Resolve a `Map` (mapping, callable returning one, or None) to a mapping; None gi
 ### front.util.obj_name(func)
 
 Get the name of a callable, or make one (`UnnamedObjectNNN`) for lambdas and nameless objects.
+
+The made-up name comes from a process-wide counter, so it is different at every
+call: use `dflt_trans` (which names by position in a list) when the names must
+be the same on every rerun of the app.
 
 ### front.util.param_default(param)
 
