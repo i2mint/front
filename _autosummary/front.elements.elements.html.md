@@ -52,11 +52,16 @@ hands the result to the first `OutputBase` child and renders it, then calls
 `on_submit` with the result if given. Concrete subclasses implement `render`
 and `_noneable` (how an optional input is presented).
 
-### *class* front.elements.elements.FileUploaderBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, type=None, accept_multiple_files=False)
+### *class* front.elements.elements.FileUploaderBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, type=None, accept_multiple_files=False, clear_after_submit=True)
 
 Bases: [`InputBase`](#front.elements.elements.InputBase)
 
 File upload input, restricted to the given file `type` (extension(s)) if any.
+
+With `clear_after_submit` (the default), a front implementation should empty the
+uploader once its container has successfully submitted, so the next upload starts
+from a clean selection instead of the previous one sticking. Set it to False to keep
+the selection (e.g. to resubmit the same files with other parameters).
 
 ### *class* front.elements.elements.FloatInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, format=None, min_value=None, max_value=None, step=None)
 

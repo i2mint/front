@@ -1,4 +1,4 @@
-> built 2026-09-22 15:28 UTC from ba74100 (master) · front 0.1.103. Details: build_info.json
+> built 2026-10-13 05:51 UTC from 4166355 (master) · front 0.1.104. Details: build_info.json
 
 # index.html.md
 
@@ -978,11 +978,16 @@ hands the result to the first `OutputBase` child and renders it, then calls
 `on_submit` with the result if given. Concrete subclasses implement `render`
 and `_noneable` (how an optional input is presented).
 
-### *class* front.elements.elements.FileUploaderBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, type=None, accept_multiple_files=False)
+### *class* front.elements.elements.FileUploaderBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, type=None, accept_multiple_files=False, clear_after_submit=True)
 
 Bases: [`InputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.InputBase)
 
 File upload input, restricted to the given file `type` (extension(s)) if any.
+
+With `clear_after_submit` (the default), a front implementation should empty the
+uploader once its container has successfully submitted, so the next upload starts
+from a clean selection instead of the previous one sticking. Set it to False to keep
+the selection (e.g. to resubmit the same files with other parameters).
 
 ### *class* front.elements.elements.FloatInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, format=None, min_value=None, max_value=None, step=None)
 
@@ -2188,18 +2193,18 @@ a Mapping.
 
 # About this build
 
-This documentation was built on **2026-09-22 15:28 UTC** from commit <a href="https://github.com/i2mint/front/commit/ba741009773cb8a332c2874744b37954e8ecda71"><code>ba74100</code></a> on branch <code>master</code>, for **front 0.1.103** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-13 05:51 UTC** from commit <a href="https://github.com/i2mint/front/commit/4166355a8aee548c85ee4fe03a1a2d2e52dc3b2c"><code>4166355</code></a> on branch <code>master</code>, for **front 0.1.104** (from <code>pyproject.toml</code>).
 
 #### WARNING
 The documentation and the package may be misaligned:
 
-- The documented version (0.1.103) is behind the latest release on PyPI (0.1.104): `pip install front` gives newer code than these docs describe.
+- The documented version (0.1.104) is behind the latest release on PyPI (0.1.105): `pip install front` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                     |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/front/commit/ba741009773cb8a332c2874744b37954e8ecda71"><code>ba741009773cb8a332c2874744b37954e8ecda71</code></a> |
+| Commit              | <a href="https://github.com/i2mint/front/commit/4166355a8aee548c85ee4fe03a1a2d2e52dc3b2c"><code>4166355a8aee548c85ee4fe03a1a2d2e52dc3b2c</code></a> |
 | Branch              | <code>master</code>                                                                                                                                 |
 | Tags at this commit | none                                                                                                                                                |
 | Working tree        | clean                                                                                                                                               |
@@ -2210,18 +2215,18 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/front</code>                                                                  |
-| Run          | <a href="https://github.com/i2mint/front/actions/runs/35747443655">35747443655</a>         |
+| Run          | <a href="https://github.com/i2mint/front/actions/runs/38353380355">38353380355</a>         |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>ba741009773cb8a332c2874744b37954e8ecda71</code> (in the history of the built commit) |
+| Event commit | <code>4166355a8aee548c85ee4fe03a1a2d2e52dc3b2c</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.12  |
+| epythet  | 0.2.14  |
 | Sphinx   | 9.1.0   |
 | docutils | 0.22.4  |
-| Python   | 3.12.14 |
+| Python   | 3.12.15 |
 
 ## Configuration as resolved
 
@@ -2237,14 +2242,14 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/front/0.1.104/">0.1.104</a>, newer than the documented version (0.1.103).
+Latest release: <a href="https://pypi.org/project/front/0.1.105/">0.1.105</a>, newer than the documented version (0.1.104).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/front && cd front
-git checkout ba741009773cb8a332c2874744b37954e8ecda71
-pip install "epythet==0.2.12"
+git checkout 4166355a8aee548c85ee4fe03a1a2d2e52dc3b2c
+pip install "epythet==0.2.14"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 
