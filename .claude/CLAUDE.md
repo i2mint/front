@@ -31,16 +31,14 @@ build on `front`; `front` itself renders nothing.
 
 ```bash
 uv venv .venv && uv pip install -e . pytest ruff
-.venv/bin/pytest -v --tb=short              # testpaths=["tests"] only: 1 passed (see gotcha)
-.venv/bin/pytest --doctest-modules front/ --ignore=front/examples --ignore=front/scrap  # 62 passed
-.venv/bin/pytest front/tests                 # 15 passed — NOT in testpaths, run explicitly
+.venv/bin/pytest -v --tb=short   # tests/ + front/ (incl. front/tests and module doctests)
 .venv/bin/ruff check .
 ```
-**Gotcha:** `[tool.pytest.ini_options].testpaths = ["tests"]` means a bare
-`pytest` run collects only the one-test `tests/test_smoke.py` — `front/tests/`
-(15 tests: crude, py2pydantic, state, combos, use-case) and the module doctests
-must be run explicitly, as above, to actually exercise the package. `wads
-ci-local` covers all three via its own invocation; a bare `pytest` locally does not.
+`[tool.pytest.ini_options]` sets `testpaths = ["tests", "front"]` and
+`addopts = --doctest-modules --ignore=front/examples --ignore=front/scrap`, so a
+bare `pytest` (locally and in the wads CI) runs `tests/`, `front/tests/` and every
+module doctest. Before that, CI collected only `tests/`, which is how the
+`front/dag.py` doctests broke unnoticed (i2mint/front#47).
 
 ## Docs
 

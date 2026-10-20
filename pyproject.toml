@@ -79,6 +79,12 @@ convention = "google"
 minversion = "6.0"
 testpaths = [
     "tests",
+    "front",
+]
+addopts = [
+    "--doctest-modules",
+    "--ignore=front/examples",
+    "--ignore=front/scrap",
 ]
 doctest_optionflags = [
     "NORMALIZE_WHITESPACE",
