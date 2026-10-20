@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../_static/documentation_options.js?v=9dead672"></script>
+    <script src="../../../_static/documentation_options.js?v=aa125c18"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.111" />
+  <meta name="docsearch:version" content="0.1.112" />
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -913,6 +913,29 @@ window.runMermaid = runMermaid;</script>
 
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_with_section_inputs</span><span class="p">(</span><span class="n">kwargs_spec</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">section_inputs</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A copy of the kwargs input spec ``kwargs_spec`` whose nested ``inputs`` are</span>
+<span class="sd">    ``section_inputs`` overridden by its own.</span>
+
+<span class="sd">    &gt;&gt;&gt; _with_section_inputs({'inputs': {'a': {'x': 1}}}, {'a': {'y': 2}, 'b': {}})</span>
+<span class="sd">    {'inputs': {'a': {'y': 2, 'x': 1}, 'b': {}}}</span>
+<span class="sd">    """</span>
+    <span class="n">nested_inputs</span> <span class="o">=</span> <span class="n">deep_merge</span><span class="p">(</span><span class="n">section_inputs</span><span class="p">,</span> <span class="n">kwargs_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"inputs"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{})</span>
+    <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs_spec</span><span class="p">,</span> <span class="s2">"inputs"</span><span class="p">:</span> <span class="n">nested_inputs</span><span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_spec_of</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">element_cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Whether ``spec`` is an element spec whose element is ``element_cls`` (or a subclass).</span>
+
+<span class="sd">    &gt;&gt;&gt; _is_spec_of({ELEMENT_KEY: int}, object), _is_spec_of({ELEMENT_KEY: int}, str)</span>
+<span class="sd">    (True, False)</span>
+<span class="sd">    &gt;&gt;&gt; _is_spec_of('not a spec', object)</span>
+<span class="sd">    False</span>
+<span class="sd">    """</span>
+    <span class="n">factory</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ELEMENT_KEY</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factory</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">factory</span><span class="p">,</span> <span class="n">element_cls</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="FrontContainerBase">
 <a class="viewcode-back" href="../../../_autosummary/front.elements.elements.html#front.elements.elements.FrontContainerBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FrontContainerBase</span><span class="p">(</span><span class="n">FrontElementBase</span><span class="p">):</span>
@@ -1127,7 +1150,10 @@ window.runMermaid = runMermaid;</script>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_feed_kwargs_input_spec</span><span class="p">()</span>
-        <span class="n">element_specs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">mk_input_element_specs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+        <span class="n">element_specs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feed_multi_source_kwargs_input_specs</span><span class="p">(</span>
+            <span class="n">mk_input_element_specs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">element_specs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">element_specs</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="n">display</span><span class="p">,</span> <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">,</span> <span class="o">**</span><span class="n">element_specs</span>
         <span class="p">)</span>
@@ -1144,12 +1170,43 @@ window.runMermaid = runMermaid;</script>
         <span class="n">inputs_spec</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">)</span>
         <span class="n">kwargs_spec</span> <span class="o">=</span> <span class="n">inputs_spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"kwargs"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">kwargs_spec</span><span class="p">:</span>
-            <span class="n">kwargs_inputs</span> <span class="o">=</span> <span class="n">kwargs_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"inputs"</span><span class="p">,</span> <span class="p">{})</span>
-            <span class="n">kwargs_inputs</span> <span class="o">=</span> <span class="n">deep_merge</span><span class="p">(</span><span class="n">inputs_spec</span><span class="p">,</span> <span class="n">kwargs_inputs</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span>
-                <span class="s2">"kwargs"</span><span class="p">:</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs_spec</span><span class="p">,</span> <span class="s2">"inputs"</span><span class="p">:</span> <span class="n">kwargs_inputs</span><span class="p">},</span>
+                <span class="s2">"kwargs"</span><span class="p">:</span> <span class="n">_with_section_inputs</span><span class="p">(</span><span class="n">kwargs_spec</span><span class="p">,</span> <span class="n">inputs_spec</span><span class="p">),</span>
             <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_feed_multi_source_kwargs_input_specs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element_specs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Give a kwargs input that is a source of a multi-source input the section's</span>
+<span class="sd">        input specs as nested ``inputs``, as ``_feed_kwargs_input_spec`` does for the</span>
+<span class="sd">        ``kwargs`` input (i2mint/front#45).</span>
+
+<span class="sd">        Without them, its nested inputs have no ``bound_data_factory`` and no element</span>
+<span class="sd">        for their types, so the app fails as soon as that source is selected. The</span>
+<span class="sd">        multi-source input's own spec (and the ``kwargs`` one) are left out, so that</span>
+<span class="sd">        a nested parameter of the same name does not nest the multi-source input again.</span>
+<span class="sd">        """</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">feed_sources</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">spec</span><span class="p">):</span>
+            <span class="n">section_inputs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s2">"kwargs"</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="n">_with_section_inputs</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">section_inputs</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">_is_spec_of</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">KwargsInputBase</span><span class="p">)</span>
+                    <span class="k">else</span> <span class="n">v</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">spec</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">}</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="p">(</span>
+                <span class="n">feed_sources</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">_is_spec_of</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">MultiSourceInputBase</span><span class="p">)</span>
+                <span class="k">else</span> <span class="n">spec</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">element_specs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_render_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">input_components</span> <span class="o">=</span> <span class="p">[</span>
