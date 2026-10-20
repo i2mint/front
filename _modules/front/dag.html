@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=3992526b"></script>
+    <script src="../../_static/documentation_options.js?v=9dead672"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.110" />
+  <meta name="docsearch:version" content="0.1.111" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -780,7 +780,6 @@ window.runMermaid = runMermaid;</script>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">meshed</span><span class="w"> </span><span class="kn">import</span> <span class="n">DAG</span><span class="p">,</span> <span class="n">FuncNode</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">meshed.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">ch_func_node_attrs</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">meshed.itools</span><span class="w"> </span><span class="kn">import</span> <span class="n">parents</span><span class="p">,</span> <span class="n">children</span>
 
 
 <span class="c1"># TODO: Lot's of cleaning and simplification needed in this module!!!</span>
@@ -956,20 +955,40 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_returned_by_func_node</span><span class="p">(</span><span class="n">var_node</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">DAG</span><span class="p">):</span>
-    <span class="n">returned_by_func_node</span> <span class="o">=</span> <span class="n">parents</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">var_node</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Return the ``FuncNode`` of ``dag`` whose output is ``var_node``, or ``None``.</span>
+
+<span class="sd">    ``None`` means ``var_node`` is not produced by any func node: it is a root</span>
+<span class="sd">    (input) node. Func nodes are found from ``dag.func_nodes`` (not ``dag.graph``),</span>
+<span class="sd">    so this does not depend on how meshed keys its graph (``FuncNode`` instances</span>
+<span class="sd">    in older versions, ``func_id`` strings in newer ones).</span>
+
+<span class="sd">    &gt;&gt;&gt; from meshed import DAG, FuncNode</span>
+<span class="sd">    &gt;&gt;&gt; dag = DAG([FuncNode(lambda a: a, name='f', out='x')])</span>
+<span class="sd">    &gt;&gt;&gt; _get_returned_by_func_node('x', dag)</span>
+<span class="sd">    FuncNode(a -&gt; f -&gt; x)</span>
+<span class="sd">    &gt;&gt;&gt; _get_returned_by_func_node('a', dag) is None</span>
+<span class="sd">    True</span>
+<span class="sd">    """</span>
+    <span class="n">returned_by_func_node</span> <span class="o">=</span> <span class="p">[</span><span class="n">fn</span> <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">func_nodes</span> <span class="k">if</span> <span class="n">fn</span><span class="o">.</span><span class="n">out</span> <span class="o">==</span> <span class="n">var_node</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">returned_by_func_node</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">"This var_node had more than one parent. That is shouldn't be possible: "</span>
             <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">var_node</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
-    <span class="k">return</span> <span class="nb">next</span><span class="p">(</span>
-        <span class="nb">iter</span><span class="p">(</span><span class="n">returned_by_func_node</span><span class="p">),</span> <span class="kc">None</span>
-    <span class="p">)</span>  <span class="c1"># If None, it means it is NOT produced by a FuncNode, so is a root (input) node.</span>
+    <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">returned_by_func_node</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_validate_is_func_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">var_node</span><span class="p">,</span> <span class="n">relationship</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">FuncNode</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">relationship</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s2">) of </span><span class="si">{</span><span class="n">var_node</span><span class="si">=}</span><span class="s2"> must be a FuncNode"</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_func_nodes_taking_var_node</span><span class="p">(</span><span class="n">var_node</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">DAG</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Yield the ``FuncNode``s of ``dag`` that take ``var_node`` as an argument.</span>
+
+<span class="sd">    &gt;&gt;&gt; from meshed import DAG, FuncNode</span>
+<span class="sd">    &gt;&gt;&gt; def f(a): return a</span>
+<span class="sd">    &gt;&gt;&gt; def g(w, y): return w + y</span>
+<span class="sd">    &gt;&gt;&gt; dag = DAG([FuncNode(f, out='x'), FuncNode(g, bind={'y': 'x'})])</span>
+<span class="sd">    &gt;&gt;&gt; [fn.name for fn in _func_nodes_taking_var_node('x', dag)]</span>
+<span class="sd">    ['g_']</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">fn</span> <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">func_nodes</span> <span class="k">if</span> <span class="n">var_node</span> <span class="ow">in</span> <span class="n">fn</span><span class="o">.</span><span class="n">bind</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_node_replacements_for_var_node_crudification</span><span class="p">(</span><span class="n">var_node</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">DAG</span><span class="p">):</span>
@@ -1004,16 +1023,13 @@ window.runMermaid = runMermaid;</script>
 
     <span class="n">returned_by_func_node</span> <span class="o">=</span> <span class="n">_get_returned_by_func_node</span><span class="p">(</span><span class="n">var_node</span><span class="p">,</span> <span class="n">dag</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">returned_by_func_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># If var_node is the output of a FuncNode</span>
-        <span class="c1"># ... make sure it is.</span>
-        <span class="n">_validate_is_func_node</span><span class="p">(</span><span class="n">returned_by_func_node</span><span class="p">,</span> <span class="n">var_node</span><span class="p">,</span> <span class="s2">"Parent"</span><span class="p">)</span>
+        <span class="c1"># var_node is the output of a FuncNode:</span>
         <span class="c1"># yield a (func_node_name, 'return_value', var_node) triple</span>
         <span class="k">yield</span> <span class="n">returned_by_func_node</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">VarNodeRole</span><span class="o">.</span><span class="n">return_value</span><span class="p">,</span> <span class="n">var_node</span><span class="p">)</span>
     <span class="c1"># if returned_by_func_node is None, skip the above: var_node is a "root" node</span>
 
     <span class="c1"># arg_of_func_nodes</span>
-    <span class="k">for</span> <span class="n">arg_of_func_node</span> <span class="ow">in</span> <span class="n">children</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">var_node</span><span class="p">):</span>
-        <span class="n">_validate_is_func_node</span><span class="p">(</span><span class="n">arg_of_func_node</span><span class="p">,</span> <span class="n">var_node</span><span class="p">,</span> <span class="s2">"Child"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">arg_of_func_node</span> <span class="ow">in</span> <span class="n">_func_nodes_taking_var_node</span><span class="p">(</span><span class="n">var_node</span><span class="p">,</span> <span class="n">dag</span><span class="p">):</span>
         <span class="k">yield</span> <span class="n">arg_of_func_node</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">VarNodeRole</span><span class="o">.</span><span class="n">argument</span><span class="p">,</span> <span class="n">var_node</span><span class="p">)</span>
 
 
@@ -1044,8 +1060,6 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="c1"># TODO: Skipping doctest because order not stable. Make it so</span>
-<span class="c1"># TODO: Perhaps we should use FuncNode.name (id) instead of FuncNode itself as key of</span>
-<span class="c1">#   dag.graph. We'd have less such problems then.</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">_func_nodes_arg_and_return_names_to_crude</span><span class="p">(</span>
     <span class="n">var_nodes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">dag</span><span class="p">:</span> <span class="n">DAG</span><span class="p">,</span>
