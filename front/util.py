@@ -25,7 +25,9 @@ from front.types import Map
 
 try:
     from i2 import is_placeholder_default
-except ImportError:  # older i2: no DefaultPlaceholder yet, so only NotSet is a placeholder
+except (
+    ImportError
+):  # older i2: no DefaultPlaceholder yet, so only NotSet is a placeholder
     try:
         from i2 import is_not_set as is_placeholder_default
     except ImportError:  # older still: same sentinel, not exported from the root yet
