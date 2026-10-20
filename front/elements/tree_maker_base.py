@@ -12,6 +12,7 @@ from front.elements.elements import (
     ELEMENT_KEY,
     FrontContainerBase,
 )
+from front.tooltips import apply_tooltips
 from front.util import deep_merge
 
 
@@ -86,6 +87,8 @@ class ElementTreeMaker:
             )
             obj_rendering_spec = self.rendering_spec.get(obj.__name__, {})
             obj_rendering_spec = deep_merge(type_rendering_spec, obj_rendering_spec)
+            # computed here, just before the elements are made, from the spec's ``tooltips`` config
+            obj_rendering_spec = apply_tooltips(obj_rendering_spec, obj)
             obj_rendering_spec["obj"] = obj
             yield (obj_name, obj_rendering_spec)
 

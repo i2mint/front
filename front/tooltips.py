@@ -108,3 +108,58 @@ def param_tooltips(
         tooltips = {k: v for k, v in tooltips.items() if k in include}
     exclude = set(exclude)
     return {k: v for k, v in tooltips.items() if k not in exclude}
+
+
+TOOLTIPS_KEY = "tooltips"
+TOOLTIP_KEY = "tooltip"
+
+
+def apply_tooltips(obj_spec: Mapping, obj: Callable) -> dict:
+    """Return ``obj_spec`` with ``tooltip`` entries computed for ``obj`` and its params.
+
+    The (opt-in) configuration is the ``"tooltips"`` entry of the spec, which is consumed
+    here and never reaches the elements. Being part of the rendering spec, it can sit under
+    a type (``Callable``) to apply to everything, or under an object's name to apply to it
+    alone::
+
+        {'tooltips': True}                       # all defaults
+        {'tooltips': {'func': 'first_lines',     # or any other string: explicit tooltip
+                      'params': {'exclude': ['x'], 'ledger': {'a': 'explicit'}}}}
+        {'tooltips': {'func': False}}            # no function tooltip, params only
+
+    The function tooltip goes to the spec's ``tooltip`` and the param tooltips to
+    ``execution.inputs.<param>.tooltip`` (only for a spec that has an ``execution`` entry).
+    A ``tooltip`` the spec already has is kept.
+
+    Opt-in also means the element factories must accept ``tooltip``: ``FrontElementBase``
+    and the base containers do, but a concrete element with its own ``__init__`` signature
+    has to take it (and forward it) before the config is switched on for it.
+
+    >>> def foo(a, b=2):
+    ...     '''Add things.
+    ...
+    ...     :param a: the first thing
+    ...     '''
+    >>> spec = apply_tooltips({'tooltips': True, 'execution': {'inputs': {}}}, foo)
+    >>> spec['tooltip'], spec['execution']['inputs']
+    ('Add things.', {'a': {'tooltip': 'the first thing'}})
+    >>> apply_tooltips({'x': 1}, foo)
+    {'x': 1}
+    """
+    spec = dict(obj_spec)
+    config = spec.pop(TOOLTIPS_KEY, None)
+    if not config:
+        return spec
+    config = {} if config is True else dict(config)
+    func_style = config.get("func", "first_line")
+    if func_style is not False and TOOLTIP_KEY not in spec:
+        if text := func_tooltip(obj, func_style):
+            spec[TOOLTIP_KEY] = text
+    params = param_tooltips(obj, **(config.get("params") or {}))
+    execution = spec.get("execution")
+    if params and isinstance(execution, Mapping):
+        inputs = {**execution.get("inputs", {})}
+        for name, text in params.items():
+            inputs[name] = {TOOLTIP_KEY: text, **inputs.get(name, {})}
+        spec["execution"] = {**execution, "inputs": inputs}
+    return spec
