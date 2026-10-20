@@ -372,7 +372,7 @@ class ExecContainerBase(FrontContainerBase):
     ):
         self.inputs = inputs
         self._feed_kwargs_input_spec()
-        element_specs = dict(mk_input_element_specs(obj, inputs), output=output)
+        element_specs = dict(mk_input_element_specs(obj, self.inputs), output=output)
         super().__init__(
             obj=obj, name=name, display=display, tooltip=tooltip, **element_specs
         )
@@ -380,12 +380,21 @@ class ExecContainerBase(FrontContainerBase):
         self.on_submit = on_submit
 
     def _feed_kwargs_input_spec(self):
+        """Give the ``kwargs`` input spec its sibling input specs as nested ``inputs``.
+
+        Builds new dicts rather than assigning into ``self.inputs["kwargs"]``: that
+        dict usually belongs to a shared convention default, so mutating it would
+        leak this section's inputs into every section built afterwards.
+        """
         inputs_spec = dict(self.inputs)
         kwargs_spec = inputs_spec.pop("kwargs", None)
         if kwargs_spec:
             kwargs_inputs = kwargs_spec.get("inputs", {})
             kwargs_inputs = deep_merge(inputs_spec, kwargs_inputs)
-            self.inputs["kwargs"]["inputs"] = kwargs_inputs
+            self.inputs = {
+                **self.inputs,
+                "kwargs": {**kwargs_spec, "inputs": kwargs_inputs},
+            }
 
     def _render_inputs(self):
         input_components = [
