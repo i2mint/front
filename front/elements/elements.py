@@ -181,6 +181,29 @@ def mk_input_element_specs(obj, inputs):
     return elements_spec
 
 
+def _with_section_inputs(kwargs_spec: Mapping, section_inputs: Mapping) -> dict:
+    """A copy of the kwargs input spec ``kwargs_spec`` whose nested ``inputs`` are
+    ``section_inputs`` overridden by its own.
+
+    >>> _with_section_inputs({'inputs': {'a': {'x': 1}}}, {'a': {'y': 2}, 'b': {}})
+    {'inputs': {'a': {'y': 2, 'x': 1}, 'b': {}}}
+    """
+    nested_inputs = deep_merge(section_inputs, kwargs_spec.get("inputs") or {})
+    return {**kwargs_spec, "inputs": nested_inputs}
+
+
+def _is_spec_of(spec, element_cls) -> bool:
+    """Whether ``spec`` is an element spec whose element is ``element_cls`` (or a subclass).
+
+    >>> _is_spec_of({ELEMENT_KEY: int}, object), _is_spec_of({ELEMENT_KEY: int}, str)
+    (True, False)
+    >>> _is_spec_of('not a spec', object)
+    False
+    """
+    factory = spec.get(ELEMENT_KEY) if isinstance(spec, Mapping) else None
+    return isinstance(factory, type) and issubclass(factory, element_cls)
+
+
 class FrontContainerBase(FrontElementBase):
     """An element with children, each built from a keyword argument holding an element spec.
 
@@ -372,7 +395,10 @@ class ExecContainerBase(FrontContainerBase):
     ):
         self.inputs = inputs
         self._feed_kwargs_input_spec()
-        element_specs = dict(mk_input_element_specs(obj, self.inputs), output=output)
+        element_specs = self._feed_multi_source_kwargs_input_specs(
+            mk_input_element_specs(obj, self.inputs)
+        )
+        element_specs = dict(element_specs, output=output)
         super().__init__(
             obj=obj, name=name, display=display, tooltip=tooltip, **element_specs
         )
@@ -389,12 +415,43 @@ class ExecContainerBase(FrontContainerBase):
         inputs_spec = dict(self.inputs)
         kwargs_spec = inputs_spec.pop("kwargs", None)
         if kwargs_spec:
-            kwargs_inputs = kwargs_spec.get("inputs", {})
-            kwargs_inputs = deep_merge(inputs_spec, kwargs_inputs)
             self.inputs = {
                 **self.inputs,
-                "kwargs": {**kwargs_spec, "inputs": kwargs_inputs},
+                "kwargs": _with_section_inputs(kwargs_spec, inputs_spec),
             }
+
+    def _feed_multi_source_kwargs_input_specs(self, element_specs: dict) -> dict:
+        """Give a kwargs input that is a source of a multi-source input the section's
+        input specs as nested ``inputs``, as ``_feed_kwargs_input_spec`` does for the
+        ``kwargs`` input (i2mint/front#45).
+
+        Without them, its nested inputs have no ``bound_data_factory`` and no element
+        for their types, so the app fails as soon as that source is selected. The
+        multi-source input's own spec (and the ``kwargs`` one) are left out, so that
+        a nested parameter of the same name does not nest the multi-source input again.
+        """
+
+        def feed_sources(name, spec):
+            section_inputs = {
+                k: v for k, v in self.inputs.items() if k not in (name, "kwargs")
+            }
+            return {
+                k: (
+                    _with_section_inputs(v, section_inputs)
+                    if _is_spec_of(v, KwargsInputBase)
+                    else v
+                )
+                for k, v in spec.items()
+            }
+
+        return {
+            name: (
+                feed_sources(name, spec)
+                if _is_spec_of(spec, MultiSourceInputBase)
+                else spec
+            )
+            for name, spec in element_specs.items()
+        }
 
     def _render_inputs(self):
         input_components = [
