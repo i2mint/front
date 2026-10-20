@@ -1,0 +1,13 @@
+front.tooltips
+==============
+
+.. automodule:: front.tooltips
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      func_tooltip
+      param_tooltips
+   

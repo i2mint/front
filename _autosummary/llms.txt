@@ -19,6 +19,7 @@
 - [front.spec_maker_base](front.spec_maker_base.html.md): Base classes and conventions for building a &#96;FrontSpec&#96; from a configuration.
 - [front.state](front.state.html.md): Stateful storage protocols and &#96;Forbidden&#96; errors used by front data bindings.
 - [front.tools](front.tools.html.md): Tools using front, or useful when using front.
+- [front.tooltips](front.tooltips.html.md): Tooltips for functions and their arguments.
 - [front.types](front.types.html.md): Type aliases and lightweight dataclasses shared across front modules.
 - [front.util](front.util.html.md): Signature and mapping utilities shared by the front modules.
 

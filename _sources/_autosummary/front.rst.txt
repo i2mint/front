@@ -20,5 +20,6 @@
    spec_maker_base
    state
    tools
+   tooltips
    types
    util

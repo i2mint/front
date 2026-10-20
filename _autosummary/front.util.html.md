@@ -37,8 +37,8 @@ Add annotations to the arguments of `func`, by argument name or by default-value
 * **Parameters:**
   * **func** ([`Callable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable)) – The function whose args we want to annotate
   * **ignore_existing_annot** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – Set to True to ignore existing annots.
-  * **annot_for_argname** (`Union`[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)], [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]]]) – Annotation for specific argnames
-  * **annot_for_dflt_type** (`Union`[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`type`](https://docs.python.org/3/builtins/functions.html#type), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)], [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`type`](https://docs.python.org/3/builtins/functions.html#type), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]]]) – Annotation for specific types. Arg defaults will be
+  * **annot_for_argname** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)], [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]]]) – Annotation for specific argnames
+  * **annot_for_dflt_type** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`type`](https://docs.python.org/3/builtins/functions.html#type), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)], [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`type`](https://docs.python.org/3/builtins/functions.html#type), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]]]) – Annotation for specific types. Arg defaults will be
     compared (with `isinstance(dflt_val, types)`) to types and the annotation
     (value) of the the first matching type (key) will be injected
   * **dflt_annot** ([`Any`](https://docs.python.org/3/library/typing.html#typing.Any)) – Default annotation to use if no match found earlier.
@@ -189,13 +189,13 @@ Make an `Enum` whose member names are `str(value)` for each value of `iterable`.
 
 Resolve a `Map` (mapping, callable returning one, or None) to a mapping; None gives `{}`.
 
-* **Return type:**
-  [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)
-
 ```pycon
 >>> normalize_map(None), normalize_map({'a': 1}), normalize_map(lambda: {'b': 2})
 ({}, {'a': 1}, {'b': 2})
 ```
+
+* **Return type:**
+  [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)
 
 ### front.util.obj_name(func)
 

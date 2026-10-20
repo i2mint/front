@@ -1,37 +1,37 @@
 {
   "schema_version": 1,
-  "built_at": "2026-10-13T16:02:54Z",
+  "built_at": "2026-10-20T03:44:05Z",
   "package": {
     "name": "front",
-    "version": "0.1.106",
+    "version": "0.1.107",
     "display_name": "front",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "ffafe016d13121cbc206aa0e2bb237764bdc24a2",
-    "short_commit": "ffafe01",
+    "commit": "7bca5b547afd567767c301d77183d511f5958f40",
+    "short_commit": "7bca5b5",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/i2mint/front",
-    "commit_url": "https://github.com/i2mint/front/commit/ffafe016d13121cbc206aa0e2bb237764bdc24a2",
+    "commit_url": "https://github.com/i2mint/front/commit/7bca5b547afd567767c301d77183d511f5958f40",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "i2mint/front",
-    "sha": "ffafe016d13121cbc206aa0e2bb237764bdc24a2",
+    "sha": "7bca5b547afd567767c301d77183d511f5958f40",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "38427055995",
-    "run_url": "https://github.com/i2mint/front/actions/runs/38427055995",
+    "run_id": "39365708101",
+    "run_url": "https://github.com/i2mint/front/actions/runs/39365708101",
     "server_url": "https://github.com"
   },
   "tools": {
-    "epythet": "0.2.17",
-    "sphinx": "9.1.0",
+    "epythet": "0.2.18",
+    "sphinx": "9.1.1",
     "docutils": "0.22.4",
     "python": "3.12.15"
   },
@@ -55,19 +55,21 @@
     "docs_dir": "docsrc"
   },
   "site": {
-    "modules_documented": 16,
-    "objects_documented": 91
+    "modules_documented": 17,
+    "objects_documented": 93
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.106",
-    "relation": "same",
+    "latest": "0.1.108",
+    "relation": "behind",
     "error": null
   },
-  "reproduce": "git clone https://github.com/i2mint/front && cd front\ngit checkout ffafe016d13121cbc206aa0e2bb237764bdc24a2\npip install \"epythet==0.2.17\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/i2mint/front && cd front\ngit checkout 7bca5b547afd567767c301d77183d511f5958f40\npip install \"epythet==0.2.18\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": true,
-    "notes": []
+    "aligned": false,
+    "notes": [
+      "The documented version (0.1.107) is behind the latest release on PyPI (0.1.108): `pip install front` gives newer code than these docs describe."
+    ]
   }
 }

@@ -45,5 +45,6 @@ for the latter.
 | [`spec_maker_base`](front.spec_maker_base.html.md#module-front.spec_maker_base) | Base classes and conventions for building a [`FrontSpec`](front.types.html.md#front.types.FrontSpec) from a configuration. |
 | [`state`](front.state.html.md#module-front.state)                     | Stateful storage protocols and `Forbidden` errors used by front data bindings.                                                                     |
 | [`tools`](front.tools.html.md#module-front.tools)                     | Tools using front, or useful when using front.                                                                                                     |
+| [`tooltips`](front.tooltips.html.md#module-front.tooltips)               | Tooltips for functions and their arguments.                                                                                                        |
 | [`types`](front.types.html.md#module-front.types)                     | Type aliases and lightweight dataclasses shared across front modules.                                                                              |
 | [`util`](front.util.html.md#module-front.util)                       | Signature and mapping utilities shared by the front modules.                                                                                       |

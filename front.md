@@ -1,4 +1,4 @@
-> built 2026-10-13 16:02 UTC from ffafe01 (master) · front 0.1.106. Details: build_info.json
+> built 2026-10-20 03:44 UTC from 7bca5b5 (master) · front 0.1.107. Details: build_info.json
 
 # index.html.md
 
@@ -169,8 +169,8 @@ Make a front application exposing `objs`: the entry point of `AppMaker`.
 * **Parameters:**
   * **objs** ([`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]) – The objects that the user of the resulting
     application will be interacting with. Only callables are supported for now.
-  * **config** (`Union`[[`None`](https://docs.python.org/3/builtins/constants.html#None), [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping), [`Callable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable)[[], [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)]]) – The configuration of the resulting application.
-  * **convention** (`Union`[[`None`](https://docs.python.org/3/builtins/constants.html#None), [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping), [`Callable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable)[[], [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)]]) – The convention used to complete the configuration by
+  * **config** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`None`](https://docs.python.org/3/builtins/constants.html#None), [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping), [`Callable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable)[[], [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)]]) – The configuration of the resulting application.
+  * **convention** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`None`](https://docs.python.org/3/builtins/constants.html#None), [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping), [`Callable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable)[[], [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)]]) – The convention used to complete the configuration by
     providing default values for everything that is not specified in the
     configuration. Defaults to the spec maker’s `_dflt_convention`.
 * **Return type:**
@@ -414,9 +414,6 @@ Local files store that serializes values with dill (or pickle if dill is not ins
 
 Make a str key from arguments.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> auto_key_from_arguments(1,2,c=3,d=4)
 '1,2,c=3,d=4'
@@ -427,14 +424,14 @@ Make a str key from arguments.
 >>> auto_key_from_arguments()
 ''
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### front.crude.auto_key_from_arguments(\*args, \*\*kwargs)
 
 Make a str key from arguments.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> auto_key_from_arguments(1,2,c=3,d=4)
 '1,2,c=3,d=4'
@@ -445,6 +442,9 @@ Make a str key from arguments.
 >>> auto_key_from_arguments()
 ''
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### front.crude.auto_key_from_time(\*args, \_\_format=1000000.0, \*\*kwargs)
 
@@ -520,9 +520,6 @@ store by `func` then `func_name`.
 
 Turn a non-mapping iterable into an identity dict; pass mappings through; None gives `{}`.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> keys_to_values_if_non_mapping_iterable(['a', 'b'])
 {'a': 'a', 'b': 'b'}
@@ -531,6 +528,9 @@ Turn a non-mapping iterable into an identity dict; pass mappings through; None g
 >>> keys_to_values_if_non_mapping_iterable(None)
 {}
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### front.crude.mk_mall_of_dill_stores(store_names=collections.abc.Iterable[str], rootdir=None)
 
@@ -1407,6 +1407,7 @@ for the latter.
 | [`spec_maker_base`](_autosummary/front.spec_maker_base.html.md#module-front.spec_maker_base) | Base classes and conventions for building a [`FrontSpec`](_autosummary/front.types.html.md#front.types.FrontSpec) from a configuration. |
 | [`state`](_autosummary/front.state.html.md#module-front.state)                     | Stateful storage protocols and `Forbidden` errors used by front data bindings.                                                                     |
 | [`tools`](_autosummary/front.tools.html.md#module-front.tools)                     | Tools using front, or useful when using front.                                                                                                     |
+| [`tooltips`](_autosummary/front.tooltips.html.md#module-front.tooltips)               | Tooltips for functions and their arguments.                                                                                                        |
 | [`types`](_autosummary/front.types.html.md#module-front.types)                     | Type aliases and lightweight dataclasses shared across front modules.                                                                              |
 | [`util`](_autosummary/front.util.html.md#module-front.util)                       | Signature and mapping utilities shared by the front modules.                                                                                       |
 
@@ -1648,9 +1649,9 @@ the convention after injecting the concrete element factories in it.
 Merge `config` over `convention` and complete class-keyed rendering specs.
 
 * **Parameters:**
-  * **config** (`Union`[[`None`](https://docs.python.org/3/builtins/constants.html#None), [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping), [`Callable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable)[[], [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)]]) – The user configuration: a mapping, a callable returning one,
+  * **config** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`None`](https://docs.python.org/3/builtins/constants.html#None), [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping), [`Callable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable)[[], [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)]]) – The user configuration: a mapping, a callable returning one,
     or None (empty).
-  * **convention** (`Union`[[`None`](https://docs.python.org/3/builtins/constants.html#None), [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping), [`Callable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable)[[], [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)]]) – The defaults. If None, `self._dflt_convention` is used.
+  * **convention** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`None`](https://docs.python.org/3/builtins/constants.html#None), [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping), [`Callable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable)[[], [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)]]) – The defaults. If None, `self._dflt_convention` is used.
 * **Return type:**
   [`FrontSpec`](_autosummary/front.types.html.md#front.types.FrontSpec)
 * **Returns:**
@@ -1945,6 +1946,76 @@ False
 ```
 
 
+# _autosummary/front.tooltips.html.md
+
+# front.tooltips
+
+Tooltips for functions and their arguments.
+
+Backend-agnostic helpers that compute tooltip text, to be attached to the specs/elements
+a UI framework renders.
+
+Function tooltips are a function of the docs (`func_tooltip`): the first non-blank
+line, the first few lines, or everything before the first doctest – or an explicit string.
+
+Argument tooltips (`param_tooltips`) are parsed from the docs (numpy, google and rest
+styles are tried), overridden by a ledger (mapping) of explicit tooltips; and the params
+can be selected with `include` / `exclude`.
+
+```pycon
+>>> def foo(a, b=2):
+...     '''Add things.
+...
+...     More details here.
+...
+...     :param a: the first thing
+...     :param b: the second thing
+...
+...     >>> foo(1)
+...     3
+...     '''
+>>> func_tooltip(foo)
+'Add things.'
+>>> func_tooltip(foo, style='before_doctest')
+'Add things.\n\nMore details here.\n\n:param a: the first thing\n:param b: the second thing'
+>>> func_tooltip(foo, style='Explicit text')
+'Explicit text'
+>>> param_tooltips(foo)
+{'a': 'the first thing', 'b': 'the second thing'}
+>>> param_tooltips(foo, exclude=['b'], ledger={'a': 'override'})
+{'a': 'override'}
+```
+
+### Functions
+
+| [`func_tooltip`](_autosummary/front.tooltips.html.md#front.tooltips.func_tooltip)(func[, style, n_lines, ellipsis])   | Tooltip for a function.                                                      |
+|---------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| [`param_tooltips`](_autosummary/front.tooltips.html.md#front.tooltips.param_tooltips)(func, \*[, ledger, include, ...]) | Tooltips for the arguments of a function, as a `{param_name: tooltip}` dict. |
+
+### front.tooltips.func_tooltip(func, style='first_line', , n_lines=3, ellipsis='... (+more)')
+
+Tooltip for a function.
+
+* **Parameters:**
+  **style** ([`str`](https://docs.python.org/3/builtins/stdtypes.html#str)) – One of `'first_line'` (first non-blank line, stripped),
+  `'first_lines'` (first `n_lines` non-blank lines, with `ellipsis` if cut),
+  `'before_doctest'` (everything before the first doctest), or any other string,
+  which is taken as the explicit tooltip.
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
+### front.tooltips.param_tooltips(func, , ledger=None, include=None, exclude=(), doc_styles=('numpy', 'google', 'rest'))
+
+Tooltips for the arguments of a function, as a `{param_name: tooltip}` dict.
+
+Parsed from the docstring (first style in `doc_styles` that yields something),
+then overridden by `ledger` (explicit tooltips). `include` (“only these”)
+and `exclude` (“all except”) restrict the names.
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
+
 # _autosummary/front.types.html.md
 
 # front.types
@@ -2008,8 +2079,8 @@ Add annotations to the arguments of `func`, by argument name or by default-value
 * **Parameters:**
   * **func** ([`Callable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable)) – The function whose args we want to annotate
   * **ignore_existing_annot** ([`bool`](https://docs.python.org/3/builtins/functions.html#bool)) – Set to True to ignore existing annots.
-  * **annot_for_argname** (`Union`[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)], [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]]]) – Annotation for specific argnames
-  * **annot_for_dflt_type** (`Union`[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`type`](https://docs.python.org/3/builtins/functions.html#type), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)], [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`type`](https://docs.python.org/3/builtins/functions.html#type), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]]]) – Annotation for specific types. Arg defaults will be
+  * **annot_for_argname** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)], [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]]]) – Annotation for specific argnames
+  * **annot_for_dflt_type** ([`Union`](https://docs.python.org/3/library/typing.html#typing.Union)[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)[[`type`](https://docs.python.org/3/builtins/functions.html#type), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)], [`Iterable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable)[[`tuple`](https://docs.python.org/3/builtins/stdtypes.html#tuple)[[`type`](https://docs.python.org/3/builtins/functions.html#type), [`Any`](https://docs.python.org/3/library/typing.html#typing.Any)]]]) – Annotation for specific types. Arg defaults will be
     compared (with `isinstance(dflt_val, types)`) to types and the annotation
     (value) of the the first matching type (key) will be injected
   * **dflt_annot** ([`Any`](https://docs.python.org/3/library/typing.html#typing.Any)) – Default annotation to use if no match found earlier.
@@ -2160,13 +2231,13 @@ Make an `Enum` whose member names are `str(value)` for each value of `iterable`.
 
 Resolve a `Map` (mapping, callable returning one, or None) to a mapping; None gives `{}`.
 
-* **Return type:**
-  [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)
-
 ```pycon
 >>> normalize_map(None), normalize_map({'a': 1}), normalize_map(lambda: {'b': 2})
 ({}, {'a': 1}, {'b': 2})
 ```
+
+* **Return type:**
+  [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)
 
 ### front.util.obj_name(func)
 
@@ -2214,16 +2285,18 @@ a Mapping.
 
 # About this build
 
-This documentation was built on **2026-10-13 16:02 UTC** from commit <a href="https://github.com/i2mint/front/commit/ffafe016d13121cbc206aa0e2bb237764bdc24a2"><code>ffafe01</code></a> on branch <code>master</code>, for **front 0.1.106** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 03:44 UTC** from commit <a href="https://github.com/i2mint/front/commit/7bca5b547afd567767c301d77183d511f5958f40"><code>7bca5b5</code></a> on branch <code>master</code>, for **front 0.1.107** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.1.107) is behind the latest release on PyPI (0.1.108): `pip install front` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                     |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/front/commit/ffafe016d13121cbc206aa0e2bb237764bdc24a2"><code>ffafe016d13121cbc206aa0e2bb237764bdc24a2</code></a> |
+| Commit              | <a href="https://github.com/i2mint/front/commit/7bca5b547afd567767c301d77183d511f5958f40"><code>7bca5b547afd567767c301d77183d511f5958f40</code></a> |
 | Branch              | <code>master</code>                                                                                                                                 |
 | Tags at this commit | none                                                                                                                                                |
 | Working tree        | clean                                                                                                                                               |
@@ -2234,16 +2307,16 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/front</code>                                                                  |
-| Run          | <a href="https://github.com/i2mint/front/actions/runs/38427055995">38427055995</a>         |
+| Run          | <a href="https://github.com/i2mint/front/actions/runs/39365708101">39365708101</a>         |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>ffafe016d13121cbc206aa0e2bb237764bdc24a2</code> (in the history of the built commit) |
+| Event commit | <code>7bca5b547afd567767c301d77183d511f5958f40</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.17  |
-| Sphinx   | 9.1.0   |
+| epythet  | 0.2.18  |
+| Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
 | Python   | 3.12.15 |
 
@@ -2261,14 +2334,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/front/0.1.106/">0.1.106</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/front/0.1.108/">0.1.108</a>, newer than the documented version (0.1.107).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/front && cd front
-git checkout ffafe016d13121cbc206aa0e2bb237764bdc24a2
-pip install "epythet==0.2.17"
+git checkout 7bca5b547afd567767c301d77183d511f5958f40
+pip install "epythet==0.2.18"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 

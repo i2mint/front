@@ -217,9 +217,6 @@ Local files store that serializes values with dill (or pickle if dill is not ins
 
 Make a str key from arguments.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> auto_key_from_arguments(1,2,c=3,d=4)
 '1,2,c=3,d=4'
@@ -230,14 +227,14 @@ Make a str key from arguments.
 >>> auto_key_from_arguments()
 ''
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### front.crude.auto_key_from_arguments(\*args, \*\*kwargs)
 
 Make a str key from arguments.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> auto_key_from_arguments(1,2,c=3,d=4)
 '1,2,c=3,d=4'
@@ -248,6 +245,9 @@ Make a str key from arguments.
 >>> auto_key_from_arguments()
 ''
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### front.crude.auto_key_from_time(\*args, \_\_format=1000000.0, \*\*kwargs)
 
@@ -323,9 +323,6 @@ store by `func` then `func_name`.
 
 Turn a non-mapping iterable into an identity dict; pass mappings through; None gives `{}`.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> keys_to_values_if_non_mapping_iterable(['a', 'b'])
 {'a': 'a', 'b': 'b'}
@@ -334,6 +331,9 @@ Turn a non-mapping iterable into an identity dict; pass mappings through; None g
 >>> keys_to_values_if_non_mapping_iterable(None)
 {}
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### front.crude.mk_mall_of_dill_stores(store_names=collections.abc.Iterable[str], rootdir=None)
 
