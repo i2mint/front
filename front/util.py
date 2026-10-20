@@ -24,21 +24,26 @@ from i2.signatures import name_of_obj
 from front.types import Map
 
 try:
-    from i2 import is_not_set
-except ImportError:  # older i2: same sentinel, not exported from the root yet
-    from i2.deco import NotSet as _NotSet
+    from i2 import is_placeholder_default
+except ImportError:  # older i2: no DefaultPlaceholder yet, so only NotSet is a placeholder
+    try:
+        from i2 import is_not_set as is_placeholder_default
+    except ImportError:  # older still: same sentinel, not exported from the root yet
+        from i2.deco import NotSet as _NotSet
 
-    def is_not_set(x) -> bool:
-        """Return True iff ``x`` is ``i2``'s ``NotSet`` sentinel."""
-        return x is _NotSet
+        def is_placeholder_default(x) -> bool:
+            """Return True iff ``x`` is ``i2``'s ``NotSet`` sentinel."""
+            return x is _NotSet
 
 
 def param_default(param):
-    """Return ``param.default``, or ``Parameter.empty`` if it is ``i2``'s ``NotSet``.
+    """Return ``param.default``, or ``Parameter.empty`` if it is a placeholder default.
 
-    ``NotSet`` in a signature means "no value given", not a real default, so UI and
-    schema builders must treat that param as required (no prefill, no type inference
-    from the default).
+    A placeholder default is ``i2``'s ``NotSet`` sentinel or any
+    ``i2.DefaultPlaceholder`` (such as the marker ``methodize(..., default_from=...)``
+    puts in a signature). It means "no concrete value here", not a real default, so UI
+    and schema builders must treat that param as required (no prefill, no type
+    inference from the default).
 
     >>> from inspect import Parameter
     >>> from i2.deco import NotSet
@@ -50,7 +55,7 @@ def param_default(param):
     <class 'inspect._empty'>
     """
     default = param.default
-    return Parameter.empty if is_not_set(default) else default
+    return Parameter.empty if is_placeholder_default(default) else default
 
 
 ignore_import_problems = suppress(ImportError, ModuleNotFoundError)

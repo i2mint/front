@@ -107,3 +107,40 @@ def test_annotation_from_default_type_ignores_not_set():
         )
 
     assert changes(_foo_with_not_set) == changes(_foo) == {}
+
+
+try:
+    from i2 import is_placeholder_default as _  # noqa: F401
+
+    _HAS_PLACEHOLDERS = True
+except ImportError:
+    _HAS_PLACEHOLDERS = False
+
+
+@pytest.mark.skipif(not _HAS_PLACEHOLDERS, reason="i2 without DefaultPlaceholder")
+def test_methodize_default_from_placeholder_is_no_default():
+    """i2mint/front#50: a ``methodize(..., default_from=...)`` default is a marker,
+    not a value: treat it like ``NotSet`` (required, no prefill, no pydantic default).
+    """
+    from i2.wrapper import methodize
+
+    def foo(x, y: int, z: int, v: int = 1):
+        return x + y * z + v
+
+    @dataclass
+    class K:
+        x: int
+        zoo: int = 2
+        bar = methodize(foo, bind="x", default_from=[("z", "zoo")])
+
+    params = Sig(K(1).bar).parameters
+    assert params["z"].default is not Parameter.empty  # the marker really is there
+    assert [param_default(p) for p in params.values()] == [Parameter.empty] * 2 + [1]
+
+    specs = dict(func_to_pyd_model_specs(K(1).bar))
+    assert specs["z"] == (int, ...)
+    assert specs["v"] == (int, 1)
+
+    element, state = _render_input(IntInputBase, params["z"])
+    assert element.view_value == 0
+    assert element.value.get() is not params["z"].default
