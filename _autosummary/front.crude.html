@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=7eceb120"></script>
+    <script src="../_static/documentation_options.js?v=dab63539"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.108" />
+  <meta name="docsearch:version" content="0.1.109" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -474,7 +474,7 @@ persisted in some fashion).</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#front.crude.Crudifier" title="front.crude.Crudifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Crudifier</span></code></a>([param_to_mall_map, mall, ...])</p></td>
 <td><p>Convenience class to make crudify (i.e. map/source inputs of) functions.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#front.crude.DillFiles" title="front.crude.DillFiles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DillFiles</span></code></a>(*args[, delete_func])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.crude.DillFiles" title="front.crude.DillFiles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DillFiles</span></code></a>(*args[, delete_func, ...])</p></td>
 <td><p>Local files store that serializes values with dill (or pickle if dill is not installed).</p></td>
 </tr>
 </tbody>
@@ -606,7 +606,7 @@ The following would implement this:</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="front.crude.DillFiles">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.crude.</span></span><span class="sig-name descname"><span class="pre">DillFiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/crude.html#DillFiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.crude.DillFiles" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">front.crude.</span></span><span class="sig-name descname"><span class="pre">DillFiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_open_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/crude.html#DillFiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.crude.DillFiles" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Store</span></code></p>
 <p>Local files store that serializes values with dill (or pickle if dill is not installed).</p>
 <dl class="py method">

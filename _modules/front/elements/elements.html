@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../_static/documentation_options.js?v=7eceb120"></script>
+    <script src="../../../_static/documentation_options.js?v=dab63539"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.108" />
+  <meta name="docsearch:version" content="0.1.109" />
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -1127,7 +1127,7 @@ window.runMermaid = runMermaid;</script>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_feed_kwargs_input_spec</span><span class="p">()</span>
-        <span class="n">element_specs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">mk_input_element_specs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">inputs</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+        <span class="n">element_specs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">mk_input_element_specs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">),</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="n">display</span><span class="p">,</span> <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">,</span> <span class="o">**</span><span class="n">element_specs</span>
         <span class="p">)</span>
@@ -1135,12 +1135,21 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">on_submit</span> <span class="o">=</span> <span class="n">on_submit</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_feed_kwargs_input_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Give the ``kwargs`` input spec its sibling input specs as nested ``inputs``.</span>
+
+<span class="sd">        Builds new dicts rather than assigning into ``self.inputs["kwargs"]``: that</span>
+<span class="sd">        dict usually belongs to a shared convention default, so mutating it would</span>
+<span class="sd">        leak this section's inputs into every section built afterwards.</span>
+<span class="sd">        """</span>
         <span class="n">inputs_spec</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">)</span>
         <span class="n">kwargs_spec</span> <span class="o">=</span> <span class="n">inputs_spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"kwargs"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">kwargs_spec</span><span class="p">:</span>
             <span class="n">kwargs_inputs</span> <span class="o">=</span> <span class="n">kwargs_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"inputs"</span><span class="p">,</span> <span class="p">{})</span>
             <span class="n">kwargs_inputs</span> <span class="o">=</span> <span class="n">deep_merge</span><span class="p">(</span><span class="n">inputs_spec</span><span class="p">,</span> <span class="n">kwargs_inputs</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s2">"kwargs"</span><span class="p">][</span><span class="s2">"inputs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs_inputs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span>
+                <span class="s2">"kwargs"</span><span class="p">:</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs_spec</span><span class="p">,</span> <span class="s2">"inputs"</span><span class="p">:</span> <span class="n">kwargs_inputs</span><span class="p">},</span>
+            <span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_render_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">input_components</span> <span class="o">=</span> <span class="p">[</span>

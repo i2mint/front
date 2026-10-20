@@ -55,7 +55,7 @@ persisted in some fashion).
 
 | [`Crudifier`](#front.crude.Crudifier)([param_to_mall_map, mall, ...])   | Convenience class to make crudify (i.e. map/source inputs of) functions.                 |
 |----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
-| [`DillFiles`](#front.crude.DillFiles)(\*args[, delete_func])            | Local files store that serializes values with dill (or pickle if dill is not installed). |
+| [`DillFiles`](#front.crude.DillFiles)(\*args[, delete_func, ...])       | Local files store that serializes values with dill (or pickle if dill is not installed). |
 
 ### *class* front.crude.Crudifier(param_to_mall_map=None, mall=None, include_stores_attribute=False, output_store=None, store_multi_values=False, save_name_param='save_name', empty_name_callback=None, auto_namer=None, output_trans=None, verbose=True)
 
@@ -199,7 +199,7 @@ Now get the `func` value under `foo`, and see that it has been crudified:
 5
 ```
 
-### *class* front.crude.DillFiles(\*args, delete_func=None, \*\*kwargs)
+### *class* front.crude.DillFiles(\*args, delete_func=None, write_open_kwargs=None, \*\*kwargs)
 
 Bases: `Store`
 

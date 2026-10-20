@@ -1,4 +1,4 @@
-> built 2026-10-20 04:36 UTC from df550e4 (master) · front 0.1.108. Details: build_info.json
+> built 2026-10-20 13:59 UTC from 8d789a0 (master) · front 0.1.109. Details: build_info.json
 
 # index.html.md
 
@@ -252,7 +252,7 @@ persisted in some fashion).
 
 | [`Crudifier`](_autosummary/front.crude.html.md#front.crude.Crudifier)([param_to_mall_map, mall, ...])   | Convenience class to make crudify (i.e. map/source inputs of) functions.                 |
 |----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
-| [`DillFiles`](_autosummary/front.crude.html.md#front.crude.DillFiles)(\*args[, delete_func])            | Local files store that serializes values with dill (or pickle if dill is not installed). |
+| [`DillFiles`](_autosummary/front.crude.html.md#front.crude.DillFiles)(\*args[, delete_func, ...])       | Local files store that serializes values with dill (or pickle if dill is not installed). |
 
 ### *class* front.crude.Crudifier(param_to_mall_map=None, mall=None, include_stores_attribute=False, output_store=None, store_multi_values=False, save_name_param='save_name', empty_name_callback=None, auto_namer=None, output_trans=None, verbose=True)
 
@@ -396,7 +396,7 @@ Now get the `func` value under `foo`, and see that it has been crudified:
 5
 ```
 
-### *class* front.crude.DillFiles(\*args, delete_func=None, \*\*kwargs)
+### *class* front.crude.DillFiles(\*args, delete_func=None, write_open_kwargs=None, \*\*kwargs)
 
 Bases: `Store`
 
@@ -2330,16 +2330,18 @@ a Mapping.
 
 # About this build
 
-This documentation was built on **2026-10-20 04:36 UTC** from commit <a href="https://github.com/i2mint/front/commit/df550e42f1bfea8a9dda96846e9ee97914494e66"><code>df550e4</code></a> on branch <code>master</code>, for **front 0.1.108** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 13:59 UTC** from commit <a href="https://github.com/i2mint/front/commit/8d789a0b3345c16afc2095160d51ec28085d8d8f"><code>8d789a0</code></a> on branch <code>master</code>, for **front 0.1.109** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.1.109) is behind the latest release on PyPI (0.1.110): `pip install front` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                     |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/front/commit/df550e42f1bfea8a9dda96846e9ee97914494e66"><code>df550e42f1bfea8a9dda96846e9ee97914494e66</code></a> |
+| Commit              | <a href="https://github.com/i2mint/front/commit/8d789a0b3345c16afc2095160d51ec28085d8d8f"><code>8d789a0b3345c16afc2095160d51ec28085d8d8f</code></a> |
 | Branch              | <code>master</code>                                                                                                                                 |
 | Tags at this commit | none                                                                                                                                                |
 | Working tree        | clean                                                                                                                                               |
@@ -2350,15 +2352,15 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/front</code>                                                                  |
-| Run          | <a href="https://github.com/i2mint/front/actions/runs/39370368602">39370368602</a>         |
+| Run          | <a href="https://github.com/i2mint/front/actions/runs/39435042126">39435042126</a>         |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>df550e42f1bfea8a9dda96846e9ee97914494e66</code> (in the history of the built commit) |
+| Event commit | <code>8d789a0b3345c16afc2095160d51ec28085d8d8f</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.18  |
+| epythet  | 0.2.20  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
 | Python   | 3.12.15 |
@@ -2377,14 +2379,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/front/0.1.108/">0.1.108</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/front/0.1.110/">0.1.110</a>, newer than the documented version (0.1.109).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/front && cd front
-git checkout df550e42f1bfea8a9dda96846e9ee97914494e66
-pip install "epythet==0.2.18"
+git checkout 8d789a0b3345c16afc2095160d51ec28085d8d8f
+pip install "epythet==0.2.20"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 
