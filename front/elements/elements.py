@@ -630,7 +630,11 @@ class KwargsInputBase(InputBase):
     func_sig: Sig | Callable = None
 
     def pre_render(self):
-        """Make ``self.get_kwargs``, a function with signature ``func_sig`` returning its kwargs."""
+        """Make ``self.get_kwargs``, a function with signature ``func_sig`` returning its kwargs.
+
+        It is named after ``input_key``, so the nested inputs get keys like
+        ``<input_key>_<param>``.
+        """
         super().pre_render()
         func_sig = self.func_sig if isinstance(self.func_sig, Sig) else self.func_sig()
         func_sig = func_sig or Sig()
@@ -639,6 +643,10 @@ class KwargsInputBase(InputBase):
         def get_kwargs(**kwargs):
             return kwargs
 
+        # The nested inputs' keys derive from this function's name (see
+        # ``mk_input_element_specs``): name it after this input so that they are
+        # scoped to it and do not collide across kwargs inputs (i2mint/front#40).
+        get_kwargs.__name__ = self.input_key or get_kwargs.__name__
         self.get_kwargs = get_kwargs
 
     def _return_kwargs(self, output):
