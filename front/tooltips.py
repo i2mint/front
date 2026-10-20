@@ -128,7 +128,12 @@ def apply_tooltips(obj_spec: Mapping, obj: Callable) -> dict:
         {'tooltips': {'func': False}}            # no function tooltip, params only
 
     The function tooltip goes to the spec's ``tooltip`` and the param tooltips to
-    ``execution.inputs.<param>.tooltip``. A ``tooltip`` the spec already has is kept.
+    ``execution.inputs.<param>.tooltip`` (only for a spec that has an ``execution`` entry).
+    A ``tooltip`` the spec already has is kept.
+
+    Opt-in also means the element factories must accept ``tooltip``: ``FrontElementBase``
+    and the base containers do, but a concrete element with its own ``__init__`` signature
+    has to take it (and forward it) before the config is switched on for it.
 
     >>> def foo(a, b=2):
     ...     '''Add things.

@@ -7,7 +7,7 @@ mirroring the rendering specification. This module defines the base
 """
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from threading import Timer
 from typing import (
     Any,
@@ -61,7 +61,7 @@ class FrontElementBase(ABC):
     name: FrontElementName = None
     display: FrontElementDisplay = True
     #: Help text a concrete frontend may show (e.g. streamlit's ``help=``); see ``front.tooltips``.
-    tooltip: str = None
+    tooltip: str = field(default=None, kw_only=True)
 
     def __post_init__(self):
         self.name = get_value(self.name, self.obj) or ""
