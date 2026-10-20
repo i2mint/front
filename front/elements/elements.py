@@ -60,6 +60,8 @@ class FrontElementBase(ABC):
     obj: Any = None
     name: FrontElementName = None
     display: FrontElementDisplay = True
+    #: Help text a concrete frontend may show (e.g. streamlit's ``help=``); see ``front.tooltips``.
+    tooltip: str = None
 
     def __post_init__(self):
         self.name = get_value(self.name, self.obj) or ""
@@ -206,9 +208,10 @@ class FrontContainerBase(FrontElementBase):
         obj=None,
         name: FrontElementName = None,
         display: FrontElementDisplay = True,
+        tooltip: str = None,
         **kwargs: FrontElementSpec,
     ):
-        super().__init__(obj=obj, name=name, display=display)
+        super().__init__(obj=obj, name=name, display=display, tooltip=tooltip)
         specs = [dict(dict(name=k, obj=obj), **v) for k, v in kwargs.items()]
         self.children = [mk_element_from_spec(spec) for spec in specs]
 
@@ -365,11 +368,14 @@ class ExecContainerBase(FrontContainerBase):
         display: FrontElementDisplay = True,
         auto_submit: bool = False,
         on_submit: Callable[[Any], None] = None,
+        tooltip: str = None,
     ):
         self.inputs = inputs
         self._feed_kwargs_input_spec()
         element_specs = dict(mk_input_element_specs(obj, inputs), output=output)
-        super().__init__(obj=obj, name=name, display=display, **element_specs)
+        super().__init__(
+            obj=obj, name=name, display=display, tooltip=tooltip, **element_specs
+        )
         self.auto_submit = auto_submit
         self.on_submit = on_submit
 
