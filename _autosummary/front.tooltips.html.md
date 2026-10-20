@@ -38,9 +38,50 @@ can be selected with `include` / `exclude`.
 
 ### Functions
 
-| [`func_tooltip`](#front.tooltips.func_tooltip)(func[, style, n_lines, ellipsis])   | Tooltip for a function.                                                      |
-|---------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
-| [`param_tooltips`](#front.tooltips.param_tooltips)(func, \*[, ledger, include, ...]) | Tooltips for the arguments of a function, as a `{param_name: tooltip}` dict. |
+| [`apply_tooltips`](#front.tooltips.apply_tooltips)(obj_spec, obj)                    | Return `obj_spec` with `tooltip` entries computed for `obj` and its params.   |
+|---------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| [`func_tooltip`](#front.tooltips.func_tooltip)(func[, style, n_lines, ellipsis])   | Tooltip for a function.                                                       |
+| [`param_tooltips`](#front.tooltips.param_tooltips)(func, \*[, ledger, include, ...]) | Tooltips for the arguments of a function, as a `{param_name: tooltip}` dict.  |
+
+### front.tooltips.apply_tooltips(obj_spec, obj)
+
+Return `obj_spec` with `tooltip` entries computed for `obj` and its params.
+
+The (opt-in) configuration is the `"tooltips"` entry of the spec, which is consumed
+here and never reaches the elements. Being part of the rendering spec, it can sit under
+a type (`Callable`) to apply to everything, or under an object’s name to apply to it
+alone:
+
+```default
+{'tooltips': True}                       # all defaults
+{'tooltips': {'func': 'first_lines',     # or any other string: explicit tooltip
+              'params': {'exclude': ['x'], 'ledger': {'a': 'explicit'}}}}
+{'tooltips': {'func': False}}            # no function tooltip, params only
+```
+
+The function tooltip goes to the spec’s `tooltip` and the param tooltips to
+`execution.inputs.<param>.tooltip` (only for a spec that has an `execution` entry).
+A `tooltip` the spec already has is kept.
+
+Opt-in also means the element factories must accept `tooltip`: `FrontElementBase`
+and the base containers do, but a concrete element with its own `__init__` signature
+has to take it (and forward it) before the config is switched on for it.
+
+```pycon
+>>> def foo(a, b=2):
+...     '''Add things.
+...
+...     :param a: the first thing
+...     '''
+>>> spec = apply_tooltips({'tooltips': True, 'execution': {'inputs': {}}}, foo)
+>>> spec['tooltip'], spec['execution']['inputs']
+('Add things.', {'a': {'tooltip': 'the first thing'}})
+>>> apply_tooltips({'x': 1}, foo)
+{'x': 1}
+```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### front.tooltips.func_tooltip(func, style='first_line', , n_lines=3, ellipsis='... (+more)')
 

@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=96d412e2"></script>
+    <script src="../../_static/documentation_options.js?v=7eceb120"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.107" />
+  <meta name="docsearch:version" content="0.1.108" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -827,6 +827,64 @@ window.runMermaid = runMermaid;</script>
         <span class="n">tooltips</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tooltips</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">include</span><span class="p">}</span>
     <span class="n">exclude</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">exclude</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tooltips</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exclude</span><span class="p">}</span></div>
+
+
+
+<span class="n">TOOLTIPS_KEY</span> <span class="o">=</span> <span class="s2">"tooltips"</span>
+<span class="n">TOOLTIP_KEY</span> <span class="o">=</span> <span class="s2">"tooltip"</span>
+
+
+<div class="viewcode-block" id="apply_tooltips">
+<a class="viewcode-back" href="../../_autosummary/front.tooltips.html#front.tooltips.apply_tooltips">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_tooltips</span><span class="p">(</span><span class="n">obj_spec</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return ``obj_spec`` with ``tooltip`` entries computed for ``obj`` and its params.</span>
+
+<span class="sd">    The (opt-in) configuration is the ``"tooltips"`` entry of the spec, which is consumed</span>
+<span class="sd">    here and never reaches the elements. Being part of the rendering spec, it can sit under</span>
+<span class="sd">    a type (``Callable``) to apply to everything, or under an object's name to apply to it</span>
+<span class="sd">    alone::</span>
+
+<span class="sd">        {'tooltips': True}                       # all defaults</span>
+<span class="sd">        {'tooltips': {'func': 'first_lines',     # or any other string: explicit tooltip</span>
+<span class="sd">                      'params': {'exclude': ['x'], 'ledger': {'a': 'explicit'}}}}</span>
+<span class="sd">        {'tooltips': {'func': False}}            # no function tooltip, params only</span>
+
+<span class="sd">    The function tooltip goes to the spec's ``tooltip`` and the param tooltips to</span>
+<span class="sd">    ``execution.inputs.&lt;param&gt;.tooltip`` (only for a spec that has an ``execution`` entry).</span>
+<span class="sd">    A ``tooltip`` the spec already has is kept.</span>
+
+<span class="sd">    Opt-in also means the element factories must accept ``tooltip``: ``FrontElementBase``</span>
+<span class="sd">    and the base containers do, but a concrete element with its own ``__init__`` signature</span>
+<span class="sd">    has to take it (and forward it) before the config is switched on for it.</span>
+
+<span class="sd">    &gt;&gt;&gt; def foo(a, b=2):</span>
+<span class="sd">    ...     '''Add things.</span>
+<span class="sd">    ...</span>
+<span class="sd">    ...     :param a: the first thing</span>
+<span class="sd">    ...     '''</span>
+<span class="sd">    &gt;&gt;&gt; spec = apply_tooltips({'tooltips': True, 'execution': {'inputs': {}}}, foo)</span>
+<span class="sd">    &gt;&gt;&gt; spec['tooltip'], spec['execution']['inputs']</span>
+<span class="sd">    ('Add things.', {'a': {'tooltip': 'the first thing'}})</span>
+<span class="sd">    &gt;&gt;&gt; apply_tooltips({'x': 1}, foo)</span>
+<span class="sd">    {'x': 1}</span>
+<span class="sd">    """</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">obj_spec</span><span class="p">)</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">TOOLTIPS_KEY</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">spec</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="nb">dict</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">func_style</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"func"</span><span class="p">,</span> <span class="s2">"first_line"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">func_style</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">TOOLTIP_KEY</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">text</span> <span class="o">:=</span> <span class="n">func_tooltip</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">func_style</span><span class="p">):</span>
+            <span class="n">spec</span><span class="p">[</span><span class="n">TOOLTIP_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">text</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">param_tooltips</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"params"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}))</span>
+    <span class="n">execution</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"execution"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">params</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">execution</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">execution</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"inputs"</span><span class="p">,</span> <span class="p">{})}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">inputs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">TOOLTIP_KEY</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">inputs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">{})}</span>
+        <span class="n">spec</span><span class="p">[</span><span class="s2">"execution"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">execution</span><span class="p">,</span> <span class="s2">"inputs"</span><span class="p">:</span> <span class="n">inputs</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">spec</span></div>
 
 </pre></div>
 

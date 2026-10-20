@@ -8,6 +8,7 @@ front.tooltips
 
    .. autosummary::
    
+      apply_tooltips
       func_tooltip
       param_tooltips
    

@@ -1,4 +1,4 @@
-> built 2026-10-20 03:44 UTC from 7bca5b5 (master) · front 0.1.107. Details: build_info.json
+> built 2026-10-20 04:36 UTC from df550e4 (master) · front 0.1.108. Details: build_info.json
 
 # index.html.md
 
@@ -941,32 +941,32 @@ mirroring the rendering specification. This module defines the base
 
 ### Classes
 
-| [`BooleanInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.BooleanInputBase)([obj, name, display, ...])      | Boolean input (checkbox-like); values are cast with `bool`, defaulting to False.                              |
-|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| [`ExecContainerBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.ExecContainerBase)(obj, inputs, output[, ...])    | Container that executes `obj` with the values of its input children.                                          |
-| [`FileUploaderBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FileUploaderBase)([obj, name, display, ...])      | File upload input, restricted to the given file `type` (extension(s)) if any.                                 |
-| [`FloatInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FloatInputBase)([obj, name, display, ...])        | Float input with optional bounds and `step`; values are cast with `float`, defaulting to 0.0.                 |
-| [`FrontComponentBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontComponentBase)([obj, name, display])         | A leaf element the user interacts with (an input, an output, a text section).                                 |
-| [`FrontContainerBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontContainerBase)([obj, name, display])         | An element with children, each built from a keyword argument holding an element spec.                         |
-| [`FrontElementBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontElementBase)([obj, name, display])           | Base of every front element: a renderable node of the element tree.                                           |
-| [`FrontElementSpec`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontElementSpec)                                 |                                                                                                               |
-| [`InputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.InputBase)([obj, name, display, input_key, ...])  | Base of input components: a value bound to state under `input_key`.                                           |
-| [`IntInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.IntInputBase)([obj, name, display, ...])          | Integer input with optional bounds; values are cast with `int`, defaulting to 0.                              |
-| [`KwargsInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.KwargsInputBase)([obj, name, display, ...])       | Input for a `**kwargs` parameter, with one sub-input per name in `func_sig`.                                  |
-| [`MultiSourceInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.MultiSourceInputBase)([obj, name, display, ...])  | An input whose value can come from several child input components.                                            |
-| [`NumberInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.NumberInputBase)([obj, name, display, ...])       | Base of numeric inputs, with an optional display `format`.                                                    |
-| [`OutputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.OutputBase)([obj, name, display])                 | Base of output components; `output` is set by the executing container before render.                          |
-| [`SelectorBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.SelectorBase)([obj, name, display, ...])          | Input choosing one value among `options` (a sequence, a mapping -- its keys --, or a callable returning one). |
-| [`TextInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.TextInputBase)([obj, name, display, ...])         | Text input; the view value defaults to the empty string.                                                      |
-| [`TextSectionBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.TextSectionBase)(content[, kind, obj, name, ...]) | A component displaying text `content` of a given `kind` (e.g. "text", "markdown").                            |
+| [`BooleanInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.BooleanInputBase)([obj, name, display, ...])       | Boolean input (checkbox-like); values are cast with `bool`, defaulting to False.                              |
+|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| [`ExecContainerBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.ExecContainerBase)(obj, inputs, output[, ...])     | Container that executes `obj` with the values of its input children.                                          |
+| [`FileUploaderBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FileUploaderBase)([obj, name, display, ...])       | File upload input, restricted to the given file `type` (extension(s)) if any.                                 |
+| [`FloatInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FloatInputBase)([obj, name, display, ...])         | Float input with optional bounds and `step`; values are cast with `float`, defaulting to 0.0.                 |
+| [`FrontComponentBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontComponentBase)([obj, name, display, tooltip]) | A leaf element the user interacts with (an input, an output, a text section).                                 |
+| [`FrontContainerBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontContainerBase)([obj, name, display, tooltip]) | An element with children, each built from a keyword argument holding an element spec.                         |
+| [`FrontElementBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontElementBase)([obj, name, display, tooltip])   | Base of every front element: a renderable node of the element tree.                                           |
+| [`FrontElementSpec`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontElementSpec)                                  |                                                                                                               |
+| [`InputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.InputBase)([obj, name, display, input_key, ...])   | Base of input components: a value bound to state under `input_key`.                                           |
+| [`IntInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.IntInputBase)([obj, name, display, ...])           | Integer input with optional bounds; values are cast with `int`, defaulting to 0.                              |
+| [`KwargsInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.KwargsInputBase)([obj, name, display, ...])        | Input for a `**kwargs` parameter, with one sub-input per name in `func_sig`.                                  |
+| [`MultiSourceInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.MultiSourceInputBase)([obj, name, display, ...])   | An input whose value can come from several child input components.                                            |
+| [`NumberInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.NumberInputBase)([obj, name, display, ...])        | Base of numeric inputs, with an optional display `format`.                                                    |
+| [`OutputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.OutputBase)([obj, name, display, tooltip])         | Base of output components; `output` is set by the executing container before render.                          |
+| [`SelectorBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.SelectorBase)([obj, name, display, ...])           | Input choosing one value among `options` (a sequence, a mapping -- its keys --, or a callable returning one). |
+| [`TextInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.TextInputBase)([obj, name, display, ...])          | Text input; the view value defaults to the empty string.                                                      |
+| [`TextSectionBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.TextSectionBase)(content[, kind, obj, name, ...])  | A component displaying text `content` of a given `kind` (e.g. "text", "markdown").                            |
 
-### *class* front.elements.elements.BooleanInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False)
+### *class* front.elements.elements.BooleanInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, , tooltip=None)
 
 Bases: [`InputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.InputBase)
 
 Boolean input (checkbox-like); values are cast with `bool`, defaulting to False.
 
-### *class* front.elements.elements.ExecContainerBase(obj, inputs, output, name=None, display=True, auto_submit=False, on_submit=None)
+### *class* front.elements.elements.ExecContainerBase(obj, inputs, output, name=None, display=True, auto_submit=False, on_submit=None, tooltip=None)
 
 Bases: [`FrontContainerBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontContainerBase)
 
@@ -978,7 +978,7 @@ hands the result to the first `OutputBase` child and renders it, then calls
 `on_submit` with the result if given. Concrete subclasses implement `render`
 and `_noneable` (how an optional input is presented).
 
-### *class* front.elements.elements.FileUploaderBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, type=None, accept_multiple_files=False, clear_after_submit=True)
+### *class* front.elements.elements.FileUploaderBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, type=None, accept_multiple_files=False, clear_after_submit=True, , tooltip=None)
 
 Bases: [`InputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.InputBase)
 
@@ -989,19 +989,19 @@ uploader once its container has successfully submitted, so the next upload start
 from a clean selection instead of the previous one sticking. Set it to False to keep
 the selection (e.g. to resubmit the same files with other parameters).
 
-### *class* front.elements.elements.FloatInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, format=None, min_value=None, max_value=None, step=None)
+### *class* front.elements.elements.FloatInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, format=None, min_value=None, max_value=None, step=None, , tooltip=None)
 
 Bases: [`NumberInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.NumberInputBase)
 
 Float input with optional bounds and `step`; values are cast with `float`, defaulting to 0.0.
 
-### *class* front.elements.elements.FrontComponentBase(obj=None, name=None, display=True)
+### *class* front.elements.elements.FrontComponentBase(obj=None, name=None, display=True, , tooltip=None)
 
 Bases: [`FrontElementBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontElementBase)
 
 A leaf element the user interacts with (an input, an output, a text section).
 
-### *class* front.elements.elements.FrontContainerBase(obj=None, name=None, display=True, \*\*kwargs)
+### *class* front.elements.elements.FrontContainerBase(obj=None, name=None, display=True, tooltip=None, \*\*kwargs)
 
 Bases: [`FrontElementBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontElementBase)
 
@@ -1025,7 +1025,7 @@ down. Concrete containers define the layout in `render`.
 ['hello you', 'hello other']
 ```
 
-### *class* front.elements.elements.FrontElementBase(obj=None, name=None, display=True)
+### *class* front.elements.elements.FrontElementBase(obj=None, name=None, display=True, , tooltip=None)
 
 Bases: [`ABC`](https://docs.python.org/3/library/abc.html#abc.ABC)
 
@@ -1066,11 +1066,15 @@ Hook run before `render`; does nothing by default.
 
 Render the element with the concrete UI framework; must be overridden.
 
+#### tooltip *: [str](https://docs.python.org/3/builtins/stdtypes.html#str)* *= None*
+
+Help text a concrete frontend may show (e.g. streamlit’s `help=`); see `front.tooltips`.
+
 ### *class* front.elements.elements.FrontElementSpec
 
 Bases: [`TypedDict`](https://docs.python.org/3/library/typing.html#typing.TypedDict)
 
-### *class* front.elements.elements.InputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False)
+### *class* front.elements.elements.InputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, , tooltip=None)
 
 Bases: [`FrontComponentBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontComponentBase)
 
@@ -1107,13 +1111,13 @@ Store the rendered (widget) value in the bound state and return it.
 * **Type:**
   State key of the widget’s displayed value
 
-### *class* front.elements.elements.IntInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, format=None, min_value=None, max_value=None)
+### *class* front.elements.elements.IntInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, format=None, min_value=None, max_value=None, , tooltip=None)
 
 Bases: [`NumberInputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.NumberInputBase)
 
 Integer input with optional bounds; values are cast with `int`, defaulting to 0.
 
-### *class* front.elements.elements.KwargsInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, inputs=None, func_sig=None)
+### *class* front.elements.elements.KwargsInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, inputs=None, func_sig=None, , tooltip=None)
 
 Bases: [`InputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.InputBase)
 
@@ -1132,19 +1136,19 @@ An input whose value can come from several child input components.
 Extra keyword arguments are child input specs; each child shares this input’s
 `input_key`, `value` and binding settings.
 
-### *class* front.elements.elements.NumberInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, format=None)
+### *class* front.elements.elements.NumberInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, format=None, , tooltip=None)
 
 Bases: [`InputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.InputBase)
 
 Base of numeric inputs, with an optional display `format`.
 
-### *class* front.elements.elements.OutputBase(obj=None, name=None, display=True)
+### *class* front.elements.elements.OutputBase(obj=None, name=None, display=True, , tooltip=None)
 
 Bases: [`FrontComponentBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.FrontComponentBase)
 
 Base of output components; `output` is set by the executing container before render.
 
-### *class* front.elements.elements.SelectorBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, options=None)
+### *class* front.elements.elements.SelectorBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, options=None, , tooltip=None)
 
 Bases: [`InputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.InputBase)
 
@@ -1158,7 +1162,7 @@ literal’s values are the options.
 
 Resolve the options and pre-select the current view value (or the first option).
 
-### *class* front.elements.elements.TextInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, type=None)
+### *class* front.elements.elements.TextInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, type=None, , tooltip=None)
 
 Bases: [`InputBase`](_autosummary/front.elements.elements.html.md#front.elements.elements.InputBase)
 
@@ -1988,9 +1992,50 @@ can be selected with `include` / `exclude`.
 
 ### Functions
 
-| [`func_tooltip`](_autosummary/front.tooltips.html.md#front.tooltips.func_tooltip)(func[, style, n_lines, ellipsis])   | Tooltip for a function.                                                      |
-|---------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
-| [`param_tooltips`](_autosummary/front.tooltips.html.md#front.tooltips.param_tooltips)(func, \*[, ledger, include, ...]) | Tooltips for the arguments of a function, as a `{param_name: tooltip}` dict. |
+| [`apply_tooltips`](_autosummary/front.tooltips.html.md#front.tooltips.apply_tooltips)(obj_spec, obj)                    | Return `obj_spec` with `tooltip` entries computed for `obj` and its params.   |
+|---------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| [`func_tooltip`](_autosummary/front.tooltips.html.md#front.tooltips.func_tooltip)(func[, style, n_lines, ellipsis])   | Tooltip for a function.                                                       |
+| [`param_tooltips`](_autosummary/front.tooltips.html.md#front.tooltips.param_tooltips)(func, \*[, ledger, include, ...]) | Tooltips for the arguments of a function, as a `{param_name: tooltip}` dict.  |
+
+### front.tooltips.apply_tooltips(obj_spec, obj)
+
+Return `obj_spec` with `tooltip` entries computed for `obj` and its params.
+
+The (opt-in) configuration is the `"tooltips"` entry of the spec, which is consumed
+here and never reaches the elements. Being part of the rendering spec, it can sit under
+a type (`Callable`) to apply to everything, or under an object’s name to apply to it
+alone:
+
+```default
+{'tooltips': True}                       # all defaults
+{'tooltips': {'func': 'first_lines',     # or any other string: explicit tooltip
+              'params': {'exclude': ['x'], 'ledger': {'a': 'explicit'}}}}
+{'tooltips': {'func': False}}            # no function tooltip, params only
+```
+
+The function tooltip goes to the spec’s `tooltip` and the param tooltips to
+`execution.inputs.<param>.tooltip` (only for a spec that has an `execution` entry).
+A `tooltip` the spec already has is kept.
+
+Opt-in also means the element factories must accept `tooltip`: `FrontElementBase`
+and the base containers do, but a concrete element with its own `__init__` signature
+has to take it (and forward it) before the config is switched on for it.
+
+```pycon
+>>> def foo(a, b=2):
+...     '''Add things.
+...
+...     :param a: the first thing
+...     '''
+>>> spec = apply_tooltips({'tooltips': True, 'execution': {'inputs': {}}}, foo)
+>>> spec['tooltip'], spec['execution']['inputs']
+('Add things.', {'a': {'tooltip': 'the first thing'}})
+>>> apply_tooltips({'x': 1}, foo)
+{'x': 1}
+```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### front.tooltips.func_tooltip(func, style='first_line', , n_lines=3, ellipsis='... (+more)')
 
@@ -2285,18 +2330,16 @@ a Mapping.
 
 # About this build
 
-This documentation was built on **2026-10-20 03:44 UTC** from commit <a href="https://github.com/i2mint/front/commit/7bca5b547afd567767c301d77183d511f5958f40"><code>7bca5b5</code></a> on branch <code>master</code>, for **front 0.1.107** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 04:36 UTC** from commit <a href="https://github.com/i2mint/front/commit/df550e42f1bfea8a9dda96846e9ee97914494e66"><code>df550e4</code></a> on branch <code>master</code>, for **front 0.1.108** (from <code>pyproject.toml</code>).
 
-#### WARNING
-The documentation and the package may be misaligned:
-
-- The documented version (0.1.107) is behind the latest release on PyPI (0.1.108): `pip install front` gives newer code than these docs describe.
+#### NOTE
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 
 ## Source
 
 |                     |                                                                                                                                                     |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/front/commit/7bca5b547afd567767c301d77183d511f5958f40"><code>7bca5b547afd567767c301d77183d511f5958f40</code></a> |
+| Commit              | <a href="https://github.com/i2mint/front/commit/df550e42f1bfea8a9dda96846e9ee97914494e66"><code>df550e42f1bfea8a9dda96846e9ee97914494e66</code></a> |
 | Branch              | <code>master</code>                                                                                                                                 |
 | Tags at this commit | none                                                                                                                                                |
 | Working tree        | clean                                                                                                                                               |
@@ -2307,9 +2350,9 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/front</code>                                                                  |
-| Run          | <a href="https://github.com/i2mint/front/actions/runs/39365708101">39365708101</a>         |
+| Run          | <a href="https://github.com/i2mint/front/actions/runs/39370368602">39370368602</a>         |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>7bca5b547afd567767c301d77183d511f5958f40</code> (in the history of the built commit) |
+| Event commit | <code>df550e42f1bfea8a9dda96846e9ee97914494e66</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -2334,13 +2377,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/front/0.1.108/">0.1.108</a>, newer than the documented version (0.1.107).
+Latest release: <a href="https://pypi.org/project/front/0.1.108/">0.1.108</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/front && cd front
-git checkout 7bca5b547afd567767c301d77183d511f5958f40
+git checkout df550e42f1bfea8a9dda96846e9ee97914494e66
 pip install "epythet==0.2.18"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

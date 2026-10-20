@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
-  "built_at": "2026-10-20T03:44:05Z",
+  "built_at": "2026-10-20T04:36:48Z",
   "package": {
     "name": "front",
-    "version": "0.1.107",
+    "version": "0.1.108",
     "display_name": "front",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "7bca5b547afd567767c301d77183d511f5958f40",
-    "short_commit": "7bca5b5",
+    "commit": "df550e42f1bfea8a9dda96846e9ee97914494e66",
+    "short_commit": "df550e4",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/i2mint/front",
-    "commit_url": "https://github.com/i2mint/front/commit/7bca5b547afd567767c301d77183d511f5958f40",
+    "commit_url": "https://github.com/i2mint/front/commit/df550e42f1bfea8a9dda96846e9ee97914494e66",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "i2mint/front",
-    "sha": "7bca5b547afd567767c301d77183d511f5958f40",
+    "sha": "df550e42f1bfea8a9dda96846e9ee97914494e66",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "39365708101",
-    "run_url": "https://github.com/i2mint/front/actions/runs/39365708101",
+    "run_id": "39370368602",
+    "run_url": "https://github.com/i2mint/front/actions/runs/39370368602",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -56,20 +56,18 @@
   },
   "site": {
     "modules_documented": 17,
-    "objects_documented": 93
+    "objects_documented": 95
   },
   "pypi": {
     "checked": true,
     "latest": "0.1.108",
-    "relation": "behind",
+    "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/i2mint/front && cd front\ngit checkout 7bca5b547afd567767c301d77183d511f5958f40\npip install \"epythet==0.2.18\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/i2mint/front && cd front\ngit checkout df550e42f1bfea8a9dda96846e9ee97914494e66\npip install \"epythet==0.2.18\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": false,
-    "notes": [
-      "The documented version (0.1.107) is behind the latest release on PyPI (0.1.108): `pip install front` gives newer code than these docs describe."
-    ]
+    "aligned": true,
+    "notes": []
   }
 }

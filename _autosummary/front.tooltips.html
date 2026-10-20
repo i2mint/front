@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=96d412e2"></script>
+    <script src="../_static/documentation_options.js?v=7eceb120"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.107" />
+  <meta name="docsearch:version" content="0.1.108" />
   
     
     <script src="../_static/searchtools.js"></script>
@@ -439,15 +439,57 @@ can be selected with <code class="docutils literal notranslate"><span class="pre
 <p class="rubric">Functions</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#front.tooltips.func_tooltip" title="front.tooltips.func_tooltip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">func_tooltip</span></code></a>(func[, style, n_lines, ellipsis])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.tooltips.apply_tooltips" title="front.tooltips.apply_tooltips"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_tooltips</span></code></a>(obj_spec, obj)</p></td>
+<td><p>Return <code class="docutils literal notranslate"><span class="pre">obj_spec</span></code> with <code class="docutils literal notranslate"><span class="pre">tooltip</span></code> entries computed for <code class="docutils literal notranslate"><span class="pre">obj</span></code> and its params.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#front.tooltips.func_tooltip" title="front.tooltips.func_tooltip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">func_tooltip</span></code></a>(func[, style, n_lines, ellipsis])</p></td>
 <td><p>Tooltip for a function.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#front.tooltips.param_tooltips" title="front.tooltips.param_tooltips"><code class="xref py py-obj docutils literal notranslate"><span class="pre">param_tooltips</span></code></a>(func, *[, ledger, include, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#front.tooltips.param_tooltips" title="front.tooltips.param_tooltips"><code class="xref py py-obj docutils literal notranslate"><span class="pre">param_tooltips</span></code></a>(func, *[, ledger, include, ...])</p></td>
 <td><p>Tooltips for the arguments of a function, as a <code class="docutils literal notranslate"><span class="pre">{param_name:</span> <span class="pre">tooltip}</span></code> dict.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<dl class="py function">
+<dt class="sig sig-object py" id="front.tooltips.apply_tooltips">
+<span class="sig-prename descclassname"><span class="pre">front.tooltips.</span></span><span class="sig-name descname"><span class="pre">apply_tooltips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj_spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/tooltips.html#apply_tooltips"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.tooltips.apply_tooltips" title="Link to this definition">#</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">obj_spec</span></code> with <code class="docutils literal notranslate"><span class="pre">tooltip</span></code> entries computed for <code class="docutils literal notranslate"><span class="pre">obj</span></code> and its params.</p>
+<p>The (opt-in) configuration is the <code class="docutils literal notranslate"><span class="pre">&quot;tooltips&quot;</span></code> entry of the spec, which is consumed
+here and never reaches the elements. Being part of the rendering spec, it can sit under
+a type (<code class="docutils literal notranslate"><span class="pre">Callable</span></code>) to apply to everything, or under an object’s name to apply to it
+alone:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">'tooltips'</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>                       <span class="c1"># all defaults</span>
+<span class="p">{</span><span class="s1">'tooltips'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'func'</span><span class="p">:</span> <span class="s1">'first_lines'</span><span class="p">,</span>     <span class="c1"># or any other string: explicit tooltip</span>
+              <span class="s1">'params'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'exclude'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'x'</span><span class="p">],</span> <span class="s1">'ledger'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'a'</span><span class="p">:</span> <span class="s1">'explicit'</span><span class="p">}}}}</span>
+<span class="p">{</span><span class="s1">'tooltips'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'func'</span><span class="p">:</span> <span class="kc">False</span><span class="p">}}</span>            <span class="c1"># no function tooltip, params only</span>
+</pre></div>
+</div>
+<p>The function tooltip goes to the spec’s <code class="docutils literal notranslate"><span class="pre">tooltip</span></code> and the param tooltips to
+<code class="docutils literal notranslate"><span class="pre">execution.inputs.&lt;param&gt;.tooltip</span></code> (only for a spec that has an <code class="docutils literal notranslate"><span class="pre">execution</span></code> entry).
+A <code class="docutils literal notranslate"><span class="pre">tooltip</span></code> the spec already has is kept.</p>
+<p>Opt-in also means the element factories must accept <code class="docutils literal notranslate"><span class="pre">tooltip</span></code>: <code class="docutils literal notranslate"><span class="pre">FrontElementBase</span></code>
+and the base containers do, but a concrete element with its own <code class="docutils literal notranslate"><span class="pre">__init__</span></code> signature
+has to take it (and forward it) before the config is switched on for it.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="gp">... </span><span class="w">    </span><span class="sd">'''Add things.</span>
+<span class="gp">...</span>
+<span class="gp">... </span><span class="sd">    :param a: the first thing</span>
+<span class="gp">... </span><span class="sd">    '''</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="n">apply_tooltips</span><span class="p">({</span><span class="s1">'tooltips'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'execution'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'inputs'</span><span class="p">:</span> <span class="p">{}}},</span> <span class="n">foo</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span><span class="p">[</span><span class="s1">'tooltip'</span><span class="p">],</span> <span class="n">spec</span><span class="p">[</span><span class="s1">'execution'</span><span class="p">][</span><span class="s1">'inputs'</span><span class="p">]</span>
+<span class="go">('Add things.', {'a': {'tooltip': 'the first thing'}})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">apply_tooltips</span><span class="p">({</span><span class="s1">'x'</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="n">foo</span><span class="p">)</span>
+<span class="go">{'x': 1}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="front.tooltips.func_tooltip">
 <span class="sig-prename descclassname"><span class="pre">front.tooltips.</span></span><span class="sig-name descname"><span class="pre">func_tooltip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'first_line'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ellipsis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'...</span> <span class="pre">(+more)'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/front/tooltips.html#func_tooltip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#front.tooltips.func_tooltip" title="Link to this definition">#</a></dt>
@@ -528,6 +570,7 @@ and <code class="docutils literal notranslate"><span class="pre">exclude</span><
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.tooltips.apply_tooltips"><code class="docutils literal notranslate"><span class="pre">apply_tooltips()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.tooltips.func_tooltip"><code class="docutils literal notranslate"><span class="pre">func_tooltip()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#front.tooltips.param_tooltips"><code class="docutils literal notranslate"><span class="pre">param_tooltips()</span></code></a></li>
 </ul>

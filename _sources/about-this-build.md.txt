@@ -5,19 +5,17 @@ orphan: true
 
 # About this build
 
-This documentation was built on **2026-10-20 03:44 UTC** from commit <a href="https://github.com/i2mint/front/commit/7bca5b547afd567767c301d77183d511f5958f40"><code>7bca5b5</code></a> on branch <code>master</code>, for **front 0.1.107** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 04:36 UTC** from commit <a href="https://github.com/i2mint/front/commit/df550e42f1bfea8a9dda96846e9ee97914494e66"><code>df550e4</code></a> on branch <code>master</code>, for **front 0.1.108** (from <code>pyproject.toml</code>).
 
-:::{warning}
-The documentation and the package may be misaligned:
-
-- The documented version (0.1.107) is behind the latest release on PyPI (0.1.108): `pip install front` gives newer code than these docs describe.
+:::{note}
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 :::
 
 ## Source
 
 | | |
 |---|---|
-| Commit | <a href="https://github.com/i2mint/front/commit/7bca5b547afd567767c301d77183d511f5958f40"><code>7bca5b547afd567767c301d77183d511f5958f40</code></a> |
+| Commit | <a href="https://github.com/i2mint/front/commit/df550e42f1bfea8a9dda96846e9ee97914494e66"><code>df550e42f1bfea8a9dda96846e9ee97914494e66</code></a> |
 | Branch | <code>master</code> |
 | Tags at this commit | none |
 | Working tree | clean |
@@ -28,9 +26,9 @@ The documentation and the package may be misaligned:
 | | |
 |---|---|
 | Repository | <code>i2mint/front</code> |
-| Run | <a href="https://github.com/i2mint/front/actions/runs/39365708101">39365708101</a> |
+| Run | <a href="https://github.com/i2mint/front/actions/runs/39370368602">39370368602</a> |
 | Ref | <code>refs/heads/master</code> |
-| Event commit | <code>7bca5b547afd567767c301d77183d511f5958f40</code> (in the history of the built commit) |
+| Event commit | <code>df550e42f1bfea8a9dda96846e9ee97914494e66</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -55,13 +53,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/front/0.1.108/">0.1.108</a>, newer than the documented version (0.1.107).
+Latest release: <a href="https://pypi.org/project/front/0.1.108/">0.1.108</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/front && cd front
-git checkout 7bca5b547afd567767c301d77183d511f5958f40
+git checkout df550e42f1bfea8a9dda96846e9ee97914494e66
 pip install "epythet==0.2.18"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
