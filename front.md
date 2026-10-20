@@ -1,4 +1,4 @@
-> built 2026-10-20 13:59 UTC from 8d789a0 (master) · front 0.1.109. Details: build_info.json
+> built 2026-10-20 14:02 UTC from b246a05 (master) · front 0.1.110. Details: build_info.json
 
 # index.html.md
 
@@ -1126,6 +1126,9 @@ Input for a `**kwargs` parameter, with one sub-input per name in `func_sig`.
 #### pre_render()
 
 Make `self.get_kwargs`, a function with signature `func_sig` returning its kwargs.
+
+It is named after `input_key`, so the nested inputs get keys like
+`<input_key>_<param>`.
 
 ### *class* front.elements.elements.MultiSourceInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, \*\*kwargs)
 
@@ -2330,18 +2333,18 @@ a Mapping.
 
 # About this build
 
-This documentation was built on **2026-10-20 13:59 UTC** from commit <a href="https://github.com/i2mint/front/commit/8d789a0b3345c16afc2095160d51ec28085d8d8f"><code>8d789a0</code></a> on branch <code>master</code>, for **front 0.1.109** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 14:02 UTC** from commit <a href="https://github.com/i2mint/front/commit/b246a05962b7bf8e8278a5a2a5d31c62e7d50582"><code>b246a05</code></a> on branch <code>master</code>, for **front 0.1.110** (from <code>pyproject.toml</code>).
 
 #### WARNING
 The documentation and the package may be misaligned:
 
-- The documented version (0.1.109) is behind the latest release on PyPI (0.1.110): `pip install front` gives newer code than these docs describe.
+- The documented version (0.1.110) is behind the latest release on PyPI (0.1.111): `pip install front` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                     |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/front/commit/8d789a0b3345c16afc2095160d51ec28085d8d8f"><code>8d789a0b3345c16afc2095160d51ec28085d8d8f</code></a> |
+| Commit              | <a href="https://github.com/i2mint/front/commit/b246a05962b7bf8e8278a5a2a5d31c62e7d50582"><code>b246a05962b7bf8e8278a5a2a5d31c62e7d50582</code></a> |
 | Branch              | <code>master</code>                                                                                                                                 |
 | Tags at this commit | none                                                                                                                                                |
 | Working tree        | clean                                                                                                                                               |
@@ -2352,9 +2355,9 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/front</code>                                                                  |
-| Run          | <a href="https://github.com/i2mint/front/actions/runs/39435042126">39435042126</a>         |
+| Run          | <a href="https://github.com/i2mint/front/actions/runs/39435463908">39435463908</a>         |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>8d789a0b3345c16afc2095160d51ec28085d8d8f</code> (in the history of the built commit) |
+| Event commit | <code>b246a05962b7bf8e8278a5a2a5d31c62e7d50582</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -2379,13 +2382,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/front/0.1.110/">0.1.110</a>, newer than the documented version (0.1.109).
+Latest release: <a href="https://pypi.org/project/front/0.1.111/">0.1.111</a>, newer than the documented version (0.1.110).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/front && cd front
-git checkout 8d789a0b3345c16afc2095160d51ec28085d8d8f
+git checkout b246a05962b7bf8e8278a5a2a5d31c62e7d50582
 pip install "epythet==0.2.20"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

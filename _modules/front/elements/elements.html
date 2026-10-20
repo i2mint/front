@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../_static/documentation_options.js?v=dab63539"></script>
+    <script src="../../../_static/documentation_options.js?v=3992526b"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.109" />
+  <meta name="docsearch:version" content="0.1.110" />
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -1417,7 +1417,11 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="KwargsInputBase.pre_render">
 <a class="viewcode-back" href="../../../_autosummary/front.elements.elements.html#front.elements.elements.KwargsInputBase.pre_render">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pre_render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Make ``self.get_kwargs``, a function with signature ``func_sig`` returning its kwargs."""</span>
+<span class="w">        </span><span class="sd">"""Make ``self.get_kwargs``, a function with signature ``func_sig`` returning its kwargs.</span>
+
+<span class="sd">        It is named after ``input_key``, so the nested inputs get keys like</span>
+<span class="sd">        ``&lt;input_key&gt;_&lt;param&gt;``.</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">pre_render</span><span class="p">()</span>
         <span class="n">func_sig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_sig</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func_sig</span><span class="p">,</span> <span class="n">Sig</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_sig</span><span class="p">()</span>
         <span class="n">func_sig</span> <span class="o">=</span> <span class="n">func_sig</span> <span class="ow">or</span> <span class="n">Sig</span><span class="p">()</span>
@@ -1426,6 +1430,10 @@ window.runMermaid = runMermaid;</script>
         <span class="k">def</span><span class="w"> </span><span class="nf">get_kwargs</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">kwargs</span>
 
+        <span class="c1"># The nested inputs' keys derive from this function's name (see</span>
+        <span class="c1"># ``mk_input_element_specs``): name it after this input so that they are</span>
+        <span class="c1"># scoped to it and do not collide across kwargs inputs (i2mint/front#40).</span>
+        <span class="n">get_kwargs</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_key</span> <span class="ow">or</span> <span class="n">get_kwargs</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_kwargs</span> <span class="o">=</span> <span class="n">get_kwargs</span></div>
 
 

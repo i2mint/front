@@ -201,6 +201,9 @@ Input for a `**kwargs` parameter, with one sub-input per name in `func_sig`.
 
 Make `self.get_kwargs`, a function with signature `func_sig` returning its kwargs.
 
+It is named after `input_key`, so the nested inputs get keys like
+`<input_key>_<param>`.
+
 ### *class* front.elements.elements.MultiSourceInputBase(obj=None, name=None, display=True, input_key=None, value=ValueNotSet, on_value_change=None, bound_data_factory=None, is_noneable=False, disabled=False, \*\*kwargs)
 
 Bases: [`InputBase`](#front.elements.elements.InputBase)
