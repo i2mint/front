@@ -66,7 +66,6 @@ from front.crude import prepare_for_crude_dispatch
 
 from meshed import DAG, FuncNode
 from meshed.base import ch_func_node_attrs
-from meshed.itools import parents, children
 
 
 # TODO: Lot's of cleaning and simplification needed in this module!!!
@@ -230,20 +229,40 @@ class VarNodeRole(Enum):
 
 
 def _get_returned_by_func_node(var_node: str, dag: DAG):
-    returned_by_func_node = parents(dag.graph, var_node)
+    """Return the ``FuncNode`` of ``dag`` whose output is ``var_node``, or ``None``.
+
+    ``None`` means ``var_node`` is not produced by any func node: it is a root
+    (input) node. Func nodes are found from ``dag.func_nodes`` (not ``dag.graph``),
+    so this does not depend on how meshed keys its graph (``FuncNode`` instances
+    in older versions, ``func_id`` strings in newer ones).
+
+    >>> from meshed import DAG, FuncNode
+    >>> dag = DAG([FuncNode(lambda a: a, name='f', out='x')])
+    >>> _get_returned_by_func_node('x', dag)
+    FuncNode(a -> f -> x)
+    >>> _get_returned_by_func_node('a', dag) is None
+    True
+    """
+    returned_by_func_node = [fn for fn in dag.func_nodes if fn.out == var_node]
     if len(returned_by_func_node) > 1:
         raise ValueError(
             f"This var_node had more than one parent. That is shouldn't be possible: "
             f"{var_node}"
         )
-    return next(
-        iter(returned_by_func_node), None
-    )  # If None, it means it is NOT produced by a FuncNode, so is a root (input) node.
+    return next(iter(returned_by_func_node), None)
 
 
-def _validate_is_func_node(node, var_node, relationship):
-    if not isinstance(node, FuncNode):
-        raise ValueError(f"{relationship} ({node}) of {var_node=} must be a FuncNode")
+def _func_nodes_taking_var_node(var_node: str, dag: DAG):
+    """Yield the ``FuncNode``s of ``dag`` that take ``var_node`` as an argument.
+
+    >>> from meshed import DAG, FuncNode
+    >>> def f(a): return a
+    >>> def g(w, y): return w + y
+    >>> dag = DAG([FuncNode(f, out='x'), FuncNode(g, bind={'y': 'x'})])
+    >>> [fn.name for fn in _func_nodes_taking_var_node('x', dag)]
+    ['g_']
+    """
+    return (fn for fn in dag.func_nodes if var_node in fn.bind.values())
 
 
 def _node_replacements_for_var_node_crudification(var_node: str, dag: DAG):
@@ -278,16 +297,13 @@ def _node_replacements_for_var_node_crudification(var_node: str, dag: DAG):
 
     returned_by_func_node = _get_returned_by_func_node(var_node, dag)
     if returned_by_func_node is not None:
-        # If var_node is the output of a FuncNode
-        # ... make sure it is.
-        _validate_is_func_node(returned_by_func_node, var_node, "Parent")
+        # var_node is the output of a FuncNode:
         # yield a (func_node_name, 'return_value', var_node) triple
         yield returned_by_func_node.name, (VarNodeRole.return_value, var_node)
     # if returned_by_func_node is None, skip the above: var_node is a "root" node
 
     # arg_of_func_nodes
-    for arg_of_func_node in children(dag.graph, var_node):
-        _validate_is_func_node(arg_of_func_node, var_node, "Child")
+    for arg_of_func_node in _func_nodes_taking_var_node(var_node, dag):
         yield arg_of_func_node.name, (VarNodeRole.argument, var_node)
 
 
@@ -315,8 +331,6 @@ def group_kvs_into_dict(kvs):
 
 
 # TODO: Skipping doctest because order not stable. Make it so
-# TODO: Perhaps we should use FuncNode.name (id) instead of FuncNode itself as key of
-#   dag.graph. We'd have less such problems then.
 def _func_nodes_arg_and_return_names_to_crude(
     var_nodes: str | Iterable[str],
     dag: DAG,
