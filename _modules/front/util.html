@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=aa125c18"></script>
+    <script src="../../_static/documentation_options.js?v=0e6ad801"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -411,7 +411,7 @@ window.runMermaid = runMermaid;</script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.1.112" />
+  <meta name="docsearch:version" content="0.1.113" />
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -738,23 +738,28 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">from</span><span class="w"> </span><span class="nn">front.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Map</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_not_set</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># older i2: same sentinel, not exported from the root yet</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">i2.deco</span><span class="w"> </span><span class="kn">import</span> <span class="n">NotSet</span> <span class="k">as</span> <span class="n">_NotSet</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_placeholder_default</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># older i2: no DefaultPlaceholder yet, so only NotSet is a placeholder</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_not_set</span> <span class="k">as</span> <span class="n">is_placeholder_default</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># older still: same sentinel, not exported from the root yet</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">i2.deco</span><span class="w"> </span><span class="kn">import</span> <span class="n">NotSet</span> <span class="k">as</span> <span class="n">_NotSet</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">is_not_set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Return True iff ``x`` is ``i2``'s ``NotSet`` sentinel."""</span>
-        <span class="k">return</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">_NotSet</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">is_placeholder_default</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">"""Return True iff ``x`` is ``i2``'s ``NotSet`` sentinel."""</span>
+            <span class="k">return</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">_NotSet</span>
 
 
 <div class="viewcode-block" id="param_default">
 <a class="viewcode-back" href="../../_autosummary/front.util.html#front.util.param_default">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">param_default</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Return ``param.default``, or ``Parameter.empty`` if it is ``i2``'s ``NotSet``.</span>
+<span class="w">    </span><span class="sd">"""Return ``param.default``, or ``Parameter.empty`` if it is a placeholder default.</span>
 
-<span class="sd">    ``NotSet`` in a signature means "no value given", not a real default, so UI and</span>
-<span class="sd">    schema builders must treat that param as required (no prefill, no type inference</span>
-<span class="sd">    from the default).</span>
+<span class="sd">    A placeholder default is ``i2``'s ``NotSet`` sentinel or any</span>
+<span class="sd">    ``i2.DefaultPlaceholder`` (such as the marker ``methodize(..., default_from=...)``</span>
+<span class="sd">    puts in a signature). It means "no concrete value here", not a real default, so UI</span>
+<span class="sd">    and schema builders must treat that param as required (no prefill, no type</span>
+<span class="sd">    inference from the default).</span>
 
 <span class="sd">    &gt;&gt;&gt; from inspect import Parameter</span>
 <span class="sd">    &gt;&gt;&gt; from i2.deco import NotSet</span>
@@ -766,7 +771,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    &lt;class 'inspect._empty'&gt;</span>
 <span class="sd">    """</span>
     <span class="n">default</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">default</span>
-    <span class="k">return</span> <span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span> <span class="k">if</span> <span class="n">is_not_set</span><span class="p">(</span><span class="n">default</span><span class="p">)</span> <span class="k">else</span> <span class="n">default</span></div>
+    <span class="k">return</span> <span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span> <span class="k">if</span> <span class="n">is_placeholder_default</span><span class="p">(</span><span class="n">default</span><span class="p">)</span> <span class="k">else</span> <span class="n">default</span></div>
 
 
 

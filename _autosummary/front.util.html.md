@@ -26,7 +26,7 @@ the spec compilation.
 | [`iterable_to_enum`](#front.util.iterable_to_enum)(iterable[, name])         | Make an `Enum` whose member names are `str(value)` for each value of `iterable`.               |
 | [`normalize_map`](#front.util.normalize_map)(map)                         | Resolve a `Map` (mapping, callable returning one, or None) to a mapping; None gives `{}`.      |
 | [`obj_name`](#front.util.obj_name)(func)                             | Get the name of a callable, or make one (`UnnamedObjectNNN`) for lambdas and nameless objects. |
-| [`param_default`](#front.util.param_default)(param)                       | Return `param.default`, or `Parameter.empty` if it is `i2`'s `NotSet`.                         |
+| [`param_default`](#front.util.param_default)(param)                       | Return `param.default`, or `Parameter.empty` if it is a placeholder default.                   |
 | [`subdict`](#front.util.subdict)(d[, keys])                         | Get a sub-dict of Mapping `d`, with only those keys that are both in `keys` and `d`.           |
 | `unnamed_obj`()                                                                             |                                                                                                |
 
@@ -207,11 +207,13 @@ be the same on every rerun of the app.
 
 ### front.util.param_default(param)
 
-Return `param.default`, or `Parameter.empty` if it is `i2`’s `NotSet`.
+Return `param.default`, or `Parameter.empty` if it is a placeholder default.
 
-`NotSet` in a signature means “no value given”, not a real default, so UI and
-schema builders must treat that param as required (no prefill, no type inference
-from the default).
+A placeholder default is `i2`’s `NotSet` sentinel or any
+`i2.DefaultPlaceholder` (such as the marker `methodize(..., default_from=...)`
+puts in a signature). It means “no concrete value here”, not a real default, so UI
+and schema builders must treat that param as required (no prefill, no type
+inference from the default).
 
 ```pycon
 >>> from inspect import Parameter

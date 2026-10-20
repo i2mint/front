@@ -2,7 +2,7 @@
 
 # About this build
 
-This documentation was built on **2026-10-20 16:43 UTC** from commit <a href="https://github.com/i2mint/front/commit/73821692e6c4aae4b6d38f426b6c7fbc57659fc5"><code>7382169</code></a> on branch <code>master</code>, for **front 0.1.112** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-20 18:30 UTC** from commit <a href="https://github.com/i2mint/front/commit/2fcce7ab07fcb51194816614cce648940ee5d196"><code>2fcce7a</code></a> on branch <code>master</code>, for **front 0.1.113** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -11,7 +11,7 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                     |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/front/commit/73821692e6c4aae4b6d38f426b6c7fbc57659fc5"><code>73821692e6c4aae4b6d38f426b6c7fbc57659fc5</code></a> |
+| Commit              | <a href="https://github.com/i2mint/front/commit/2fcce7ab07fcb51194816614cce648940ee5d196"><code>2fcce7ab07fcb51194816614cce648940ee5d196</code></a> |
 | Branch              | <code>master</code>                                                                                                                                 |
 | Tags at this commit | none                                                                                                                                                |
 | Working tree        | clean                                                                                                                                               |
@@ -22,9 +22,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/front</code>                                                                  |
-| Run          | <a href="https://github.com/i2mint/front/actions/runs/39459641022">39459641022</a>         |
+| Run          | <a href="https://github.com/i2mint/front/actions/runs/39475103136">39475103136</a>         |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>73821692e6c4aae4b6d38f426b6c7fbc57659fc5</code> (in the history of the built commit) |
+| Event commit | <code>2fcce7ab07fcb51194816614cce648940ee5d196</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -49,13 +49,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/front/0.1.112/">0.1.112</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/front/0.1.113/">0.1.113</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/front && cd front
-git checkout 73821692e6c4aae4b6d38f426b6c7fbc57659fc5
+git checkout 2fcce7ab07fcb51194816614cce648940ee5d196
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

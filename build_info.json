@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
-  "built_at": "2026-10-20T16:43:12Z",
+  "built_at": "2026-10-20T18:30:42Z",
   "package": {
     "name": "front",
-    "version": "0.1.112",
+    "version": "0.1.113",
     "display_name": "front",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "73821692e6c4aae4b6d38f426b6c7fbc57659fc5",
-    "short_commit": "7382169",
+    "commit": "2fcce7ab07fcb51194816614cce648940ee5d196",
+    "short_commit": "2fcce7a",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/i2mint/front",
-    "commit_url": "https://github.com/i2mint/front/commit/73821692e6c4aae4b6d38f426b6c7fbc57659fc5",
+    "commit_url": "https://github.com/i2mint/front/commit/2fcce7ab07fcb51194816614cce648940ee5d196",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "i2mint/front",
-    "sha": "73821692e6c4aae4b6d38f426b6c7fbc57659fc5",
+    "sha": "2fcce7ab07fcb51194816614cce648940ee5d196",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "39459641022",
-    "run_url": "https://github.com/i2mint/front/actions/runs/39459641022",
+    "run_id": "39475103136",
+    "run_url": "https://github.com/i2mint/front/actions/runs/39475103136",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -60,11 +60,11 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.112",
+    "latest": "0.1.113",
     "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/i2mint/front && cd front\ngit checkout 73821692e6c4aae4b6d38f426b6c7fbc57659fc5\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/i2mint/front && cd front\ngit checkout 2fcce7ab07fcb51194816614cce648940ee5d196\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
     "aligned": true,
