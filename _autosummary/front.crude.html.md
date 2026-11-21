@@ -199,7 +199,7 @@ Now get the `func` value under `foo`, and see that it has been crudified:
 5
 ```
 
-### *class* front.crude.DillFiles(\*args, delete_func=None, write_open_kwargs=None, \*\*kwargs)
+### *class* front.crude.DillFiles(\*args, delete_func=None, write_open_kwargs=None, write_func=None, \*\*kwargs)
 
 Bases: `Store`
 

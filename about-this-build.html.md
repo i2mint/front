@@ -2,16 +2,18 @@
 
 # About this build
 
-This documentation was built on **2026-10-20 18:30 UTC** from commit <a href="https://github.com/i2mint/front/commit/2fcce7ab07fcb51194816614cce648940ee5d196"><code>2fcce7a</code></a> on branch <code>master</code>, for **front 0.1.113** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-21 18:57 UTC** from commit <a href="https://github.com/i2mint/front/commit/53ef0d3becd0da734695fd9e7d51feb02c1447d6"><code>53ef0d3</code></a> on branch <code>master</code>, for **front 0.1.114** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.1.114) is behind the latest release on PyPI (0.1.115): `pip install front` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                     |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/front/commit/2fcce7ab07fcb51194816614cce648940ee5d196"><code>2fcce7ab07fcb51194816614cce648940ee5d196</code></a> |
+| Commit              | <a href="https://github.com/i2mint/front/commit/53ef0d3becd0da734695fd9e7d51feb02c1447d6"><code>53ef0d3becd0da734695fd9e7d51feb02c1447d6</code></a> |
 | Branch              | <code>master</code>                                                                                                                                 |
 | Tags at this commit | none                                                                                                                                                |
 | Working tree        | clean                                                                                                                                               |
@@ -22,18 +24,18 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/front</code>                                                                  |
-| Run          | <a href="https://github.com/i2mint/front/actions/runs/39475103136">39475103136</a>         |
+| Run          | <a href="https://github.com/i2mint/front/actions/runs/44938179176">44938179176</a>         |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>2fcce7ab07fcb51194816614cce648940ee5d196</code> (in the history of the built commit) |
+| Event commit | <code>53ef0d3becd0da734695fd9e7d51feb02c1447d6</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.22  |
+| epythet  | 0.2.23  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
-| Python   | 3.12.15 |
+| Python   | 3.12.16 |
 
 ## Configuration as resolved
 
@@ -49,14 +51,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/front/0.1.113/">0.1.113</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/front/0.1.115/">0.1.115</a>, newer than the documented version (0.1.114).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/front && cd front
-git checkout 2fcce7ab07fcb51194816614cce648940ee5d196
-pip install "epythet==0.2.22"
+git checkout 53ef0d3becd0da734695fd9e7d51feb02c1447d6
+pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 
