@@ -9,9 +9,11 @@ A toolkit for building UI frameworks: it compiles Python functions plus a short 
 # app.py, run with: streamlit run app.py
 from streamlitfront import mk_app
 
+
 def add(a: int, b: int = 2):
     """Adds a and b."""
     return a + b
+
 
 mk_app([add])()
 ```
