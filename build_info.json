@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-22T14:52:42Z",
+  "built_at": "2026-11-22T23:48:30Z",
   "package": {
     "name": "front",
     "version": "0.1.115",
@@ -9,24 +9,24 @@
   },
   "git": {
     "available": true,
-    "commit": "5f83a28280884825ba172f01789eee8aab6832f9",
-    "short_commit": "5f83a28",
+    "commit": "31b98667ff64e6bcc88098afdba5577555166434",
+    "short_commit": "31b9866",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/i2mint/front",
-    "commit_url": "https://github.com/i2mint/front/commit/5f83a28280884825ba172f01789eee8aab6832f9",
+    "commit_url": "https://github.com/i2mint/front/commit/31b98667ff64e6bcc88098afdba5577555166434",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "i2mint/front",
-    "sha": "5f83a28280884825ba172f01789eee8aab6832f9",
+    "sha": "31b98667ff64e6bcc88098afdba5577555166434",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "45035061567",
-    "run_url": "https://github.com/i2mint/front/actions/runs/45035061567",
+    "run_id": "45085073868",
+    "run_url": "https://github.com/i2mint/front/actions/runs/45085073868",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -60,14 +60,16 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.115",
-    "relation": "same",
+    "latest": "0.1.116",
+    "relation": "behind",
     "error": null
   },
-  "reproduce": "git clone https://github.com/i2mint/front && cd front\ngit checkout 5f83a28280884825ba172f01789eee8aab6832f9\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/i2mint/front && cd front\ngit checkout 31b98667ff64e6bcc88098afdba5577555166434\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": true,
-    "notes": []
+    "aligned": false,
+    "notes": [
+      "The documented version (0.1.115) is behind the latest release on PyPI (0.1.116): `pip install front` gives newer code than these docs describe."
+    ]
   }
 }

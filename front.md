@@ -1,4 +1,4 @@
-> built 2026-11-22 14:52 UTC from 5f83a28 (master) · front 0.1.115. Details: build_info.json
+> built 2026-11-22 23:48 UTC from 31b9866 (master) · front 0.1.115. Details: build_info.json
 
 # index.html.md
 
@@ -6,13 +6,31 @@
 
 # front
 
-Compile a Python function’s configuration into a runnable UI (web app, CLI, GUI…) without writing framework glue by hand.
+A toolkit for building UI frameworks: it compiles Python functions plus a short configuration into a spec and a tree of UI elements, and the framework renders it.
 
-To install: `pip install front`
+**Want a UI for your functions right now?** Use a concrete framework built on `front`, such as [streamlitfront](https://github.com/i2mint/streamlitfront/) (`pip install streamlitfront`):
+
+<!-- wads-docs: skip needs streamlit and is run with \`streamlit run app.py\` -->
+```python
+# app.py, run with: streamlit run app.py
+from streamlitfront import mk_app
+
+def add(a: int, b: int = 2):
+    """Adds a and b."""
+    return a + b
+
+mk_app([add])()
+```
+
+To build such a framework yourself, install `front` and read on.
+
+```default
+pip install front
+```
 
 ## Quick example
 
-`front` itself is not a UI framework: it’s the core library concrete `front` frameworks (e.g. [streamlitfront](https://github.com/i2mint/streamlitfront/)) build on. A minimal in-memory framework, whose “app” is a container rendering each function’s docstring:
+A minimal in-memory framework, whose “app” is a container rendering each function’s docstring:
 
 ```python
 from collections.abc import Callable
@@ -2335,16 +2353,18 @@ a Mapping.
 
 # About this build
 
-This documentation was built on **2026-11-22 14:52 UTC** from commit <a href="https://github.com/i2mint/front/commit/5f83a28280884825ba172f01789eee8aab6832f9"><code>5f83a28</code></a> on branch <code>master</code>, for **front 0.1.115** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 23:48 UTC** from commit <a href="https://github.com/i2mint/front/commit/31b98667ff64e6bcc88098afdba5577555166434"><code>31b9866</code></a> on branch <code>master</code>, for **front 0.1.115** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.1.115) is behind the latest release on PyPI (0.1.116): `pip install front` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                     |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/front/commit/5f83a28280884825ba172f01789eee8aab6832f9"><code>5f83a28280884825ba172f01789eee8aab6832f9</code></a> |
+| Commit              | <a href="https://github.com/i2mint/front/commit/31b98667ff64e6bcc88098afdba5577555166434"><code>31b98667ff64e6bcc88098afdba5577555166434</code></a> |
 | Branch              | <code>master</code>                                                                                                                                 |
 | Tags at this commit | none                                                                                                                                                |
 | Working tree        | clean                                                                                                                                               |
@@ -2355,9 +2375,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/front</code>                                                                  |
-| Run          | <a href="https://github.com/i2mint/front/actions/runs/45035061567">45035061567</a>         |
+| Run          | <a href="https://github.com/i2mint/front/actions/runs/45085073868">45085073868</a>         |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>5f83a28280884825ba172f01789eee8aab6832f9</code> (in the history of the built commit) |
+| Event commit | <code>31b98667ff64e6bcc88098afdba5577555166434</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -2382,13 +2402,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/front/0.1.115/">0.1.115</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/front/0.1.116/">0.1.116</a>, newer than the documented version (0.1.115).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/i2mint/front && cd front
-git checkout 5f83a28280884825ba172f01789eee8aab6832f9
+git checkout 31b98667ff64e6bcc88098afdba5577555166434
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
