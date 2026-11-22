@@ -1,10 +1,6 @@
 # front
 
-Compile a Python function's configuration into a runnable UI (web app, CLI, GUI...) without writing framework glue by hand.
-
-```
-pip install front
-```
+A toolkit for building UI frameworks: it compiles Python functions plus a short configuration into a spec and a tree of UI elements, and the framework renders it.
 
 **Want a UI for your functions right now?** Use a concrete framework built on `front`, such as [streamlitfront](https://github.com/i2mint/streamlitfront/) (`pip install streamlitfront`):
 
@@ -20,7 +16,12 @@ def add(a: int, b: int = 2):
 mk_app([add])()
 ```
 
-`front` itself is for building such frameworks: it turns a list of functions plus a short configuration into a spec, then into a tree of UI elements, and leaves the rendering to the framework. Read on if that is what you are doing.
+To build such a framework yourself, install `front` and read on.
+
+```
+pip install front
+```
+
 
 ## Quick example
 
